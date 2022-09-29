@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dc-management-ui-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+    - hosts:
+        - pilotage-enquetes.dev.insee.io
+  rules:
+    - host: pilotage-enquetes.dev.insee.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dc-management-ui-svc
+                port:
+                  number: 80
