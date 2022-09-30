@@ -3,7 +3,7 @@ name: Release & Docker
 on:
   push:
     branches:
-      - "main"
+      - "develop"
 
 jobs:
   build:
@@ -67,4 +67,4 @@ jobs:
           name: inseefr/coleman-management
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          tags: ${{steps.version.outputs.prop}}
+          tags: ${{steps.version.outputs.prop}}-rc
