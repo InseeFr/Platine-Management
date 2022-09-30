@@ -112,6 +112,7 @@ const ResponsiveAppBar = () => {
                 if (page.external)
                   return (
                     <a
+                      key={page.label}
                       style={{ textDecoration: "none", color: "black" }}
                       href={page.fullPath}
                       target="_blank"
@@ -160,6 +161,7 @@ const ResponsiveAppBar = () => {
               if (page.external)
                 return (
                   <a
+                    key={page.label}
                     style={{ textDecoration: "none", color: "white" }}
                     href={page.fullPath}
                     target="_blank"
