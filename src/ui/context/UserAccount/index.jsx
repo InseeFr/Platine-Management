@@ -4,6 +4,9 @@ import { AppContext } from "App";
 import { AuthContext } from "../auth/provider";
 import { ERROR_SEVERITY, INFO_SEVERITY } from "core/constants";
 import { notifDictionary } from "i18n";
+import { canAccessToApp } from "core/role";
+import { Box, Typography } from "@mui/material";
+import { errorDictionary } from "i18n";
 
 export const UserAccountContext = createContext();
 
@@ -28,12 +31,14 @@ export const UserAccountProvider = ({ children }) => {
         name: `${oidcUser?.given_name} ${oidcUser?.family_name}`,
         sourceAccreditations: dataSourceAcc?.content,
         roles: [...(oidcUser?.realm_access?.roles || []), dataRole?.role],
+        canAccess: canAccessToApp(oidcUser?.realm_access?.roles || []),
       };
       setUser(userLoaded);
-      openNotif({
-        severity: INFO_SEVERITY,
-        message: `${notifDictionary.helloUser} ${userLoaded.name}`,
-      });
+      if (userLoaded.canAccess)
+        openNotif({
+          severity: INFO_SEVERITY,
+          message: `${notifDictionary.helloUser} ${userLoaded.name}`,
+        });
     }
 
     setLoading(false);
@@ -46,8 +51,22 @@ export const UserAccountProvider = ({ children }) => {
 
   return (
     <>
-      {user && (
+      {user && user.canAccess && (
         <UserAccountContext.Provider value={{ user, setUser }}>{children}</UserAccountContext.Provider>
+      )}
+      {user && !user.canAccess && (
+        <Box sx={{ textAlign: "center" }} marginY={30}>
+          <Typography
+            variant="h3"
+            color="error"
+          >{`${notifDictionary.helloUser} ${user.name}`}</Typography>
+          <br />
+          <Typography variant="h5" color="error">
+            {errorDictionary.noAccessToApp}
+          </Typography>
+          <br />
+          <Typography color="error">{errorDictionary.contactAdmin}</Typography>
+        </Box>
       )}
     </>
   );

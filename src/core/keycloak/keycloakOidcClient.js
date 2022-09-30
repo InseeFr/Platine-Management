@@ -25,7 +25,7 @@ export const createKeycloakOidcClient = async ({ url, realm, clientId, evtUserAc
 
   const oidcClient = {
     isUserLoggedIn: true,
-    accessToken: { type: "Bearer", value: keycloakInstance.token },
+    accessToken: keycloakInstance.token,
     oidcUser: await keycloakInstance.loadUserInfo(),
     logout: async ({ redirectTo }) => {
       await keycloakInstance.logout({
@@ -59,7 +59,7 @@ export const createKeycloakOidcClient = async ({ url, realm, clientId, evtUserAc
         await login();
       }
 
-      oidcClient.accessToken = { type: "Bearer", value: keycloakInstance.token };
+      oidcClient.accessToken = keycloakInstance.token;
 
       callee();
     }, msBeforeExpiration - minValiditySecond * 1000);

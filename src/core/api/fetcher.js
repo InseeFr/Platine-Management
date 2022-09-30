@@ -7,7 +7,6 @@ const readJsonResponse = async response => {
   }
 };
 
-// token :{ type : 'Bearer | Basic', value: "accessToken (from KC) | hash(user:password)"}
 export const fetcher = async (url, token, method, params, body) => {
   const headers = {
     Accept: "application/json",
@@ -16,7 +15,7 @@ export const fetcher = async (url, token, method, params, body) => {
 
   try {
     const response = await fetch(params ? `${url}?${new URLSearchParams(params)}` : url, {
-      headers: token ? { ...headers, Authorization: `${token.type} ${token.value}` } : headers,
+      headers: token ? { ...headers, Authorization: `Bearer ${token}` } : headers,
       method,
       body: body ? JSON.stringify(body) : null,
     });
@@ -25,40 +24,6 @@ export const fetcher = async (url, token, method, params, body) => {
       try {
         const data = await readJsonResponse(response);
         return { data, status, statusText };
-      } catch (error) {
-        return { error: true, status, statusText: error.message };
-      }
-    } else {
-      return { error: true, status, statusText };
-    }
-  } catch (error) {
-    // network error
-    return { error: true, statusText: error.message };
-  }
-};
-
-const getFilenameFromHeader = header => {
-  const res = /filename="(.*)"/.exec(header);
-  return res && res.length > 0 ? res[1] : "default.pdf";
-};
-
-export const fetcherFile = async (url, token) => {
-  try {
-    const response = await fetch(url, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-      method: "GET",
-    });
-    const { ok, status, statusText, headers } = response;
-    if (ok) {
-      try {
-        const blob = await response.blob();
-        const file = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = file;
-        a.download = getFilenameFromHeader(headers.get("Content-disposition"));
-        a.click();
-        a.remove();
-        return { status, statusText };
       } catch (error) {
         return { error: true, status, statusText: error.message };
       }

@@ -19,8 +19,8 @@ const updateContact = apiUrl => (id, contactInfos) => token =>
 const getUsers = apiUrl => token => ({
   data: {
     content: [
-      { identifier: "xxxx", role: "admin" },
-      { identifier: "yyyy", role: "gestionnaire" },
+      { identifier: "1234", role: "admin" },
+      { identifier: "5678", role: "gestionnaire" },
     ],
   },
   //getRequest(`${apiUrl}/api/users`)(null)(token)

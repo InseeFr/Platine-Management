@@ -15,6 +15,7 @@ import { notifDictionary } from "i18n";
 import { ERROR_SEVERITY, FAKE_USERS_LIST } from "core/constants";
 import { buttonDictionary } from "i18n";
 import "./noAuth.css";
+import { ACCESS_APP_ROLE_ADMIN } from "core/role";
 
 export const NoAuthLogin = ({ setOidcClient }) => {
   const { apiUrl, portailUrl, setLoading, openNotif } = useContext(AppContext);
@@ -27,8 +28,13 @@ export const NoAuthLogin = ({ setOidcClient }) => {
     const fakeUserName = FAKE_USERS_LIST[Math.floor(Math.random() * FAKE_USERS_LIST.length)];
     const oidcClient = {
       isUserLoggedIn: true,
-      accessToken: { type: "Basic", value: btoa(`${id}:`) },
-      oidcUser: { id: id, given_name: fakeUserName.given_name, family_name: fakeUserName.family_name },
+      accessToken: null,
+      oidcUser: {
+        id: id,
+        given_name: fakeUserName.given_name,
+        family_name: fakeUserName.family_name,
+        realm_access: { roles: [ACCESS_APP_ROLE_ADMIN] }, // Admin role for noAuth
+      },
       logout: () => (window.location.href = "/"),
     };
     setOidcClient(oidcClient);
@@ -137,8 +143,7 @@ export const NoAuthLogin = ({ setOidcClient }) => {
                   {Number.isInteger(selected) && (
                     <>
                       <br />
-                      <Typography>{`xxxx ou yyyy n'a pas d'influence sur le rôle réel.`}</Typography>
-                      <Typography>{`Le rôle est "admin" par défaut (simulé par l'IHM)`}</Typography>
+                      <Typography>{`Le choix d'utilisateur n'a pas d'influence sur le rôle réel.`}</Typography>
                     </>
                   )}
                 </FormControl>
