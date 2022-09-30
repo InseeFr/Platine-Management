@@ -18,12 +18,14 @@ import { UserAccountContext } from "ui/context/UserAccount";
 import { AccountCircle } from "@mui/icons-material";
 import { getRoutesForUser } from "core/role";
 import { AuthContext } from "ui/context/auth/provider";
+import { AppContext } from "App";
 
 const ResponsiveAppBar = () => {
+  const { moogUrl } = useContext(AppContext);
   const { logout } = useContext(AuthContext);
   const { user } = useContext(UserAccountContext);
 
-  const routesAllowedForUser = getRoutesForUser(user?.roles);
+  const routesAllowedForUser = getRoutesForUser(user?.roles, moogUrl);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -101,17 +103,33 @@ const ResponsiveAppBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {routesAllowedForUser.map(page => (
-                <Link
-                  key={page.label}
-                  style={{ textDecoration: "none", color: "black" }}
-                  to={`${page.fullPath}`}
-                >
+              {routesAllowedForUser.map(page => {
+                const content = (
                   <MenuItem onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page.label}</Typography>
                   </MenuItem>
-                </Link>
-              ))}
+                );
+                if (page.external)
+                  return (
+                    <a
+                      style={{ textDecoration: "none", color: "black" }}
+                      href={page.fullPath}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {content}
+                    </a>
+                  );
+                return (
+                  <Link
+                    key={page.label}
+                    style={{ textDecoration: "none", color: "black" }}
+                    to={page.fullPath}
+                  >
+                    {content}
+                  </Link>
+                );
+              })}
             </Menu>
           </Box>
           <Typography
@@ -133,17 +151,33 @@ const ResponsiveAppBar = () => {
             PILOTAGE
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {routesAllowedForUser.map(page => (
-              <Link
-                key={page.label}
-                style={{ textDecoration: "none", color: "white" }}
-                to={`${page.fullPath}`}
-              >
+            {routesAllowedForUser.map(page => {
+              const content = (
                 <Button onClick={handleCloseNavMenu} sx={{ my: 2, color: "white", display: "block" }}>
                   {page.label}
                 </Button>
-              </Link>
-            ))}
+              );
+              if (page.external)
+                return (
+                  <a
+                    style={{ textDecoration: "none", color: "white" }}
+                    href={page.fullPath}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {content}
+                  </a>
+                );
+              return (
+                <Link
+                  key={page.label}
+                  style={{ textDecoration: "none", color: "white" }}
+                  to={page.fullPath}
+                >
+                  {content}
+                </Link>
+              );
+            })}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

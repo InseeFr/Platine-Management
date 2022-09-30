@@ -1,4 +1,4 @@
-export const routes = [
+export const routes = moogUrl => [
   {
     id: "surveys",
     fullPath: "/pilotage/enquetes",
@@ -16,5 +16,12 @@ export const routes = [
     fullPath: "/pilotage/contacts",
     path: "contacts",
     label: "Contacts",
+  },
+  {
+    id: "suivi",
+    fullPath: moogUrl,
+    path: "suivi",
+    label: "Suivi",
+    external: true,
   },
 ];

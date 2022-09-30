@@ -18,8 +18,8 @@ export const canAccessToApp = (roles = []) =>
 
 export const canManageUser = (roles = []) => roles.includes(ADMIN_ROLE);
 
-export const getRoutesForUser = roles =>
-  routes.filter(({ id }) => {
+export const getRoutesForUser = (roles, moogUrl) =>
+  routes(moogUrl).filter(({ id }) => {
     switch (id) {
       case "users":
         return canManageUser(roles);
