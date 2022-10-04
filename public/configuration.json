@@ -1,5 +1,5 @@
 {
   "authType": "NONE",
   "apiUrl": "https://datacollection-management-api.dev.insee.io",
-  "moogUrl": "https://suivi-gestion-collecte.dev.insee.io"
+  "moogUrl": "https://suivi-gestion-collecte-enquetes.dev.insee.io"
 }
