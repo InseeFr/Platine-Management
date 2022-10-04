@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import Input from "@mui/material/Input";
@@ -6,7 +6,8 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { Button } from "@mui/material";
-import { yearItems, periodItems, sourceItems } from "core/mock/select-items";
+import { yearItems, periodItems } from "core/mock/select-items";
+import { useAPI } from "core/hooks";
 
 const defaultValues = {
   identifier: "",
@@ -23,6 +24,17 @@ const defaultValues = {
 
 export const ContactsSearchForm = ({ handleOnClickSearchButton, handleOnClickCancelButton }) => {
   const [formValues, setFormValues] = useState(defaultValues);
+  const [sources, setSources] = useState([]);
+  const { getSources } = useAPI();
+
+  useEffect(() => {
+    (async () => {
+      const { data, error } = await getSources();
+      if (!error && data) {
+        setSources(data.content);
+      }
+    })();
+  }, []);
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -106,9 +118,12 @@ export const ContactsSearchForm = ({ handleOnClickSearchButton, handleOnClickCan
             <FormControl variant="standard" style={{ minWidth: 120 }}>
               <InputLabel htmlFor="component-simple">Source</InputLabel>
               <Select name="source" value={formValues.source} onChange={handleChange}>
-                {sourceItems.map(item => (
-                  <MenuItem key={item.key} value={item.value}>
-                    {item.label}
+                <MenuItem key="default" value="">
+                  Pas de source sélectionnée
+                </MenuItem>
+                {sources.map(item => (
+                  <MenuItem key={item.idSource} value={item.idSource}>
+                    {item.shortWording}
                   </MenuItem>
                 ))}
               </Select>

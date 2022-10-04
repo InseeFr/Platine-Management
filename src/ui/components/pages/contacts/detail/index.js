@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { ContactsUpdateForm } from "ui/components/pages/contacts/updateForm";
+import { AccreditationsDetail } from "../accreditationsDetail";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,7 +58,8 @@ export const ContactsDetail = () => {
           Renouveler le mot de passe de {idec}
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Associer / dissocier des droits
+          Associer / dissocier des droits de {idec}
+          <AccreditationsDetail idec={idec} />
         </TabPanel>
         <TabPanel value={value} index={3}>
           Consulter une unité enquêtée

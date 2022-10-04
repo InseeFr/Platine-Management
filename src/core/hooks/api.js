@@ -10,9 +10,15 @@ export const useAPI = () => {
 
   const getContactById = useConstCallback(id => API.getContactById(apiUrl)(id)(oidcClient.accessToken));
 
+  const getContactAccreditations = useConstCallback(id =>
+    API.getContactAccreditations(apiUrl)(id)(oidcClient.accessToken),
+  );
+
   const getContacts = useConstCallback(searchParams =>
     API.getContacts(apiUrl)(searchParams)(oidcClient.accessToken),
   );
+
+  const getSources = useConstCallback(() => API.getSources(apiUrl)(oidcClient.accessToken));
 
   const updateContact = useConstCallback((id, contactInfos) =>
     API.updateContact(apiUrl)(id, contactInfos)(oidcClient.accessToken),
@@ -30,5 +36,7 @@ export const useAPI = () => {
     updateContact,
     getSourceAccreditations,
     getUserRole,
+    getSources,
+    getContactAccreditations,
   };
 };
