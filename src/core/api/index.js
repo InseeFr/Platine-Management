@@ -9,11 +9,14 @@ const deleteRequest = (url) => (token) => (body) =>
 */
 const getRequest = url => params => token => fetcher(url, token, "GET", params, null);
 
-const getContactById = apiUrl => id => token => getRequest(`${apiUrl}/api/contacts/${id}`)(null)(token);
 const getContacts = apiUrl => searchParams => token =>
   getRequest(`${apiUrl}/api/contacts/search`)(searchParams)(token);
+const getContactById = apiUrl => id => token => getRequest(`${apiUrl}/api/contacts/${id}`)(null)(token);
+const getContactAccreditations = apiUrl => id => token =>
+  getRequest(`${apiUrl}/api/contacts/${id}/accreditations`)(null)(token);
 const updateContact = apiUrl => (id, contactInfos) => token =>
   putRequest(`${apiUrl}/api/contacts/${id}`)(contactInfos)(token);
+const getSources = apiUrl => token => getRequest(`${apiUrl}/sources`)(null)(token);
 
 // eslint-disable-next-line no-unused-vars
 const getUsers = apiUrl => token => ({
@@ -40,9 +43,11 @@ const getUserRole = apiUrl => token => ({
 
 export const API = {
   getContactById,
+  getContactAccreditations,
   getContacts,
   updateContact,
   getSourceAccreditations,
   getUsers,
   getUserRole,
+  getSources,
 };
