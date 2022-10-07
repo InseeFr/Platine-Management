@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { useAPI } from "core/hooks";
 import { FormInput } from "ui/shared/form/formInput";
 
@@ -74,6 +74,8 @@ export const ContactsUpdateForm = ({ idec }) => {
         noValidate
         autoComplete="off"
       >
+        <Typography variant="h4">Coordonnées </Typography>
+
         <Grid container spacing={2}>
           <FormInput readOnly label="Idec" name="identifier" value={idec} handleChange={handleChange} />
 

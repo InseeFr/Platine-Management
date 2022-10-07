@@ -3,6 +3,7 @@ import dictionary from "./mainDictionary";
 import errorMessage from "./errorDictionary";
 import buttonMessage from "./buttonDictionary";
 import mainMenuMessage from "./mainMenuDictionary";
+import contactMessage from "./contactDictionary";
 import notifMessage from "./notifDictionary";
 
 const language = getLang();
@@ -12,3 +13,4 @@ export const buttonDictionary = createDictionary(language)(buttonMessage);
 export const defaultDictionary = createDictionary(language)(dictionary);
 export const menuDictionary = createDictionary(language)(mainMenuMessage);
 export const notifDictionary = createDictionary(language)(notifMessage);
+export const contactDictionary = createDictionary(language)(contactMessage);

@@ -10,6 +10,14 @@ export const useAPI = () => {
 
   const getContactById = useConstCallback(id => API.getContactById(apiUrl)(id)(oidcClient.accessToken));
 
+  const getAllContacts = useConstCallback(() => API.getAllContacts(apiUrl)(oidcClient.accessToken));
+
+  const getAllCampaigns = useConstCallback(() => API.getAllCampaigns(apiUrl)(oidcClient.accessToken));
+
+  const getAllSurveyUnits = useConstCallback(() =>
+    API.getAllSurveyUnits(apiUrl)(oidcClient.accessToken),
+  );
+
   const getContactAccreditations = useConstCallback(id =>
     API.getContactAccreditations(apiUrl)(id)(oidcClient.accessToken),
   );
@@ -32,6 +40,9 @@ export const useAPI = () => {
 
   return {
     getContactById,
+    getAllContacts,
+    getAllCampaigns,
+    getAllSurveyUnits,
     getContacts,
     updateContact,
     getSourceAccreditations,

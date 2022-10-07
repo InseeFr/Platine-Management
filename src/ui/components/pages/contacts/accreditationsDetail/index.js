@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useAPI } from "core/hooks";
 import { DataGrid, frFR } from "@mui/x-data-grid";
+import { Box, Typography } from "@mui/material";
 
 const columns = [
   {
@@ -47,8 +48,11 @@ export const AccreditationsDetail = ({ idec }) => {
 
   return (
     <>
-      <div style={{ height: 800, width: "90%" }}>
+      <Typography variant="h4"> Habilitations </Typography>
+      <Box sx={{ width: "100%" }}>
         <DataGrid
+          autoHeight
+          {...pageState.data}
           localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
           columns={columns}
           getRowId={row => accreditations.indexOf(row)}
@@ -59,7 +63,7 @@ export const AccreditationsDetail = ({ idec }) => {
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
         />
-      </div>
+      </Box>
     </>
   );
 };
