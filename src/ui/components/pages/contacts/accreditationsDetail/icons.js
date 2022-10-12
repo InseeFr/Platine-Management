@@ -25,28 +25,27 @@ export const AccreditationsIcons = ({ idec }) => {
   return (
     <>
       {pageState.data.map(acc => (
-        <>
-          <Chip
-            sx={{
-              boxShadow: 1,
-              borderRadius: 2,
-              width: 400,
-              minHeight: 50,
-              margin: 1,
-              padding: 3,
-            }}
-            label={
-              <Divider>
-                <Typography variant="body2">
-                  {acc.sourceId} {acc.year} {acc.period}
-                </Typography>
-                <Typography variant="body2">
-                  UE. {acc.identificationCode} {acc.identificationName}
-                </Typography>
-              </Divider>
-            }
-          />
-        </>
+        <Chip
+          key={`${JSON.stringify(acc)}-chip`}
+          sx={{
+            boxShadow: 1,
+            borderRadius: 2,
+            width: 400,
+            minHeight: 50,
+            margin: 1,
+            padding: 3,
+          }}
+          label={
+            <Divider>
+              <Typography variant="body2">
+                {acc.sourceId} {acc.year} {acc.period}
+              </Typography>
+              <Typography variant="body2">
+                UE. {acc.identificationCode} {acc.identificationName}
+              </Typography>
+            </Divider>
+          }
+        />
       ))}
     </>
   );
