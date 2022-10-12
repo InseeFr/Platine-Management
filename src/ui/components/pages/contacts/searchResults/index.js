@@ -34,7 +34,6 @@ export const ContactsSearchResults = ({ formValues }) => {
 
   const handleChange = (e, p) => {
     setPage(p);
-    console.log("p = " + p);
     setPageState(old => ({
       ...old,
       page: p,
@@ -67,43 +66,42 @@ export const ContactsSearchResults = ({ formValues }) => {
     <>
       (<Typography variant="h6">Nombre de résultats: {pageState.total}</Typography>
       {pageState.data.map(c => (
-        <>
-          <Accordion
-            sx={{
-              boxShadow: 3,
-              borderRadius: 2,
-              p: 0,
-              margin: 2,
-            }}
+        <Accordion
+          key={`${c?.identifier}-accordion`}
+          sx={{
+            boxShadow: 3,
+            borderRadius: 2,
+            p: 0,
+            margin: 2,
+          }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
           >
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <PermIdentityIcon size="large" />
-              <Divider>
-                <Typography variant="h6">{c.identifier}</Typography>
-                <Typography>
-                  {c.lastName} {c.firstName}
-                </Typography>
-                <Typography variant="subtitile2" marginLeft="5%">
-                  {" "}
-                  {c.email}
-                </Typography>
+            <PermIdentityIcon size="large" />
+            <Divider>
+              <Typography variant="h6">{c.identifier}</Typography>
+              <Typography>
+                {c.lastName} {c.firstName}
+              </Typography>
+              <Typography variant="subtitile2" marginLeft="5%">
+                {" "}
+                {c.email}
+              </Typography>
 
-                <Link to={"/pilotage/contacts/" + c.identifier}>
-                  <IconButton aria-label="Accéder au questionnaire">
-                    <ContentPasteGo />
-                  </IconButton>
-                </Link>
-              </Divider>
-            </AccordionSummary>
-            <AccordionDetails>
-              <AccreditationsIcons idec={c.identifier}></AccreditationsIcons>
-            </AccordionDetails>
-          </Accordion>
-        </>
+              <Link to={"/pilotage/contacts/" + c.identifier}>
+                <IconButton aria-label="Accéder au questionnaire">
+                  <ContentPasteGo />
+                </IconButton>
+              </Link>
+            </Divider>
+          </AccordionSummary>
+          <AccordionDetails>
+            <AccreditationsIcons idec={c.identifier}></AccreditationsIcons>
+          </AccordionDetails>
+        </Accordion>
       ))}
       <Stack spacing={2}>
         <Pagination count={nbPages} page={page} onChange={handleChange} />
