@@ -5,6 +5,8 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { ContactsUpdateForm } from "ui/components/pages/contacts/updateForm";
+import { AccreditationsDetail } from "../accreditationsDetail";
+import { contactDictionary } from "i18n";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,10 +46,10 @@ export const ContactsDetail = () => {
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-            <Tab label="Mettre à jour le contact" {...a11yProps(0)} />
-            <Tab label="Renouveler le mot de passe" {...a11yProps(1)} />
-            <Tab label="Associer / dissocier des droits" {...a11yProps(2)} />
-            <Tab label="Consulter une unité enquêtée" {...a11yProps(3)} />
+            <Tab label={contactDictionary.subMenuUpdateContact} {...a11yProps(0)} />
+            <Tab label={contactDictionary.subMenuResetPassword} {...a11yProps(1)} />
+            <Tab label={contactDictionary.subMenuAccreditations} {...a11yProps(2)} />
+            <Tab label={contactDictionary.subMenuSurveyUnit} {...a11yProps(3)} />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
@@ -57,7 +59,8 @@ export const ContactsDetail = () => {
           Renouveler le mot de passe de {idec}
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Associer / dissocier des droits
+          Associer / dissocier des droits de {idec}
+          <AccreditationsDetail idec={idec} />
         </TabPanel>
         <TabPanel value={value} index={3}>
           Consulter une unité enquêtée

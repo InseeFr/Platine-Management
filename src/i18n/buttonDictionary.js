@@ -7,6 +7,7 @@ const dictionary = {
   logout: { fr: "Se déconnecter", en: "Logout" },
   help: { fr: "Aide et contact", en: "Help and support" },
   edit: { fr: "Modifier", en: "Edit" },
+  search: { fr: "Rechercher", en: "Search" },
 };
 
 export default dictionary;

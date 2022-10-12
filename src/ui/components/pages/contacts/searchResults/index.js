@@ -1,49 +1,47 @@
-import { useEffect, useState } from "react";
-import { DataGrid, frFR } from "@mui/x-data-grid";
+import { useContext, useEffect, useState } from "react";
 import { useAPI } from "core/hooks";
-
-const columns = [
-  {
-    field: "identifier",
-    headerName: "Idec",
-    width: 200,
-    renderCell: cellValues => {
-      return (
-        <a href={`/pilotage/contacts/${cellValues.row.identifier}`} rel="noreferrer">
-          {cellValues.row.identifier}
-        </a>
-      );
-    },
-  },
-  { field: "lastName", headerName: "Nom", width: 300 },
-  { field: "firstName", headerName: "Prénom", width: 300 },
-  { field: "email", headerName: "Email", width: 300 },
-  {
-    field: "campaign",
-    headerName: "Campagne / Unité enquêtée",
-    width: 100,
-    renderCell: cellValues => {
-      return (
-        <a href={`/${cellValues.row.access}`} target="_blank" rel="noreferrer">
-          Lien
-        </a>
-      );
-    },
-  },
-];
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Divider,
+  IconButton,
+  Pagination,
+  Stack,
+  Typography,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { AccreditationsIcons } from "../accreditationsDetail/icons";
+import { ContentPasteGo } from "@mui/icons-material";
+import { Link } from "react-router-dom";
+import { AppContext } from "App";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 
 export const ContactsSearchResults = ({ formValues }) => {
   const { getContacts } = useAPI();
+  let [page, setPage] = useState(1);
+
+  const { setLoading } = useContext(AppContext);
 
   const [pageState, setPageState] = useState({
-    isLoading: false,
     data: [],
     total: 0,
     page: 1,
     pageSize: 5,
   });
 
+  const nbPages = Math.ceil(pageState.total / pageState.pageSize);
+
+  const handleChange = (e, p) => {
+    setPage(p);
+    setPageState(old => ({
+      ...old,
+      page: p,
+    }));
+  };
+
   useEffect(() => {
+    setLoading(true);
     setPageState(old => ({ ...old, isLoading: true }));
     (async () => {
       const { data, error } = await getContacts({
@@ -51,6 +49,7 @@ export const ContactsSearchResults = ({ formValues }) => {
         pageNo: pageState.page - 1,
         pageSize: pageState.pageSize,
       });
+      setLoading(false);
       if (!error && data) {
         setPageState(old => ({
           ...old,
@@ -65,27 +64,49 @@ export const ContactsSearchResults = ({ formValues }) => {
 
   return (
     <>
-      <h2>Résultats</h2>
-      <p>{`Cliquez sur l'identifiant du contact pour consulter ou modifier ses coordonnées.`}</p>
-      <div style={{ height: 400, width: "90%" }}>
-        <DataGrid
-          localeText={frFR.components.MuiDataGrid.defaultProps.localeText}
-          columns={columns}
-          getRowId={row => pageState.data.indexOf(row)}
-          rows={pageState.data}
-          rowCount={pageState.total}
-          loading={pageState.isLoading}
-          rowsPerPageOptions={[5, 10, 50]}
-          pagination
-          page={pageState.page - 1}
-          pageSize={pageState.pageSize}
-          paginationMode="server"
-          onPageChange={newPage => {
-            setPageState(old => ({ ...old, page: newPage + 1 }));
+      (<Typography variant="h6">Nombre de résultats: {pageState.total}</Typography>
+      {pageState.data.map(c => (
+        <Accordion
+          key={`${c?.identifier}-accordion`}
+          sx={{
+            boxShadow: 3,
+            borderRadius: 2,
+            p: 0,
+            margin: 2,
           }}
-          onPageSizeChange={newPageSize => setPageState(old => ({ ...old, pageSize: newPageSize }))}
-        />
-      </div>
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <PermIdentityIcon size="large" />
+            <Divider>
+              <Typography variant="h6">{c.identifier}</Typography>
+              <Typography>
+                {c.lastName} {c.firstName}
+              </Typography>
+              <Typography variant="subtitile2" marginLeft="5%">
+                {" "}
+                {c.email}
+              </Typography>
+
+              <Link to={"/pilotage/contacts/" + c.identifier}>
+                <IconButton aria-label="Accéder au questionnaire">
+                  <ContentPasteGo />
+                </IconButton>
+              </Link>
+            </Divider>
+          </AccordionSummary>
+          <AccordionDetails>
+            <AccreditationsIcons idec={c.identifier}></AccreditationsIcons>
+          </AccordionDetails>
+        </Accordion>
+      ))}
+      <Stack spacing={2}>
+        <Pagination count={nbPages} page={page} onChange={handleChange} />
+      </Stack>
+      ;
     </>
   );
 };
