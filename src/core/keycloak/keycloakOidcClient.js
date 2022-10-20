@@ -16,6 +16,11 @@ export const createKeycloakOidcClient = async ({ url, realm, clientId, evtUserAc
     return new Promise(() => {});
   };
 
+  const loadUserInfo = async () => {
+    const userInfo = await keycloakInstance.loadUserInfo();
+    return { ...userInfo, id: userInfo?.preferred_username };
+  };
+
   if (!isAuthenticated) {
     return {
       isUserLoggedIn: false,
@@ -26,7 +31,7 @@ export const createKeycloakOidcClient = async ({ url, realm, clientId, evtUserAc
   const oidcClient = {
     isUserLoggedIn: true,
     accessToken: keycloakInstance.token,
-    oidcUser: await keycloakInstance.loadUserInfo(),
+    oidcUser: await loadUserInfo(),
     logout: async ({ redirectTo }) => {
       await keycloakInstance.logout({
         redirectUri: redirectTo || window.location.origin,

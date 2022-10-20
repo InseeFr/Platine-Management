@@ -1,13 +1,13 @@
 import { Alert, Snackbar } from "@mui/material";
 
-import { createContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 
 import { getConfiguration } from "core/configuration";
 import "./App.css";
 import AuthProvider from "./ui/context/auth/provider/component";
 import { Router } from "./ui/router";
 import { LoaderSimple } from "./ui/shared/loader";
-import { UserAccountProvider } from "./ui/context/UserAccount";
+import { UserAccountProvider } from "ui/context/UserAccount";
 
 const packageInfo = require("../package.json");
 const appVersion = packageInfo?.version;
@@ -53,9 +53,11 @@ const App = () => {
       {configuration && (
         <AppContext.Provider value={context}>
           <AuthProvider authType={configuration.authType}>
-            <UserAccountProvider>
-              <Router />
-            </UserAccountProvider>
+            <React.StrictMode>
+              <UserAccountProvider>
+                <Router />
+              </UserAccountProvider>
+            </React.StrictMode>
           </AuthProvider>
         </AppContext.Provider>
       )}
