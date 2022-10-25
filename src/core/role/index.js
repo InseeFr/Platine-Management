@@ -2,14 +2,15 @@ import { routes } from "core/properties";
 
 // Role in oidcUser i.e role in LDAP !
 // ToDo : verify reel value
-export const ACCESS_APP_ROLE_ADMIN = "coleman-admin";
-export const ACCESS_APP_ROLE_USER = "coleman-user";
-export const ACCESS_APP_ROLES = [ACCESS_APP_ROLE_ADMIN, ACCESS_APP_ROLE_USER];
+export const ACCESS_APP_ROLE_ADMIN = "Utilisateurs_Coltrane-Pilotage";
+export const ACCESS_APP_ROLES = [ACCESS_APP_ROLE_ADMIN];
 
 // Role retrieved in getRole method : role in api database
 // ToDo refactor
 export const ADMIN_ROLE = "admin";
+export const RESPONSABLE_ROLE = "responsable";
 export const GESTIONNAIRE_ROLE = "gestionnaire";
+export const ASSISTANCE_ROLE = "assistance";
 
 export const canAccessToApp = (roles = []) =>
   ACCESS_APP_ROLES.reduce((canAccess, appRole) => {

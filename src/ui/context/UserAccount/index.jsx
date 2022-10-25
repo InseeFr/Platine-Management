@@ -30,9 +30,10 @@ export const UserAccountProvider = ({ children }) => {
         id: id,
         name: `${oidcUser?.given_name} ${oidcUser?.family_name}`,
         sourceAccreditations: dataSourceAcc?.content,
-        roles: [...(oidcUser?.realm_access?.roles || []), dataRole?.role],
-        canAccess: canAccessToApp(oidcUser?.realm_access?.roles || []),
+        roles: [...(oidcUser["groupe-ag"] || []), dataRole?.role],
+        canAccess: canAccessToApp(oidcUser["groupe-ag"] || []),
       };
+      console.log(oidcUser);
       setUser(userLoaded);
       if (userLoaded.canAccess)
         openNotif({
