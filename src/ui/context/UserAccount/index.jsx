@@ -33,7 +33,6 @@ export const UserAccountProvider = ({ children }) => {
         roles: [...(oidcUser["groupe-ag"] || []), dataRole?.role],
         canAccess: canAccessToApp(oidcUser["groupe-ag"] || []),
       };
-      console.log(oidcUser);
       setUser(userLoaded);
       if (userLoaded.canAccess)
         openNotif({
