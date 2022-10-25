@@ -41,8 +41,13 @@ const AuthProvider = ({ authType, children }) => {
   const contextOidc = useMemo(() => oidcClient, [oidcClient]);
 
   if (oidcClient === null) return <LoaderSimple />;
-  if (authType === NONE && !oidcClient?.isUserLoggedIn)
-    return <NoAuthLogin setOidcClient={setOidcClient} />;
+  if (!oidcClient?.isUserLoggedIn) {
+    if (authType === NONE) return <NoAuthLogin setOidcClient={setOidcClient} />;
+    else {
+      oidcClient.login();
+      return <LoaderSimple />;
+    }
+  }
   return <AuthContext.Provider value={contextOidc}>{children}</AuthContext.Provider>;
 };
 
