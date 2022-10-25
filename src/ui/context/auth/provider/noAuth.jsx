@@ -33,7 +33,7 @@ export const NoAuthLogin = ({ setOidcClient }) => {
         id: id,
         given_name: fakeUserName.given_name,
         family_name: fakeUserName.family_name,
-        realm_access: { roles: [ACCESS_APP_ROLE_ADMIN] }, // Admin role for noAuth
+        ["groupe-ag"]: [ACCESS_APP_ROLE_ADMIN], // Admin role for noAuth
       },
       logout: () => (window.location.href = "/"),
     };
