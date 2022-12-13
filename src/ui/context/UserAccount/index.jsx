@@ -28,10 +28,10 @@ export const UserAccountProvider = ({ children }) => {
     } else {
       const userLoaded = {
         id: id,
-        name: `${oidcUser?.given_name} ${oidcUser?.family_name}`,
+        name: `${oidcUser?.preferred_username}`,
         sourceAccreditations: dataSourceAcc?.content,
-        roles: [...(oidcUser["groupe-ag"] || []), dataRole?.role],
-        canAccess: canAccessToApp(oidcUser["groupe-ag"] || []),
+        roles: [...(oidcUser["inseegroupedefaut"] || []), dataRole?.role],
+        canAccess: canAccessToApp(oidcUser["inseegroupedefaut"] || []),
       };
       setUser(userLoaded);
       if (userLoaded.canAccess)

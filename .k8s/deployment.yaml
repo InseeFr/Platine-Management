@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
         - name: dc-management-ui
-          image: inseefr/coleman-management:0.2.3-rc
+          image: inseefr/coleman-management:0.2.4-rc
