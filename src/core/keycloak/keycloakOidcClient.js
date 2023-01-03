@@ -12,7 +12,7 @@ export const createKeycloakOidcClient = async ({ url, realm, clientId, evtUserAc
     .catch(error => error);
 
   const login = async () => {
-    await keycloakInstance.login({ redirectUri: window.location.href });
+    await keycloakInstance.login({ idpHint: "sso-insee", redirectUri: window.location.href });
     return new Promise(() => {});
   };
 

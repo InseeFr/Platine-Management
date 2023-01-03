@@ -33,7 +33,8 @@ export const NoAuthLogin = ({ setOidcClient }) => {
         id: id,
         given_name: fakeUserName.given_name,
         family_name: fakeUserName.family_name,
-        ["groupe-ag"]: [ACCESS_APP_ROLE_ADMIN], // Admin role for noAuth
+        preferred_username: fakeUserName.preferred_username,
+        ["inseegroupedefaut"]: [ACCESS_APP_ROLE_ADMIN], // Admin role for noAuth
       },
       logout: () => (window.location.href = "/"),
     };

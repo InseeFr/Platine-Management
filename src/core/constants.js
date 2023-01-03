@@ -34,4 +34,8 @@ export const FAKE_USERS_LIST = [
   "Tarek Tifié",
   "Vishnou Lapaix",
   "Yvon Tremblay",
-].map(funnyName => ({ given_name: funnyName.split(" ")[0], family_name: funnyName.split(" ")[1] }));
+].map(funnyName => ({
+  given_name: funnyName.split(" ")[0],
+  family_name: funnyName.split(" ")[1],
+  preferred_username: funnyName,
+}));
