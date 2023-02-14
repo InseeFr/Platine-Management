@@ -12,18 +12,18 @@ const dummyOidcClient = {
   isUserLoggedIn: false,
 };
 
-const AuthProvider = ({ authType, children }) => {
+const AuthProvider = ({ authType, identityProvider, children }) => {
   const [oidcClient, setOidcClient] = useState(null);
 
   useEffect(() => {
     const loadOidcConf = async () => {
       const oidcConf = await getOidc();
-
       const oidcClientKC = await createKeycloakOidcClient({
         url: oidcConf["auth-server-url"],
         realm: oidcConf["realm"],
         clientId: oidcConf["resource"],
         evtUserActivity: listenActivity,
+        identityProvider,
       });
       return oidcClientKC;
     };
