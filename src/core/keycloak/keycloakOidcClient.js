@@ -1,6 +1,12 @@
 import Keycloak from "keycloak-js";
 
-export const createKeycloakOidcClient = async ({ url, realm, clientId, evtUserActivity }) => {
+export const createKeycloakOidcClient = async ({
+  url,
+  realm,
+  clientId,
+  evtUserActivity,
+  identityProvider,
+}) => {
   const keycloakInstance = new Keycloak({ url, realm, clientId });
 
   const isAuthenticated = await keycloakInstance
@@ -12,7 +18,7 @@ export const createKeycloakOidcClient = async ({ url, realm, clientId, evtUserAc
     .catch(error => error);
 
   const login = async () => {
-    await keycloakInstance.login({ idpHint: "sso-insee", redirectUri: window.location.href });
+    await keycloakInstance.login({ idpHint: identityProvider, redirectUri: window.location.href });
     return new Promise(() => {});
   };
 

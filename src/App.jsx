@@ -52,7 +52,10 @@ const App = () => {
     <>
       {configuration && (
         <AppContext.Provider value={context}>
-          <AuthProvider authType={configuration.authType}>
+          <AuthProvider
+            authType={configuration.authType}
+            identityProvider={configuration.identityProvider}
+          >
             <React.StrictMode>
               <UserAccountProvider>
                 <Router />
