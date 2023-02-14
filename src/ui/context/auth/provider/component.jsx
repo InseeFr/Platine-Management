@@ -18,7 +18,6 @@ const AuthProvider = ({ authType, identityProvider, children }) => {
   useEffect(() => {
     const loadOidcConf = async () => {
       const oidcConf = await getOidc();
-      console.log(identityProvider);
       const oidcClientKC = await createKeycloakOidcClient({
         url: oidcConf["auth-server-url"],
         realm: oidcConf["realm"],
