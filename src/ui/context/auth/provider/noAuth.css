@@ -1,0 +1,166 @@
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  /*background-color: #fff;*/
+}
+
+* {
+  box-sizing: border-box;
+}
+ul {
+  padding: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.img-right a {
+  text-decoration: none;
+}
+#bandeauSuperieur {
+  text-align: center;
+  height: 12em;
+}
+
+#contenu {
+  margin: auto;
+  max-width: 600px;
+}
+
+.group-heading {
+  padding: 10px 15px;
+  border: 1px solid #e7e7e7;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background-color: #dbdbdb;
+  background-image: linear-gradient(180deg, #ffffffd7 0, #dbdbdb);
+}
+.group-body {
+  padding: 10px 15px;
+  border: 1px solid #e7e7e7;
+  border-top: none;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  margin-bottom: 2em;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+.text-right {
+  text-align: right;
+}
+
+.button-insee {
+  border: 2px transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 4px 12px;
+  background-color: #ffc400;
+  font-size: medium;
+  font-weight: bolder;
+  color: #0f417a;
+}
+.button-insee:hover {
+  background-color: #0f417a;
+  color: #ffc400;
+}
+
+#bandeauSuperieur h1 {
+  text-align: center;
+  margin-top: 0.5em;
+  display: inline-block;
+  font-size: 2.5em;
+}
+/*** Bandeau superieur ***/
+
+hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+/*** Titre ***/
+
+#titrePortail {
+  margin: 0px 0px 0px 0px;
+}
+
+#nomappli {
+  font-size: 75%;
+}
+
+#urlappli {
+  font-size: 60%;
+}
+
+/*Alert en rouge*/
+.alert {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+div.form-group-login {
+  margin-bottom: 1em;
+}
+div.form-group-login label {
+  margin-top: 0.5em;
+}
+
+/*** Pied de page ***/
+#piedPage {
+  color: #404040;
+  background-color: #f8f8f8;
+  background-image: linear-gradient(180deg, #fff 0, #f8f8f8);
+  border: 1px solid;
+  border-color: #e7e7e7;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  height: 4em;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+#piedPage li {
+  margin-left: 2em;
+  margin-right: 2em;
+  display: inline;
+  list-style: none;
+}
+
+#piedPage a {
+  color: #777;
+  text-decoration: none;
+}
+#piedPage a:hover,
+#piedPage a:focus {
+  color: black;
+  text-decoration: none;
+}
+
+@media (max-width: 1060px) {
+  #bandeauSuperieur {
+    height: auto;
+  }
+  #bandeauSuperieur h1 {
+    font-size: 2em;
+    width: auto;
+  }
+}
+
+@media (max-width: 750px) {
+  #piedPage {
+    display: none;
+  }
+}
+
+@media (max-width: 460px) {
+  #bandeauSuperieur h1 {
+    font-size: 1.2em;
+  }
+}
