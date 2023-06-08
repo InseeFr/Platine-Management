@@ -1,11 +1,11 @@
 {
   "name": "coleman-management",
-  "version": "0.2.7",
+  "version": "0.2.7-rc.1",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@mui/icons-material": "^5.8.0",
+    "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.8.0",
     "@mui/styles": "^5.8.3",
     "@mui/x-data-grid": "^5.11.0",
