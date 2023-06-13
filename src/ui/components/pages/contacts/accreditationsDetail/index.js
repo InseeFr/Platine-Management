@@ -44,6 +44,7 @@ export const AccreditationsDetail = ({ idec }) => {
 
       setAccreditations(data);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idec]);
 
   return (

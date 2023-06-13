@@ -36,6 +36,7 @@ const AuthProvider = ({ authType, identityProvider, children }) => {
     };
 
     if (authType && oidcClient === null) loadConf();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authType]);
 
   const contextOidc = useMemo(() => oidcClient, [oidcClient]);
