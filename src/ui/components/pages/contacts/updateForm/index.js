@@ -31,6 +31,7 @@ export const ContactsUpdateForm = ({ idec }) => {
       const { data } = await getContactById(idec);
       setFormValues(data);
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idec]);
 
   const handleChange = e => {

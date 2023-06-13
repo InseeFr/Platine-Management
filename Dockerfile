@@ -3,8 +3,8 @@ FROM node:18-alpine AS build
 WORKDIR /app
 COPY package.json yarn.lock .env ./
 COPY public ./public
-RUN yarn install --frozen-lockfile
-COPY jsconfig.json .eslintrc .prettierrc ./
+RUN yarn install --frozen-lockfile --network-timeout 600000
+COPY jsconfig.json .prettierrc ./
 COPY src ./src
 RUN yarn build
 COPY nginx.conf ./

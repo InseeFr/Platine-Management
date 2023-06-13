@@ -20,6 +20,7 @@ export const AccreditationsIcons = ({ idec }) => {
         data: data,
       }));
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idec]);
 
   return (

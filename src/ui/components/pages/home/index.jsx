@@ -25,6 +25,7 @@ export const Home = () => {
         setNbSu(sus?.totalElements);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

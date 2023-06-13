@@ -6,14 +6,13 @@ import { ContactsDetail } from "ui/components/pages/contacts/detail";
 import { Surveys } from "ui/components/pages/surveys";
 import { Home } from "ui/components/pages/home";
 import ResponsiveAppBar from "ui/shared/appBar";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { UserAccountContext } from "ui/context/UserAccount";
 import { canManageUser } from "core/role";
-import { useMemo } from "react";
 
 export const Router = () => {
   const { user } = useContext(UserAccountContext);
-  const canMangeUserInApp = useMemo(() => canManageUser(user.roles));
+  const canMangeUserInApp = useMemo(() => canManageUser(user.roles), [user]);
 
   return (
     <BrowserRouter>
