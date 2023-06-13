@@ -1,6 +1,6 @@
 {
   "name": "coleman-management",
-  "version": "0.2.7-rc.2",
+  "version": "0.2.7-rc.3",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
