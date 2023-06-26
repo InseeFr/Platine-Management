@@ -13,7 +13,7 @@ Platine Management is a GitHub repository that houses the codebase for an innova
 
 ## Introduction
 
-Platine Management is designed to streamline and enhance the collection and management of internet surveys within INSEE. It provides a comprehensive web application for administering surveys. The project leverages modern technologies to provide a user-friendly interface and efficient workflows for survey management tasks.
+Platine Management is designed to streamline and enhance the collection and management of internet surveys within INSEE. It provides a comprehensive web application for administering surveys. The project leverages modern technologies to provide a user-friendly interface and efficient workflows for people in charge of managing and assistance of surveys.
 
 ## Getting Started
 
