@@ -20,13 +20,14 @@ Platine Management is designed to streamline and enhance the collection and mana
 To get started with Platine Management, follow these steps:
 
 1. **Clone the Repository**: Begin by cloning this repository to your local machine using the following command:
+
 ```bash
 git clone https://github.com/InseeFr/Platine-Management.git
 ```
+
 2. **Installation**: Install the required dependencies by running the appropriate installation commands. Detailed instructions can be found in the project's documentation.
 
 3. **Configuration**: Configure the project settings and any necessary environment variables as per the documentation guidelines.
-
 
 ## Contributing
 
