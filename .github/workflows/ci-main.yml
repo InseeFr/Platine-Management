@@ -108,5 +108,5 @@ jobs:
           context: .
           push: true
           tags: |
-            inseefr/coleman-management:${{ needs.check_if_version_upgraded.outputs.to_version }}
-            inseefr/coleman-management:latest
+            inseefr/platine-management:${{ needs.check_if_version_upgraded.outputs.to_version }}
+            inseefr/platine-management:latest
