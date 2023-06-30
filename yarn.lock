@@ -6592,10 +6592,10 @@ jss@10.10.0, jss@^10.10.0:
     array-includes "^3.1.5"
     object.assign "^4.1.3"
 
-keycloak-js@21.1.1:
-  version "21.1.1"
-  resolved "https://registry.yarnpkg.com/keycloak-js/-/keycloak-js-21.1.1.tgz#1435c863253093a50379f2ea84cc6ca29cbe7790"
-  integrity sha512-Viyhf0SOpu2jM/A33vpigSCFLo8l4yg8lqzaGyxXoZ3nGO9lo68B2LwJBDtgpzqDUh8DK//yCOzdWuR2CT4keA==
+keycloak-js@21.1.2:
+  version "21.1.2"
+  resolved "https://registry.yarnpkg.com/keycloak-js/-/keycloak-js-21.1.2.tgz#949889848c024c2a585c177875e012f0163a1d6a"
+  integrity sha512-+6r1BvmutWGJBtibo7bcFbHWIlA7XoXRCwcA4vopeJh59Nv2Js0ju2u+t8AYth+C6Cg7/BNfO3eCTbsl/dTBHw==
   dependencies:
     base64-js "^1.5.1"
     js-sha256 "^0.9.0"
