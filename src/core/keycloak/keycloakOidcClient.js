@@ -50,30 +50,33 @@ export const createKeycloakOidcClient = async ({
   (function callee() {
     const msBeforeExpiration = keycloakInstance.tokenParsed.exp * 1000 - Date.now();
 
-    setTimeout(async () => {
-      console.log(
-        `OIDC access token will expire in ${minValiditySecond} seconds, waiting for user activity before renewing`,
-      );
+    setTimeout(
+      async () => {
+        console.log(
+          `OIDC access token will expire in ${minValiditySecond} seconds, waiting for user activity before renewing`,
+        );
 
-      await evtUserActivity();
+        await evtUserActivity();
 
-      console.log("User activity detected. Refreshing access token now");
+        console.log("User activity detected. Refreshing access token now");
 
-      const error = await keycloakInstance.updateToken(-1).then(
-        () => undefined,
-        error => error,
-      );
+        const error = await keycloakInstance.updateToken(-1).then(
+          () => undefined,
+          error => error,
+        );
 
-      if (error) {
-        console.log("Can't refresh OIDC access token, getting a new one");
-        //NOTE: Never resolves
-        await login();
-      }
+        if (error) {
+          console.log("Can't refresh OIDC access token, getting a new one");
+          //NOTE: Never resolves
+          await login();
+        }
 
-      oidcClient.accessToken = keycloakInstance.token;
+        oidcClient.accessToken = keycloakInstance.token;
 
-      callee();
-    }, msBeforeExpiration - minValiditySecond * 1000);
+        callee();
+      },
+      msBeforeExpiration - minValiditySecond * 1000,
+    );
   })();
 
   return oidcClient;
