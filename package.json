@@ -8,6 +8,9 @@
     "build": "tsc && vite build",
     "lint:check": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint": "npm run lint:check -- --fix",
+    "_format": "prettier '**/*.{ts,tsx,json,md}'",
+    "format": "npm run _format -- --write",
+    "format:check": "npm run _format -- --list-different",
     "preview": "vite preview"
   },
   "dependencies": {
