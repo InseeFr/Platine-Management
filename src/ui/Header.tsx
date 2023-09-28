@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { theme } from "../theme";
 
 export function Header() {
@@ -22,7 +22,7 @@ export function Header() {
             </Typography>
           </Stack>
         </Stack>
-        <SettingsIcon />
+        <SettingsOutlinedIcon />
       </Stack>
     </>
   );
