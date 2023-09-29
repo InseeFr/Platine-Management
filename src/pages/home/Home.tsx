@@ -16,6 +16,7 @@ export function Home() {
         sx={{
           px: 6,
           py: 3,
+          height: "115vh",
           backgroundImage: "linear-gradient(269deg, #21005D -3.71%, #9A82DB -3.7%, #E12358 88.74%)",
         }}
         alignItems="center"
@@ -54,21 +55,21 @@ export function Home() {
             endAdornment={<SearchIcon />}
           />
         </Stack>
-        {
-          <Stack
-            direction="row"
-            spacing={20}
-            sx={{
-              px: 6,
-              pt: 19,
-            }}
-            alignItems="center"
-          >
-            <HomeCard Icon={PersonOutlineIcon} cardText="Voir mes contacts" />
-            <HomeCard Icon={Binoculars} cardText="Voir mes enquêtes" />
-            <HomeCard Icon={CorporateFareIcon} cardText="Voir mes unités enquêtées" />
-          </Stack>
-        }
+
+        <Stack
+          direction="row"
+          spacing={20}
+          sx={{
+            px: 6,
+            pt: 19,
+            pb: 6,
+          }}
+          alignItems="center"
+        >
+          <HomeCard IconComponent={PersonOutlineIcon} content="Voir mes contacts" />
+          <HomeCard IconComponent={Binoculars} content="Voir mes enquêtes" />
+          <HomeCard IconComponent={CorporateFareIcon} content="Voir mes unités enquêtées" />
+        </Stack>
       </Stack>
     </>
   );

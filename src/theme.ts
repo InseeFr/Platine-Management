@@ -3,6 +3,7 @@ import { createTheme } from "@mui/material";
 declare module "@mui/material/styles" {
   interface Palette {
     inseeRed: string;
+    inseePurple?: string;
     Surfaces: {
       Secondary: string;
     };
@@ -10,6 +11,7 @@ declare module "@mui/material/styles" {
   // allow configuration using `createTheme`
   interface PaletteOptions {
     inseeRed?: string;
+    inseePurple?: string;
     Surfaces?: {
       Secondary: string;
     };
@@ -43,6 +45,7 @@ export const theme = createTheme({
       main: "#0A192E",
     },
     inseeRed: "#ED1443",
+    inseePurple: "#6750A4",
     Surfaces: {
       Secondary: "#FFF",
     },

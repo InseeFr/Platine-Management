@@ -2,11 +2,11 @@ import { Card, CardContent, CardMedia, CardActionArea, Typography } from "@mui/m
 import { FunctionComponent } from "react";
 
 interface Props {
-  Icon: React.ElementType;
-  cardText: string;
+  IconComponent: React.ElementType;
+  content: string;
 }
 
-export const HomeCard: FunctionComponent<Props> = ({ Icon, cardText }) => {
+export const HomeCard: FunctionComponent<Props> = ({ IconComponent, content }) => {
   return (
     <>
       <Card
@@ -22,8 +22,8 @@ export const HomeCard: FunctionComponent<Props> = ({ Icon, cardText }) => {
       >
         <CardActionArea>
           <CardMedia sx={{ px: 4, py: 3 }}>
-            {Icon && (
-              <Icon
+            {IconComponent && (
+              <IconComponent
                 style={{ background: "transparent" }}
                 sx={{ px: 2.5, fontSize: 60, backgroundColor: "transparent", color: "white" }}
               />
@@ -31,7 +31,7 @@ export const HomeCard: FunctionComponent<Props> = ({ Icon, cardText }) => {
           </CardMedia>
           <CardContent sx={{ pt: 1, px: 2, background: "white" }}>
             <Typography color="primary" fontSize={16} fontWeight={600} textAlign="center">
-              {cardText}
+              {content}
             </Typography>
           </CardContent>
         </CardActionArea>
