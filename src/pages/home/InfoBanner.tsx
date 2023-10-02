@@ -38,6 +38,7 @@ export function InfoBanner() {
           <Typography
             sx={{ px: 8, pb: 2.5, textAlign: "justify" }}
             fontWeight={400}
+            width="30vw"
             lineHeight="196.429%"
           >
             {message}

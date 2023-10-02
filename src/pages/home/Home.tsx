@@ -1,5 +1,5 @@
 import { Header } from "../../ui/Header";
-import { InputBase, Stack, Typography } from "@mui/material";
+import { InputBase, Stack, Typography, Grid } from "@mui/material";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import SearchIcon from "@mui/icons-material/Search";
@@ -16,8 +16,8 @@ export function Home() {
         sx={{
           px: 6,
           py: 3,
-          height: "115vh",
-          backgroundImage: "linear-gradient(269deg, #21005D -3.71%, #9A82DB -3.7%, #E12358 88.74%)",
+          height: "110vh",
+          background: "linear-gradient(269deg, #21005D -3.71%, #9A82DB -3.7%, #E12358 88.74%)",
         }}
         alignItems="center"
       >
@@ -26,13 +26,12 @@ export function Home() {
             px: 6,
             pt: 19,
           }}
-          alignItems="center"
         >
           <Typography
             color="Surfaces.Secondary"
             fontWeight={700}
             fontSize={40}
-            width={787}
+            width="60vw"
             textAlign="left"
             sx={{ py: 4 }}
             lineHeight={"140%"}
@@ -56,20 +55,30 @@ export function Home() {
           />
         </Stack>
 
-        <Stack
-          direction="row"
+        <Grid
+          container
           spacing={20}
+          width="80vw"
           sx={{
             px: 6,
             pt: 19,
             pb: 6,
           }}
-          alignItems="center"
         >
-          <HomeCard IconComponent={PersonOutlineIcon} content="Voir mes contacts" />
-          <HomeCard IconComponent={Binoculars} content="Voir mes enquêtes" />
-          <HomeCard IconComponent={CorporateFareIcon} content="Voir mes unités enquêtées" />
-        </Stack>
+          <Grid item>
+            <HomeCard IconComponent={PersonOutlineIcon} content="Voir mes contacts" color="#D6326D" />
+          </Grid>
+          <Grid item>
+            <HomeCard IconComponent={Binoculars} content="Voir mes enquêtes" color="#C34A8E" />
+          </Grid>
+          <Grid item>
+            <HomeCard
+              IconComponent={CorporateFareIcon}
+              content="Voir mes unités enquêtées"
+              color="#AC69B9"
+            />
+          </Grid>
+        </Grid>
       </Stack>
     </>
   );

@@ -24,6 +24,7 @@ declare module "@mui/material/styles" {
       fontWeight: number;
     };
   }
+
   interface TypographyVariantsOptions {
     logo?: {
       fontSize: number;
@@ -56,21 +57,6 @@ export const theme = createTheme({
       fontSize: 28,
       fontFamily: "Montserrat, sans-serif",
       fontWeight: 600,
-    },
-  },
-  transitions: {
-    duration: {
-      shortest: 150,
-      shorter: 200,
-      short: 250,
-      // most basic recommended timing
-      standard: 300,
-      // this is to be used in complex animations
-      complex: 375,
-      // recommended when something is entering screen
-      enteringScreen: 225,
-      // recommended when something is leaving screen
-      leavingScreen: 195,
     },
   },
 });
