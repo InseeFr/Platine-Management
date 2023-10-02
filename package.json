@@ -1,69 +1,37 @@
 {
   "name": "platine-management",
-  "version": "0.2.12",
   "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint:check": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "npm run lint:check -- --fix",
+    "_format": "prettier '**/*.{ts,tsx,json,md}'",
+    "format": "npm run _format -- --write",
+    "format:check": "npm run _format -- --list-different",
+    "preview": "vite preview"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.13.7",
-    "@mui/material": "^5.13.7",
-    "@mui/styles": "^5.13.7",
-    "@mui/x-data-grid": "^6.9.1",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/user-event": "^14.4.3",
-    "date-fns": "^2.30.0",
-    "keycloak-js": "21.1.2",
+    "@mui/icons-material": "^5.14.11",
+    "@mui/material": "^5.14.10",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.14.1",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^3.3.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && copy-and-watch configuration/* build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint:check": "eslint . --ext .js,.jsx",
-    "lint": "npm run lint:check -- --fix",
-    "_format": "prettier '**/*.{js,jsx,json,md}'",
-    "format": "npm run _format -- --write",
-    "format:check": "npm run _format -- --list-different",
-    "prepare": "husky install"
-  },
-  "lint-staged": {
-    "*.{js,jsx}": [
-      "eslint --fix"
-    ],
-    "*.{js,jsx,json,md}": [
-      "prettier --write"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "eslint:recommended",
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "copy-and-watch": "^0.1.6",
-    "eslint": "^8.44.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.3",
-    "prettier": "^3.0.0"
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.3",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
   }
 }
