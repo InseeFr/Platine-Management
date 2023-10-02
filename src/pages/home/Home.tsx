@@ -16,7 +16,7 @@ export function Home() {
         sx={{
           px: 6,
           py: 3,
-          height: "110vh",
+          height: "115vh",
           background: "linear-gradient(269deg, #21005D -3.71%, #9A82DB -3.7%, #E12358 88.74%)",
         }}
         alignItems="center"
@@ -58,7 +58,6 @@ export function Home() {
         <Grid
           container
           spacing={20}
-          width="80vw"
           sx={{
             px: 6,
             pt: 19,
