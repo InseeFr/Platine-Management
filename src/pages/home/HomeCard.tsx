@@ -1,13 +1,15 @@
 import { Card, CardContent, CardMedia, CardActionArea, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
+import { Link } from "react-router-dom";
 
 interface Props {
   IconComponent: React.ElementType;
   content: string;
   color: string;
+  to: { pathname: string; value: number };
 }
 
-export const HomeCard: FunctionComponent<Props> = ({ IconComponent, content, color }) => {
+export const HomeCard: FunctionComponent<Props> = ({ IconComponent, content, color, to }) => {
   return (
     <>
       <Card
@@ -21,7 +23,7 @@ export const HomeCard: FunctionComponent<Props> = ({ IconComponent, content, col
         }}
         variant="outlined"
       >
-        <CardActionArea>
+        <CardActionArea component={Link} to={to}>
           <CardMedia sx={{ px: 4, py: 3 }}>
             {IconComponent && <IconComponent sx={{ px: 2.5, fontSize: 60, color: "white" }} />}
           </CardMedia>

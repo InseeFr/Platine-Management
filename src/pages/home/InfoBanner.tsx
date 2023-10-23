@@ -4,7 +4,7 @@ import { useState } from "react";
 export function InfoBanner() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const message =
-    "Le CEI va tester la pose automatique de page de maintenance mardi 21 janvier et mercredi 1er février. Vous pourrez rencontrer de micro-coupures dans l’accès à l’application Pilotage durant ces deux derniers jours. Veuillez nous excuser pour le désagrément.";
+    "MAINTENANCE : Le CEI va tester la pose automatique de page de maintenance mardi 21 janvier et mercredi 1er février. Vous pourrez rencontrer de micro-coupures dans l’accès à l’application Pilotage durant ces deux derniers jours. Veuillez nous excuser pour le désagrément.";
 
   function handleBannerClick() {
     setDialogOpen(true);
@@ -14,20 +14,40 @@ export function InfoBanner() {
     <>
       <Box
         sx={{
-          px: 6,
-          py: 1,
           color: "Surfaces.Secondary",
           backgroundColor: "inseePurple",
+          cursor: "pointer",
+          alignSelf: "stretch",
         }}
       >
         <Typography
+          display="inline"
           onClick={handleBannerClick}
-          textAlign="center"
-          fontFamily="Open Sans, sans-serif"
-          fontWeight={700}
-          fontSize={16}
+          sx={{
+            color: "#FFF",
+            textAlign: "center",
+            fontSize: "16px",
+            fontStyle: "normal",
+            fontWeight: "700",
+            lineHeight: "27.5px",
+          }}
         >
-          {message.substring(0, 100)} ... voir plus
+          {message.substring(0, 100)}...
+        </Typography>
+        <Typography
+          display="inline"
+          onClick={handleBannerClick}
+          sx={{
+            color: "#FFF",
+            textAlign: "center",
+            fontSize: "16px",
+            fontStyle: "normal",
+            fontWeight: "700",
+            lineHeight: "27.5px",
+            textDecorationLine: "underline",
+          }}
+        >
+          voir plus
         </Typography>
       </Box>
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
