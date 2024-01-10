@@ -24,7 +24,7 @@ const anonymousUser = {
   roles: [],
 };
 
-export function AuthProvider({ authTypeb, children }: Props) {
+export function AuthProvider({ children }: Props) {
   const [authType, setAuthType] = useState<Props["authTypeb"] | null>(null);
   const [user, setUser] = useState<ContextValue>(initialValue);
   useAsyncEffect(async () => {

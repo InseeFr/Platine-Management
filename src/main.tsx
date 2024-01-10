@@ -6,7 +6,7 @@ import { ThemeProvider } from "@mui/material";
 import React from "react";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <AuthProvider authType="oidc">
+  <AuthProvider authTypeb="oidc">
     <React.StrictMode>
       <ThemeProvider theme={theme}>
         <App />

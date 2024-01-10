@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 export function Header() {
   const { username } = useAuth();
+  console.log(username);
   return (
     <Box
       sx={{

@@ -1,4 +1,4 @@
-import { InputBase, Typography, Grid, Box } from "@mui/material";
+import { InputBase, Typography, Box } from "@mui/material";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import SearchIcon from "@mui/icons-material/Search";
