@@ -1,9 +1,10 @@
-import { Box, Breadcrumbs, Link, Typography } from "@mui/material";
+import { Box, Breadcrumbs, Typography } from "@mui/material";
 import { SurveyPanel } from "./SurveyPanel";
 import { useParams } from "react-router-dom";
 import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
 import PersonOutline from "@mui/icons-material/PersonOutline";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Link } from "../ui/Link.tsx";
 
 export function SurveyPage() {
   const { idSurvey } = useParams();
@@ -23,10 +24,10 @@ export function SurveyPage() {
         className="Ariane"
       >
         <Breadcrumbs aria-label="breadcrumb" sx={{ px: 2, pt: 1 }}>
-          <Link underline="hover" color="inherit" href="/">
+          <Link underline="hover" color="inherit" to="/">
             Accueil
           </Link>
-          <Link underline="hover" color="inherit" href="/recherche">
+          <Link underline="hover" color="inherit" to="/recherche">
             Recherche
           </Link>
           <Typography color="text.primary">fiche enquête</Typography>

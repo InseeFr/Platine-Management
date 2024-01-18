@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea } from "@mui/material";
+import { Box, Card, CardActionArea, Typography } from "@mui/material";
 import { type ElementType, FunctionComponent } from "react";
 import { Link } from "react-router-dom";
 import { Row } from "../../ui/Row.tsx";
@@ -20,9 +20,10 @@ export const HomeCard: FunctionComponent<Props> = ({ IconComponent, content, col
           <Row bgcolor={color} py={3} color="white" justifyContent="center">
             <IconComponent fontSize="cardMedia" />
           </Row>
-          <Box typography="titleMedium" pt={2} px={2} pb={1.25} color="black.main" textAlign="center" lineHeight={1.125}>
-              {content}
+          <Box pt={2} px={2} pb={1.25} color="black.main" textAlign="center" lineHeight={1.125}>
+            {content}
           </Box>
+
         </CardActionArea>
       </Card>
   );

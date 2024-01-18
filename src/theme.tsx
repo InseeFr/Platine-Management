@@ -100,6 +100,10 @@ theme = createTheme(theme, {
     ...theme.shadows.slice(3),
   ],
   palette: {
+    text: {
+      primary: "rgba(0, 0, 0, 0.87)",
+      secondary: "#49454F"
+    },
     primary: colors("#6750A4"),
     red: colors("#ED1443"),
     black: colors("#0A192E"),
