@@ -4,9 +4,9 @@ import { FilterListToggleButton } from "../FilterListToggleButton";
 import { Stack } from "@mui/material";
 import { FilterListBySelector } from "../FilterListBySelector";
 
-type ContactsListProps = {};
+// type ContactsListProps = {};
 
-export const ContactsList = ({}: ContactsListProps) => {
+export const ContactsList = () => {
   return (
     <Stack display={"flex"} flexDirection={"column"} spacing={"16px"}>
       <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
@@ -19,11 +19,11 @@ export const ContactsList = ({}: ContactsListProps) => {
       </Box>
       <Box
         sx={{
-          display: "grid",
+          display: "flex",
+          flexWrap: "wrap",
           rowGap: "29px",
           columnGap: "26px",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          height: "700px",
+          height: "65vh",
           overflow: "auto",
         }}
       >

@@ -15,13 +15,19 @@ export function SearchPage(props: SearchProps) {
   return (
     <Box
       className="Body"
-      sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "-24px" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
+        height: "100%",
+      }}
     >
       <Box
         sx={{
           py: 2,
           display: "flex",
-          width: "1512px",
+          width: "100%",
           height: "24px",
           flexDirection: "column",
           alignItems: "flex-start",
@@ -47,7 +53,7 @@ export function SearchPage(props: SearchProps) {
             }}
             className="Ariane2"
           >
-            {/* <Breadcrumbs
+            <Breadcrumbs
               aria-label="breadcrumb"
               className="Breadcrumbs"
               sx={{ alignItems: "center", display: "flex" }}
@@ -73,7 +79,7 @@ export function SearchPage(props: SearchProps) {
                       fontSize: 16,
                       fontFamily: "Roboto",
                       fontWeight: "400",
-                      lineHeight: 24,
+                      lineHeight: "24px",
                       letterSpacing: 0.15,
                       wordWrap: "break-word",
                     }}
@@ -89,28 +95,25 @@ export function SearchPage(props: SearchProps) {
                   fontSize: 16,
                   fontFamily: "Roboto",
                   fontWeight: "400",
-                  lineHeight: 24,
+                  lineHeight: "24px",
                   letterSpacing: 0.15,
                   wordWrap: "break-word",
                 }}
               >
                 recherche avancée
               </Typography>
-            </Breadcrumbs> */}
+            </Breadcrumbs>
           </Box>
         </Box>
       </Box>
-      <Box className="Content" style={{ width: 1415, height: 862, position: "relative" }}>
+      <Box className="Content" style={{ width: "95%", height: "100%" }}>
         <Box
           style={{
             paddingLeft: 6,
             paddingRight: 6,
-            left: -6,
-            top: 2.8,
-            position: "absolute",
             justifyContent: "flex-start",
             alignItems: "flex-start",
-            gap: 4,
+            gap: "48px",
             display: "inline-flex",
           }}
           className="Recherche"
