@@ -28,11 +28,11 @@ export const ContactCard = ({
   email,
 }: ContactCardProps) => {
   return (
-    <Card sx={{ width: 319, minHeight: 250, margin: "5px" }}>
+    <Card sx={{ margin: "5px", p: "16px 24px" }}>
       <CardActionArea component={Link} to={`/contact/${identifier}`}>
         <CardContent>
           <Typography
-            sx={{ fontSize: 16, fontWeight: 600 }}
+            typography="titleMedium"
             color="#797676"
             display={"flex"}
             flexDirection={"column"}
@@ -45,10 +45,9 @@ export const ContactCard = ({
           <Box display={"flex"} gap={"8px"} alignItems={"center"}>
             <PersonOutlineOutlinedIcon />
             <Typography
+              typography="titleLarge"
               sx={{
-                fontSize: 22,
                 fontWeight: 600,
-                lineHeight: "28px",
                 textOverflow: "ellipsis",
                 overflow: "hidden",
               }}
@@ -58,25 +57,25 @@ export const ContactCard = ({
           <Stack spacing={"4px"} margin={"20px 0"}>
             <Box display={"flex"} gap={"18px"} alignItems={"flex-end"}>
               <LocationOnIcon fontSize="small" />
-              <Typography sx={{ fontSize: 14, fontWeight: 600 }} color="#3B4758">
+              <Typography typography="titleSmall" color="#3B4758">
                 {cityName}
               </Typography>
             </Box>
             <Box display={"flex"} gap={"15px"} alignItems={"flex-end"}>
               <LocalPhoneOutlinedIcon fontSize="small" />
-              <Typography sx={{ fontSize: 14, fontWeight: 600 }} color="#3B4758">
+              <Typography typography="titleSmall" color="#3B4758">
                 {phone}
               </Typography>
             </Box>
             <Box display={"flex"} gap={"15px"} alignItems={"flex-end"}>
               <EmailIcon fontSize="small" />
-              <Typography sx={{ fontSize: 14, fontWeight: 600 }} color="#3B4758">
+              <Typography typography="titleSmall" color="#3B4758">
                 {email}
               </Typography>
             </Box>
             <Box display={"flex"} gap={"15px"} alignItems={"flex-end"}>
               <DesktopWindowsOutlinedIcon fontSize="small" />
-              <Typography sx={{ fontSize: 14, fontWeight: 600 }} color="#3B4758">
+              <Typography typography="titleSmall" color="#3B4758">
                 {functionContact}
               </Typography>
             </Box>

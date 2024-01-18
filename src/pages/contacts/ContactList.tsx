@@ -23,7 +23,7 @@ export const ContactsList = () => {
           flexWrap: "wrap",
           rowGap: "29px",
           columnGap: "26px",
-          height: "65vh",
+          height: "calc(100vh - 230px)",
           overflow: "auto",
         }}
       >

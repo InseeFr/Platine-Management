@@ -1,7 +1,6 @@
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import React from "react";
-import { theme } from "../theme";
 
 type FilterListToggleButtonProps = {
   firstOption: string;
@@ -28,7 +27,7 @@ export const FilterListToggleButton = ({
       sx={{
         ".Mui-selected": {
           borderRadius: "24px !important",
-          backgroundColor: `${theme.palette.inseePurple} !important`,
+          // backgroundColor: `${theme.palette.primary} !important`,
           color: "white !important",
         },
       }}
@@ -39,10 +38,9 @@ export const FilterListToggleButton = ({
     >
       <ToggleButton
         sx={{
+          typography: "bodyMedium",
           textTransform: "none",
-          fontSize: "14px",
           fontWeight: 400,
-          lineHeight: "20px",
           borderRadius: "24px",
           borderRightWidth: 0,
         }}
@@ -52,10 +50,9 @@ export const FilterListToggleButton = ({
       </ToggleButton>
       <ToggleButton
         sx={{
+          typography: "bodyMedium",
           textTransform: "none",
-          fontSize: "14px",
           fontWeight: 400,
-          lineHeight: "20px",
           borderRadius: "24px",
         }}
         value={secondOption}
