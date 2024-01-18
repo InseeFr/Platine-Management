@@ -1,5 +1,6 @@
 import { Box, Dialog, DialogContent, DialogTitle, Typography } from "@mui/material";
 import { useState } from "react";
+import { Row } from "../../ui/Row.tsx";
 
 export function InfoBanner() {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -10,61 +11,32 @@ export function InfoBanner() {
     setDialogOpen(true);
   }
 
-  return (
-    <>
-      <Box
-        sx={{
-          color: "Surfaces.Secondary",
-          backgroundColor: "inseePurple",
-          cursor: "pointer",
-          alignSelf: "stretch",
-        }}
-      >
-        <Typography
-          display="inline"
-          onClick={handleBannerClick}
-          sx={{
-            color: "#FFF",
-            textAlign: "center",
-            fontSize: "16px",
-            fontStyle: "normal",
-            fontWeight: "700",
-            lineHeight: "27.5px",
-          }}
-        >
-          {message.substring(0, 100)}...
+  return <><Row
+    component="button"
+    width="100%"
+    py={1.25}
+    bgcolor="primary.main"
+    color="white"
+    textAlign="center"
+    justifyContent="center"
+    gap={.5}
+    typography="titleMedium"
+    onClick={handleBannerClick}
+  >
+    {message.substring(0, 100)}...
+    <Box sx={{ textDecoration: "underline" }}>
+      voir plus
+    </Box>
+  </Row>
+    <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+      <DialogTitle>
+        Message important
+      </DialogTitle>
+      <DialogContent sx={{width: 440}}>
+        <Typography variant="bodyMedium" color="light.main">
+          {message}
         </Typography>
-        <Typography
-          display="inline"
-          onClick={handleBannerClick}
-          sx={{
-            color: "#FFF",
-            textAlign: "center",
-            fontSize: "16px",
-            fontStyle: "normal",
-            fontWeight: "700",
-            lineHeight: "27.5px",
-            textDecorationLine: "underline",
-          }}
-        >
-          voir plus
-        </Typography>
-      </Box>
-      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
-        <DialogTitle sx={{ px: 3, py: 2 }} fontWeight="bold">
-          Message important
-        </DialogTitle>
-        <DialogContent dividers>
-          <Typography
-            sx={{ px: 8, pb: 2.5, textAlign: "justify" }}
-            fontWeight={400}
-            width="30vw"
-            lineHeight="196.429%"
-          >
-            {message}
-          </Typography>
-        </DialogContent>
-      </Dialog>
-    </>
-  );
+      </DialogContent>
+    </Dialog>
+  </>;
 }

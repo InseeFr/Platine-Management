@@ -1,39 +1,29 @@
-import { Card, CardContent, CardMedia, CardActionArea, Typography } from "@mui/material";
-import { FunctionComponent } from "react";
+import { Box, Card, CardActionArea } from "@mui/material";
+import { type ElementType, FunctionComponent } from "react";
 import { Link } from "react-router-dom";
+import { Row } from "../../ui/Row.tsx";
 
 interface Props {
-  IconComponent: React.ElementType;
+  IconComponent: ElementType;
   content: string;
   color: string;
-  to: { pathname: string; value: number };
+  to: { pathname: string; tab: number };
 }
 
 export const HomeCard: FunctionComponent<Props> = ({ IconComponent, content, color, to }) => {
   return (
-    <>
       <Card
-        sx={{
-          borderRadius: "16px",
-          boxShadow: 4,
-          borderColor: "white",
-          width: 164,
-          height: 179,
-          background: color,
-        }}
-        variant="outlined"
+        elevation={2}
+        variant="home"
       >
         <CardActionArea component={Link} to={to}>
-          <CardMedia sx={{ px: 4, py: 3 }}>
-            {IconComponent && <IconComponent sx={{ px: 2.5, fontSize: 60, color: "white" }} />}
-          </CardMedia>
-          <CardContent sx={{ pt: 1, px: 2, background: "white" }}>
-            <Typography color="primary" fontSize={16} fontWeight={600} textAlign="center">
+          <Row bgcolor={color} py={3} color="white" justifyContent="center">
+            <IconComponent fontSize="cardMedia" />
+          </Row>
+          <Box typography="titleMedium" pt={2} px={2} pb={1.25} color="black.main" textAlign="center" lineHeight={1.125}>
               {content}
-            </Typography>
-          </CardContent>
+          </Box>
         </CardActionArea>
       </Card>
-    </>
   );
 };

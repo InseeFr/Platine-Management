@@ -1,4 +1,4 @@
-#root {
-  width: 1512px;
-  height: 982px;
+button {
+    border: none;
+    cursor: pointer;
 }
