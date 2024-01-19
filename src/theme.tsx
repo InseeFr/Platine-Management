@@ -90,6 +90,7 @@ declare module "@mui/material/InputBase" {
 declare module "@mui/material/SvgIcon" {
   interface SvgIconPropsSizeOverrides {
     cardMedia: true;
+    tabTitle: true;
   }
 }
 
@@ -266,6 +267,13 @@ export const theme = createTheme({
           props: { fontSize: "cardMedia" },
           style: {
             fontSize: 60,
+          },
+        },
+        {
+          props: { fontSize: "tabTitle" },
+          style: {
+            fontSize: 28,
+            marginBottom: "0px !important",
           },
         },
       ],
