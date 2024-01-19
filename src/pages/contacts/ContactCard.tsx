@@ -1,4 +1,4 @@
-import { Box, CardActionArea, CardContent, Stack } from "@mui/material";
+import { CardActionArea, CardContent, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -7,6 +7,7 @@ import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import EmailIcon from "@mui/icons-material/Email";
 import DesktopWindowsOutlinedIcon from "@mui/icons-material/DesktopWindowsOutlined";
 import { Link } from "react-router-dom";
+import { Row } from "../../ui/Row";
 
 type ContactCardProps = {
   identifier: string;
@@ -16,6 +17,8 @@ type ContactCardProps = {
   phone: string;
   email: string;
   functionContact: string;
+  isDisabled?: boolean;
+  // add surveyUnits and surveys
 };
 
 export const ContactCard = ({
@@ -26,14 +29,15 @@ export const ContactCard = ({
   phone,
   functionContact,
   email,
+  isDisabled,
 }: ContactCardProps) => {
   return (
-    <Card sx={{ margin: "5px", p: "16px 24px" }}>
+    <Card sx={{ m: 1, px: 3, py: 2 }} elevation={3} variant={isDisabled ? "disabled" : undefined}>
       <CardActionArea component={Link} to={`/contact/${identifier}`}>
         <CardContent>
           <Typography
-            typography="titleMedium"
-            color="#797676"
+            variant="titleMedium"
+            color={"text.tertiary"}
             display={"flex"}
             flexDirection={"column"}
             alignItems={"flex-end"}
@@ -42,43 +46,41 @@ export const ContactCard = ({
             #{identifier}
           </Typography>
 
-          <Box display={"flex"} gap={"8px"} alignItems={"center"}>
+          <Row gap={1}>
             <PersonOutlineOutlinedIcon />
             <Typography
-              typography="titleLarge"
+              variant="titleLarge"
               sx={{
                 fontWeight: 600,
-                textOverflow: "ellipsis",
-                overflow: "hidden",
               }}
             >{`${firstname} ${lastname}`}</Typography>
-          </Box>
+          </Row>
 
-          <Stack spacing={"4px"} margin={"20px 0"}>
-            <Box display={"flex"} gap={"18px"} alignItems={"flex-end"}>
+          <Stack spacing={0.5} my={4} color={"text.secondary"}>
+            <Row gap={2}>
               <LocationOnIcon fontSize="small" />
-              <Typography typography="titleSmall" color="#3B4758">
-                {cityName}
-              </Typography>
-            </Box>
-            <Box display={"flex"} gap={"15px"} alignItems={"flex-end"}>
+              <Typography variant="titleSmall">{cityName}</Typography>
+            </Row>
+            <Row gap={2}>
               <LocalPhoneOutlinedIcon fontSize="small" />
-              <Typography typography="titleSmall" color="#3B4758">
-                {phone}
-              </Typography>
-            </Box>
-            <Box display={"flex"} gap={"15px"} alignItems={"flex-end"}>
+              <Typography variant="titleSmall">{phone}</Typography>
+            </Row>
+            <Row gap={2}>
               <EmailIcon fontSize="small" />
-              <Typography typography="titleSmall" color="#3B4758">
-                {email}
-              </Typography>
-            </Box>
-            <Box display={"flex"} gap={"15px"} alignItems={"flex-end"}>
+              <Typography variant="titleSmall">{email}</Typography>
+            </Row>
+            <Row gap={2}>
               <DesktopWindowsOutlinedIcon fontSize="small" />
-              <Typography typography="titleSmall" color="#3B4758">
-                {functionContact}
-              </Typography>
-            </Box>
+              <Typography variant="titleSmall">{functionContact}</Typography>
+            </Row>
+          </Stack>
+          <Stack spacing={1}>
+            <Typography variant={"titleSmall"} color={"text.hint"}>
+              Carrefour, Auchan, E.Leclerc
+            </Typography>
+            <Typography variant={"titleSmall"} color={"text.hint"}>
+              EVA, PIAAC
+            </Typography>
           </Stack>
         </CardContent>
       </CardActionArea>

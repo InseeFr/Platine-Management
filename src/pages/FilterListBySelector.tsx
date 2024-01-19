@@ -1,8 +1,15 @@
-import { Box, Typography } from "@mui/material";
+import { FormControl, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
+import { Row } from "../ui/Row";
+import React from "react";
 
 export const FilterListBySelector = () => {
+  const [selectedOption, setSelectedOption] = React.useState("mostRecent");
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setSelectedOption(event.target.value);
+  };
   return (
-    <Box gap={"16px"} display={"flex"}>
+    <Row gap={2}>
       <Typography
         sx={{
           fontSize: "14px",
@@ -14,6 +21,11 @@ export const FilterListBySelector = () => {
       >
         Trier par
       </Typography>
-    </Box>
+      <FormControl sx={{ mr: 4 }}>
+        <Select type="filter" value={selectedOption} onChange={handleChange} displayEmpty>
+          <MenuItem value="mostRecent">plus récent</MenuItem>
+        </Select>
+      </FormControl>
+    </Row>
   );
 };

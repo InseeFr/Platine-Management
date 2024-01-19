@@ -3,26 +3,27 @@ import { ContactCard } from "./ContactCard";
 import { FilterListToggleButton } from "../FilterListToggleButton";
 import { Stack } from "@mui/material";
 import { FilterListBySelector } from "../FilterListBySelector";
+import { Row } from "../../ui/Row";
 
 // type ContactsListProps = {};
 
 export const ContactsList = () => {
   return (
-    <Stack display={"flex"} flexDirection={"column"} spacing={"16px"}>
-      <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"} alignItems={"center"}>
+    <Stack spacing={2}>
+      <Row justifyContent={"space-between"}>
         <FilterListToggleButton
           firstOption={"Mes contacts"}
           secondOption={"Tout"}
           handleChange={selectedOption => console.log(selectedOption)}
         />
         <FilterListBySelector />
-      </Box>
+      </Row>
       <Box
         sx={{
           display: "flex",
           flexWrap: "wrap",
-          rowGap: "29px",
-          columnGap: "26px",
+          alignItems: "center",
+          columnGap: "24px",
           height: "calc(100vh - 230px)",
           overflow: "auto",
         }}
