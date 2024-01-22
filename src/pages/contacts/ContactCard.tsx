@@ -8,6 +8,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import DesktopWindowsOutlinedIcon from "@mui/icons-material/DesktopWindowsOutlined";
 import { Link } from "react-router-dom";
 import { Row } from "../../ui/Row";
+import { TextWithLeftIcon } from "../../ui/TextWithLeftIcon";
 
 type ContactCardProps = {
   identifier: string;
@@ -57,22 +58,10 @@ export const ContactCard = ({
           </Row>
 
           <Stack spacing={0.5} my={4} color={"text.secondary"}>
-            <Row gap={2}>
-              <LocationOnIcon fontSize="small" />
-              <Typography variant="titleSmall">{cityName}</Typography>
-            </Row>
-            <Row gap={2}>
-              <LocalPhoneOutlinedIcon fontSize="small" />
-              <Typography variant="titleSmall">{phone}</Typography>
-            </Row>
-            <Row gap={2}>
-              <EmailIcon fontSize="small" />
-              <Typography variant="titleSmall">{email}</Typography>
-            </Row>
-            <Row gap={2}>
-              <DesktopWindowsOutlinedIcon fontSize="small" />
-              <Typography variant="titleSmall">{functionContact}</Typography>
-            </Row>
+            <TextWithLeftIcon IconComponent={LocationOnIcon} text={cityName} />
+            <TextWithLeftIcon IconComponent={LocalPhoneOutlinedIcon} text={phone} />
+            <TextWithLeftIcon IconComponent={EmailIcon} text={email} />
+            <TextWithLeftIcon IconComponent={DesktopWindowsOutlinedIcon} text={functionContact} />
           </Stack>
           <Stack spacing={1}>
             <Typography variant={"titleSmall"} color={"text.hint"}>

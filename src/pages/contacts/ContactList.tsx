@@ -12,8 +12,7 @@ export const ContactsList = () => {
     <Stack spacing={2}>
       <Row justifyContent={"space-between"}>
         <FilterListToggleButton
-          firstOption={"Mes contacts"}
-          secondOption={"Tout"}
+          options={["contacts", "all"]}
           handleChange={selectedOption => console.log(selectedOption)}
         />
         <FilterListBySelector />

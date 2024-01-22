@@ -1,19 +1,14 @@
-import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import React from "react";
+import { useState } from "react";
+import ToggleButton from "@mui/material/ToggleButton/ToggleButton";
 
 type FilterListToggleButtonProps = {
-  firstOption: string;
-  secondOption: string;
+  options: string[];
   handleChange: (selectedOption: string) => void;
 };
 
-export const FilterListToggleButton = ({
-  firstOption,
-  secondOption,
-  handleChange,
-}: FilterListToggleButtonProps) => {
-  const [selectedOption, setSelectedOption] = React.useState(firstOption);
+export const FilterListToggleButton = ({ options, handleChange }: FilterListToggleButtonProps) => {
+  const [selectedOption, setSelectedOption] = useState(options[0]);
 
   const handleChangeSelection = (
     _event: React.MouseEvent<HTMLElement>,
@@ -21,6 +16,22 @@ export const FilterListToggleButton = ({
   ) => {
     newSelectedOption && (setSelectedOption(newSelectedOption), handleChange(newSelectedOption));
   };
+
+  const children = options.map(option => (
+    <ToggleButton
+      key={option}
+      sx={{
+        typography: "bodyMedium",
+        textTransform: "none",
+        fontWeight: 400,
+        borderRadius: "24px",
+        borderRightWidth: 0,
+      }}
+      value={option}
+    >
+      {option}
+    </ToggleButton>
+  ));
 
   return (
     <ToggleButtonGroup
@@ -36,29 +47,7 @@ export const FilterListToggleButton = ({
       exclusive
       onChange={handleChangeSelection}
     >
-      <ToggleButton
-        sx={{
-          typography: "bodyMedium",
-          textTransform: "none",
-          fontWeight: 400,
-          borderRadius: "24px",
-          borderRightWidth: 0,
-        }}
-        value={firstOption}
-      >
-        {firstOption}
-      </ToggleButton>
-      <ToggleButton
-        sx={{
-          typography: "bodyMedium",
-          textTransform: "none",
-          fontWeight: 400,
-          borderRadius: "24px",
-        }}
-        value={secondOption}
-      >
-        {secondOption}
-      </ToggleButton>
+      {children}
     </ToggleButtonGroup>
   );
 };

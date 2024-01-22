@@ -11,12 +11,10 @@ export const FilterListBySelector = () => {
   return (
     <Row gap={2}>
       <Typography
+        variant="titleSmall"
         sx={{
-          fontSize: "14px",
           fontWeight: 400,
-          lineHeight: "30px",
-          letterSpacing: "0.15px",
-          color: "#797676",
+          color: "text.tertiary",
         }}
       >
         Trier par
