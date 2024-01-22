@@ -1,13 +1,16 @@
 import Box from "@mui/material/Box";
 import { ContactCard } from "./ContactCard";
 import { FilterListToggleButton } from "../FilterListToggleButton";
-import { Stack } from "@mui/material";
+import { Stack, Grid } from "@mui/material";
 import { FilterListBySelector } from "../FilterListBySelector";
 import { Row } from "../../ui/Row";
+import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
 
 // type ContactsListProps = {};
 
 export const ContactsList = () => {
+  const { data } = useFetchQuery("/api/contacts");
+  const contacts = data?.content ?? [];
   return (
     <Stack spacing={2}>
       <Row justifyContent={"space-between"}>
@@ -17,116 +20,31 @@ export const ContactsList = () => {
         />
         <FilterListBySelector />
       </Row>
-      <Box
+      <Grid
         sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          columnGap: "24px",
-          height: "calc(100vh - 230px)",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+          minHeight: 0,
           overflow: "auto",
+          // Offset the scrollbar out of the container
+          width: "calc(100% + .5rem)",
+          paddingRight: ".5rem",
         }}
+        gap={3}
       >
-        <ContactCard
-          identifier={"MVIL001"}
-          firstname={"Jeanne"}
-          lastname={"MARTIN"}
-          cityName={"Ville"}
-          phone={"06 27 58 32 04"}
-          email={"nom.prénom@gmail.com"}
-          functionContact={"Fonction"}
-        />
-        <ContactCard
-          identifier={"MVIL002"}
-          firstname={"Louis"}
-          lastname={"PENCOLE"}
-          cityName={"Ville"}
-          phone={"06 27 58 32 04"}
-          email={"nom.prénom@gmail.com"}
-          functionContact={"Fonction"}
-        />
-        <ContactCard
-          identifier={"MVIL001"}
-          firstname={"Jeanne"}
-          lastname={"MARTIN"}
-          cityName={"Ville"}
-          phone={"06 27 58 32 04"}
-          email={"nom.prénom@gmail.com"}
-          functionContact={"Fonction"}
-        />
-        <ContactCard
-          identifier={"MVIL001"}
-          firstname={"Jeanne"}
-          lastname={"MARTIN"}
-          cityName={"Ville"}
-          phone={"06 27 58 32 04"}
-          email={"nom.prénom@gmail.com"}
-          functionContact={"Fonction"}
-        />
-        <ContactCard
-          identifier={"MVIL001"}
-          firstname={"Jeanne"}
-          lastname={"MARTIN"}
-          cityName={"Ville"}
-          phone={"06 27 58 32 04"}
-          email={"nom.prénom@gmail.com"}
-          functionContact={"Fonction"}
-        />
-        <ContactCard
-          identifier={"MVIL001"}
-          firstname={"Jeanne"}
-          lastname={"MARTIN"}
-          cityName={"Ville"}
-          phone={"06 27 58 32 04"}
-          email={"nom.prénom@gmail.com"}
-          functionContact={"Fonction"}
-        />
-        <ContactCard
-          identifier={"MVIL001"}
-          firstname={"Jeanne"}
-          lastname={"MARTIN"}
-          cityName={"Ville"}
-          phone={"06 27 58 32 04"}
-          email={"nom.prénom@gmail.com"}
-          functionContact={"Fonction"}
-        />
-        <ContactCard
-          identifier={"MVIL001"}
-          firstname={"Jeanne"}
-          lastname={"MARTIN"}
-          cityName={"Ville"}
-          phone={"06 27 58 32 04"}
-          email={"nom.prénom@gmail.com"}
-          functionContact={"Fonction"}
-        />
-        <ContactCard
-          identifier={"MVIL001"}
-          firstname={"Jeanne"}
-          lastname={"MARTIN"}
-          cityName={"Ville"}
-          phone={"06 27 58 32 04"}
-          email={"nom.prénom@gmail.com"}
-          functionContact={"Fonction"}
-        />
-        <ContactCard
-          identifier={"MVIL001"}
-          firstname={"Jeanne"}
-          lastname={"MARTIN"}
-          cityName={"Ville"}
-          phone={"06 27 58 32 04"}
-          email={"nom.prénom@gmail.com"}
-          functionContact={"Fonction"}
-        />
-        <ContactCard
-          identifier={"MVIL001"}
-          firstname={"Jeanne"}
-          lastname={"MARTIN"}
-          cityName={"Ville"}
-          phone={"06 27 58 32 04"}
-          email={"nom.prénom@gmail.com"}
-          functionContact={"Fonction"}
-        />
-      </Box>
+        {contacts.map(c => (
+          <ContactCard
+            key={c.identifier}
+            identifier={c.identifier}
+            firstname={c.firstName}
+            lastname={c.lastName}
+            cityName={c.address.cityName}
+            phone={c.phone}
+            email={c.email}
+            functionContact={c.function}
+          />
+        ))}
+      </Grid>
     </Stack>
   );
 };

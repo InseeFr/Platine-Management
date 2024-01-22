@@ -19,88 +19,91 @@ declare module "@mui/material/styles" {
   }
 
   interface TypographyVariants {
-    displayLarge: CSSProperties,
-    displayMedium: CSSProperties,
-    displaySmall: CSSProperties,
-    headlineLarge: CSSProperties,
-    headlineMedium: CSSProperties,
-    headlineSmall: CSSProperties,
-    titleLarge: CSSProperties,
-    titleMedium: CSSProperties,
-    titleSmall: CSSProperties,
-    labelMedium: CSSProperties,
-    labelSmall: CSSProperties,
-    bodyLarge: CSSProperties,
-    bodyMedium: CSSProperties,
-    bodySmall: CSSProperties,
+    displayLarge: CSSProperties;
+    displayMedium: CSSProperties;
+    displaySmall: CSSProperties;
+    headlineLarge: CSSProperties;
+    headlineMedium: CSSProperties;
+    headlineSmall: CSSProperties;
+    titleLarge: CSSProperties;
+    titleMedium: CSSProperties;
+    titleSmall: CSSProperties;
+    labelMedium: CSSProperties;
+    labelSmall: CSSProperties;
+    bodyLarge: CSSProperties;
+    bodyMedium: CSSProperties;
+    bodySmall: CSSProperties;
   }
 
   interface TypographyVariantsOptions {
-    displayLarge?: CSSProperties,
-    displayMedium?: CSSProperties,
-    displaySmall?: CSSProperties,
-    headlineLarge?: CSSProperties,
-    headlineMedium?: CSSProperties,
-    headlineSmall?: CSSProperties,
-    titleLarge?: CSSProperties,
-    titleMedium?: CSSProperties,
-    titleSmall?: CSSProperties,
-    labelMedium?: CSSProperties,
-    labelSmall?: CSSProperties,
-    bodyLarge?: CSSProperties,
-    bodyMedium?: CSSProperties,
-    bodySmall?: CSSProperties,
+    displayLarge?: CSSProperties;
+    displayMedium?: CSSProperties;
+    displaySmall?: CSSProperties;
+    headlineLarge?: CSSProperties;
+    headlineMedium?: CSSProperties;
+    headlineSmall?: CSSProperties;
+    titleLarge?: CSSProperties;
+    titleMedium?: CSSProperties;
+    titleSmall?: CSSProperties;
+    labelMedium?: CSSProperties;
+    labelSmall?: CSSProperties;
+    bodyLarge?: CSSProperties;
+    bodyMedium?: CSSProperties;
+    bodySmall?: CSSProperties;
   }
 }
 
-declare module '@mui/material/Typography' {
+declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
-    displayLarge: true,
-    displayMedium: true,
-    displaySmall: true,
-    headlineLarge: true,
-    headlineMedium: true,
-    headlineSmall: true,
-    titleLarge: true,
-    titleMedium: true,
-    titleSmall: true,
-    labelMedium: true,
-    labelSmall: true,
-    bodyLarge: true,
-    bodyMedium: true,
-    bodySmall: true,
+    displayLarge: true;
+    displayMedium: true;
+    displaySmall: true;
+    headlineLarge: true;
+    headlineMedium: true;
+    headlineSmall: true;
+    titleLarge: true;
+    titleMedium: true;
+    titleSmall: true;
+    labelMedium: true;
+    labelSmall: true;
+    bodyLarge: true;
+    bodyMedium: true;
+    bodySmall: true;
   }
 }
 
-declare module '@mui/material/InputBase' {
+declare module "@mui/material/InputBase" {
   interface InputBasePropsSizeOverrides {
-    hero: true
+    hero: true;
   }
 }
 
-declare module '@mui/material/Icon' {
+declare module "@mui/material/Icon" {
   interface IconPropsSizeOverrides {
-    cardMedia: true
+    cardMedia: true;
   }
 }
 
-declare module '@mui/material/Paper' {
+declare module "@mui/material/Paper" {
   interface PaperPropsVariantOverrides {
-    home: true,
-    disabled: true,
+    home: true;
+    disabled: true;
   }
 }
 
-let theme = createTheme({})
+let theme = createTheme({});
 const colors = (c: string) => theme.palette.augmentColor({ color: { main: c } });
 theme = createTheme(theme, {
   shadows: [
-    'none',
-    '0px 1px 4px 0px rgba(80, 76, 75, 0.80)',
-    '0px 8px 16px 0px rgba(0, 0, 0, 0.10);',
+    "none",
+    "0px 1px 4px 0px rgba(80, 76, 75, 0.80)",
+    "0px 8px 16px 0px rgba(0, 0, 0, 0.10);",
     ...theme.shadows.slice(3),
   ],
   palette: {
+    background: {
+      default: "#F5F7FA",
+    },
     text: {
       primary: "rgba(0, 0, 0, 0.87)",
       secondary: "#49454F",
@@ -120,7 +123,7 @@ theme = createTheme(theme, {
     displayLarge: {
       fontSize: 57,
       lineHeight: "64px",
-      letterSpacing: -.25
+      letterSpacing: -0.25,
     },
     displayMedium: {
       fontSize: 42,
@@ -150,62 +153,70 @@ theme = createTheme(theme, {
       fontSize: 16,
       lineHeight: "24px",
       fontWeight: 600,
-      letterSpacing: .15
+      letterSpacing: 0.15,
     },
     titleSmall: {
       fontSize: 14,
       lineHeight: "20px",
       fontWeight: 600,
-      letterSpacing: .1
+      letterSpacing: 0.1,
     },
     labelMedium: {
       fontSize: 12,
       lineHeight: "16px",
       fontWeight: 600,
-      letterSpacing: .5
+      letterSpacing: 0.5,
     },
     labelSmall: {
       fontSize: 11,
       lineHeight: "16px",
       fontWeight: 600,
-      letterSpacing: .5
+      letterSpacing: 0.5,
     },
     bodyLarge: {
       fontSize: 16,
       lineHeight: "24px",
-      letterSpacing: .5
+      letterSpacing: 0.5,
     },
     bodyMedium: {
       fontSize: 14,
       lineHeight: "20px",
-      letterSpacing: .25
+      letterSpacing: 0.25,
     },
     bodySmall: {
       fontSize: 12,
       lineHeight: "16px",
-      letterSpacing: .4
+      letterSpacing: 0.4,
     },
   },
 });
 theme = createTheme(theme, {
   components: {
+    MuiBreadcrumbs: {
+      styleOverrides: {
+        root: {
+          ...theme.typography.body1,
+          color: theme.palette.text.secondary,
+        },
+      },
+    },
     MuiTypography: {
       defaultProps: {
         variantMapping: {
-          displayLarge: 'h1',
-          displayMedium: 'h2',
-          displaySmall: 'h3',
-          headlineLarge: 'h1',
-          headlineMedium: 'h2',
-          headlineSmall: 'h3',
-          titleLarge: 'h1',
-          titleMedium: 'h2',
-          titleSmall: 'h3',
-          labelMedium: 'p',
-          labelSmall: 'p',
-          bodyLarge: 'p',
-          bodyMedium: 'p',
-          bodySmall: 'p',
+          displayLarge: "h1",
+          displayMedium: "h2",
+          displaySmall: "h3",
+          headlineLarge: "h1",
+          headlineMedium: "h2",
+          headlineSmall: "h3",
+          titleLarge: "h1",
+          titleMedium: "h2",
+          titleSmall: "h3",
+          labelMedium: "p",
+          labelSmall: "p",
+          bodyLarge: "p",
+          bodyMedium: "p",
+          bodySmall: "p",
         },
       },
     },
@@ -240,12 +251,14 @@ theme = createTheme(theme, {
       ],
     },
     MuiSvgIcon: {
-      variants: [{
-        props: {fontSize: 'cardMedia'},
-        style: {
-          fontSize: 60,
-        }
-      }]
+      variants: [
+        {
+          props: { fontSize: "cardMedia" },
+          style: {
+            fontSize: 60,
+          },
+        },
+      ],
     },
     MuiPaper: {
       variants: [
@@ -272,9 +285,13 @@ theme = createTheme(theme, {
   },
 });
 
+export { theme };
+
 export function PlatineTheme({ children }: PropsWithChildren) {
-  return <ThemeProvider theme={theme}>
-    <CssBaseline />
-    {children}
-  </ThemeProvider>;
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  );
 }

@@ -1,5 +1,5 @@
 {
-  "authType": "oidc",
+  "authType": "anonymous",
   "apiUrl": "https://datacollection-management-api.dev.insee.io",
   "moogUrl": "https://suivi-gestion-collecte-enquetes.dev.insee.io",
   "identityProvider": "insee-ssp"

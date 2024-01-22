@@ -4,14 +4,16 @@ import Typography from "@mui/material/Typography/Typography";
 
 type TextWithLeftIconProps = {
   IconComponent: ElementType;
-  text: string;
+  text?: string;
 };
 
 export const TextWithLeftIcon = ({ IconComponent, text }: TextWithLeftIconProps) => {
   return (
     <Row gap={2}>
       <IconComponent fontSize="small" />
-      <Typography variant="titleSmall">{text}</Typography>
+      <Typography variant="titleSmall" color="text.secondary">
+        {text}
+      </Typography>
     </Row>
   );
 };

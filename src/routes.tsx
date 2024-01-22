@@ -1,5 +1,5 @@
 import { SearchPage } from "./pages/SearchPage";
-import { Home } from "./pages/home/Home";
+import { Home } from "./pages/Home.tsx";
 import { Outlet } from "react-router-dom";
 import { Layout } from "./ui/Layout";
 import { PageError } from "./ui/PageError";

@@ -1,7 +1,7 @@
 import { Box, Card, CardActionArea, Typography } from "@mui/material";
 import { type ElementType, FunctionComponent } from "react";
 import { Link } from "react-router-dom";
-import { Row } from "../../ui/Row.tsx";
+import { Row } from "../Row.tsx";
 
 interface Props {
   IconComponent: ElementType;

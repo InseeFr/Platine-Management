@@ -2,11 +2,11 @@ import { InputBase, Typography } from "@mui/material";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import SearchIcon from "@mui/icons-material/Search";
-import { InfoBanner } from "./InfoBanner";
-import { HomeCard } from "./HomeCard";
-import Binoculars from "./Binoculars";
+import { InfoBanner } from "../ui/InfoBanner.tsx";
+import { HomeCard } from "../ui/Card/HomeCard.tsx";
+import { Binocular } from "../ui/Icon/Binocular.tsx";
 import Stack from "@mui/material/Stack";
-import { Row } from "../../ui/Row.tsx";
+import { Row } from "../ui/Row.tsx";
 
 export function Home() {
   const maxWidth = 800;
@@ -50,7 +50,7 @@ export function Home() {
             to={{ pathname: "/recherche", tab: 0 }}
           />
           <HomeCard
-            IconComponent={Binoculars}
+            IconComponent={Binocular}
             content="Voir mes enquêtes"
             color="#C34A8E"
             to={{ pathname: "/recherche", tab: 1 }}

@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import PersonOutline from "@mui/icons-material/PersonOutline";
 import CorporateFare from "@mui/icons-material/CorporateFare";
 import { TextField } from "@mui/material";
-import Binoculars from "./home/Binoculars";
+import { Binocular } from "../ui/Icon/Binocular.tsx";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -33,9 +33,6 @@ function CustomTabPanel(props: TabPanelProps) {
       {value === index && (
         <Box
           style={{
-            width: 329,
-            height: 360,
-
             background: "white",
             boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
             borderTopLeftRadius: 4,
@@ -49,7 +46,7 @@ function CustomTabPanel(props: TabPanelProps) {
           }}
           className="ChampsDeRecherches"
         >
-          <Box style={{ width: 329, height: 46, background: "#EAE5FE" }}>
+          <Box style={{ background: "#EAE5FE" }}>
             <Box
               sx={{
                 height: 24,
@@ -206,7 +203,7 @@ export function SearchPanel(props: PanelProps) {
                 borderTopLeftRadius: 4,
                 borderTopRightRadius: 4,
               }}
-              icon={<Binoculars />}
+              icon={<Binocular />}
               label="Enquête"
               {...a11yProps(1)}
             />
