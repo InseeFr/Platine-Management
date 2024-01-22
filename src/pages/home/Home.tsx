@@ -21,17 +21,20 @@ export function Home() {
         justifyContent="center"
         alignItems="center"
         minHeight={500}
-        height="calc(100vh - 230px)">
+        height="calc(100vh - 230px)"
+      >
         <Stack gap={3} sx={{ maxWidth }} my="auto">
           <Typography variant="displayMedium" fontWeight={700} color="white">
             Trouver un contact, une enquête ou une unité enquêtée
           </Typography>
-          <InputBase size="hero"
-                     placeholder="Rechercher par nom, Idec, ID enquête, SIREN"
-                     inputProps={{
-                       "aria-label": "search",
-                     }}
-                     endAdornment={<SearchIcon />} />
+          <InputBase
+            size="hero"
+            placeholder="Rechercher par nom, Idec, ID enquête, SIREN"
+            inputProps={{
+              "aria-label": "search",
+            }}
+            endAdornment={<SearchIcon />}
+          />
         </Stack>
         <Row
           position="relative"

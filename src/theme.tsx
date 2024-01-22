@@ -86,7 +86,8 @@ declare module '@mui/material/Icon' {
 
 declare module '@mui/material/Paper' {
   interface PaperPropsVariantOverrides {
-    home: true
+    home: true,
+    disabled: true,
   }
 }
 
@@ -102,7 +103,9 @@ theme = createTheme(theme, {
   palette: {
     text: {
       primary: "rgba(0, 0, 0, 0.87)",
-      secondary: "#49454F"
+      secondary: "#49454F",
+      tertiary: "#797676",
+      hint: "#BCC2CC",
     },
     primary: colors("#6750A4"),
     red: colors("#ED1443"),
@@ -207,16 +210,34 @@ theme = createTheme(theme, {
       },
     },
     MuiInputBase: {
-      variants: [{
-        props: {size: 'hero'},
-        style: {
-          paddingInline: 24,
-          height: 56,
-          borderRadius: 28,
-          background: "#FFF",
-          color: "#49454F",
-        }
-      }]
+      variants: [
+        {
+          props: { size: "hero" },
+          style: {
+            paddingInline: 24,
+            height: 56,
+            borderRadius: 28,
+            background: "#FFF",
+            color: "#49454F",
+          },
+        },
+        {
+          props: { type: "filter" },
+          style: {
+            "& .MuiInputBase-input": {
+              padding: "4px 16px",
+              margin: 2,
+              color: "#797676",
+              fontSize: "14px",
+              fontStyle: "inherit",
+              fontWeight: 400,
+              lineheight: 4,
+              letterspacing: "0.15px",
+            },
+            borderRadius: "0px !important",
+          },
+        },
+      ],
     },
     MuiSvgIcon: {
       variants: [{
@@ -227,19 +248,28 @@ theme = createTheme(theme, {
       }]
     },
     MuiPaper: {
-      variants: [{
-        props: {variant: 'home'},
-        style: {
-          boxShadow: theme.shadows[2],
-          borderRadius: 16,
-          borderWidth: 1,
-          borderStyle: 'solid',
-          borderColor: "white",
-          width: 164,
-        }
-      }]
-    }
-  }
+      variants: [
+        {
+          props: { variant: "home" },
+          style: {
+            boxShadow: theme.shadows[2],
+            borderRadius: 16,
+            borderWidth: 1,
+            borderStyle: "solid",
+            borderColor: "white",
+            width: 164,
+          },
+        },
+        {
+          props: { variant: "disabled" },
+          style: {
+            boxShadow: theme.shadows[3],
+            backgroundColor: "rgba(126, 126, 126, 0.06)",
+          },
+        },
+      ],
+    },
+  },
 });
 
 export function PlatineTheme({ children }: PropsWithChildren) {
