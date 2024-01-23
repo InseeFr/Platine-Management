@@ -84,6 +84,7 @@ declare module "@mui/material/Typography" {
 declare module "@mui/material/InputBase" {
   interface InputBasePropsSizeOverrides {
     hero: true;
+    search: true;
   }
 }
 
@@ -91,12 +92,6 @@ declare module "@mui/material/SvgIcon" {
   interface SvgIconPropsSizeOverrides {
     cardMedia: true;
     tabTitle: true;
-  }
-}
-
-declare module "@mui/material/TextField" {
-  interface TextFieldPropsSizeOverrides {
-    search: true;
   }
 }
 
@@ -198,6 +193,7 @@ const palette = {
   },
   primary: colors("#6750A4"),
   red: colors("#ED1443"),
+  blue: colors("#286AC7"),
   black: colors("#0A192E"),
   light: colors("#49454F"),
   Surfaces: {
@@ -273,17 +269,7 @@ export const theme = createTheme({
         },
       ],
     },
-    MuiOutlinedInput: {
-      variants: [
-        {
-          props: { size: "search" },
-          style: {
-            border: `solid 1px ${theme.palette.text.tertiary}`,
-            height: "40px",
-          },
-        },
-      ],
-    },
+
     MuiInputLabel: {
       variants: [
         {
@@ -292,7 +278,7 @@ export const theme = createTheme({
             fontSize: "14px",
             fontWeight: 400,
             letterSpacing: "0.5px",
-            color: theme.palette.text.secondary,
+            color: palette.text.secondary,
           },
         },
       ],
@@ -320,13 +306,14 @@ export const theme = createTheme({
           props: { classes: "search" },
           style: {
             fontSize: "12px",
-            fontWeight: 400,
+            fontWeight: 600,
             lineHeight: "16px",
             textTransform: "none",
-            "& .Mui-selected": {
-              backgroundColor: theme.palette.text.secondary, // Doesn't work
+            color: palette.text.tertiary,
+
+            "&.Mui-selected": {
+              backgroundColor: "#EAE5FE",
             },
-            color: theme.palette.text.tertiary,
           },
         },
       ],
@@ -400,6 +387,14 @@ export const theme = createTheme({
           margin: 0,
         },
       },
+      variants: [
+        {
+          props: { size: "search" },
+          style: {
+            height: "40px",
+          },
+        },
+      ],
     },
     MuiSelect: {
       styleOverrides: {

@@ -1,4 +1,4 @@
-import { SearchPanel } from "./SearchPanel";
+import { SearchPanel } from "./SearchPanel.tsx";
 import { ContactsList } from "./contacts/ContactList";
 import { SidebarLayout } from "../ui/Layout/SidebarLayout.tsx";
 import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
@@ -18,7 +18,7 @@ export function SearchPage(props: SearchProps) {
     <div>
       <Breadcrumbs items={breadcrumbs} />
       <SidebarLayout>
-        <SearchPanel tab={tab} />
+        <SearchPanel defaultTab={tab} />
         <ContactsList />
       </SidebarLayout>
     </div>

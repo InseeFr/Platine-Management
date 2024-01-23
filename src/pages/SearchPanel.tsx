@@ -1,244 +1,86 @@
-import * as React from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import PersonOutline from "@mui/icons-material/PersonOutline";
-import CorporateFare from "@mui/icons-material/CorporateFare";
-import { TextField } from "@mui/material";
+import { Box, Button, Card, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { useState } from "react";
+
+import SearchIcon from "@mui/icons-material/Search";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import CorporateFareIcon from "@mui/icons-material/CorporateFare";
+import { ExpandButton } from "../ui/ExpandButton.tsx";
 import { Binocular } from "../ui/Icon/Binocular.tsx";
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+type SearchPanelProps = {
+  defaultTab: number;
+};
 
-interface PanelProps {
-  children?: React.ReactNode;
-  tab: number;
-}
+export const SearchPanel = ({ defaultTab }: SearchPanelProps) => {
+  const [currentTab, setCurrentTab] = useState(defaultTab);
+  const [expanded, setExpanded] = useState(false);
 
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box
-          style={{
-            background: "white",
-            boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-            borderTopLeftRadius: 4,
-            borderTopRightRadius: 4,
-            borderBottomRightRadius: 4,
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            gap: 3.25,
-            display: "flex",
-          }}
-          className="ChampsDeRecherches"
-        >
-          <Box style={{ background: "#EAE5FE" }}>
-            <Box
-              sx={{
-                height: 24,
-                pl: 4,
-                pt: 1.7,
-                pb: 1.05,
-              }}
-              className="Titre"
-            >
-              <Typography fontWeight={600}>{children}</Typography>
-            </Box>
-          </Box>
-          <Box
-            style={{
-              height: 249,
-              flexDirection: "column",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              gap: 2.7,
-              display: "flex",
-            }}
-            className="Champs-recherche"
-          >
-            <Box
-              style={{
-                height: 249,
-                flexDirection: "column",
-                justifyContent: "flex-start",
-                alignItems: "flex-start",
-                gap: 3,
-                display: "flex",
-              }}
-              className="Recherche-par-type"
-            >
-              <Box
-                className="Field"
-                style={{
-                  height: 153,
-                  flexDirection: "column",
-                  justifyContent: "flex-start",
-                  alignItems: "flex-start",
-                  gap: 3,
-                  display: "flex",
-                }}
-              >
-                <TextField
-                  style={{
-                    width: 261,
-                    height: 39,
-                    borderTopLeftRadius: 4,
-                    borderTopRightRadius: 4,
-                    flexDirection: "column",
-                    justifyContent: "flex-start",
-                    alignItems: "flex-start",
-                    display: "flex",
-                  }}
-                  size="small"
-                  fullWidth
-                  id="outlined-basic"
-                  label="identifiant du contact"
-                  variant="outlined"
-                />
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-
-export function SearchPanel(props: PanelProps) {
-  const { tab } = props;
-  const [value, setValue] = React.useState(tab);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setCurrentTab(newValue);
   };
 
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  const handleSearch = () => {};
+
   return (
-    <Box
-      style={{
-        boxShadow: "0px 8px 16px rgba(0, 0, 0, 0.10)",
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
-        display: "flex",
+    <Card
+      sx={{
+        borderBottom: 1,
+        borderColor: "divider",
+        height: "fit-content",
       }}
-      className="Recherche-contact"
     >
-      <Box
-        style={{
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          display: "inline-flex",
-        }}
-        className="Recherche"
-      >
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            variant="fullWidth"
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-            TabIndicatorProps={{
-              style: {
-                backgroundColor: "purple",
-              },
-            }}
-            sx={{
-              "& .MuiTab-root.Mui-selected": {
-                backgroundColor: "#EAE5FF",
-                borderBottom: "1.5px solid var(--platine-key-colors-couleur-primaire-primaire, #6750A4)",
-              },
-              "& .MuiTab-root.Mui-disabled": {
-                // not working
-                backgroundColor: "#EAE5FF",
-                width: "1px",
-              },
+      <Tabs value={currentTab} onChange={handleChange} variant="fullWidth">
+        <Tab
+          label="Contact"
+          classes={"search"}
+          icon={<PermIdentityIcon fontSize={"tabTitle"} />}
+          iconPosition="top"
+        />
+        <Tab classes={"search"} label="Enquête" icon={<Binocular />} iconPosition="top" />
+        <Tab
+          classes={"search"}
+          label="Unité enquêtée"
+          icon={<CorporateFareIcon fontSize={"tabTitle"} />}
+          iconPosition="top"
+        />
+      </Tabs>
+      {currentTab === 0 && (
+        <Stack>
+          <Typography variant="titleMedium" sx={{ backgroundColor: "#EAE5FE" }} px={3} pt={2} pb={1}>
+            Recherche d'un contact
+          </Typography>
+          <Stack spacing={3} m={3} mt={2}>
+            <Stack spacing={2}>
+              <TextField
+                id="idContact"
+                label="Identifiant du contact"
+                variant="outlined"
+                size="search"
+              />
+              <TextField id="name" label="Nom/Prénom" variant="outlined" size="search" />
+              <TextField id="email" label="Adresse courriel" variant="outlined" size="search" />
+            </Stack>
 
-              width: 329,
-              height: 54,
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-              display: "flex",
-            }}
-            indicatorColor="secondary"
-            textColor="secondary"
-            className="Onglets"
-          >
-            <Tab
-              sx={{
-                textTransform: "none",
-                fontSize: 12,
-                borderTopLeftRadius: 4,
-                borderTopRightRadius: 4,
-              }}
-              icon={<PersonOutline />}
-              label="Contact"
-              {...a11yProps(0)}
-            />
-
-            <Tab
-              sx={{
-                textTransform: "none",
-                fontSize: 12,
-                borderTopLeftRadius: 4,
-                borderTopRightRadius: 4,
-              }}
-              icon={<Binocular />}
-              label="Enquête"
-              {...a11yProps(1)}
-            />
-            {/*   <Tab
-              label=""
-              component={Divider}
-              icon={
-                <Divider orientation="vertical" flexItem sx={{ borderRightWidth: 1, height: "54px" }} />
-              }
-              disabled
-            /> */}
-            <Tab
-              sx={{
-                textTransform: "none",
-
-                borderTopLeftRadius: 4,
-                borderTopRightRadius: 4,
-              }}
-              icon={<CorporateFare />}
-              label={<Typography sx={{ fontSize: 12, lineHeight: "16px" }}>Unité enquêtée</Typography>}
-              wrapped={true}
-              {...a11yProps(2)}
-            />
-          </Tabs>
-        </Box>
-        <CustomTabPanel value={value} index={0}>
-          Recherche d'un contact
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          Recherche d'une enquête
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          Recherche d'une unité enquêtée
-        </CustomTabPanel>
-      </Box>
-    </Box>
+            <ExpandButton label={"Autres champs de recherche"} handleExpandClick={handleExpandClick} />
+            {expanded && <Box>Autres champs à ajouter</Box>}
+            <Button
+              variant="contained"
+              sx={{ typography: "bodyLarge" }}
+              size={"large"}
+              onClick={handleSearch}
+              startIcon={<SearchIcon />}
+            >
+              lancer la recherche
+            </Button>
+          </Stack>
+        </Stack>
+      )}
+      {currentTab === 1 && <Box>2</Box>}
+      {currentTab === 2 && <Box>3</Box>}
+    </Card>
   );
-}
+};
