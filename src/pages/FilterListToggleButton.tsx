@@ -17,37 +17,23 @@ export const FilterListToggleButton = ({ options, handleChange }: FilterListTogg
     newSelectedOption && (setSelectedOption(newSelectedOption), handleChange(newSelectedOption));
   };
 
-  const children = options.map(option => (
-    <ToggleButton
-      key={option}
-      sx={{
-        typography: "bodyMedium",
-        textTransform: "none",
-        fontWeight: 400,
-        borderRadius: "24px",
-        borderRightWidth: 0,
-      }}
-      value={option}
-    >
-      {option}
-    </ToggleButton>
-  ));
-
   return (
-    <ToggleButtonGroup
-      sx={{
-        ".Mui-selected": {
-          borderRadius: "24px !important",
-          // backgroundColor: `${theme.palette.primary} !important`,
-          color: "white !important",
-        },
-      }}
-      size="small"
-      value={selectedOption}
-      exclusive
-      onChange={handleChangeSelection}
-    >
-      {children}
+    <ToggleButtonGroup value={selectedOption} exclusive onChange={handleChangeSelection}>
+      {options.map(option => (
+        <ToggleButton
+          key={option}
+          sx={{
+            typography: "bodyMedium",
+            textTransform: "none",
+            fontWeight: 400,
+            borderRadius: "24px",
+            borderRightWidth: 0,
+          }}
+          value={option}
+        >
+          {option}
+        </ToggleButton>
+      ))}
     </ToggleButtonGroup>
   );
 };

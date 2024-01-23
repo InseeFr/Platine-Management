@@ -5,19 +5,27 @@ import { Stack, Grid } from "@mui/material";
 import { FilterListBySelector } from "../FilterListBySelector";
 import { Row } from "../../ui/Row";
 import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import ToggleButton from "@mui/material/ToggleButton";
+import { useState } from "react";
 
 // type ContactsListProps = {};
 
 export const ContactsList = () => {
   const { data } = useFetchQuery("/api/contacts");
   const contacts = data?.content ?? [];
+  const [tab, setTab] = useState("me");
   return (
     <Stack spacing={2}>
       <Row justifyContent={"space-between"}>
-        <FilterListToggleButton
-          options={["contacts", "all"]}
-          handleChange={selectedOption => console.log(selectedOption)}
-        />
+        <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
+          <ToggleButton value="me" aria-label="left aligned">
+            Mes contacts
+          </ToggleButton>
+          <ToggleButton value="all" aria-label="left aligned">
+            Tout
+          </ToggleButton>
+        </ToggleButtonGroup>
         <FilterListBySelector />
       </Row>
       <Grid
