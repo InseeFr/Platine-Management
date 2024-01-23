@@ -94,10 +94,22 @@ declare module "@mui/material/SvgIcon" {
   }
 }
 
+declare module "@mui/material/TextField" {
+  interface TextFieldPropsSizeOverrides {
+    search: true;
+  }
+}
+
 declare module "@mui/material/Paper" {
   interface PaperPropsVariantOverrides {
     home: true;
     disabled: true;
+  }
+}
+
+declare module "@mui/material/Tab" {
+  interface TabPropsClassesOverrides {
+    search: true;
   }
 }
 
@@ -261,6 +273,30 @@ export const theme = createTheme({
         },
       ],
     },
+    MuiOutlinedInput: {
+      variants: [
+        {
+          props: { size: "search" },
+          style: {
+            border: `solid 1px ${theme.palette.text.tertiary}`,
+            height: "40px",
+          },
+        },
+      ],
+    },
+    MuiInputLabel: {
+      variants: [
+        {
+          props: { variant: "outlined" },
+          style: {
+            fontSize: "14px",
+            fontWeight: 400,
+            letterSpacing: "0.5px",
+            color: theme.palette.text.secondary,
+          },
+        },
+      ],
+    },
     MuiSvgIcon: {
       variants: [
         {
@@ -274,6 +310,23 @@ export const theme = createTheme({
           style: {
             fontSize: 28,
             marginBottom: "0px !important",
+          },
+        },
+      ],
+    },
+    MuiTab: {
+      variants: [
+        {
+          props: { classes: "search" },
+          style: {
+            fontSize: "12px",
+            fontWeight: 400,
+            lineHeight: "16px",
+            textTransform: "none",
+            "& .Mui-selected": {
+              backgroundColor: theme.palette.text.secondary, // Doesn't work
+            },
+            color: theme.palette.text.tertiary,
           },
         },
       ],
