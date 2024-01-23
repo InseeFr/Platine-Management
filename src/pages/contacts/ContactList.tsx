@@ -1,6 +1,4 @@
-import Box from "@mui/material/Box";
 import { ContactCard } from "./ContactCard";
-import { FilterListToggleButton } from "../FilterListToggleButton";
 import { Stack, Grid } from "@mui/material";
 import { FilterListBySelector } from "../FilterListBySelector";
 import { Row } from "../../ui/Row";
@@ -9,14 +7,12 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import { useState } from "react";
 
-// type ContactsListProps = {};
-
 export const ContactsList = () => {
   const { data } = useFetchQuery("/api/contacts");
   const contacts = data?.content ?? [];
   const [tab, setTab] = useState("me");
   return (
-    <Stack spacing={2}>
+    <Stack spacing={3} sx={{ minHeight: 0 }}>
       <Row justifyContent={"space-between"}>
         <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
           <ToggleButton value="me" aria-label="left aligned">
@@ -28,10 +24,13 @@ export const ContactsList = () => {
         </ToggleButtonGroup>
         <FilterListBySelector />
       </Row>
+
       <Grid
         sx={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+          paddingBottom: 2,
+          // Make the element scrollable
           minHeight: 0,
           overflow: "auto",
           // Offset the scrollbar out of the container
@@ -41,16 +40,18 @@ export const ContactsList = () => {
         gap={3}
       >
         {contacts.map(c => (
-          <ContactCard
-            key={c.identifier}
-            identifier={c.identifier}
-            firstname={c.firstName}
-            lastname={c.lastName}
-            cityName={c.address.cityName}
-            phone={c.phone}
-            email={c.email}
-            functionContact={c.function}
-          />
+          <div key={c.identifier}>
+            {/* This div prevent card from behing resized by the grid */}
+            <ContactCard
+              identifier={c.identifier}
+              firstname={c.firstName}
+              lastname={c.lastName}
+              cityName={c.address.cityName}
+              phone={c.phone}
+              email={c.email}
+              functionContact={c.function}
+            />
+          </div>
         ))}
       </Grid>
     </Stack>

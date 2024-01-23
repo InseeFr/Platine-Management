@@ -6,7 +6,7 @@ import { PropsWithChildren } from "react";
 
 export function Header() {
   return (
-    <Row px={8} py={1} height={74} justifyContent="space-between" bgcolor="white">
+    <Row px={4} py={1} height={74} justifyContent="space-between" bgcolor="white">
       <Row gap={2.5} component={HomeLink}>
         <img src="/logoInsee.png" alt="" width={48} height={50} />
         <Row typography="headlineMedium" gap={0.25} color="red.main" component="span">

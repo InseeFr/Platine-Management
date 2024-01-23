@@ -325,6 +325,34 @@ export const theme = createTheme({
         },
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          minHeight: 42,
+          borderColor: palette.text.tertiary,
+          paddingBlock: 5,
+          backgroundColor: "white",
+          paddingInline: 16,
+          ...typography.bodyMedium,
+        },
+        input: {
+          margin: 0,
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        outlined: {
+          padding: 0,
+          minHeight: "auto",
+          color: palette.text.tertiary,
+          em: {
+            color: palette.text.hint,
+            fontStyle: "normal",
+          },
+        },
+      },
+    },
   },
 });
 

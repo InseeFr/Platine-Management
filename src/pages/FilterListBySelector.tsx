@@ -1,4 +1,4 @@
-import { FormControl, MenuItem, Select, SelectChangeEvent, Typography } from "@mui/material";
+import { Box, FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { Row } from "../ui/Row";
 import React from "react";
 
@@ -10,17 +10,11 @@ export const FilterListBySelector = () => {
   };
   return (
     <Row gap={2}>
-      <Typography
-        variant="titleSmall"
-        sx={{
-          fontWeight: 400,
-          color: "text.tertiary",
-        }}
-      >
+      <Box typography="titleSmall" color="text.tertiary" component="span">
         Trier par
-      </Typography>
-      <FormControl sx={{ mr: 4 }}>
-        <Select type="filter" value={selectedOption} onChange={handleChange} displayEmpty>
+      </Box>
+      <FormControl>
+        <Select value={selectedOption} onChange={handleChange} displayEmpty>
           <MenuItem value="mostRecent">plus récent</MenuItem>
         </Select>
       </FormControl>

@@ -13,9 +13,8 @@ export function SidebarLayout({ children }: PropsWithChildren) {
         display: "grid",
         gridTemplateColumns: "280px 1fr",
         alignItems: "stretch",
-        height: "calc(100vh - 90px)",
+        height: "calc(100vh - 150px)",
       }}
-      bgcolor="surfacePrimary.main"
     >
       {children}
     </Grid>
