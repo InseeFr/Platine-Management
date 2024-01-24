@@ -197,7 +197,12 @@ const palette = {
     tertiary: "#797676",
     hint: "#BCC2CC",
   },
-  primary: colors("#6750A4"),
+  primary: {
+    main: "#6750A4",
+    light: "#EAE5FE",
+    dark: "rgb(72, 56, 114)",
+    contrastText: "#fff",
+  },
   red: colors("#ED1443"),
   blue: colors("#286AC7"),
   black: colors("#0A192E"),
@@ -245,51 +250,6 @@ export const theme = createTheme({
         },
       },
     },
-    MuiInputBase: {
-      variants: [
-        {
-          props: { size: "hero" },
-          style: {
-            paddingInline: 24,
-            height: 56,
-            borderRadius: 28,
-            background: "#FFF",
-            color: "#49454F",
-          },
-        },
-        {
-          props: { type: "filter" },
-          style: {
-            "& .MuiInputBase-input": {
-              padding: "4px 16px",
-              margin: 2,
-              color: "#797676",
-              fontSize: "14px",
-              fontStyle: "inherit",
-              fontWeight: 400,
-              lineheight: 4,
-              letterspacing: "0.15px",
-            },
-            borderRadius: "0px !important",
-          },
-        },
-      ],
-    },
-
-    MuiInputLabel: {
-      variants: [
-        {
-          props: { variant: "outlined" },
-          style: {
-            fontSize: "14px",
-            fontWeight: 400,
-            letterSpacing: "0.5px",
-            color: palette.text.secondary,
-            marginTop: "-5px",
-          },
-        },
-      ],
-    },
     MuiSvgIcon: {
       variants: [
         {
@@ -317,9 +277,16 @@ export const theme = createTheme({
             lineHeight: "16px",
             textTransform: "none",
             color: palette.text.tertiary,
+            padding: 8,
+            minHeight: 54,
+            whiteSpace: "nowrap",
 
             "&.Mui-selected": {
-              backgroundColor: "#EAE5FE",
+              boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+              backgroundColor: palette.primary.light,
+            },
+            "&>.MuiTab-iconWrapper": {
+              margin: 0,
             },
           },
         },
@@ -380,46 +347,20 @@ export const theme = createTheme({
         },
       },
     },
-    MuiOutlinedInput: {
+    MuiInputLabel: {
       styleOverrides: {
-        root: {
-          minHeight: 42,
-          borderColor: palette.text.tertiary,
-          paddingBlock: 5,
-          backgroundColor: "white",
-          paddingInline: 16,
+        sizeSmall: {
           ...typography.bodyMedium,
         },
-        input: {
-          margin: 0,
-        },
       },
-      variants: [
-        {
-          props: { size: "search" },
-          style: {
-            height: "40px",
-
-            ".MuiSelect-select": {
-              color: palette.text.primary,
-            },
-            ".MuiOutlinedInput-notchedOutline ": {
-              border: `solid 1px ${palette.text.tertiary}`,
-            },
-          },
-        },
-      ],
     },
-    MuiSelect: {
+    MuiInputBase: {
       styleOverrides: {
-        outlined: {
-          padding: 0,
-          minHeight: "auto",
-          color: palette.text.tertiary,
-          em: {
-            color: palette.text.hint,
-            fontStyle: "normal",
-          },
+        root: {
+          background: "#FFF",
+        },
+        sizeSmall: {
+          ...typography.bodyMedium,
         },
       },
     },

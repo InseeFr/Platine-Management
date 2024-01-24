@@ -7,6 +7,17 @@ import { HomeCard } from "../ui/Card/HomeCard.tsx";
 import { Binocular } from "../ui/Icon/Binocular.tsx";
 import Stack from "@mui/material/Stack";
 import { Row } from "../ui/Row.tsx";
+import { theme } from "../theme.tsx";
+
+const styles = {
+  inputHero: {
+    paddingInline: 3,
+    height: 56,
+    borderRadius: 28,
+    background: "#FFF",
+    color: theme.palette.text.primary,
+  },
+};
 
 export function Home() {
   const maxWidth = 800;
@@ -28,7 +39,7 @@ export function Home() {
             Trouver un contact, une enquête ou une unité enquêtée
           </Typography>
           <InputBase
-            size="hero"
+            sx={styles.inputHero}
             placeholder="Rechercher par nom, Idec, ID enquête, SIREN"
             inputProps={{
               "aria-label": "search",

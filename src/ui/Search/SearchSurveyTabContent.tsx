@@ -1,44 +1,43 @@
-import Stack from "@mui/material/Stack";
-import { SearchButton } from "./SearchButton";
-import { useState } from "react";
-import { SearchSurveySelect } from "./SearchSurveySelect";
+import { OutlinedInput, Select } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import { SearchSurveySelect } from "./SearchSurveySelect.tsx";
 
-type SearchSurveyTabContentProps = {
-  surveys?: { shortWording: string; year: string; periodicity: string }[]; // TODO: create Survey type to use Survey[]
-};
+// TODO : Replace with true data
+const names = ["a1", "a2", "a3", "a4", "a5"];
+const years = ["2024", "2023", "2022"];
+const periodicity = ["Daily", "Monthly"];
 
-export const SearchSurveyTabContent = ({ surveys }: SearchSurveyTabContentProps) => {
-  const [selectedLabel, setSelectedLabel] = useState<string>("");
-  const [selectedYear, setSelectedYear] = useState<string>("");
-  const [selectedPeriodicity, setSelectedPeriodicity] = useState<string>("");
-
-  const handleSearch = () => {
-    console.log({ selectedLabel, selectedYear, selectedPeriodicity });
-  };
-
+export const SearchSurveyTabContent = () => {
   return (
-    <Stack spacing={3} m={3}>
-      <Stack spacing={2}>
-        <SearchSurveySelect
-          label={"Nom de l'enquête"}
-          value={selectedLabel}
-          options={surveys?.map(survey => survey.shortWording)}
-          handleChange={(value: string) => setSelectedLabel(value)}
-        />
-        <SearchSurveySelect
-          label={"Année de collecte"}
-          value={selectedYear}
-          handleChange={(value: string) => setSelectedYear(value)}
-          options={surveys?.map(survey => survey.year)}
-        />
-        <SearchSurveySelect
-          label={"Périodicité"}
-          value={selectedPeriodicity}
-          handleChange={(value: string) => setSelectedPeriodicity(value)}
-          options={surveys?.map(survey => survey.periodicity)}
-        />
-      </Stack>
-      <SearchButton handleSearch={handleSearch} />
-    </Stack>
+    <>
+      <SearchSurveySelect label={"Nom de l'enquête"} options={names} />
+      <SelectWithOptions label={"Année de collecte"} options={years} />
+      <SelectWithOptions label={"Périodicité"} options={periodicity} />
+    </>
   );
 };
+
+type SelectWithOptionsProps = { options: string[]; label: string };
+
+function SelectWithOptions({ options, label }: SelectWithOptionsProps) {
+  return (
+    <Select
+      size="small"
+      displayEmpty
+      input={<OutlinedInput size="small" />}
+      renderValue={selected => {
+        if (!selected) {
+          return <>{label}</>;
+        }
+
+        return <>{selected}</>;
+      }}
+    >
+      {options.map(option => (
+        <MenuItem key={option} value={option}>
+          {option}
+        </MenuItem>
+      ))}
+    </Select>
+  );
+}

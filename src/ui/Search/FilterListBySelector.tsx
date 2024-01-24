@@ -14,7 +14,7 @@ export const FilterListBySelector = () => {
         Trier par
       </Box>
       <FormControl>
-        <Select value={selectedOption} onChange={handleChange} displayEmpty>
+        <Select value={selectedOption} onChange={handleChange} displayEmpty size="small">
           <MenuItem value="mostRecent">plus récent</MenuItem>
         </Select>
       </FormControl>
