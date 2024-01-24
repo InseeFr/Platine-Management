@@ -1,5 +1,5 @@
 import { Box, FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { Row } from "../ui/Row";
+import { Row } from "../Row";
 import React from "react";
 
 export const FilterListBySelector = () => {

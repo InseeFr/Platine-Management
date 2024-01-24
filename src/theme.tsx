@@ -108,6 +108,12 @@ declare module "@mui/material/Tab" {
   }
 }
 
+declare module "@mui/material/TextField" {
+  interface TextFieldPropsSizeOverrides {
+    search: true;
+  }
+}
+
 const baseTheme = createTheme({});
 const colors = (c: string) => baseTheme.palette.augmentColor({ color: { main: c } });
 const typography = {
@@ -279,6 +285,7 @@ export const theme = createTheme({
             fontWeight: 400,
             letterSpacing: "0.5px",
             color: palette.text.secondary,
+            marginTop: "-5px",
           },
         },
       ],
@@ -392,6 +399,13 @@ export const theme = createTheme({
           props: { size: "search" },
           style: {
             height: "40px",
+
+            ".MuiSelect-select": {
+              color: palette.text.primary,
+            },
+            ".MuiOutlinedInput-notchedOutline ": {
+              border: `solid 1px ${palette.text.tertiary}`,
+            },
           },
         },
       ],

@@ -1,6 +1,6 @@
 import { ContactCard } from "./ContactCard";
 import { Stack, Grid } from "@mui/material";
-import { FilterListBySelector } from "../FilterListBySelector";
+import { FilterListBySelector } from "../../ui/Search/FilterListBySelector.tsx";
 import { Row } from "../../ui/Row";
 import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";

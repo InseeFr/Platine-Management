@@ -1,4 +1,4 @@
-import { SearchPanel } from "./SearchPanel.tsx";
+import { SearchPanel } from "../ui/Search/SearchPanel.tsx";
 import { ContactsList } from "./contacts/ContactList";
 import { SidebarLayout } from "../ui/Layout/SidebarLayout.tsx";
 import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
