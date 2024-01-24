@@ -84,12 +84,14 @@ declare module "@mui/material/Typography" {
 declare module "@mui/material/InputBase" {
   interface InputBasePropsSizeOverrides {
     hero: true;
+    search: true;
   }
 }
 
 declare module "@mui/material/SvgIcon" {
   interface SvgIconPropsSizeOverrides {
     cardMedia: true;
+    tabTitle: true;
   }
 }
 
@@ -97,6 +99,18 @@ declare module "@mui/material/Paper" {
   interface PaperPropsVariantOverrides {
     home: true;
     disabled: true;
+  }
+}
+
+declare module "@mui/material/Tab" {
+  interface TabPropsClassesOverrides {
+    search: true;
+  }
+}
+
+declare module "@mui/material/TextField" {
+  interface TextFieldPropsSizeOverrides {
+    search: true;
   }
 }
 
@@ -185,6 +199,7 @@ const palette = {
   },
   primary: colors("#6750A4"),
   red: colors("#ED1443"),
+  blue: colors("#286AC7"),
   black: colors("#0A192E"),
   light: colors("#49454F"),
   Surfaces: {
@@ -260,12 +275,52 @@ export const theme = createTheme({
         },
       ],
     },
+
+    MuiInputLabel: {
+      variants: [
+        {
+          props: { variant: "outlined" },
+          style: {
+            fontSize: "14px",
+            fontWeight: 400,
+            letterSpacing: "0.5px",
+            color: palette.text.secondary,
+            marginTop: "-5px",
+          },
+        },
+      ],
+    },
     MuiSvgIcon: {
       variants: [
         {
           props: { fontSize: "cardMedia" },
           style: {
             fontSize: 60,
+          },
+        },
+        {
+          props: { fontSize: "tabTitle" },
+          style: {
+            fontSize: 28,
+            marginBottom: "0px !important",
+          },
+        },
+      ],
+    },
+    MuiTab: {
+      variants: [
+        {
+          props: { classes: "search" },
+          style: {
+            fontSize: "12px",
+            fontWeight: 600,
+            lineHeight: "16px",
+            textTransform: "none",
+            color: palette.text.tertiary,
+
+            "&.Mui-selected": {
+              backgroundColor: "#EAE5FE",
+            },
           },
         },
       ],
@@ -339,6 +394,21 @@ export const theme = createTheme({
           margin: 0,
         },
       },
+      variants: [
+        {
+          props: { size: "search" },
+          style: {
+            height: "40px",
+
+            ".MuiSelect-select": {
+              color: palette.text.primary,
+            },
+            ".MuiOutlinedInput-notchedOutline ": {
+              border: `solid 1px ${palette.text.tertiary}`,
+            },
+          },
+        },
+      ],
     },
     MuiSelect: {
       styleOverrides: {

@@ -11,7 +11,7 @@ export function SidebarLayout({ children }: PropsWithChildren) {
       px={4}
       sx={{
         display: "grid",
-        gridTemplateColumns: "280px 1fr",
+        gridTemplateColumns: "330px 1fr",
         alignItems: "stretch",
         height: "calc(100vh - 150px)",
       }}
