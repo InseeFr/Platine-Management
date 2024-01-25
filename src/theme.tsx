@@ -92,6 +92,7 @@ declare module "@mui/material/SvgIcon" {
   interface SvgIconPropsSizeOverrides {
     cardMedia: true;
     tabTitle: true;
+    headerSinglePage: true;
   }
 }
 
@@ -263,6 +264,12 @@ export const theme = createTheme({
           style: {
             fontSize: 28,
             marginBottom: "0px !important",
+          },
+        },
+        {
+          props: { fontSize: "headerSinglePage" },
+          style: {
+            fontSize: 48,
           },
         },
       ],
