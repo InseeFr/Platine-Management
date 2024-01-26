@@ -1,7 +1,7 @@
-import { Button, Card, Divider, Stack, Typography } from "@mui/material";
-import { ContactDetailsCardTitle } from "./ContactDetailsCardTitle";
+import { Card, Divider, IconButton, Stack, Typography } from "@mui/material";
+import { ContactDetailsCardTitle } from "../ContactDetailsCardTitle";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
-import { Row } from "../Row";
+import { Row } from "../../Row";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import StarIcon from "@mui/icons-material/Star";
 import { useState } from "react";
@@ -47,9 +47,9 @@ export const ContactDetailsCard = ({}: Props) => {
       <Stack spacing={4}>
         <Row justifyContent={"space-between"}>
           <ContactDetailsCardTitle IconComponent={AssignmentIndOutlinedIcon} title={"Coordonnées"} />
-          <Button variant="text" onClick={handleClickOpen} color="inherit">
+          <IconButton onClick={handleClickOpen} color="inherit">
             <BorderColorOutlinedIcon fontSize="small" />
-          </Button>
+          </IconButton>
         </Row>
         <Row spacing={8}>
           <Stack spacing={1}>

@@ -11,7 +11,7 @@ export const ContactDetailsCardTitle = ({ IconComponent, title }: Props) => {
   return (
     <Row spacing={2}>
       <IconComponent fontSize="small" />
-      <Typography variant="titleMedium" fontWeight={700}>
+      <Typography variant="titleMedium" fontSize={"20px"} fontWeight={700}>
         {title}
       </Typography>
     </Row>

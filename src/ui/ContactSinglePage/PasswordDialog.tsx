@@ -1,10 +1,10 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 
 type Props = {
   open: boolean;
   handleClose: () => void;
 };
-export const ContactDetailsDialog = ({ open, handleClose }: Props) => {
+export const PasswordDialog = ({ open, handleClose }: Props) => {
   return (
     <Dialog
       open={open}
@@ -21,13 +21,13 @@ export const ContactDetailsDialog = ({ open, handleClose }: Props) => {
       }}
     >
       <DialogTitle variant="titleMedium" sx={{ fontSize: "20px", lineHeight: "32px" }}>
-        Modification des coordonnées
+        Réinitialisation du mot de passe
       </DialogTitle>
       <DialogContent>Content</DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Annuler</Button>
         <Button type="submit" variant="contained">
-          Enregistrer
+          Envoyer
         </Button>
       </DialogActions>
     </Dialog>
