@@ -1,8 +1,8 @@
 import { Tabs } from "@mui/material";
 import { useState } from "react";
 import Stack from "@mui/material/Stack";
-import { theme } from "../../theme";
 import { ContactTab } from "./ContactTab";
+import { ContactInformationContent } from "./ContactInformationContent";
 
 type Props = {
   defaultTab: number;
@@ -21,7 +21,7 @@ export const ContactPanel = ({ defaultTab }: Props) => {
         value={currentTab}
         onChange={handleChange}
         sx={{
-          borderTop: `1px solid ${theme.palette.text.hint}`,
+          px: 5,
           backgroundColor: "white",
         }}
       >
@@ -32,7 +32,7 @@ export const ContactPanel = ({ defaultTab }: Props) => {
       </Tabs>
 
       <Stack>
-        {currentTab === 0 && "0"}
+        {currentTab === 0 && <ContactInformationContent />}
         {currentTab === 1 && "1"}
         {currentTab === 2 && "2"}
         {currentTab === 3 && "3"}

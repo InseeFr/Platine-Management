@@ -1,3 +1,4 @@
+import Divider from "@mui/material/Divider";
 import { ContactPanel } from "../ui/ContactSinglePage/ContactPanel";
 import { SinglePageContactHeader } from "../ui/ContactSinglePage/SinglePageContactHeader";
 
@@ -15,6 +16,7 @@ export function ContactPage() {
         lastname={contact.lastname}
         identifier={contact.identifier}
       />
+      <Divider variant="fullWidth" />
       <ContactPanel defaultTab={0} />
     </>
   );

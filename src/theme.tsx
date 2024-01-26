@@ -94,6 +94,9 @@ declare module "@mui/material/SvgIcon" {
     tabTitle: true;
     headerSinglePage: true;
   }
+  interface SvgIconPropsColorOverrides {
+    yellow: true;
+  }
 }
 
 declare module "@mui/material/Paper" {
@@ -206,6 +209,7 @@ const palette = {
   },
   red: colors("#ED1443"),
   blue: colors("#286AC7"),
+  yellow: colors("#F3EE67"),
   black: colors("#0A192E"),
   light: colors("#49454F"),
   Surfaces: {
