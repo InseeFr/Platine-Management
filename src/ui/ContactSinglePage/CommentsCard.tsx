@@ -4,7 +4,7 @@ import { GeneralCardContent } from "./GeneralCardContent";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
-import { CommentsDialog } from "./CommentsDialog";
+import { FormDialog } from "./FormDialog";
 
 type Props = {};
 
@@ -19,17 +19,35 @@ export const CommentsCard = ({}: Props) => {
     setOpen(false);
   };
 
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries((formData as any).entries());
+    console.log(formJson);
+    handleClose();
+  };
+
   return (
     <GeneralCardContent
       TitleIconComponent={ModeCommentOutlinedIcon}
       title={"Commentaires"}
       ButtonStartIcon={<AddIcon />}
       buttonLabel={"Ajouter un commentaire"}
-      CardDialog={<CommentsDialog open={open} handleClose={handleClose} />}
       CardContent={<CardInner content={<Typography>content</Typography>} />}
       seeMoreLabel="Voir plus de commentaires"
       seeMoreContent={<CardInner content={<Typography>autre content</Typography>} />}
       handleClickOpen={handleClickOpen}
+      CardDialog={
+        <FormDialog
+          open={open}
+          handleClose={handleClose}
+          onSubmit={onSubmit}
+          title={"Ajouter un commentaire"}
+          form={<Typography>form</Typography>}
+          primaryButtonLabel={"Ajouter"}
+          secondaryButtonLabel={"Annuler"}
+        />
+      }
     />
   );
 };

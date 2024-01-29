@@ -3,9 +3,9 @@ import { Typography } from "@mui/material";
 import PasswordIcon from "@mui/icons-material/Password";
 
 import AddIcon from "@mui/icons-material/Add";
-import { PasswordDialog } from "./PasswordDialog";
 import { CardInner } from "./CardInner";
 import { GeneralCardContent } from "./GeneralCardContent";
+import { FormDialog } from "./FormDialog";
 
 type Props = {};
 
@@ -20,6 +20,14 @@ export const PasswordCard = ({}: Props) => {
     setOpen(false);
   };
 
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries((formData as any).entries());
+    console.log(formJson);
+    handleClose();
+  };
+
   return (
     <GeneralCardContent
       TitleIconComponent={PasswordIcon}
@@ -27,7 +35,17 @@ export const PasswordCard = ({}: Props) => {
       ButtonStartIcon={<AddIcon />}
       buttonLabel={"demande de réinitialisation"}
       CardContent={<CardInner content={<Typography>content</Typography>} />}
-      CardDialog={<PasswordDialog open={open} handleClose={handleClose} />}
+      CardDialog={
+        <FormDialog
+          open={open}
+          handleClose={handleClose}
+          onSubmit={onSubmit}
+          title={"Réinitialisation du mot de passe"}
+          form={<Typography>form</Typography>}
+          primaryButtonLabel={"Envoyer"}
+          secondaryButtonLabel={"Annuler"}
+        />
+      }
       handleClickOpen={handleClickOpen}
     />
   );

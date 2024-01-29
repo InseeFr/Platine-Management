@@ -1,33 +1,41 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { ReactNode } from "react";
 
 type Props = {
   open: boolean;
   handleClose: () => void;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  title: string;
+  form: ReactNode;
+  primaryButtonLabel: string;
+  secondaryButtonLabel: string;
 };
-export const CommentsDialog = ({ open, handleClose }: Props) => {
+export const FormDialog = ({
+  open,
+  handleClose,
+  onSubmit,
+  title,
+  form,
+  primaryButtonLabel,
+  secondaryButtonLabel,
+}: Props) => {
   return (
     <Dialog
       open={open}
       onClose={handleClose}
       PaperProps={{
         component: "form",
-        onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-          event.preventDefault();
-          const formData = new FormData(event.currentTarget);
-          const formJson = Object.fromEntries((formData as any).entries());
-          console.log(formJson);
-          handleClose();
-        },
+        onSubmit,
       }}
     >
       <DialogTitle variant="titleMedium" sx={{ fontSize: "20px", lineHeight: "32px" }}>
-        Ajouter un commentaire
+        {title}
       </DialogTitle>
-      <DialogContent>Content</DialogContent>
+      <DialogContent>{form}</DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Annuler</Button>
+        <Button onClick={handleClose}>{secondaryButtonLabel}</Button>
         <Button type="submit" variant="contained">
-          Ajouter
+          {primaryButtonLabel}
         </Button>
       </DialogActions>
     </Dialog>
