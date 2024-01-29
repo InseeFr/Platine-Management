@@ -1,9 +1,9 @@
 import Card from "@mui/material/Card";
 import { ContactDetailsCardTitle } from "./ContactDetailsCardTitle";
-import { ElementType, ReactNode } from "react";
+import { ElementType, ReactNode, useState } from "react";
 import Stack from "@mui/material/Stack";
-import { Button, Typography } from "@mui/material";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { Box, Button } from "@mui/material";
+import { ExpandButton } from "../ExpandButton";
 
 type Props = {
   TitleIconComponent: ElementType;
@@ -13,8 +13,8 @@ type Props = {
   CardContent?: ReactNode;
   CardDialog?: ReactNode;
   seeMoreLabel?: string;
+  seeMoreContent?: ReactNode;
   handleClickOpen?: () => void;
-  handleNavigate?: () => void;
 };
 
 export const GeneralCardContent = ({
@@ -25,9 +25,15 @@ export const GeneralCardContent = ({
   CardContent,
   CardDialog,
   seeMoreLabel,
+  seeMoreContent,
   handleClickOpen,
-  handleNavigate,
 }: Props) => {
+  const [expanded, setExpanded] = useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
   return (
     <Card sx={{ px: 6, py: 3 }} elevation={2}>
       <Stack spacing={2}>
@@ -47,23 +53,11 @@ export const GeneralCardContent = ({
           {CardContent && CardContent}
         </Stack>
         {seeMoreLabel && (
-          <Button
-            onClick={handleNavigate}
-            variant="text"
-            sx={{
-              width: "fit-content",
-              typography: "titleSmall",
-              textTransform: "none",
-              color: "blue.main",
-              ".css-9tj150-MuiButton-endIcon > :nth-of-type(1)": {
-                fontSize: 12,
-              },
-            }}
-            endIcon={<ArrowForwardIosIcon sx={{}} />}
-          >
-            {seeMoreLabel}
-          </Button>
+          <Box width={"fit-content"}>
+            <ExpandButton label={seeMoreLabel} handleExpandClick={handleExpandClick} />
+          </Box>
         )}
+        {expanded && seeMoreContent}
       </Stack>
       {CardDialog && CardDialog}
     </Card>

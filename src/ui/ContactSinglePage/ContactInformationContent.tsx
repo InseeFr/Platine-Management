@@ -1,7 +1,8 @@
 import Grid from "@mui/material/Grid";
 import { ContactDetailsCard } from "./ContactDetailsCard/ContactDetailsCard";
 import { PasswordCard } from "./PasswordCard";
-import { HistoryActions } from "./HistoryActions";
+import { HistoryActionsCard } from "./HistoryActionsCard";
+import { CommentsCard } from "./CommentsCard";
 
 export const ContactInformationContent = () => {
   return (
@@ -18,7 +19,8 @@ export const ContactInformationContent = () => {
     >
       <ContactDetailsCard />
       <PasswordCard />
-      <HistoryActions />
+      <HistoryActionsCard />
+      <CommentsCard />
     </Grid>
   );
 };
