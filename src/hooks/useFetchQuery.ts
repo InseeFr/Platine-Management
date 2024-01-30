@@ -14,13 +14,14 @@ import {
   APIMethods,
 } from "../types/api.ts";
 import { useMemo } from "react";
+import { useAccessToken } from "./useAuth.ts";
 
 export function useFetchQuery<
   Path extends APIPaths,
   Options extends APIRequests<Path>
 >(
   path: Path,
-  options?: Options,
+  options?: Options & {headers?: Record<string, string>},
   queryOptions?: UseQueryOptions<
     unknown,
     APIError,
@@ -31,11 +32,22 @@ export function useFetchQuery<
     path,
     options,
   ];
+  const token = useAccessToken()
+  const authHeaders = {
+    Authorization: `Bearer ${token}`
+  }
+  const optionsWithHeaders = options ? {
+    ...options,
+    headers: {
+      ...options.headers,
+      ...authHeaders
+    }
+  } : {headers: authHeaders}
   return {
     key,
     ...useQuery({
       queryKey: key,
-      queryFn: () => fetchAPI(path, options),
+      queryFn: () => fetchAPI(path, optionsWithHeaders),
       ...queryOptions,
     }),
   };

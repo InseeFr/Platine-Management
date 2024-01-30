@@ -4,17 +4,17 @@ const baseURL = import.meta.env.VITE_API_ENDPOINT;
 
 export async function fetchAPI<
   Path extends APIPaths,
-  Options extends APIRequests<Path> & { signal?: AbortSignal }
+  Options extends APIRequests<Path> & { signal?: AbortSignal, headers: Record<string, string> }
 >(
   path: Path,
-  options?: Options
+  options: Options
 ): Promise<APIResponse<Path, Options["method"]>> {
   const fetchOptions: RequestInit = {
     signal: options?.signal,
-    credentials: import.meta.env.DEV ? "include" : "same-origin",
     method: options?.method?.toUpperCase() ?? "GET",
     headers: {
       Accept: "application/json",
+      ...options.headers,
     } as Record<string, string>,
   };
   options = (options ?? {}) as Options;
