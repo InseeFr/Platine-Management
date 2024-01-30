@@ -1,28 +1,33 @@
-import { Stack, Typography } from "@mui/material";
+import { Box, IconButton, Link } from "@mui/material";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import { theme } from "../theme";
+import { Link as RouterLink } from "react-router-dom";
+import { Row } from "./Row.tsx";
+import { PropsWithChildren } from "react";
+import { useUser } from "../hooks/useAuth.ts";
 
 export function Header() {
+  const { preferred_username } = useUser();
   return (
-    <Stack
-      direction="row"
-      sx={{ px: 6, py: 1, backgroundColor: "Surfaces.Secondary" }}
-      alignItems="center"
-      justifyContent="space-between"
-      spacing={5}
-    >
-      <Stack spacing={5} direction="row" alignItems="center">
-        <img src="/logoInsee.png" alt="" width={47} height={50} />
-        <Stack spacing={0.5} direction="row">
-          <Typography variant="logo" color="primary">
+    <Row px={4} py={1} height={74} justifyContent="space-between" bgcolor="white">
+      <Row gap={2.5} component={HomeLink}>
+        <img src="/logoInsee.png" alt="" width={48} height={50} />
+        <Row typography="headlineMedium" gap={0.25} color="red.main" component="span">
+          <Box component="span" color="black.main" fontWeight={600}>
             Platine
-          </Typography>
-          <Typography variant="logo" color={theme.palette.inseeRed} component="span">
-            Collecte
-          </Typography>
-        </Stack>
-      </Stack>
-      <SettingsOutlinedIcon />
-    </Stack>
+          </Box>
+          Collecte
+        </Row>
+      </Row>
+      <Box>
+        {preferred_username}
+        <IconButton component={RouterLink} to="/reglages">
+          <SettingsOutlinedIcon />
+        </IconButton>
+      </Box>
+    </Row>
   );
 }
+
+const HomeLink = (props: PropsWithChildren) => {
+  return <Link component={RouterLink} underline="none" to="/" {...props} />;
+};
