@@ -3,8 +3,10 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Link as RouterLink } from "react-router-dom";
 import { Row } from "./Row.tsx";
 import { PropsWithChildren } from "react";
+import { useUser } from "../hooks/useAuth.ts";
 
 export function Header() {
+  const { username } = useUser();
   return (
     <Row px={4} py={1} height={74} justifyContent="space-between" bgcolor="white">
       <Row gap={2.5} component={HomeLink}>
@@ -16,9 +18,12 @@ export function Header() {
           Collecte
         </Row>
       </Row>
-      <IconButton component={RouterLink} to="/reglages">
-        <SettingsOutlinedIcon />
-      </IconButton>
+      <Box>
+        {username}
+        <IconButton component={RouterLink} to="/reglages">
+          <SettingsOutlinedIcon />
+        </IconButton>
+      </Box>
     </Row>
   );
 }
