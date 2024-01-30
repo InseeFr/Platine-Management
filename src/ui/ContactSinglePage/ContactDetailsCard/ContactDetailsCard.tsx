@@ -1,4 +1,4 @@
-import { Card, Divider, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Card, Divider, IconButton, Stack, Typography } from "@mui/material";
 import { ContactDetailsCardTitle } from "../TitleWithIcon";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import { Row } from "../../Row";
@@ -52,31 +52,31 @@ export const ContactDetailsCard = ({}: Props) => {
           </IconButton>
         </Row>
         <Row spacing={8}>
-          <Stack spacing={1}>
+          <Stack spacing={1} typography={"bodyMedium"}>
             <Typography variant="titleSmall">
               {civility} {contact.firstname} {contact.lastname.toUpperCase()}
             </Typography>
-            <Typography variant="bodyMedium">{contact.function}</Typography>
-            <Typography variant="bodyMedium">{contact.email}</Typography>
+            <Box component={"span"}>{contact.function}</Box>
+            <Box component={"span"}>{contact.email}</Box>
             <Row spacing={2}>
-              <Typography variant="bodyMedium">{contact.phone}</Typography>
+              <Box component={"span"}>{contact.phone}</Box>
               <StarIcon fontSize="small" color="yellow" />
             </Row>
-            <Typography variant="bodyMedium">{contact.phone}</Typography>
+            <Box component={"span"}>{contact.phone}</Box>
           </Stack>
           <Divider orientation="vertical" variant="middle" sx={{ height: "130px" }} />
-          <Stack spacing={1}>
+          <Stack spacing={1} typography={"bodyMedium"}>
             <Typography variant="titleSmall">BARILLA</Typography>
-            <Typography variant="bodyMedium">
+            <Box component={"span"}>
               {`${contact.address.streetNumber} ${contact.address.streetType} ${contact.address.streetName},
               ${contact.address.zipCode}, ${contact.address.cityName}`}
-            </Typography>
-            <Typography variant="bodyMedium">
+            </Box>
+            <Box component={"span"}>
               {contact.address.specialDistribution}, {contact.address.cedexCode},{" "}
               {contact.address.countryName}
-            </Typography>
-            <Typography variant="bodyMedium">Complément</Typography>
-            <Typography variant="bodyMedium">Mention Spéciale</Typography>
+            </Box>
+            <Box component={"span"}>Complément</Box>
+            <Box component={"span"}>Mention Spéciale</Box>
           </Stack>
         </Row>
       </Stack>
