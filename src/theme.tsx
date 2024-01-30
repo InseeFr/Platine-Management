@@ -92,6 +92,10 @@ declare module "@mui/material/SvgIcon" {
   interface SvgIconPropsSizeOverrides {
     cardMedia: true;
     tabTitle: true;
+    headerSinglePage: true;
+  }
+  interface SvgIconPropsColorOverrides {
+    yellow: true;
   }
 }
 
@@ -205,6 +209,7 @@ const palette = {
   },
   red: colors("#ED1443"),
   blue: colors("#286AC7"),
+  yellow: colors("#F3EE67"),
   black: colors("#0A192E"),
   light: colors("#49454F"),
   Surfaces: {
@@ -263,6 +268,12 @@ export const theme = createTheme({
           style: {
             fontSize: 28,
             marginBottom: "0px !important",
+          },
+        },
+        {
+          props: { fontSize: "headerSinglePage" },
+          style: {
+            fontSize: 48,
           },
         },
       ],
@@ -361,6 +372,15 @@ export const theme = createTheme({
         },
         sizeSmall: {
           ...typography.bodyMedium,
+        },
+      },
+    },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          ...typography.titleMedium,
+          fontSize: "20px",
+          lineHeight: "32px",
         },
       },
     },
