@@ -1,7 +1,6 @@
 import MuiBreadcrumbs from "@mui/material/Breadcrumbs";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
 import { NavLink } from "react-router-dom";
 
 type Item = { href: string; title: string } | string;

@@ -4,11 +4,8 @@ const baseURL = import.meta.env.VITE_API_ENDPOINT;
 
 export async function fetchAPI<
   Path extends APIPaths,
-  Options extends APIRequests<Path> & { signal?: AbortSignal, headers: Record<string, string> }
->(
-  path: Path,
-  options: Options
-): Promise<APIResponse<Path, Options["method"]>> {
+  Options extends APIRequests<Path> & { signal?: AbortSignal; headers?: Record<string, string> },
+>(path: Path, options: Options): Promise<APIResponse<Path, Options["method"]>> {
   const fetchOptions: RequestInit = {
     signal: options?.signal,
     method: options?.method?.toUpperCase() ?? "GET",
@@ -24,8 +21,7 @@ export async function fetchAPI<
   if (body && (typeof body === "string" || body instanceof FormData)) {
     fetchOptions.body = body;
   } else if (body) {
-    (fetchOptions.headers as Record<string, string>)["Content-Type"] =
-      "application/json";
+    (fetchOptions.headers as Record<string, string>)["Content-Type"] = "application/json";
     fetchOptions.body = JSON.stringify(body);
   }
 
@@ -45,9 +41,7 @@ export async function fetchAPI<
       if (value !== undefined) {
         url.searchParams.set(
           name,
-          typeof value === "object" && !Array.isArray(value)
-            ? JSON.stringify(value)
-            : (value as any)
+          typeof value === "object" && !Array.isArray(value) ? JSON.stringify(value) : (value as any),
         );
       }
     }
@@ -61,7 +55,7 @@ export async function fetchAPI<
       {
         message: await response.text(),
       },
-      response.status
+      response.status,
     );
   }
   const data = await response.json();
@@ -71,7 +65,10 @@ export async function fetchAPI<
   throw new APIError(data, response.status);
 }
 export class APIError extends Error {
-  constructor(public data: Record<string, unknown>, public status: number) {
+  constructor(
+    public data: Record<string, unknown>,
+    public status: number,
+  ) {
     super();
   }
 
