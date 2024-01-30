@@ -6,7 +6,7 @@ import { PropsWithChildren } from "react";
 import { useUser } from "../hooks/useAuth.ts";
 
 export function Header() {
-  const { username } = useUser();
+  const { preferred_username } = useUser();
   return (
     <Row px={4} py={1} height={74} justifyContent="space-between" bgcolor="white">
       <Row gap={2.5} component={HomeLink}>
@@ -19,7 +19,7 @@ export function Header() {
         </Row>
       </Row>
       <Box>
-        {username}
+        {preferred_username}
         <IconButton component={RouterLink} to="/reglages">
           <SettingsOutlinedIcon />
         </IconButton>
