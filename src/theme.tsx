@@ -375,6 +375,15 @@ export const theme = createTheme({
         },
       },
     },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          ...typography.titleMedium,
+          fontSize: "20px",
+          lineHeight: "32px",
+        },
+      },
+    },
   },
 });
 

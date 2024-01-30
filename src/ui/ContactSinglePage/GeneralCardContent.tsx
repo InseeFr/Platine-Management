@@ -1,5 +1,5 @@
 import Card from "@mui/material/Card";
-import { ContactDetailsCardTitle } from "./ContactDetailsCardTitle";
+import { ContactDetailsCardTitle } from "./TitleWithIcon";
 import { ElementType, ReactNode, useState } from "react";
 import Stack from "@mui/material/Stack";
 import { Box, Button } from "@mui/material";

@@ -20,9 +20,7 @@ export const ContactDetailsDialog = ({ open, handleClose }: Props) => {
         },
       }}
     >
-      <DialogTitle variant="titleMedium" sx={{ fontSize: "20px", lineHeight: "32px" }}>
-        Modification des coordonnées
-      </DialogTitle>
+      <DialogTitle>Modification des coordonnées</DialogTitle>
       <DialogContent>Content</DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Annuler</Button>

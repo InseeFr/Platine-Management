@@ -28,9 +28,7 @@ export const FormDialog = ({
         onSubmit,
       }}
     >
-      <DialogTitle variant="titleMedium" sx={{ fontSize: "20px", lineHeight: "32px" }}>
-        {title}
-      </DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>{form}</DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>{secondaryButtonLabel}</Button>

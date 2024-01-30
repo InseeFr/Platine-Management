@@ -1,7 +1,7 @@
 import { Tabs } from "@mui/material";
 import { useState } from "react";
 import Stack from "@mui/material/Stack";
-import { ContactTab } from "./ContactTab";
+import { ContactTab } from "./CustomTab";
 import { ContactInformationContent } from "./ContactInformationContent";
 
 type Props = {

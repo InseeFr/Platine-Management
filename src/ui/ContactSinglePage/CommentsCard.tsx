@@ -33,9 +33,9 @@ export const CommentsCard = ({}: Props) => {
       title={"Commentaires"}
       ButtonStartIcon={<AddIcon />}
       buttonLabel={"Ajouter un commentaire"}
-      CardContent={<CardInner content={<Typography>content</Typography>} />}
+      CardContent={<CardInner content={<Typography>content</Typography>} hasAction={true} />}
       seeMoreLabel="Voir plus de commentaires"
-      seeMoreContent={<CardInner content={<Typography>autre content</Typography>} />}
+      seeMoreContent={<CardInner content={<Typography>autre content</Typography>} hasAction={true} />}
       handleClickOpen={handleClickOpen}
       CardDialog={
         <FormDialog

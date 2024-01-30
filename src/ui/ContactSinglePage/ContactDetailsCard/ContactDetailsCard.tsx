@@ -1,5 +1,5 @@
 import { Card, Divider, IconButton, Stack, Typography } from "@mui/material";
-import { ContactDetailsCardTitle } from "../ContactDetailsCardTitle";
+import { ContactDetailsCardTitle } from "../TitleWithIcon";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import { Row } from "../../Row";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
