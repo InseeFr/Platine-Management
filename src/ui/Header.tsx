@@ -7,9 +7,9 @@ import { PropsWithChildren } from "react";
 import { useUser, useLogout } from "../hooks/useAuth.ts";
 
 export function Header() {
-  const { preferred_username, inseegroupedefaut } = useUser();
+  const { preferred_username } = useUser();
   const logout = useLogout();
-  console.log(inseegroupedefaut);
+
   return (
     <Row px={4} py={1} height={74} justifyContent="space-between" bgcolor="white">
       <Row gap={2.5} component={HomeLink}>
