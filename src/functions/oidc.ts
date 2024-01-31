@@ -2,12 +2,12 @@ import { createReactOidc } from "oidc-spa/react";
 import { Fragment } from "react";
 
 type TokenInfo = {
-  inseegroupdefault: string[];
+  inseegroupedefaut: string[];
   preferred_username: string;
 };
 
 const guestUser: TokenInfo = {
-  inseegroupdefault: [],
+  inseegroupedefaut: [],
   preferred_username: "Guest",
 };
 
