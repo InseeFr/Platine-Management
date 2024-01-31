@@ -16,6 +16,11 @@ export const useUser = () => {
   return useOidc({ assertUserLoggedIn: true }).oidcTokens.decodedIdToken;
 };
 
+export const useLogout = () => {
+  const { logout } = useOidc({ assertUserLoggedIn: true });
+  return logout;
+};
+
 export function useIsAuthenticated(): boolean {
   const { login, isUserLoggedIn } = useOidc({ assertUserLoggedIn: false });
 
@@ -25,7 +30,7 @@ export function useIsAuthenticated(): boolean {
     }
     login({
       doesCurrentHrefRequiresAuth: false,
-      extraQueryParams: { kc_idp_hint: "insee-ssp" },
+      extraQueryParams: { kc_idp_hint: import.meta.env.VITE_IDENTITY_PROVIDER },
     });
   }, [login]);
 
