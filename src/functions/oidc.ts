@@ -19,6 +19,7 @@ export const createAppOidc = () => {
       issuerUri: import.meta.env.VITE_OIDC_ISSUER,
       clientId: import.meta.env.VITE_OIDC_CLIENT_ID,
       publicUrl: "/",
+      extraQueryParams: { kc_idp_hint: import.meta.env.VITE_IDENTITY_PROVIDER },
     });
   }
 
