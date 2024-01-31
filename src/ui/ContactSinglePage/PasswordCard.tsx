@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import PasswordIcon from "@mui/icons-material/Password";
 
 import AddIcon from "@mui/icons-material/Add";
 import { CardInner } from "./CardInner";
 import { GeneralCardContent } from "./GeneralCardContent";
 import { FormDialog } from "./FormDialog";
+import { SelectWithOptions } from "../Search/SearchSurveyTabContent";
+import { style } from "../Search/SearchPanel";
 
 export const PasswordCard = () => {
   const [open, setOpen] = useState(false);
@@ -26,6 +28,8 @@ export const PasswordCard = () => {
     handleClose();
   };
 
+  const options = ["mail", "phone"]; // TODO: use real options
+
   return (
     <GeneralCardContent
       TitleIconComponent={PasswordIcon}
@@ -39,7 +43,11 @@ export const PasswordCard = () => {
           handleClose={handleClose}
           onSubmit={onSubmit}
           title={"Réinitialisation du mot de passe"}
-          form={<Typography>form</Typography>}
+          form={
+            <Box sx={style.root} px={5} pb={1} pt={2}>
+              <SelectWithOptions options={options} label={"Choisissez le mode d'envoi"} />
+            </Box>
+          }
           primaryButtonLabel={"Envoyer"}
           secondaryButtonLabel={"Annuler"}
         />

@@ -28,6 +28,12 @@ export function ContactPage() {
     );
   }
 
+  const breadcrumbs = [
+    { href: "/", title: "Accueil" },
+    { href: "/recherche", title: "Recherche" },
+    { href: `/contact/${contact.identifier}`, title: `${contact.firstName} ${contact.lastName}` },
+  ];
+
   return (
     <>
       <ContactHeader contact={contact} />
@@ -46,7 +52,9 @@ export function ContactPage() {
         <ContactTab label={"Gestion des droits"} />
       </Tabs>
 
-      {currentTab === 0 && <ContactInformationContent contact={contact} />}
+      {currentTab === 0 && (
+        <ContactInformationContent contact={contact} breadcrumbs={[...breadcrumbs, "Infos contact"]} />
+      )}
       {currentTab === 1 && "1"}
       {currentTab === 2 && "2"}
       {currentTab === 3 && "3"}

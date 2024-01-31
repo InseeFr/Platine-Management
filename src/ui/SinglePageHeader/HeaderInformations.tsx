@@ -5,7 +5,7 @@ import { Stack, Typography } from "@mui/material";
 type HeaderInformationsType = {
   IconComponent: ElementType;
   label: string;
-  identifier: string;
+  identifier?: string;
 };
 
 export const HeaderInformations = ({ IconComponent, label, identifier }: HeaderInformationsType) => {

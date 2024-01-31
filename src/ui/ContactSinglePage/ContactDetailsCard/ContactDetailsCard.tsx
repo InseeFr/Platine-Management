@@ -33,16 +33,16 @@ export const ContactDetailsCard = ({ contact }: Props) => {
             <BorderColorOutlinedIcon fontSize="small" />
           </IconButton>
         </Row>
-        <Row spacing={8}>
+        <Row spacing={8} alignItems={"flex-start"}>
           <Stack spacing={1} typography={"bodyMedium"}>
             <Typography variant="titleSmall">
               {civility} {contact.firstName} {contact.lastName?.toUpperCase()}
             </Typography>
-            <Box component={"span"}>{contact.function}</Box>
+            {contact.function && <Box component={"span"}>{contact.function}</Box>}
             <Box component={"span"}>{contact.email}</Box>
             <Row spacing={2}>
               <Box component={"span"}>{contact.phone}</Box>
-              <StarIcon fontSize="small" color="yellow" />
+              {contact.phone && <StarIcon fontSize="small" color="yellow" />}
             </Row>
             <Box component={"span"}>{contact.phone}</Box>
           </Stack>
@@ -54,10 +54,13 @@ export const ContactDetailsCard = ({ contact }: Props) => {
               ${contact.address?.zipCode}, ${contact.address?.cityName}`}
             </Box>
             <Box component={"span"}>
-              {contact.address?.specialDistribution}, {contact.address?.cedexCode},{" "}
-              {contact.address?.countryName}
+              {`${contact.address?.specialDistribution} 
+              ${contact.address?.cedexCode && ","} 
+              ${contact.address?.cedexCode}
+              ${contact.address?.countryName && ","} 
+              ${contact.address?.countryName}`}
             </Box>
-            <Box component={"span"}>Complément</Box>
+            <Box component={"span"}>{contact.address?.addressSupplement}</Box>
             <Box component={"span"}>Mention Spéciale</Box>
           </Stack>
         </Row>

@@ -29,7 +29,7 @@ export const FormDialog = ({
       }}
     >
       <DialogTitle>{title}</DialogTitle>
-      <DialogContent>{form}</DialogContent>
+      <DialogContent sx={{ width: "440px", height: "fit-content" }}>{form}</DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>{secondaryButtonLabel}</Button>
         <Button type="submit" variant="contained">

@@ -28,7 +28,7 @@ const getSearchTitle = (tab: string) => {
   }
 };
 
-const style = {
+export const style = {
   root: {
     ".MuiOutlinedInput-notchedOutline": {
       borderColor: theme.palette.text.secondary,

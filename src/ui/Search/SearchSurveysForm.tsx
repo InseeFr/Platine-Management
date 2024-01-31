@@ -25,6 +25,7 @@ function SelectWithOptions({ options, label, name }: SelectWithOptionsProps) {
       name={name}
       size="small"
       displayEmpty
+      fullWidth
       input={<OutlinedInput size="small" />}
       renderValue={selected => {
         if (!selected) {
