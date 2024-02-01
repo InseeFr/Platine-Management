@@ -1,23 +1,55 @@
 import Divider from "@mui/material/Divider";
-import { ContactPanel } from "../ui/ContactSinglePage/ContactPanel";
-import { SinglePageContactHeader } from "../ui/ContactSinglePage/SinglePageContactHeader";
+import { ContactHeader } from "../ui/ContactSinglePage/ContactHeader.tsx";
+import { useFetchQuery } from "../hooks/useFetchQuery.ts";
+import { useParams } from "react-router-dom";
+import { Row } from "../ui/Row.tsx";
+import { CircularProgress, Tabs } from "@mui/material";
+import { ContactTab } from "../ui/ContactSinglePage/CustomTab.tsx";
+import { ContactInformationContent } from "../ui/ContactSinglePage/ContactInformationContent.tsx";
+import { type SyntheticEvent, useState } from "react";
 
 export function ContactPage() {
-  // TODO: remove mock
-  const contact = {
-    firstname: "Marie",
-    lastname: "Laurent",
-    identifier: "MAIV001",
+  const { id } = useParams();
+  const { data: contact } = useFetchQuery("/api/contacts/{id}", {
+    urlParams: {
+      id: id!,
+    },
+  });
+  const [currentTab, setCurrentTab] = useState(0);
+  const handleChange = (_: SyntheticEvent, newValue: number) => {
+    setCurrentTab(newValue);
   };
+
+  if (!contact) {
+    return (
+      <Row justifyContent="center" py={10}>
+        <CircularProgress />
+      </Row>
+    );
+  }
+
   return (
     <>
-      <SinglePageContactHeader
-        firstname={contact.firstname}
-        lastname={contact.lastname}
-        identifier={contact.identifier}
-      />
+      <ContactHeader contact={contact} />
       <Divider variant="fullWidth" />
-      <ContactPanel defaultTab={0} />
+      <Tabs
+        value={currentTab}
+        onChange={handleChange}
+        sx={{
+          px: 5,
+          backgroundColor: "white",
+        }}
+      >
+        <ContactTab label={"Infos contact"} />
+        <ContactTab label={"Enquête(s)"} />
+        <ContactTab label={"Gestion des identifiants"} />
+        <ContactTab label={"Gestion des droits"} />
+      </Tabs>
+
+      {currentTab === 0 && <ContactInformationContent contact={contact} />}
+      {currentTab === 1 && "1"}
+      {currentTab === 2 && "2"}
+      {currentTab === 3 && "3"}
     </>
   );
 }

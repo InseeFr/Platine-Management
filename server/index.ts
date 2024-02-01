@@ -14,12 +14,16 @@ fastify.register(cors, {
   credentials: true,
 });
 
-fastify.get("/api/contacts", function (request) {
-  const page = parseInt((request.query as any).page ?? "1", 10);
+fastify.get<{ Querystring: { page: string } }>("/api/contacts", function (request) {
+  const page = parseInt(request.query.page ?? "1", 10);
   return {
     content: times(20, k => fakeContact(k + (page - 1) * 20)),
     ...fakeSinglePagination(page),
   };
+});
+
+fastify.get<{ Params: { id: string } }>("/api/contacts/:id", function (request) {
+  return fakeContact(request.params.id.length);
 });
 
 // Run the server!

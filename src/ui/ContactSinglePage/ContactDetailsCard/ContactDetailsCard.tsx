@@ -6,31 +6,13 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import StarIcon from "@mui/icons-material/Star";
 import { useState } from "react";
 import { ContactDetailsDialog } from "./ContactDetailsDialog";
+import { APISchemas } from "../../../types/api.ts";
 
-type Props = {};
-
-// add second phone number, special mention and "Barilla ?" in api
-const contact = {
-  firstname: "Marie",
-  lastname: "Laurent",
-  identifier: "MAIV001",
-  civility: "Female",
-  function: "comptable",
-  email: "m.laurent@mail.fr",
-  phone: "04 42 12 34 56",
-  address: {
-    streetNumber: "23",
-    repetitionIndex: "bis",
-    streetType: "rue",
-    streetName: "Caulaincourt",
-    zipCode: "75018",
-    cityName: "Paris",
-    specialDistribution: "Bureau dstributeur",
-    cedexCode: "56000",
-    countryName: "France",
-  },
+type Props = {
+  contact: APISchemas["ContactFirstLoginDto"];
 };
-export const ContactDetailsCard = ({}: Props) => {
+
+export const ContactDetailsCard = ({ contact }: Props) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -54,7 +36,7 @@ export const ContactDetailsCard = ({}: Props) => {
         <Row spacing={8}>
           <Stack spacing={1} typography={"bodyMedium"}>
             <Typography variant="titleSmall">
-              {civility} {contact.firstname} {contact.lastname.toUpperCase()}
+              {civility} {contact.firstName} {contact.lastName?.toUpperCase()}
             </Typography>
             <Box component={"span"}>{contact.function}</Box>
             <Box component={"span"}>{contact.email}</Box>
@@ -66,21 +48,21 @@ export const ContactDetailsCard = ({}: Props) => {
           </Stack>
           <Divider orientation="vertical" variant="middle" sx={{ height: "130px" }} />
           <Stack spacing={1} typography={"bodyMedium"}>
-            <Typography variant="titleSmall">BARILLA</Typography>
+            <Typography variant="titleSmall">TODO DATA</Typography>
             <Box component={"span"}>
-              {`${contact.address.streetNumber} ${contact.address.streetType} ${contact.address.streetName},
-              ${contact.address.zipCode}, ${contact.address.cityName}`}
+              {`${contact.address?.streetNumber} ${contact.address?.streetType} ${contact.address?.streetName},
+              ${contact.address?.zipCode}, ${contact.address?.cityName}`}
             </Box>
             <Box component={"span"}>
-              {contact.address.specialDistribution}, {contact.address.cedexCode},{" "}
-              {contact.address.countryName}
+              {contact.address?.specialDistribution}, {contact.address?.cedexCode},{" "}
+              {contact.address?.countryName}
             </Box>
             <Box component={"span"}>Complément</Box>
             <Box component={"span"}>Mention Spéciale</Box>
           </Stack>
         </Row>
       </Stack>
-      <ContactDetailsDialog open={open} handleClose={handleClose} />
+      <ContactDetailsDialog open={open} handleClose={handleClose} contact={contact} />
     </Card>
   );
 };

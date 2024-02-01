@@ -18,8 +18,8 @@ export const routes = [
     errorElement: <PageError />,
     children: [
       { path: "recherche", element: <SearchPage tab={0} /> },
-      { path: "enquete/:idSurvey", element: <SurveyPage /> },
-      { path: "contact/:idContact", element: <ContactPage /> },
+      { path: "enquete/:id", element: <SurveyPage /> },
+      { path: "contact/:id", element: <ContactPage /> },
       { path: "reglages", element: <Settings /> },
       { path: "", element: <Home /> },
     ],

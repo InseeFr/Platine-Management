@@ -5,12 +5,7 @@ import IconButton from "@mui/material/IconButton";
 export const GoBackButton = () => {
   const navigate = useNavigate();
   return (
-    <IconButton
-      sx={{
-        backgroundColor: "#F5F7FA",
-      }}
-      onClick={() => navigate(-1)}
-    >
+    <IconButton onClick={() => navigate(-1)}>
       <ArrowBackIosNewIcon sx={{ color: "black.main" }} />
     </IconButton>
   );

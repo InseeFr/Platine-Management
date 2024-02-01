@@ -3,8 +3,13 @@ import { ContactDetailsCard } from "./ContactDetailsCard/ContactDetailsCard";
 import { PasswordCard } from "./PasswordCard";
 import { HistoryActionsCard } from "./HistoryActionsCard";
 import { CommentsCard } from "./CommentsCard";
+import { APISchemas } from "../../types/api.ts";
 
-export const ContactInformationContent = () => {
+type Props = {
+  contact: APISchemas["ContactFirstLoginDto"];
+};
+
+export const ContactInformationContent = ({ contact }: Props) => {
   return (
     <Grid
       px={6}
@@ -17,7 +22,7 @@ export const ContactInformationContent = () => {
         rowGap: 3,
       }}
     >
-      <ContactDetailsCard />
+      <ContactDetailsCard contact={contact} />
       <PasswordCard />
       <HistoryActionsCard />
       <CommentsCard />
