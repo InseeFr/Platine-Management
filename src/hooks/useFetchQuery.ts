@@ -10,6 +10,12 @@ import { APIPaths, APIRequests, APIResponse, APIRequest, APIMethods } from "../t
 import { useMemo } from "react";
 import { useAccessToken } from "./useAuth.ts";
 
+type ApiResponseContent<Path extends APIPaths> = APIResponse<Path, "get"> extends {
+  content?: infer Content;
+}
+  ? Content
+  : never;
+
 export function useFetchQuery<Path extends APIPaths, Options extends APIRequests<Path>>(
   path: Path,
   options?: Options & { headers?: Record<string, string> },
@@ -55,12 +61,12 @@ export function useInfiniteFetchQuery<Path extends APIPaths, Options extends API
         },
       } as any),
     getNextPageParam: (data, pages) => {
-      return pages.length < (data as any).page_total ? pages.length + 1 : undefined;
+      return pages.length < data.totalPages ? pages.length + 1 : undefined;
     },
   });
   const results = useMemo(() => {
-    return result?.data?.pages.map((v: any) => v.results).flat();
-  }, [result?.data?.pages]);
+    return result?.data?.pages.map(v => v.content).flat() ?? [];
+  }, [result?.data?.pages]) as ApiResponseContent<Path>;
   return {
     ...result,
     results,

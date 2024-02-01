@@ -1,15 +1,15 @@
 import { ContactCard } from "./ContactCard";
-import { Stack, Grid } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import { FilterListBySelector } from "../../ui/Search/FilterListBySelector.tsx";
 import { Row } from "../../ui/Row";
-import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
+import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import { useState } from "react";
+import { VisibilitySpy } from "../../ui/VisibilitySpy.tsx";
 
 export const ContactsList = () => {
-  const { data } = useFetchQuery("/api/contacts");
-  const contacts = data?.content ?? [];
+  const { results: contacts, hasNextPage, fetchNextPage } = useInfiniteFetchQuery("/api/contacts");
   const [tab, setTab] = useState("me");
   return (
     <Stack spacing={3} sx={{ minHeight: 0 }}>
@@ -53,6 +53,7 @@ export const ContactsList = () => {
             />
           </div>
         ))}
+        {hasNextPage && <VisibilitySpy onVisible={fetchNextPage} />}
       </Grid>
     </Stack>
   );

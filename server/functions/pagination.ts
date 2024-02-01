@@ -1,9 +1,9 @@
-export function fakeSinglePagination() {
+export function fakeSinglePagination(page: number, max: number = 3, limit: number = 20) {
   return {
     pageable: {
-      pageNumber: 1,
-      pageSize: 1,
-      offset: 0,
+      pageNumber: page,
+      pageSize: limit,
+      offset: limit * (page - 1),
       sort: {
         sorted: false,
         empty: false,
@@ -13,17 +13,17 @@ export function fakeSinglePagination() {
       unpaged: false,
     },
     last: true,
-    totalPages: 1,
-    totalElements: 20,
-    size: 20,
-    number: 20,
+    totalPages: max,
+    totalElements: limit * max,
+    size: limit,
+    number: limit,
     sort: {
       sorted: false,
       empty: false,
       unsorted: false,
     },
     first: true,
-    numberOfElements: 20,
+    numberOfElements: limit,
     empty: false,
   };
 }

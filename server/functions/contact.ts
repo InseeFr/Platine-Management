@@ -1,10 +1,11 @@
 import { faker } from "@faker-js/faker";
 
-export const fakeContact = () => {
+export const fakeContact = (seed: number) => {
+  faker.seed(seed);
   return {
     identifier: faker.string.uuid(),
     externalId: faker.string.uuid(),
-    civility: faker.person.gender(),
+    civility: faker.person.sex(),
     lastName: faker.person.lastName(),
     firstName: faker.person.firstName(),
     function: faker.person.jobTitle(),
