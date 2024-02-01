@@ -26,7 +26,14 @@ export function Header() {
         <IconButton component={RouterLink} to="/reglages">
           <SettingsOutlinedIcon />
         </IconButton>
-        <IconButton onClick={() => logout({ redirectTo: "home" })}>
+        <IconButton
+          onClick={() =>
+            logout({
+              redirectTo: "specific url",
+              url: "",
+            })
+          }
+        >
           <ExitToAppIcon />
         </IconButton>
       </Box>
