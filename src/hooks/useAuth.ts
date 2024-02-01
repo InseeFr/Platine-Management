@@ -17,8 +17,7 @@ export const useUser = () => {
 };
 
 export const useLogout = () => {
-  const { logout } = useOidc({ assertUserLoggedIn: true });
-  return logout;
+  return useOidc({ assertUserLoggedIn: true }).logout;
 };
 
 export function useIsAuthenticated(): boolean {
@@ -30,7 +29,6 @@ export function useIsAuthenticated(): boolean {
     }
     login({
       doesCurrentHrefRequiresAuth: false,
-      extraQueryParams: { kc_idp_hint: import.meta.env.VITE_IDENTITY_PROVIDER },
     });
   }, [login]);
 
