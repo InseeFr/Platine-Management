@@ -45,16 +45,26 @@ export function useFetchQuery<Path extends APIPaths, Options extends APIRequests
 
 export function useInfiniteFetchQuery<Path extends APIPaths, Options extends APIRequests<Path>>(
   path: Path,
-  options?: Options,
+  options?: Options & { headers?: Record<string, string> },
 ) {
   const key = [path, options];
-
+  const token = useAccessToken();
+  const authHeaders = {
+    Authorization: `Bearer ${token}`,
+  };
+  const optionsWithHeaders = {
+    ...options,
+    headers: {
+      ...options?.headers,
+      ...authHeaders,
+    },
+  };
   const result = useInfiniteQuery({
-    initialPageParam: 1,
+    initialPageParam: 0,
     queryKey: key,
     queryFn: ({ pageParam }) =>
       fetchAPI(path, {
-        ...options,
+        ...optionsWithHeaders,
         query: {
           ...(options && "query" in options ? options.query : {}),
           page: pageParam,
