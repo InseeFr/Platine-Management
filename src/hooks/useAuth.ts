@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { createAppOidc } from "../functions/oidc.ts";
 
-const { OidcProvider, useOidc } = await createAppOidc();
+const { OidcProvider, useOidc } = createAppOidc();
 
 export const useHasRole = (role: string): boolean => {
   const { oidcTokens } = useOidc({ assertUserLoggedIn: true });
