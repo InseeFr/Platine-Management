@@ -6,9 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { FormDialog } from "./FormDialog";
 
-type Props = {};
-
-export const CommentsCard = ({}: Props) => {
+export const CommentsCard = () => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

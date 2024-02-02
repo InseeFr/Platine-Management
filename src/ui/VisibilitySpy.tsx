@@ -10,11 +10,14 @@ type Props = {
 export function VisibilitySpy({ onVisible }: Props) {
   const ref = useRef(null);
   const intersection = useIntersection(ref, {});
+  const isIntersecting = intersection?.isIntersecting;
+  const onVisibleRef = useRef(onVisible)
+  onVisibleRef.current = onVisible
   useEffect(() => {
-    if (intersection?.isIntersecting) {
-      onVisible();
+    if (isIntersecting) {
+      onVisibleRef.current();
     }
-  }, [intersection?.isIntersecting]);
+  }, [isIntersecting]);
   return (
     <Row ref={ref} justifyContent="center" sx={{ gridColumn: "1 / -1" }}>
       <CircularProgress />

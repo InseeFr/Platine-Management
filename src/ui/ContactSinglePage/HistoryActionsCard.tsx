@@ -3,9 +3,8 @@ import HistoryIcon from "@mui/icons-material/History";
 import { CardInner } from "./CardInner";
 import { GeneralCardContent } from "./GeneralCardContent";
 
-type Props = {};
 
-export const HistoryActionsCard = ({}: Props) => {
+export const HistoryActionsCard = () => {
   return (
     <GeneralCardContent
       TitleIconComponent={HistoryIcon}

@@ -7,9 +7,8 @@ import { CardInner } from "./CardInner";
 import { GeneralCardContent } from "./GeneralCardContent";
 import { FormDialog } from "./FormDialog";
 
-type Props = {};
 
-export const PasswordCard = ({}: Props) => {
+export const PasswordCard = () => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

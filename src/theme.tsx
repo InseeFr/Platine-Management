@@ -2,6 +2,8 @@ import { createTheme, CssBaseline } from "@mui/material";
 import { type CSSProperties, type PropsWithChildren } from "react";
 import { ThemeProvider } from "@emotion/react";
 
+ 
+
 declare module "@mui/material/styles" {
   interface Palette {
     red: string;
