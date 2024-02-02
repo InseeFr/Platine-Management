@@ -3,7 +3,6 @@ import HistoryIcon from "@mui/icons-material/History";
 import { CardInner } from "./CardInner";
 import { GeneralCardContent } from "./GeneralCardContent";
 
-
 export const HistoryActionsCard = () => {
   return (
     <GeneralCardContent

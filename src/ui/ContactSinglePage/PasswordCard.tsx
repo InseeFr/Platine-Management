@@ -7,7 +7,6 @@ import { CardInner } from "./CardInner";
 import { GeneralCardContent } from "./GeneralCardContent";
 import { FormDialog } from "./FormDialog";
 
-
 export const PasswordCard = () => {
   const [open, setOpen] = useState(false);
 

@@ -11,8 +11,8 @@ export function VisibilitySpy({ onVisible }: Props) {
   const ref = useRef(null);
   const intersection = useIntersection(ref, {});
   const isIntersecting = intersection?.isIntersecting;
-  const onVisibleRef = useRef(onVisible)
-  onVisibleRef.current = onVisible
+  const onVisibleRef = useRef(onVisible);
+  onVisibleRef.current = onVisible;
   useEffect(() => {
     if (isIntersecting) {
       onVisibleRef.current();
