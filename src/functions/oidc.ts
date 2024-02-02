@@ -2,12 +2,12 @@ import { createReactOidc } from "oidc-spa/react";
 import { Fragment } from "react";
 
 type TokenInfo = {
-  inseegroupdefault: string[];
+  inseegroupedefaut: string[];
   preferred_username: string;
 };
 
 const guestUser: TokenInfo = {
-  inseegroupdefault: [],
+  inseegroupedefaut: [],
   preferred_username: "Guest",
 };
 
@@ -19,6 +19,7 @@ export const createAppOidc = () => {
       issuerUri: import.meta.env.VITE_OIDC_ISSUER,
       clientId: import.meta.env.VITE_OIDC_CLIENT_ID,
       publicUrl: "/",
+      extraQueryParams: { kc_idp_hint: import.meta.env.VITE_IDENTITY_PROVIDER },
     });
   }
 
@@ -31,6 +32,7 @@ export const createAppOidc = () => {
         decodedIdToken: guestUser,
         accessToken: "accessToken",
       },
+      logout: () => (window.location.href = "/"),
     }),
   };
 };

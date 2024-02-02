@@ -5,7 +5,7 @@ const { OidcProvider, useOidc } = await createAppOidc();
 
 export const useHasRole = (role: string): boolean => {
   const { oidcTokens } = useOidc({ assertUserLoggedIn: true });
-  return oidcTokens.decodedIdToken.inseegroupdefault.includes(role);
+  return oidcTokens.decodedIdToken.inseegroupedefaut.includes(role);
 };
 
 export const useAccessToken = (): string => {
@@ -14,6 +14,10 @@ export const useAccessToken = (): string => {
 
 export const useUser = () => {
   return useOidc({ assertUserLoggedIn: true }).oidcTokens.decodedIdToken;
+};
+
+export const useLogout = () => {
+  return useOidc({ assertUserLoggedIn: true }).logout;
 };
 
 export function useIsAuthenticated(): boolean {
@@ -25,7 +29,6 @@ export function useIsAuthenticated(): boolean {
     }
     login({
       doesCurrentHrefRequiresAuth: false,
-      extraQueryParams: { kc_idp_hint: "insee-ssp" },
     });
   }, [login]);
 

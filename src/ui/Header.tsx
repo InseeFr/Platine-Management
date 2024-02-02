@@ -1,12 +1,15 @@
 import { Box, IconButton, Link } from "@mui/material";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Link as RouterLink } from "react-router-dom";
 import { Row } from "./Row.tsx";
 import { PropsWithChildren } from "react";
-import { useUser } from "../hooks/useAuth.ts";
+import { useUser, useLogout } from "../hooks/useAuth.ts";
 
 export function Header() {
   const { preferred_username } = useUser();
+  const logout = useLogout();
+
   return (
     <Row px={4} py={1} height={74} justifyContent="space-between" bgcolor="white">
       <Row gap={2.5} component={HomeLink}>
@@ -22,6 +25,16 @@ export function Header() {
         {preferred_username}
         <IconButton component={RouterLink} to="/reglages">
           <SettingsOutlinedIcon />
+        </IconButton>
+        <IconButton
+          onClick={() =>
+            logout({
+              redirectTo: "specific url",
+              url: "",
+            })
+          }
+        >
+          <ExitToAppIcon />
         </IconButton>
       </Box>
     </Row>
