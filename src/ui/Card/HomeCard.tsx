@@ -7,7 +7,7 @@ interface Props {
   IconComponent: ElementType;
   content: string;
   color: string;
-  to: { pathname: string; tab: number };
+  to: string;
 }
 
 export const HomeCard: FunctionComponent<Props> = ({ IconComponent, content, color, to }) => {

@@ -4,6 +4,8 @@ import { times } from "./functions/array.ts";
 import { fakeContact } from "./functions/contact.ts";
 
 import cors from "@fastify/cors";
+import { fakeSurveyUnit } from "./functions/surveys.ts";
+import { fakeCampaign } from "./functions/campaign.ts";
 
 const fastify = Fastify({
   logger: true,
@@ -14,17 +16,25 @@ fastify.register(cors, {
   credentials: true,
 });
 
-fastify.get<{ Querystring: { page: string } }>("/api/contacts", function (request) {
-  const page = parseInt(request.query.page ?? "1", 10);
-  return {
-    content: times(20, k => fakeContact(k + (page - 1) * 20)),
-    ...fakeSinglePagination(page),
-  };
-});
+const paginatedUrls = [
+  { path: "/api/contacts", content: fakeContact },
+  { path: "/api/survey-units", content: fakeSurveyUnit },
+  { path: "/api/campaigns", content: fakeCampaign },
+];
 
-fastify.get<{ Params: { id: string } }>("/api/contacts/:id", function (request) {
-  return fakeContact(request.params.id.length);
-});
+for (const url of paginatedUrls) {
+  fastify.get<{ Querystring: { page: string } }>(url.path, function (request) {
+    const page = parseInt(request.query.page ?? "1", 10);
+    return {
+      content: times(20, k => url.content(k + (page - 1) * 20)),
+      ...fakeSinglePagination(page),
+    };
+  });
+
+  fastify.get<{ Params: { id: string } }>(`${url.path}/:id`, function (request) {
+    return url.content(request.params.id.length);
+  });
+}
 
 // Run the server!
 try {

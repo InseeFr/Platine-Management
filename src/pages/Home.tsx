@@ -4,7 +4,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import SearchIcon from "@mui/icons-material/Search";
 import { InfoBanner } from "../ui/InfoBanner.tsx";
 import { HomeCard } from "../ui/Card/HomeCard.tsx";
-import { Binocular } from "../ui/Icon/Binocular.tsx";
+import { BinocularIcon } from "../ui/Icon/BinocularIcon.tsx";
 import Stack from "@mui/material/Stack";
 import { Row } from "../ui/Row.tsx";
 import { theme } from "../theme.tsx";
@@ -58,19 +58,19 @@ export function Home() {
             IconComponent={PersonOutlineIcon}
             content="Voir mes contacts"
             color="#D6326D"
-            to={{ pathname: "/recherche", tab: 0 }}
+            to="/search/campaigns"
           />
           <HomeCard
-            IconComponent={Binocular}
+            IconComponent={BinocularIcon}
             content="Voir mes enquêtes"
             color="#C34A8E"
-            to={{ pathname: "/recherche", tab: 1 }}
+            to="/search/campaigns"
           />
           <HomeCard
             IconComponent={CorporateFareIcon}
             content="Voir mes unités enquêtées"
             color="#AC69B9"
-            to={{ pathname: "/recherche", tab: 2 }}
+            to="/search/survey-units"
           />
         </Row>
       </Stack>

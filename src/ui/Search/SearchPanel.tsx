@@ -1,28 +1,27 @@
 import { Button, Card, Tab, Tabs } from "@mui/material";
-import { FormEventHandler, useState } from "react";
+import { FormEventHandler } from "react";
 
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
-import { Binocular } from "../Icon/Binocular.tsx";
-import { SearchContactTabContent } from "./SearchContactTabContent.tsx";
-import { SearchSurveyTabContent } from "./SearchSurveyTabContent.tsx";
-import { SearchSurveyUnitsTabContent } from "./SearchSurveyUnitsTabContent.tsx";
+import { BinocularIcon } from "../Icon/BinocularIcon.tsx";
+import { SearchContactsForm } from "./SearchContactsForm.tsx";
+import { SearchCampaignsForm } from "./SearchCampaignsForm.tsx";
+import { SearchSurveyUnitsForm } from "./SearchSurveyUnitsForm.tsx";
 import Typography from "@mui/material/Typography";
 import SearchIcon from "@mui/icons-material/Search";
 import Stack from "@mui/material/Stack";
 import { theme } from "../../theme.tsx";
+import { useLocation, useNavigate } from "react-router-dom";
+import { kebabCase } from "../../functions/string.ts";
+import { useSetSearchFilter } from "../../hooks/useSearchFilter.ts";
 
-type SearchPanelProps = {
-  defaultTab: number;
-};
-
-const getSearchTitle = (tab: number) => {
+const getSearchTitle = (tab: string) => {
   switch (tab) {
-    case 0:
+    case "contacts":
       return "Recherche d’un contact";
-    case 1:
+    case "campaigns":
       return "Recherche d’une enquête";
-    case 2:
+    case "surveyUnits":
       return "Recherche d’une unité enquêtée";
     default:
       return "";
@@ -37,17 +36,39 @@ const style = {
   },
 };
 
-export const SearchPanel = ({ defaultTab }: SearchPanelProps) => {
-  const [currentTab, setCurrentTab] = useState(defaultTab);
-
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setCurrentTab(newValue);
+export const SearchPanel = () => {
+  const currentTab = useCurrentTab();
+  const navigate = useNavigate();
+  const setFilter = useSetSearchFilter();
+  const handleChange = (_: unknown, tab: string) => {
+    navigate("/search/" + kebabCase(tab));
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    console.log(Object.fromEntries(data.entries()));
+    // We could write a more dynamic code but this improves error discovery in TypeScript
+    if (currentTab === "campaigns") {
+      setFilter(currentTab, {
+        surveyId: data.get("surveyId")!.toString(),
+        year: data.get("year")!.toString(),
+        period: data.get("period")!.toString(),
+      });
+    }
+    if (currentTab === "surveyUnits") {
+      setFilter(currentTab, {
+        idSu: data.get("idSu")!.toString(),
+        identificationCode: data.get("identificationCode")!.toString(),
+        identificationName: data.get("identificationName")!.toString(),
+      });
+    }
+    if (currentTab === "contacts") {
+      setFilter(currentTab, {
+        id: data.get("id")!.toString(),
+        name: data.get("nbame")!.toString(),
+        email: data.get("email")!.toString(),
+      });
+    }
   };
 
   return (
@@ -55,13 +76,21 @@ export const SearchPanel = ({ defaultTab }: SearchPanelProps) => {
       <Card elevation={2} sx={style.root}>
         <Tabs value={currentTab} onChange={handleChange} variant="fullWidth">
           <Tab
+            value="contacts"
             label="Contact"
             classes={"search"}
             icon={<PermIdentityIcon fontSize={"tabTitle"} />}
             iconPosition="top"
           />
-          <Tab classes="search" label="Enquête" icon={<Binocular />} iconPosition="top" />
           <Tab
+            value="campaigns"
+            classes="search"
+            label="Enquête"
+            icon={<BinocularIcon />}
+            iconPosition="top"
+          />
+          <Tab
+            value="surveyUnits"
             classes={"search"}
             label="Unité enquêtée"
             icon={<CorporateFareIcon fontSize={"tabTitle"} />}
@@ -75,11 +104,12 @@ export const SearchPanel = ({ defaultTab }: SearchPanelProps) => {
 
         <Stack spacing={3} m={3} component="form" onSubmit={handleSubmit}>
           <Stack spacing={2}>
-            {currentTab === 0 && <SearchContactTabContent />}
-            {currentTab === 1 && <SearchSurveyTabContent />}
-            {currentTab === 2 && <SearchSurveyUnitsTabContent />}
+            {currentTab === "contacts" && <SearchContactsForm />}
+            {currentTab === "campaigns" && <SearchCampaignsForm />}
+            {currentTab === "surveyUnits" && <SearchSurveyUnitsForm />}
           </Stack>
           <Button
+            type="submit"
             variant="contained"
             sx={{ typography: "bodyLarge" }}
             size={"large"}
@@ -92,3 +122,14 @@ export const SearchPanel = ({ defaultTab }: SearchPanelProps) => {
     </div>
   );
 };
+
+function useCurrentTab() {
+  const location = useLocation();
+  switch (location.pathname) {
+    case "/search/campaigns":
+      return "campaigns";
+    case "/search/survey-units":
+      return "surveyUnits";
+  }
+  return "contacts";
+}

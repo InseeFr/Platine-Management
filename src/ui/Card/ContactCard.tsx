@@ -8,8 +8,8 @@ import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import EmailIcon from "@mui/icons-material/Email";
 import DesktopWindowsOutlinedIcon from "@mui/icons-material/DesktopWindowsOutlined";
 import { Link } from "react-router-dom";
-import { Row } from "../../ui/Row";
-import { TextWithLeftIcon } from "../../ui/TextWithLeftIcon";
+import { Row } from "../Row.tsx";
+import { TextWithLeftIcon } from "../TextWithLeftIcon.tsx";
 
 type ContactCardProps = {
   identifier?: string;

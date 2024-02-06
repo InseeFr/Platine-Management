@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { fakeAddress } from "./address.ts";
 
 export const fakeContact = (seed: number) => {
   faker.seed(seed);
@@ -11,19 +12,6 @@ export const fakeContact = (seed: number) => {
     function: faker.person.jobTitle(),
     email: faker.internet.email(),
     phone: faker.phone.number(),
-    address: {
-      streetNumber: faker.location.buildingNumber(),
-      repetitionIndex: "",
-      streetType: "rue",
-      streetName: faker.location.street(),
-      addressSupplement: "",
-      cityName: faker.location.city(),
-      zipCode: faker.location.zipCode(),
-      cedexCode: "",
-      cedexName: "",
-      specialDistribution: "",
-      countryCode: faker.location.countryCode(),
-      countryName: faker.location.country(),
-    },
+    address: fakeAddress(),
   };
 };
