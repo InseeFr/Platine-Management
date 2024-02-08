@@ -12,14 +12,14 @@ const base = {
     identificationCode: "",
     identificationName: "",
   },
-  campaigns: {
+  surveys: {
     surveyId: "",
     year: "",
     period: "",
   },
 };
 
-type Key = "contacts" | "surveyUnits" | "campaigns";
+type Key = "contacts" | "surveyUnits" | "surveys";
 type State = typeof base;
 
 const useSearchFilter = create(

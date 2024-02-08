@@ -58,13 +58,13 @@ export function Home() {
             IconComponent={PersonOutlineIcon}
             content="Voir mes contacts"
             color="#D6326D"
-            to="/search/campaigns"
+            to="/search/contacts"
           />
           <HomeCard
             IconComponent={BinocularIcon}
             content="Voir mes enquêtes"
             color="#C34A8E"
-            to="/search/campaigns"
+            to="/search/surveys"
           />
           <HomeCard
             IconComponent={CorporateFareIcon}

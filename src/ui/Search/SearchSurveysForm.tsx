@@ -7,7 +7,7 @@ const names = ["a1", "a2", "a3", "a4", "a5"];
 const years = ["2024", "2023", "2022"];
 const periodicity = ["Daily", "Monthly"];
 
-export const SearchCampaignsForm = () => {
+export const SearchSurveysForm = () => {
   return (
     <>
       <SearchSurveySelect name="surveyId" label={"Nom de l'enquête"} options={names} />

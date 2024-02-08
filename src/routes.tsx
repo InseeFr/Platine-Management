@@ -7,7 +7,7 @@ import { SurveyPage } from "./pages/SurveyPage";
 import { ContactPage } from "./pages/ContactPage";
 import { Settings } from "./pages/Settings";
 import { SearchContacts } from "./pages/Search/SearchContacts.tsx";
-import { SearchCampaigns } from "./pages/Search/SearchCampaigns.tsx";
+import { SearchSurveys } from "./pages/Search/SearchSurveys.tsx";
 import { SearchSurveyUnits } from "./pages/Search/SearchSurveyUnits.tsx";
 
 export const routes: RouteObject[] = [
@@ -27,11 +27,11 @@ export const routes: RouteObject[] = [
           { path: "", element: <SearchContacts />, loader: () => redirect("/search/contacts") },
           { path: "contacts", element: <SearchContacts /> },
           { path: "survey-units", element: <SearchSurveyUnits /> },
-          { path: "campaigns", element: <SearchCampaigns /> },
+          { path: "surveys", element: <SearchSurveys /> },
         ],
       },
-      { path: "enquete/:id", element: <SurveyPage /> },
-      { path: "contact/:id", element: <ContactPage /> },
+      { path: "surveys/:id", element: <SurveyPage /> },
+      { path: "contacts/:id", element: <ContactPage /> },
       { path: "reglages", element: <Settings /> },
       { path: "", element: <Home /> },
     ],

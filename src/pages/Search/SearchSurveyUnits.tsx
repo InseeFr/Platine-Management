@@ -32,7 +32,7 @@ export const SearchSurveyUnits = () => {
       <Row justifyContent={"space-between"}>
         <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
           <ToggleButton value="me" aria-label="left aligned">
-            Mes enquêtes
+            Mes unités enquêtées
           </ToggleButton>
           <ToggleButton value="all" aria-label="left aligned">
             Tout

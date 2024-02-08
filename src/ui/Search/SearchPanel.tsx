@@ -5,7 +5,7 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import { BinocularIcon } from "../Icon/BinocularIcon.tsx";
 import { SearchContactsForm } from "./SearchContactsForm.tsx";
-import { SearchCampaignsForm } from "./SearchCampaignsForm.tsx";
+import { SearchSurveysForm } from "./SearchSurveysForm.tsx";
 import { SearchSurveyUnitsForm } from "./SearchSurveyUnitsForm.tsx";
 import Typography from "@mui/material/Typography";
 import SearchIcon from "@mui/icons-material/Search";
@@ -19,7 +19,7 @@ const getSearchTitle = (tab: string) => {
   switch (tab) {
     case "contacts":
       return "Recherche d’un contact";
-    case "campaigns":
+    case "surveys":
       return "Recherche d’une enquête";
     case "surveyUnits":
       return "Recherche d’une unité enquêtée";
@@ -48,7 +48,7 @@ export const SearchPanel = () => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     // We could write a more dynamic code but this improves error discovery in TypeScript
-    if (currentTab === "campaigns") {
+    if (currentTab === "surveys") {
       setFilter(currentTab, {
         surveyId: data.get("surveyId")!.toString(),
         year: data.get("year")!.toString(),
@@ -83,7 +83,7 @@ export const SearchPanel = () => {
             iconPosition="top"
           />
           <Tab
-            value="campaigns"
+            value="surveys"
             classes="search"
             label="Enquête"
             icon={<BinocularIcon />}
@@ -105,7 +105,7 @@ export const SearchPanel = () => {
         <Stack spacing={3} m={3} component="form" onSubmit={handleSubmit}>
           <Stack spacing={2}>
             {currentTab === "contacts" && <SearchContactsForm />}
-            {currentTab === "campaigns" && <SearchCampaignsForm />}
+            {currentTab === "surveys" && <SearchSurveysForm />}
             {currentTab === "surveyUnits" && <SearchSurveyUnitsForm />}
           </Stack>
           <Button
@@ -126,8 +126,8 @@ export const SearchPanel = () => {
 function useCurrentTab() {
   const location = useLocation();
   switch (location.pathname) {
-    case "/search/campaigns":
-      return "campaigns";
+    case "/search/surveys":
+      return "surveys";
     case "/search/survey-units":
       return "surveyUnits";
   }
