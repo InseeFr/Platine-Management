@@ -3,37 +3,44 @@ import { ReactNode } from "react";
 
 type Props = {
   open: boolean;
-  handleClose: () => void;
+  onCancel: () => void;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   title: string;
-  form: ReactNode;
-  primaryButtonLabel: string;
-  secondaryButtonLabel: string;
+  children: ReactNode;
+  submitButtonLabel?: string;
+  cancelButtonLabel?: string;
 };
 export const FormDialog = ({
   open,
-  handleClose,
+  onCancel,
   onSubmit,
   title,
-  form,
-  primaryButtonLabel,
-  secondaryButtonLabel,
+  children,
+  submitButtonLabel = "Envoyer",
+  cancelButtonLabel = "Annuler",
 }: Props) => {
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={onCancel}
       PaperProps={{
         component: "form",
         onSubmit,
       }}
     >
       <DialogTitle>{title}</DialogTitle>
-      <DialogContent sx={{ width: "440px", height: "fit-content" }}>{form}</DialogContent>
+      <DialogContent
+        sx={{
+          width: "440px",
+          height: "fit-content",
+        }}
+      >
+        {children}
+      </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>{secondaryButtonLabel}</Button>
+        <Button onClick={onCancel}>{cancelButtonLabel}</Button>
         <Button type="submit" variant="contained">
-          {primaryButtonLabel}
+          {submitButtonLabel}
         </Button>
       </DialogActions>
     </Dialog>
