@@ -6,8 +6,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { CardInner } from "./CardInner";
 import { GeneralCardContent } from "./GeneralCardContent";
 import { FormDialog } from "./FormDialog";
-import { SelectWithOptions } from "../Search/SearchSurveyTabContent";
 import { theme } from "../../theme";
+import { SelectWithOptions } from "../Search/SearchCampaignsForm";
 
 export const PasswordCard = () => {
   const [open, setOpen] = useState(false);

@@ -30,7 +30,7 @@ export function ContactPage() {
 
   const breadcrumbs = [
     { href: "/", title: "Accueil" },
-    { href: "/recherche", title: "Recherche" },
+    { href: "/search", title: "Recherche" },
     { href: `/contact/${contact.identifier}`, title: `${contact.firstName} ${contact.lastName}` },
   ];
 
