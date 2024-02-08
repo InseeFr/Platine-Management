@@ -3,10 +3,33 @@ import { ContactHeader } from "../ui/ContactSinglePage/ContactHeader.tsx";
 import { useFetchQuery } from "../hooks/useFetchQuery.ts";
 import { useParams } from "react-router-dom";
 import { Row } from "../ui/Row.tsx";
-import { CircularProgress, Tabs } from "@mui/material";
+import { CircularProgress, Stack, Tabs } from "@mui/material";
 import { ContactTab } from "../ui/ContactSinglePage/CustomTab.tsx";
 import { ContactInformationContent } from "../ui/ContactSinglePage/ContactInformationContent.tsx";
 import { type SyntheticEvent, useState } from "react";
+import { APISchemas } from "../types/api.ts";
+import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
+
+const getBreadcrumbs = (contact: APISchemas["ContactFirstLoginDto"], currentTab: number) => {
+  const initialBreadcrumbs = [
+    { href: "/", title: "Accueil" },
+    { href: "/search", title: "Recherche" },
+    { href: `/contact/${contact.identifier}`, title: `${contact.firstName} ${contact.lastName}` },
+  ];
+
+  switch (currentTab) {
+    case 0:
+      return [...initialBreadcrumbs, "Infos contact"];
+    case 1:
+      return [...initialBreadcrumbs, "Enquête(s)"];
+    case 2:
+      return [...initialBreadcrumbs, "Gestion des identifiants"];
+    case 3:
+      return [...initialBreadcrumbs, "Gestion des droits"];
+    default:
+      return [...initialBreadcrumbs];
+  }
+};
 
 export function ContactPage() {
   const { id } = useParams();
@@ -28,12 +51,6 @@ export function ContactPage() {
     );
   }
 
-  const breadcrumbs = [
-    { href: "/", title: "Accueil" },
-    { href: "/search", title: "Recherche" },
-    { href: `/contact/${contact.identifier}`, title: `${contact.firstName} ${contact.lastName}` },
-  ];
-
   return (
     <>
       <ContactHeader contact={contact} />
@@ -52,12 +69,13 @@ export function ContactPage() {
         <ContactTab label={"Gestion des droits"} />
       </Tabs>
 
-      {currentTab === 0 && (
-        <ContactInformationContent contact={contact} breadcrumbs={[...breadcrumbs, "Infos contact"]} />
-      )}
-      {currentTab === 1 && "1"}
-      {currentTab === 2 && "2"}
-      {currentTab === 3 && "3"}
+      <Stack px={3} py={3}>
+        <Breadcrumbs items={getBreadcrumbs(contact, currentTab)} />
+        {currentTab === 0 && <ContactInformationContent contact={contact} />}
+        {currentTab === 1 && "1"}
+        {currentTab === 2 && "2"}
+        {currentTab === 3 && "3"}
+      </Stack>
     </>
   );
 }

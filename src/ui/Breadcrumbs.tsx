@@ -21,7 +21,6 @@ export function Breadcrumbs({ items }: Props) {
           color: "text.tertiary",
         },
       }}
-      style={{}}
     >
       {items.map(item => (
         <BreadcrumbsItem item={item} key={getKey(item)} />

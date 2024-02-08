@@ -14,7 +14,8 @@ export const CommentDialog = ({ open, onSubmit, onCancel }: Props) => {
   const [comment, setComment] = useState("");
 
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setComment(event.target.value);
+    const value = event.target.value;
+    value.length <= 100 && setComment(value);
   };
 
   const handleCancel = () => {
