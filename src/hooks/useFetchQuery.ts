@@ -60,7 +60,7 @@ export function useInfiniteFetchQuery<Path extends APIPaths, Options extends API
     },
   };
   const result = useInfiniteQuery({
-    initialPageParam: 1,
+    initialPageParam: 0,
     queryKey: key,
     queryFn: ({ pageParam }) =>
       fetchAPI(path, {

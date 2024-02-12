@@ -56,7 +56,7 @@ export function ItemCard({ survey }: { survey: Item }) {
           <Row gap={1} mb={5}>
             <BinocularIcon />
             <Typography variant="titleLarge" fontWeight={600} color="text.primary">
-              {survey.id}
+              {survey.sourceId}
             </Typography>
           </Row>
           <Box mb={2} typography="bodyMedium" fontWeight={600} color="text.secondary">

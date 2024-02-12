@@ -1,10 +1,11 @@
-import { Box, IconButton, Link } from "@mui/material";
+import { Box, IconButton, Link, Stack, Typography } from "@mui/material";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Link as RouterLink } from "react-router-dom";
 import { Row } from "./Row.tsx";
 import { PropsWithChildren } from "react";
 import { useUser, useLogout } from "../hooks/useAuth.ts";
+import packageInfo from "../../package.json";
 
 export function Header() {
   const { preferred_username } = useUser();
@@ -14,12 +15,17 @@ export function Header() {
     <Row px={4} py={1} height={74} justifyContent="space-between" bgcolor="white">
       <Row gap={2.5} component={HomeLink}>
         <img src="/logoInsee.png" alt="" width={48} height={50} />
-        <Row typography="headlineMedium" gap={0.25} color="red.main" component="span">
-          <Box component="span" color="black.main" fontWeight={600}>
-            Platine
-          </Box>
-          Collecte
-        </Row>
+        <Stack>
+          <Row typography="headlineMedium" gap={0.25} color="red.main" component="span">
+            <Box component="span" color="black.main" fontWeight={600}>
+              Platine
+            </Box>
+            Collecte
+          </Row>
+          <Typography variant="bodySmall" color="black.main">
+            v{packageInfo.version}
+          </Typography>
+        </Stack>
       </Row>
       <Box>
         {preferred_username}
