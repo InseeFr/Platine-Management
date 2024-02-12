@@ -12,7 +12,7 @@ import { RadioLine } from "./RadioLine";
 import { Controller, type UseFormReturn } from "react-hook-form";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 
-type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required"> & {
+type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required" | "sx"> & {
   type?: "radios" | "radiostack" | "switch" | "text";
   error?: string;
   control?: UseFormReturn<any, any, any>["control"];
@@ -72,12 +72,34 @@ export const Field = forwardRef<HTMLElement, Props>((props, ref) => {
 
 export function uncontrolledField(props: Props, ref: any) {
   if (props.labelOutside) {
-    return <OutlinedInput fullWidth {...props} error={!!props.error} inputRef={ref} />;
+    return <OutlinedInput fullWidth {...props} error={!!props.error} inputRef={ref} size="small" />;
   }
   return (
-    <TextField fullWidth {...props} inputRef={ref} error={!!props.error} helperText={props.error} />
+    <TextField
+      fullWidth
+      {...props}
+      inputRef={ref}
+      error={!!props.error}
+      helperText={props.error}
+      size="small"
+    />
   );
 }
+
+const style = {
+  root: {
+    "& .MuiSvgIcon-root": {
+      fontSize: 14,
+    },
+    ".MuiTypography-root": {
+      typography: "bodyMedium",
+    },
+    ".MuiFormControlLabel-root": {
+      gap: 1,
+    },
+    gap: 3,
+  },
+};
 
 export function controlledField({ type, name, options }: Props, field: any) {
   if (type === "switch") {
@@ -91,12 +113,13 @@ export function controlledField({ type, name, options }: Props, field: any) {
         row
         aria-labelledby={`label-${name}`}
         name={name}
+        sx={style.root}
       >
         {options?.map(o => (
           <FormControlLabel
             key={o.value}
             value={o.value}
-            control={<Radio sx={{ p: 0 }} />}
+            control={<Radio sx={{ p: 0 }} size="small" />}
             label={o.label}
           />
         ))}
