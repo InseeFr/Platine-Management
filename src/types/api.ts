@@ -419,6 +419,24 @@ export type APISchemas = {
     numberOfElements?: number
     empty?: boolean
   }
+  SurveyUnitPage: {
+    content?: Array<APISchemas["SurveyUnitDto"]>
+    pageable?: APISchemas["PageableObject"]
+    last?: boolean
+    /* Format: int32 */
+    totalPages?: number
+    /* Format: int64 */
+    totalElements?: number
+    first?: boolean
+    /* Format: int32 */
+    size?: number
+    /* Format: int32 */
+    number?: number
+    sort?: APISchemas["SortObject"]
+    /* Format: int32 */
+    numberOfElements?: number
+    empty?: boolean
+  }
   SupportPage: {
     content?: Array<APISchemas["SupportDto"]>
     pageable?: APISchemas["PageableObject"]
@@ -600,9 +618,9 @@ export type APISchemas = {
     /* Format: int32 */
     number?: number
     sort?: APISchemas["SortObject"]
+    pageable?: APISchemas["PageableObject"]
     /* Format: int32 */
     numberOfElements?: number
-    pageable?: APISchemas["PageableObject"]
     empty?: boolean
   }
   HealthcheckDto: { status?: string }
@@ -1112,7 +1130,7 @@ export type APIEndpoints = {
     requests: { method?: "get"; urlParams: { id: string } }
   }
   "/api/survey-units": {
-    responses: { get: APISchemas["SurveyUnitDto"] }
+    responses: { get: APISchemas["SurveyUnitPage"] }
     requests: {
       method?: "get"
       query?: {
