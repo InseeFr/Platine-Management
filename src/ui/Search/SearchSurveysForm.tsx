@@ -17,14 +17,15 @@ export const SearchSurveysForm = () => {
   );
 };
 
-type SelectWithOptionsProps = { options: string[]; label: string; name: string };
+export type SelectWithOptionsProps = { options: string[]; label: string; name: string };
 
-function SelectWithOptions({ options, label, name }: SelectWithOptionsProps) {
+export function SelectWithOptions({ options, label, name }: SelectWithOptionsProps) {
   return (
     <Select
       name={name}
       size="small"
       displayEmpty
+      fullWidth
       input={<OutlinedInput size="small" />}
       renderValue={selected => {
         if (!selected) {

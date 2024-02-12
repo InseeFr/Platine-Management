@@ -12,8 +12,7 @@ type Props = {
 export const ContactInformationContent = ({ contact }: Props) => {
   return (
     <Grid
-      px={6}
-      py={3}
+      px={3}
       container
       sx={{
         display: "grid",

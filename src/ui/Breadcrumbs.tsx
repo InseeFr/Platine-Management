@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import { NavLink } from "react-router-dom";
 
-type Item = { href: string; title: string } | string;
+export type Item = { href: string; title: string } | string;
 
 type Props = {
   items: Item[];
@@ -11,7 +11,17 @@ type Props = {
 
 export function Breadcrumbs({ items }: Props) {
   return (
-    <MuiBreadcrumbs aria-label="breadcrumb" sx={{ py: 2, px: 4 }}>
+    <MuiBreadcrumbs
+      aria-label="breadcrumb"
+      sx={{
+        py: 2,
+        px: 4,
+        typography: "titleSmall",
+        ".MuiBreadcrumbs-separator": {
+          color: "text.tertiary",
+        },
+      }}
+    >
       {items.map(item => (
         <BreadcrumbsItem item={item} key={getKey(item)} />
       ))}
@@ -36,8 +46,8 @@ function BreadcrumbsItem({ item }: { item: Item }) {
   }
 
   return (
-    <Link component={NavLink} underline="hover" color="inherit" to="/">
-      Accueil
+    <Link component={NavLink} underline="hover" color="text.tertiary" to={item.href}>
+      {item.title}
     </Link>
   );
 }

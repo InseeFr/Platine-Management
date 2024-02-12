@@ -1,8 +1,8 @@
-import { Box, Card, IconButton, Tooltip } from "@mui/material";
+import { Box, Card, IconButton, Tooltip, Typography } from "@mui/material";
 import { ReactNode, useState } from "react";
 import { Row } from "../Row";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { DeleteCommentDialog } from "./DeleteCommentDialog";
+import { FormDialog } from "./FormDialog";
 
 type Props = {
   content: ReactNode;
@@ -17,11 +17,11 @@ type Props = {
 export const CardInner = ({ content, hasAction, hasTooltip, onDelete, tooltipContent }: Props) => {
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
+  const onOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const onClose = () => {
     setOpen(false);
   };
 
@@ -36,19 +36,25 @@ export const CardInner = ({ content, hasAction, hasTooltip, onDelete, tooltipCon
           content
         )}
         {hasAction && (
-          <IconButton sx={{ color: "inherit" }} aria-label="delete" onClick={handleClickOpen}>
+          <IconButton sx={{ color: "inherit" }} aria-label="delete" onClick={onOpen}>
             <DeleteOutlineIcon fontSize="small" />
           </IconButton>
         )}
       </Row>
-      <DeleteCommentDialog
+      <FormDialog
         open={open}
-        handleClose={handleClose}
-        onDelete={() => {
+        onCancel={onClose}
+        onSubmit={() => {
           onDelete && onDelete();
-          handleClose();
+          onClose();
         }}
-      />
+        title={"Suppression d’un commentaire"}
+        submitButtonLabel="Supprimer"
+      >
+        <Typography variant="bodyMedium" textAlign="center" px={6} color="text.secondary">
+          Vous êtes sur le point de supprimer un commentaire. Voulez-vous continuer ?
+        </Typography>
+      </FormDialog>
     </Card>
   );
 };

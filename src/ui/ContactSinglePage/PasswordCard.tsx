@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import PasswordIcon from "@mui/icons-material/Password";
 
 import AddIcon from "@mui/icons-material/Add";
 import { CardInner } from "./CardInner";
 import { GeneralCardContent } from "./GeneralCardContent";
 import { FormDialog } from "./FormDialog";
+import { theme } from "../../theme";
+import { SelectWithOptions } from "../Search/SearchSurveysForm";
 
 export const PasswordCard = () => {
   const [open, setOpen] = useState(false);
@@ -14,18 +16,31 @@ export const PasswordCard = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const onClose = () => {
     setOpen(false);
   };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries((formData as any).entries());
-    console.log(formJson);
-    handleClose();
+    const password = formData.get("password");
+    console.log(password);
+    onClose();
   };
 
+  const options = ["mail", "phone"]; // TODO: use real options
+
+  const style = {
+    root: {
+      ".MuiOutlinedInput-notchedOutline": {
+        borderColor: theme.palette.text.secondary,
+      },
+      ".MuiOutlinedInput-input": {
+        fontSize: "16px",
+        letterSpacing: "0.5px",
+      },
+    },
+  };
   return (
     <GeneralCardContent
       TitleIconComponent={PasswordIcon}
@@ -36,13 +51,18 @@ export const PasswordCard = () => {
       CardDialog={
         <FormDialog
           open={open}
-          handleClose={handleClose}
+          onCancel={onClose}
           onSubmit={onSubmit}
           title={"Réinitialisation du mot de passe"}
-          form={<Typography>form</Typography>}
-          primaryButtonLabel={"Envoyer"}
-          secondaryButtonLabel={"Annuler"}
-        />
+        >
+          <Box sx={style.root} pb={1} pt={3} px={6}>
+            <SelectWithOptions
+              options={options}
+              label={"Choisissez le mode d'envoi"}
+              name={"password"}
+            />
+          </Box>
+        </FormDialog>
       }
       handleClickOpen={handleClickOpen}
     />

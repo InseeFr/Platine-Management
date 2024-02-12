@@ -14,7 +14,7 @@ export function Header() {
   return (
     <Row px={4} py={1} height={74} justifyContent="space-between" bgcolor="white">
       <Row gap={2.5} component={HomeLink}>
-        <img src="/logoInsee.png" alt="" width={48} height={50} />
+        <img src="/logoInsee.png" alt="logo insee" width={48} height={50} />
         <Stack>
           <Row typography="headlineMedium" gap={0.25} color="red.main" component="span">
             <Box component="span" color="black.main" fontWeight={600}>

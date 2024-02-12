@@ -57,7 +57,7 @@ export function ItemCard({ contact }: { contact: Item }) {
   const isDisabled = false; // TODO : calculated this value
   return (
     <Card elevation={2} variant={isDisabled ? "disabled" : undefined}>
-      <CardActionArea component={Link} to={`/contact/${contact.identifier}`}>
+      <CardActionArea component={Link} to={`/contacts/${contact.identifier}`}>
         <Box px={3} py={2}>
           <Typography align="right" variant="titleMedium" color="text.tertiary" gutterBottom>
             #{contact.identifier}
@@ -74,7 +74,7 @@ export function ItemCard({ contact }: { contact: Item }) {
             </Row>
 
             <Stack spacing={0.5} color="text.secondary">
-              <TextWithLeftIcon IconComponent={LocationOnIcon} text={contact.address.cityName} />
+              <TextWithLeftIcon IconComponent={LocationOnIcon} text={contact.address?.cityName} />
               <TextWithLeftIcon IconComponent={LocalPhoneOutlinedIcon} text={contact.phone} />
               <TextWithLeftIcon IconComponent={EmailIcon} text={contact.email} />
               <TextWithLeftIcon IconComponent={DesktopWindowsOutlinedIcon} text={contact.function} />
