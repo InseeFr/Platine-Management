@@ -35,7 +35,7 @@ export const ContactCard = ({
 }: ContactCardProps) => {
   return (
     <Card elevation={2} variant={isDisabled ? "disabled" : undefined}>
-      <CardActionArea component={Link} to={`/contact/${identifier}`}>
+      <CardActionArea component={Link} to={`/contacts/${identifier}`}>
         <Box px={3} py={2}>
           <Typography align="right" variant="titleMedium" color="text.tertiary" gutterBottom>
             #{identifier}

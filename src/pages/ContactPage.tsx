@@ -14,7 +14,7 @@ const getBreadcrumbs = (contact: APISchemas["ContactFirstLoginDto"], currentTab:
   const initialBreadcrumbs = [
     { href: "/", title: "Accueil" },
     { href: "/search", title: "Recherche" },
-    { href: `/contact/${contact.identifier}`, title: `${contact.firstName} ${contact.lastName}` },
+    { href: `/contacts/${contact.identifier}`, title: `${contact.firstName} ${contact.lastName}` },
   ];
 
   switch (currentTab) {
