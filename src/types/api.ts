@@ -355,10 +355,10 @@ export type APISchemas = {
     content?: Array<APISchemas["UserDto"]>
     pageable?: APISchemas["PageableObject"]
     last?: boolean
-    /* Format: int32 */
-    totalPages?: number
     /* Format: int64 */
     totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
     first?: boolean
     /* Format: int32 */
     size?: number
@@ -405,10 +405,10 @@ export type APISchemas = {
     content?: Array<APISchemas["SurveyDto"]>
     pageable?: APISchemas["PageableObject"]
     last?: boolean
-    /* Format: int32 */
-    totalPages?: number
     /* Format: int64 */
     totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
     first?: boolean
     /* Format: int32 */
     size?: number
@@ -419,14 +419,148 @@ export type APISchemas = {
     numberOfElements?: number
     empty?: boolean
   }
+  CampaignPartitioningsDto: {
+    id: string
+    surveyId?: string
+    /* Format: int32 */
+    year?: number
+    campaignWording?: string
+    period?:
+      | "A00"
+      | "X00"
+      | "X01"
+      | "X02"
+      | "X03"
+      | "X04"
+      | "X05"
+      | "X06"
+      | "X07"
+      | "X08"
+      | "X09"
+      | "X10"
+      | "X11"
+      | "X12"
+      | "X13"
+      | "X14"
+      | "X15"
+      | "X16"
+      | "X17"
+      | "X18"
+      | "X19"
+      | "X20"
+      | "X21"
+      | "X22"
+      | "X23"
+      | "X24"
+      | "X25"
+      | "X26"
+      | "X27"
+      | "X28"
+      | "X29"
+      | "X30"
+      | "X31"
+      | "X32"
+      | "X33"
+      | "X34"
+      | "X35"
+      | "X36"
+      | "X37"
+      | "X38"
+      | "X39"
+      | "X40"
+      | "X41"
+      | "X42"
+      | "X43"
+      | "X44"
+      | "X45"
+      | "X46"
+      | "X47"
+      | "X48"
+      | "X49"
+      | "X50"
+      | "X51"
+      | "X52"
+      | "X53"
+      | "X54"
+      | "X55"
+      | "X56"
+      | "X57"
+      | "X58"
+      | "X59"
+      | "X60"
+      | "X61"
+      | "X62"
+      | "X63"
+      | "X64"
+      | "X65"
+      | "X66"
+      | "X67"
+      | "X68"
+      | "X69"
+      | "X70"
+      | "X71"
+      | "X72"
+      | "X73"
+      | "X74"
+      | "X75"
+      | "X76"
+      | "X77"
+      | "X78"
+      | "X79"
+      | "X80"
+      | "X81"
+      | "X82"
+      | "X83"
+      | "X84"
+      | "X85"
+      | "X86"
+      | "X87"
+      | "X88"
+      | "X89"
+      | "X90"
+      | "X91"
+      | "X92"
+      | "X93"
+      | "X94"
+      | "X95"
+      | "X96"
+      | "X97"
+      | "X98"
+      | "X99"
+      | "S01"
+      | "S02"
+      | "T01"
+      | "T02"
+      | "T03"
+      | "T04"
+      | "M01"
+      | "M02"
+      | "M03"
+      | "M04"
+      | "M05"
+      | "M06"
+      | "M07"
+      | "M08"
+      | "M09"
+      | "M10"
+      | "M11"
+      | "M12"
+      | "B01"
+      | "B02"
+      | "B03"
+      | "B04"
+      | "B05"
+      | "B06"
+    partitionings?: Array<APISchemas["PartitioningDto"]>
+  }
   SurveyUnitPage: {
     content?: Array<APISchemas["SurveyUnitDto"]>
     pageable?: APISchemas["PageableObject"]
     last?: boolean
-    /* Format: int32 */
-    totalPages?: number
     /* Format: int64 */
     totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
     first?: boolean
     /* Format: int32 */
     size?: number
@@ -441,10 +575,10 @@ export type APISchemas = {
     content?: Array<APISchemas["SupportDto"]>
     pageable?: APISchemas["PageableObject"]
     last?: boolean
-    /* Format: int32 */
-    totalPages?: number
     /* Format: int64 */
     totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
     first?: boolean
     /* Format: int32 */
     size?: number
@@ -459,10 +593,10 @@ export type APISchemas = {
     content?: Array<APISchemas["SourceCompleteDto"]>
     pageable?: APISchemas["PageableObject"]
     last?: boolean
-    /* Format: int32 */
-    totalPages?: number
     /* Format: int64 */
     totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
     first?: boolean
     /* Format: int32 */
     size?: number
@@ -478,10 +612,10 @@ export type APISchemas = {
     content?: Array<APISchemas["OwnerDto"]>
     pageable?: APISchemas["PageableObject"]
     last?: boolean
-    /* Format: int32 */
-    totalPages?: number
     /* Format: int64 */
     totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
     first?: boolean
     /* Format: int32 */
     size?: number
@@ -606,10 +740,10 @@ export type APISchemas = {
     source?: string
   }
   PageMoogSearchDto: {
-    /* Format: int32 */
-    totalPages?: number
     /* Format: int64 */
     totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
     first?: boolean
     last?: boolean
     /* Format: int32 */
@@ -618,9 +752,9 @@ export type APISchemas = {
     /* Format: int32 */
     number?: number
     sort?: APISchemas["SortObject"]
-    pageable?: APISchemas["PageableObject"]
     /* Format: int32 */
     numberOfElements?: number
+    pageable?: APISchemas["PageableObject"]
     empty?: boolean
   }
   HealthcheckDto: { status?: string }
@@ -628,10 +762,10 @@ export type APISchemas = {
     content?: Array<APISchemas["ContactDto"]>
     pageable?: APISchemas["PageableObject"]
     last?: boolean
-    /* Format: int32 */
-    totalPages?: number
     /* Format: int64 */
     totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
     first?: boolean
     /* Format: int32 */
     size?: number
@@ -817,10 +951,10 @@ export type APISchemas = {
     content?: Array<APISchemas["CampaignDto"]>
     pageable?: APISchemas["PageableObject"]
     last?: boolean
-    /* Format: int32 */
-    totalPages?: number
     /* Format: int64 */
     totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
     first?: boolean
     /* Format: int32 */
     size?: number
@@ -1128,6 +1262,27 @@ export type APIEndpoints = {
   "/api/surveys/{id}/campaigns": {
     responses: { get: Array<APISchemas["CampaignDto"]> }
     requests: { method?: "get"; urlParams: { id: string } }
+  }
+  "/api/surveys/{id}/campaigns-partitionings": {
+    responses: { get: Array<APISchemas["CampaignPartitioningsDto"]> }
+    requests: { method?: "get"; urlParams: { id: string } }
+  }
+  "/api/surveys/search": {
+    responses: { get: APISchemas["SurveyPage"] }
+    requests: {
+      method?: "get"
+      query?: {
+        idSource?: string
+        /* Format: int32 */
+        year?: number
+        periodicity?: string
+        /* Format: int32 */
+        page?: number
+        /* Format: int32 */
+        size?: number
+        sort?: string
+      }
+    }
   }
   "/api/survey-units": {
     responses: { get: APISchemas["SurveyUnitPage"] }
