@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { z } from "zod";
 import { useForm } from "../../../hooks/useForm.ts";
 import { APISchemas } from "../../../types/api.ts";
@@ -6,6 +6,7 @@ import { Field } from "../../Form/Field.tsx";
 import Stack from "@mui/material/Stack";
 import { Row } from "../../Row.tsx";
 import StarIcon from "@mui/icons-material/Star";
+import { style } from "../../Search/SearchPanel.tsx";
 
 type Props = {
   open: boolean;
@@ -26,13 +27,13 @@ const schema = z.object({
     .object({
       streetNumber: z.string().optional(),
       repetitionIndex: z.enum(["bis"]).optional().or(z.literal("")), //TODO: use real repetition index
-      streetType: z.enum(["rue", "avenue"]), // TODO: use real street type
+      streetType: z.enum(["rue", "avenue"]).optional(), // TODO: use real street type
       streetName: z.string().optional(),
       addressSupplement: z.string().optional(),
-      specialMention: z.string().optional(), // TODO: add in api
+      specialDistribution: z.string().optional(),
       cityName: z.string().optional(),
       zipCode: z.string().optional(),
-      specialDistribution: z.string().optional(),
+      deliveryOffice: z.string().optional(), // TODO: add in api
       cedexCode: z.string().optional(),
       countryName: z.string().optional().or(z.literal("")),
     })
@@ -44,9 +45,18 @@ const civilities = [
   { label: "Monsieur", value: "Male" },
 ];
 
+const repetitionIndex = ["bis"]; //TODO: use real repetition index
+
+const streetType = ["rue", "avenue"]; // TODO: use real street type
+
+const countries = ["France", "Belgique"]; // TODO: use real countries
+
 export const ContactDetailsDialog = ({ open, handleClose, contact }: Props) => {
+  const defaultValues = contact.address?.countryName
+    ? contact
+    : { ...contact, address: { ...contact.address, countryName: "France" } };
   const { register, control, errors, handleSubmit } = useForm(schema, {
-    defaultValues: contact,
+    defaultValues: defaultValues,
   });
 
   const onSubmit = handleSubmit(data => {
@@ -57,8 +67,8 @@ export const ContactDetailsDialog = ({ open, handleClose, contact }: Props) => {
     <Dialog open={open} onClose={handleClose} sx={{ ".MuiPaper-root": { maxWidth: "1160px", px: 3 } }}>
       <form action="#" onSubmit={onSubmit}>
         <DialogTitle>Modification des coordonnées</DialogTitle>
-        <DialogContent sx={{ ".MuiDialogContent-root": { maxWidth: "1160px", mt: 2 } }}>
-          <Row spacing={5} alignItems={"flex-start"} flexWrap={"wrap"}>
+        <DialogContent sx={{ ".MuiDialogContent-root": { mt: 2 } }}>
+          <Row spacing={5} alignItems={"flex-start"} flexWrap={"wrap"} sx={style.root}>
             <Row gap={4}>
               <Stack gap={4}>
                 <Field
@@ -73,11 +83,17 @@ export const ContactDetailsDialog = ({ open, handleClose, contact }: Props) => {
                 <Field label="Fonction" error={errors.function?.message} {...register("function")} />
                 <Field label="Adresse courriel" error={errors.email?.message} {...register("email")} />
                 <Row gap={3}>
-                  <Field label="Téléphone 1" error={errors.phone?.message} {...register("phone")} />
+                  <Field
+                    sx={{ width: "150px" }}
+                    label="Téléphone 1"
+                    error={errors.phone?.message}
+                    {...register("phone")}
+                  />
                   <StarIcon fontSize="small" color="yellow" />
                 </Row>
                 <Row gap={3}>
                   <Field
+                    sx={{ width: "150px" }}
                     label="Téléphone 2"
                     error={errors.secondPhone?.message}
                     {...register("secondPhone")}
@@ -87,7 +103,7 @@ export const ContactDetailsDialog = ({ open, handleClose, contact }: Props) => {
               </Stack>
               <Divider orientation="vertical" variant="middle" sx={{ height: "470px" }} />
             </Row>
-            <Stack gap={4} pt={5}>
+            <Stack gap={4} pt={9}>
               <Field
                 label="Raison sociale"
                 error={errors.socialReason?.message}
@@ -100,14 +116,22 @@ export const ContactDetailsDialog = ({ open, handleClose, contact }: Props) => {
                   error={errors.address?.streetNumber?.message}
                   {...register("address.streetNumber")}
                 />
-                <Field
-                  label="Indice de répétition"
-                  error={errors.address?.repetitionIndex?.message}
-                  {...register("address.repetitionIndex")}
-                />
+                <Box sx={{ width: "200px" }}>
+                  <Field
+                    type="select"
+                    selectoptions={repetitionIndex}
+                    defaultValue={contact.address?.repetitionIndex}
+                    label="Indice de répétition"
+                    error={errors.address?.repetitionIndex?.message}
+                    {...register("address.repetitionIndex")}
+                  />
+                </Box>
               </Row>
               <Field
+                type="select"
                 label="Type de voie"
+                selectoptions={streetType}
+                defaultValue={contact.address?.streetType}
                 error={errors.address?.streetType?.message}
                 {...register("address.streetType")}
               />
@@ -123,36 +147,45 @@ export const ContactDetailsDialog = ({ open, handleClose, contact }: Props) => {
               />
               <Field
                 label="Mention spéciale (BP, TSA ...)"
-                error={errors.address?.specialMention?.message}
-                {...register("address.specialMention")}
+                error={errors.address?.specialDistribution?.message}
+                {...register("address.specialDistribution")}
               />
             </Stack>
-            <Stack gap={4} pt={5}>
+            <Stack gap={4} pt={9}>
               <Field
+                sx={{ width: "210px" }}
                 label="Commune"
                 error={errors.address?.cityName?.message}
                 {...register("address.cityName")}
               />
               <Field
+                sx={{ width: "120px" }}
                 label="Code postal"
                 error={errors.address?.zipCode?.message}
                 {...register("address.zipCode")}
               />
               <Field
+                sx={{ width: "210px" }}
                 label="Bureau distributeur"
-                error={errors.address?.specialDistribution?.message}
-                {...register("address.specialDistribution")}
+                error={errors.address?.deliveryOffice?.message}
+                {...register("address.deliveryOffice")}
               />
               <Field
+                sx={{ width: "210px" }}
                 label="Code cedex"
                 error={errors.address?.cedexCode?.message}
                 {...register("address.cedexCode")}
               />
-              <Field
-                label="Sélectionnez un pays"
-                error={errors.address?.countryName?.message}
-                {...register("address.countryName")}
-              />
+              <Box sx={{ width: "300px" }}>
+                <Field
+                  defaultValue={contact.address?.countryName ? contact.address.countryName : "France"}
+                  type="select"
+                  label="Sélectionnez un pays"
+                  selectoptions={countries}
+                  error={errors.address?.countryName?.message}
+                  {...register("address.countryName")}
+                />
+              </Box>
             </Stack>
           </Row>
         </DialogContent>

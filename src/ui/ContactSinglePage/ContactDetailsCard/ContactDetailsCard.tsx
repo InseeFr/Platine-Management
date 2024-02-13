@@ -23,7 +23,12 @@ export const ContactDetailsCard = ({ contact }: Props) => {
     setOpen(false);
   };
 
-  const civility = contact.civility ? (contact.civility === "Female" ? "Madame" : "Monsieur") : "";
+  const civility =
+    contact.civility !== "Undefined" && contact.civility
+      ? contact.civility === "Female"
+        ? "Madame"
+        : "Monsieur"
+      : "";
   return (
     <Card sx={{ px: 6, py: 3 }} elevation={2}>
       <Stack spacing={4}>
@@ -54,14 +59,14 @@ export const ContactDetailsCard = ({ contact }: Props) => {
               ${contact.address?.zipCode}, ${contact.address?.cityName}`}
             </Box>
             <Box component={"span"}>
-              {`${contact.address?.specialDistribution} 
+              {`TODO Bureau distributeur 
               ${contact.address?.cedexCode && ","} 
               ${contact.address?.cedexCode}
               ${contact.address?.countryName && ","} 
               ${contact.address?.countryName}`}
             </Box>
             <Box component={"span"}>{contact.address?.addressSupplement}</Box>
-            <Box component={"span"}>Mention Spéciale</Box>
+            <Box component={"span"}>{contact.address?.specialDistribution}</Box>
           </Stack>
         </Row>
       </Stack>

@@ -12,13 +12,17 @@ import { RadioLine } from "./RadioLine";
 import { Controller, type UseFormReturn } from "react-hook-form";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 
-type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required" | "sx"> & {
-  type?: "radios" | "radiostack" | "switch" | "text";
-  error?: string;
-  control?: UseFormReturn<any, any, any>["control"];
-  labelOutside?: boolean;
-  options?: { label: string; value: string }[];
-};
+import { FormControl, InputLabel, MenuItem, Select, SelectProps } from "@mui/material";
+
+type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required" | "sx"> &
+  Pick<SelectProps, "onChange" | "defaultValue"> & {
+    type?: "radios" | "radiostack" | "switch" | "text" | "select";
+    error?: string;
+    control?: UseFormReturn<any, any, any>["control"];
+    labelOutside?: boolean;
+    options?: { label: string; value: string }[];
+    selectoptions?: string[];
+  };
 
 export const Field = forwardRef<HTMLElement, Props>((props, ref) => {
   const isControlled = !!props.control;
@@ -31,7 +35,8 @@ export const Field = forwardRef<HTMLElement, Props>((props, ref) => {
     return `A controlled field must have a name`;
   }
 
-  const labelOutside = (props.type && props.type !== "text") || props.labelOutside;
+  const labelOutside =
+    (props.type && props.type !== "text" && props.type !== "select") || props.labelOutside;
 
   return (
     <Row gap={3}>
@@ -74,6 +79,36 @@ export function uncontrolledField(props: Props, ref: any) {
   if (props.labelOutside) {
     return <OutlinedInput fullWidth {...props} error={!!props.error} inputRef={ref} size="small" />;
   }
+
+  if (props.type === "select" && props.selectoptions) {
+    const labelId = `label-${props.name}`;
+
+    return (
+      <FormControl fullWidth>
+        <InputLabel size="small" id={labelId}>
+          {props.label}
+        </InputLabel>
+        <Select
+          fullWidth
+          {...props}
+          labelId={labelId}
+          defaultValue={props.defaultValue}
+          id={`select-${props.name}`}
+          error={!!props.error}
+          inputRef={ref}
+          size="small"
+          displayEmpty
+        >
+          {props.selectoptions.map(option => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    );
+  }
+
   return (
     <TextField
       fullWidth
@@ -85,21 +120,6 @@ export function uncontrolledField(props: Props, ref: any) {
     />
   );
 }
-
-const style = {
-  root: {
-    "& .MuiSvgIcon-root": {
-      fontSize: 14,
-    },
-    ".MuiTypography-root": {
-      typography: "bodyMedium",
-    },
-    ".MuiFormControlLabel-root": {
-      gap: 1,
-    },
-    gap: 3,
-  },
-};
 
 export function controlledField({ type, name, options }: Props, field: any) {
   if (type === "switch") {
@@ -113,7 +133,6 @@ export function controlledField({ type, name, options }: Props, field: any) {
         row
         aria-labelledby={`label-${name}`}
         name={name}
-        sx={style.root}
       >
         {options?.map(o => (
           <FormControlLabel
