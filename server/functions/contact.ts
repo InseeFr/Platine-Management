@@ -6,7 +6,7 @@ export const fakeContact = (seed: number) => {
   return {
     identifier: faker.string.uuid(),
     externalId: faker.string.uuid(),
-    civility: faker.person.sex(),
+    civility: faker.helpers.arrayElement(["Male", "Female"]),
     lastName: faker.person.lastName(),
     firstName: faker.person.firstName(),
     function: faker.person.jobTitle(),
