@@ -21,8 +21,10 @@ export const SurveyHeader = ({ survey }: Props) => {
   const [year, setYear] = useState(survey.year);
   const navigate = useNavigate();
 
+  const surveyYears = ["2022", "2023", "2024"];
+
   const handleChange = (event: SelectChangeEvent) => {
-    setYear(event.target.value);
+    setYear(parseInt(event.target.value));
 
     console.log(year);
   };

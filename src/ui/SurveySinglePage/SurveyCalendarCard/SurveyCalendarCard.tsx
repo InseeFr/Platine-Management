@@ -31,8 +31,6 @@ type Props = {
 };
 
 export const SurveyCalendarCard = ({ survey }: Props) => {
-  const campaignId = "AQV2023A00";
-
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -42,13 +40,13 @@ export const SurveyCalendarCard = ({ survey }: Props) => {
   const handleClose = () => {
     setOpen(false);
   };
-  const { data: partitionings } = useFetchQuery("/api/campaigns/{id}/partitionings", {
+  const { data: campPartition } = useFetchQuery("/api/surveys/{id}/campaigns-partitionings", {
     urlParams: {
-      id: campaignId!,
+      id: survey!.id!,
     },
   });
 
-  if (!partitionings) {
+  if (!campPartition) {
     return (
       <Row justifyContent="center" py={10}>
         <CircularProgress />
@@ -96,9 +94,9 @@ export const SurveyCalendarCard = ({ survey }: Props) => {
               }
             </Typography>
           </Stack>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
+              <TableHead sx={{ background: "#EBEFF5" }}>
                 <TableRow>
                   <TableCell align="center" sx={{ fontWeight: 700 }}>
                     Année de collecte
@@ -124,31 +122,38 @@ export const SurveyCalendarCard = ({ survey }: Props) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {partitionings
+                {campPartition
                   .sort((a, b) => (a.id! > b.id! ? 1 : -1))
-                  .map(p => (
-                    <TableRow key={p.id}>
-                      <TableCell align="center">{survey?.year}</TableCell>
-                      <TableCell align="center">
-                        {survey?.id ? p.id?.replace(survey?.id, "") : ""}
-                      </TableCell>
-                      <TableCell align="center">
-                        {p.campaignId ? p.id?.replace(p.campaignId, "") : ""}
-                      </TableCell>
-                      <TableCell align="center" sx={{ fontWeight: 700 }}>
-                        {moment(p.openingDate).format("D/MM/YYYY")}
-                      </TableCell>
-                      <TableCell align="center" sx={{ fontWeight: 700 }}>
-                        {moment(p.returnDate).format("DD/MM/YYYY")}
-                      </TableCell>
-                      <TableCell align="center" sx={{ fontWeight: 700 }}>
-                        {moment(p.closingDate).format("DD/MM/YYYY")}
-                      </TableCell>
-                      <TableCell align="center">{"not provided"}</TableCell>
-                      <TableCell align="center">{"not provided"}</TableCell>
-                      <TableCell align="center">{"not provided"}</TableCell>
-                    </TableRow>
-                  ))}
+                  .map(
+                    p =>
+                      p.partitionings
+                        ?.sort((a, b) => (a.id! > b.id! ? 1 : -1))
+                        .map(part => (
+                          <TableRow key={part.id}>
+                            <TableCell align="center" sx={{ borderBottom: "none" }}>
+                              {survey?.year}
+                            </TableCell>
+                            <TableCell align="center">
+                              {survey?.id ? p.id?.replace(survey?.id, "") : ""}
+                            </TableCell>
+                            <TableCell align="center">
+                              {p.id ? part.id?.replace(p.id, "") : ""}
+                            </TableCell>
+                            <TableCell align="center" sx={{ fontWeight: 700 }}>
+                              {moment(part.openingDate).format("D/MM/YYYY")}
+                            </TableCell>
+                            <TableCell align="center" sx={{ fontWeight: 700 }}>
+                              {moment(part.returnDate).format("DD/MM/YYYY")}
+                            </TableCell>
+                            <TableCell align="center" sx={{ fontWeight: 700 }}>
+                              {moment(part.closingDate).format("DD/MM/YYYY")}
+                            </TableCell>
+                            <TableCell align="center">{"not provided"}</TableCell>
+                            <TableCell align="center">{"not provided"}</TableCell>
+                            <TableCell align="center">{"not provided"}</TableCell>
+                          </TableRow>
+                        )),
+                  )}
               </TableBody>
             </Table>
           </TableContainer>

@@ -37,6 +37,7 @@ declare module "@mui/material/styles" {
     titleLarge: CSSProperties;
     titleMedium: CSSProperties;
     titleSmall: CSSProperties;
+    itemSmall: CSSProperties;
     labelMedium: CSSProperties;
     labelSmall: CSSProperties;
     bodyLarge: CSSProperties;
@@ -54,6 +55,7 @@ declare module "@mui/material/styles" {
     titleLarge?: CSSProperties;
     titleMedium?: CSSProperties;
     titleSmall?: CSSProperties;
+    itemSmall?: CSSProperties;
     labelMedium?: CSSProperties;
     labelSmall?: CSSProperties;
     bodyLarge?: CSSProperties;
@@ -73,6 +75,7 @@ declare module "@mui/material/Typography" {
     titleLarge: true;
     titleMedium: true;
     titleSmall: true;
+    itemSmall: true;
     labelMedium: true;
     labelSmall: true;
     bodyLarge: true;
@@ -161,6 +164,12 @@ const typography = {
     fontSize: 14,
     lineHeight: "20px",
     fontWeight: 600,
+    letterSpacing: 0.1,
+  },
+  itemSmall: {
+    fontSize: 12,
+    lineHeight: "16px",
+    fontWeight: 400,
     letterSpacing: 0.1,
   },
   labelMedium: {
@@ -339,6 +348,13 @@ export const theme = createTheme({
             zIndex: 1,
             paddingLeft: 24,
           },
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          borderBottom: "none",
         },
       },
     },
