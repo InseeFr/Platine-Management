@@ -42,10 +42,10 @@ export const SearchSurveyUnits = () => {
       </Row>
 
       <CardGrid>
-        {surveyUnits.map(c => (
-          <div key={c.id}>
+        {surveyUnits.map(su => (
+          <div key={su.idSu}>
             {/* This div prevent card from behing resized by the grid */}
-            <ItemCard survey={c} />
+            <ItemCard surveyUnit={su} />
           </div>
         ))}
         {hasNextPage && <VisibilitySpy onVisible={fetchNextPage} />}
@@ -54,23 +54,23 @@ export const SearchSurveyUnits = () => {
   );
 };
 
-export function ItemCard({ survey }: { survey: Item }) {
+export function ItemCard({ surveyUnit }: { surveyUnit: Item }) {
   const isDisabled = false; // TODO : calculated this value
   return (
     <Card elevation={2} variant={isDisabled ? "disabled" : undefined}>
-      <CardActionArea component={Link} to={`/campaigns/${survey.id}`}>
+      <CardActionArea component={Link} to={`/survey-units/${surveyUnit.idSu}`}>
         <Box px={3} py={2.5}>
           <Row gap={1} mb={5}>
             <BinocularIcon />
             <Typography variant="titleLarge" fontWeight={600} color="text.primary">
-              {survey.identificationName}
+              {surveyUnit.identificationName}
             </Typography>
           </Row>
           <Box mb={2} typography="bodyMedium" fontWeight={600} color="text.secondary">
-            ID unité enquêtée : {survey.idSu}
+            ID unité enquêtée : {surveyUnit.idSu}
           </Box>
           <Box typography="bodyMedium" fontWeight={600} color="text.secondary">
-            SIREN : {survey.identificationCode}
+            SIREN : {surveyUnit.identificationCode}
           </Box>
         </Box>
       </CardActionArea>
