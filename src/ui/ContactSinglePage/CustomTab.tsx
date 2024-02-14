@@ -18,3 +18,18 @@ export const ContactTab = ({ label, ...props }: Props) => {
     />
   );
 };
+
+export const SurveyTab = ({ label, ...props }: Props) => {
+  return (
+    <Tab
+      label={label}
+      sx={{
+        paddingX: 4,
+        paddingY: 3,
+        typography: "titleSmall",
+        letterSpacing: 0.4,
+      }}
+      {...props}
+    />
+  );
+};

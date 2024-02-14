@@ -3,7 +3,7 @@ import { useFetchQuery } from "../hooks/useFetchQuery.ts";
 import { useParams } from "react-router-dom";
 import { Row } from "../ui/Row.tsx";
 import { CircularProgress, Stack, Tabs } from "@mui/material";
-import { ContactTab } from "../ui/ContactSinglePage/CustomTab.tsx";
+import { ContactTab, SurveyTab } from "../ui/ContactSinglePage/CustomTab.tsx";
 import { type SyntheticEvent, useState } from "react";
 import { SurveyHeader } from "../ui/SurveySinglePage/SurveyHeader.tsx";
 import { SurveyInformationContent } from "../ui/SurveySinglePage/SurveyInformationContent.tsx";
@@ -41,13 +41,13 @@ export function SurveyPage() {
           backgroundColor: "white",
         }}
       >
-        <ContactTab label={"Infos de l'enquête"} />
-        <ContactTab label={"Calendrier"} />
-        <ContactTab label={"Unités enquêtées"} />
-        <ContactTab label={"Suivi collecte"} />
-        <ContactTab label={"Nouvelle campagne"} />
-        <ContactTab label={"Faq"} />
-        <ContactTab label={"Historique"} />
+        <SurveyTab label={"Infos de l'enquête"} />
+        <SurveyTab label={"Calendrier"} />
+        <SurveyTab label={"Unités enquêtées"} />
+        <SurveyTab label={"Suivi collecte"} />
+        <SurveyTab label={"Nouvelle campagne"} />
+        <SurveyTab label={"Faq"} />
+        <SurveyTab label={"Historique"} />
       </Tabs>
 
       <Stack px={3} py={3}>

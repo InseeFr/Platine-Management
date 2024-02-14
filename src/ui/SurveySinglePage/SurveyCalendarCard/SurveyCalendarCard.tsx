@@ -140,7 +140,7 @@ export const SurveyCalendarCard = ({ survey }: Props) => {
                               {p.id ? part.id?.replace(p.id, "") : ""}
                             </TableCell>
                             <TableCell align="center" sx={{ fontWeight: 700 }}>
-                              {moment(part.openingDate).format("D/MM/YYYY")}
+                              {moment(part.openingDate).format("DD/MM/YYYY")}
                             </TableCell>
                             <TableCell align="center" sx={{ fontWeight: 700 }}>
                               {moment(part.returnDate).format("DD/MM/YYYY")}
