@@ -13,9 +13,9 @@ const base = {
     identificationName: "",
   },
   surveys: {
-    surveyId: "",
-    year: "",
-    period: "",
+    idSource: undefined as undefined | string,
+    year: undefined as undefined | number,
+    periodicity: undefined as undefined | string,
   },
 };
 
@@ -32,6 +32,6 @@ export function useSetSearchFilter() {
   return useSearchFilter(v => v.setFilter);
 }
 
-export function useSearchFilterParams(name: Key) {
+export function useSearchFilterParams<K extends Key>(name: K): State[K] {
   return useSearchFilter(v => v[name]);
 }

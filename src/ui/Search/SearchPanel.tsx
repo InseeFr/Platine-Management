@@ -50,9 +50,9 @@ export const SearchPanel = () => {
     // We could write a more dynamic code but this improves error discovery in TypeScript
     if (currentTab === "surveys") {
       setFilter(currentTab, {
-        surveyId: data.get("surveyId")!.toString(),
-        year: data.get("year")!.toString(),
-        period: data.get("period")!.toString(),
+        idSource: data.get("surveyId")!.toString(),
+        year: data.get("year") ? parseInt(data.get("year")!.toString(), 10) : undefined,
+        periodicity: data.get("period")!.toString(),
       });
     }
     if (currentTab === "surveyUnits") {

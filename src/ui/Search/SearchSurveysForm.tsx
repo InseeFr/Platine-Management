@@ -3,7 +3,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { SearchSurveySelect } from "./SearchSurveySelect.tsx";
 
 // TODO : Replace with true data
-const names = ["a1", "a2", "a3", "a4", "a5"];
+const names = ["AQV", "a1", "a2", "a3", "a4", "a5"];
 const years = ["2024", "2023", "2022"];
 const periodicity = ["Daily", "Monthly"];
 

@@ -38,7 +38,7 @@ export async function fetchAPI<
   // Add query parameters
   if ("query" in options && options.query) {
     for (const [name, value] of Object.entries(options.query)) {
-      if (value !== undefined) {
+      if (value !== undefined && value !== "") {
         url.searchParams.set(
           name,
           typeof value === "object" && !Array.isArray(value) ? JSON.stringify(value) : (value as any),

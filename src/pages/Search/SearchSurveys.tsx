@@ -13,12 +13,19 @@ import Card from "@mui/material/Card";
 import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { BinocularIcon } from "../../ui/Icon/BinocularIcon.tsx";
+import { useSearchFilterParams } from "../../hooks/useSearchFilter.ts";
 
-const endpoint = "/api/surveys" as const;
+const endpoint = "/api/surveys/search" as const;
 type Item = ItemOf<Required<APIResponse<typeof endpoint, "get">>["content"]>;
 
 export const SearchSurveys = () => {
-  const { results: surveys, hasNextPage, fetchNextPage } = useInfiniteFetchQuery(endpoint);
+  const {
+    results: surveys,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteFetchQuery(endpoint, {
+    query: useSearchFilterParams("surveys"),
+  });
   const [tab, setTab] = useState("me");
   return (
     <Stack spacing={3} sx={{ minHeight: 0 }}>
