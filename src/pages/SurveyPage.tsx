@@ -1,139 +1,91 @@
-import { Box, Breadcrumbs, Typography } from "@mui/material";
-import { SurveyPanel } from "./SurveyPanel";
+import Divider from "@mui/material/Divider";
+import { useFetchQuery } from "../hooks/useFetchQuery.ts";
 import { useParams } from "react-router-dom";
-import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
-import PersonOutline from "@mui/icons-material/PersonOutline";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { Link } from "../ui/Link.tsx";
+import { Row } from "../ui/Row.tsx";
+import { CircularProgress, Stack, Tabs } from "@mui/material";
+import { ContactTab } from "../ui/ContactSinglePage/CustomTab.tsx";
+import { type SyntheticEvent, useState } from "react";
+import { APISchemas } from "../types/api.ts";
+import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
+import { SurveyHeader } from "../ui/SurveySinglePage/SurveyHeader.tsx";
+import { SurveyInformationContent } from "../ui/SurveySinglePage/SurveyInformationContent.tsx";
+import { SurveyCalendarCard } from "../ui/SurveySinglePage/SurveyCalendarCard/SurveyCalendarCard.tsx";
+
+const getBreadcrumbs = (survey: APISchemas["SurveyDto"], currentTab: number) => {
+  const initialBreadcrumbs = [
+    { href: "/", title: "Accueil" },
+    { href: "/search", title: "Recherche" },
+    { href: `/surveys/${survey.id}`, title: `${survey.id}` },
+  ];
+
+  switch (currentTab) {
+    case 0:
+      return [...initialBreadcrumbs, "Infos de l'enquête"];
+    case 1:
+      return [...initialBreadcrumbs, "Calendrier"];
+    case 2:
+      return [...initialBreadcrumbs, "Unités enquêtées"];
+    case 3:
+      return [...initialBreadcrumbs, "Suivi Collecte"];
+    case 4:
+      return [...initialBreadcrumbs, "Nouvelle Campagne"];
+    case 5:
+      return [...initialBreadcrumbs, "Faq"];
+    case 6:
+      return [...initialBreadcrumbs, "Historique"];
+    default:
+      return [...initialBreadcrumbs];
+  }
+};
 
 export function SurveyPage() {
-  const { idSurvey } = useParams();
+  const { id } = useParams();
+  const { data: survey } = useFetchQuery("/api/surveys/{id}", {
+    urlParams: {
+      id: id!,
+    },
+  });
+  const [currentTab, setCurrentTab] = useState(0);
+  const handleChange = (_: SyntheticEvent, newValue: number) => {
+    setCurrentTab(newValue);
+  };
+
+  if (!survey) {
+    return (
+      <Row justifyContent="center" py={10}>
+        <CircularProgress />
+      </Row>
+    );
+  }
+
   return (
     <>
-      <Box
+      <SurveyHeader survey={survey} />
+      <Divider variant="fullWidth" />
+      <Tabs
+        value={currentTab}
+        onChange={handleChange}
         sx={{
-          width: "100vw",
-          height: 40,
-
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-end",
-          gap: 1.25,
-          display: "inline-flex",
+          px: 5,
+          backgroundColor: "white",
         }}
-        className="Ariane"
       >
-        <Breadcrumbs aria-label="breadcrumb" sx={{ px: 2, pt: 1 }}>
-          <Link underline="hover" color="inherit" to="/">
-            Accueil
-          </Link>
-          <Link underline="hover" color="inherit" to="/recherche">
-            Recherche
-          </Link>
-          <Typography color="text.primary">fiche enquête</Typography>
-        </Breadcrumbs>
-      </Box>
-      <Box
-        sx={{
-          width: "100vw",
-          height: 103,
+        <ContactTab label={"Infos contact"} />
+        <ContactTab label={"Enquête(s)"} />
+        <ContactTab label={"Gestion des identifiants"} />
+        <ContactTab label={"Gestion des droits"} />
+      </Tabs>
 
-          background: "white",
-          borderBottom: "0.20px #666666 solid",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          gap: 1.25,
-          display: "inline-flex",
-        }}
-        className="infos-fixe-contact"
-      >
-        <Box
-          sx={{
-            width: 253,
-            height: 87,
-            py: 1,
-            pl: 2,
-            justifyContent: "flex-start",
-            alignItems: "center",
-            gap: 0.5,
-            display: "inline-flex",
-          }}
-          className="BlocInfos"
-        >
-          <NavigateBeforeRoundedIcon />
-          <Box
-            sx={{
-              width: 165,
-              height: 71,
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "flex-start",
-              gap: 1,
-              pl: 4,
-              display: "inline-flex",
-            }}
-          >
-            <Box
-              sx={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "flex-start",
-                gap: 1,
-                display: "inline-flex",
-              }}
-            >
-              <PersonOutline
-                sx={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "inline-flex",
-                }}
-              />
-              <Typography
-                sx={{
-                  color: "black",
-                  fontSize: 20,
-                  fontWeight: "700",
-                  wordWrap: "break-word",
-                }}
-              >
-                Enquête {idSurvey?.toUpperCase()}
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                width: 102,
-                height: 36,
-                px: 1,
-                borderRadius: 0.5,
-                border: "1px #BCC2CC solid",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                gap: 3.5,
-                display: "inline-flex",
-              }}
-            >
-              <Typography
-                sx={{
-                  color: "#828282",
-                  fontSize: 14,
-                  fontFamily: "Open Sans",
-                  fontWeight: "600",
-                  lineHeight: 36,
-                  wordWrap: "break-word",
-                }}
-              >
-                2023
-              </Typography>
-              <KeyboardArrowDownIcon />
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-      <Box>
-        <SurveyPanel />
-      </Box>
+      <Stack px={3} py={3}>
+        <Breadcrumbs items={getBreadcrumbs(survey, currentTab)} />
+        {currentTab === 0 && <SurveyInformationContent survey={survey} />}
+        {currentTab === 1 && "1" && <SurveyCalendarCard survey={survey} />}
+        {currentTab === 2 && "2"}
+        {currentTab === 3 && "3"}
+        {currentTab === 2 && "4"}
+        {currentTab === 3 && "5"}
+        {currentTab === 2 && "6"}
+      </Stack>
     </>
   );
 }
