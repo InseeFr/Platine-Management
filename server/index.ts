@@ -7,6 +7,8 @@ import cors from "@fastify/cors";
 import { fakeSurveyUnit } from "./functions/surveys.ts";
 import { fakeCampaign } from "./functions/campaign.ts";
 
+const wait = (duration: number) => new Promise(resolve => setTimeout(resolve, duration));
+
 const fastify = Fastify({
   logger: true,
 });
@@ -35,6 +37,11 @@ for (const url of paginatedUrls) {
     return url.content(request.params.id.length);
   });
 }
+
+fastify.put<{ Params: { id: string } }>("/api/contacts/:id", async request => {
+  await wait(1000);
+  return fakeContact(parseInt(request.params.id, 10));
+});
 
 // Run the server!
 try {

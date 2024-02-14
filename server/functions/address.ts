@@ -12,7 +12,7 @@ export function fakeAddress() {
     cedexCode: "",
     cedexName: "",
     specialDistribution: "",
-    countryCode: faker.location.countryCode(),
-    countryName: faker.location.country(),
+    countryCode: "FR",
+    countryName: "France",
   };
 }

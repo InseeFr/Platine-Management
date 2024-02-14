@@ -1,5 +1,5 @@
 import Card from "@mui/material/Card";
-import { ContactDetailsCardTitle } from "./TitleWithIcon";
+import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
 import { ElementType, ReactNode, useState } from "react";
 import Stack from "@mui/material/Stack";
 import { Box, Button } from "@mui/material";
@@ -38,7 +38,7 @@ export const GeneralCardContent = ({
     <Card sx={{ px: 6, py: 3 }} elevation={2}>
       <Stack spacing={2}>
         <Stack spacing={3}>
-          <ContactDetailsCardTitle IconComponent={TitleIconComponent} title={title} />
+          <CardtitleWithIcon IconComponent={TitleIconComponent} title={title} />
 
           {buttonLabel && (
             <Button

@@ -1,15 +1,16 @@
 import Grid from "@mui/material/Grid";
-import { ContactDetailsCard } from "./ContactDetailsCard/ContactDetailsCard";
-import { PasswordCard } from "./PasswordCard";
-import { HistoryActionsCard } from "./HistoryActionsCard";
-import { CommentsCard } from "./CommentsCard";
+import { ContactDetailsCard } from "../../ui/Contact/ContactDetailsCard";
+import { PasswordCard } from "../../ui/Contact/PasswordCard";
+import { HistoryActionsCard } from "../../ui/Contact/HistoryActionsCard";
+import { CommentsCard } from "../../ui/Contact/CommentsCard";
 import { APISchemas } from "../../types/api.ts";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
+  onSave: () => void;
 };
 
-export const ContactInformationContent = ({ contact }: Props) => {
+export const ContactInfosTab = ({ contact, onSave }: Props) => {
   return (
     <Grid
       px={3}
@@ -21,7 +22,7 @@ export const ContactInformationContent = ({ contact }: Props) => {
         rowGap: 3,
       }}
     >
-      <ContactDetailsCard contact={contact} />
+      <ContactDetailsCard contact={contact} onSave={onSave} />
       <PasswordCard />
       <HistoryActionsCard />
       <CommentsCard />

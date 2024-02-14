@@ -1,17 +1,18 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { z } from "zod";
-import { useForm } from "../../../hooks/useForm.ts";
-import { APISchemas } from "../../../types/api.ts";
-import { Field } from "../../Form/Field.tsx";
+import { useForm } from "../../hooks/useForm.ts";
+import { APISchemas } from "../../types/api.ts";
+import { Field } from "../Form/Field.tsx";
 import Stack from "@mui/material/Stack";
-import { Row } from "../../Row.tsx";
+import { Row } from "../Row.tsx";
 import StarIcon from "@mui/icons-material/Star";
-import { style } from "../../Search/SearchPanel.tsx";
+import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
 
 type Props = {
   open: boolean;
-  handleClose: () => void;
+  onClose: () => void;
   contact: APISchemas["ContactFirstLoginDto"];
+  onSave: () => void;
 };
 
 const schema = z.object({
@@ -26,8 +27,8 @@ const schema = z.object({
   address: z
     .object({
       streetNumber: z.string().optional(),
-      repetitionIndex: z.enum(["bis"]).optional().or(z.literal("")), //TODO: use real repetition index
-      streetType: z.enum(["rue", "avenue"]).optional(), // TODO: use real street type
+      repetitionIndex: z.string().optional(), //TODO: use real repetition index
+      streetType: z.string().optional(), // TODO: use real street type
       streetName: z.string().optional(),
       addressSupplement: z.string().optional(),
       specialDistribution: z.string().optional(),
@@ -51,7 +52,15 @@ const streetType = ["rue", "avenue"]; // TODO: use real street type
 
 const countries = ["France", "Belgique"]; // TODO: use real countries
 
-export const ContactDetailsDialog = ({ open, handleClose, contact }: Props) => {
+const styles = {
+  Grid: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1px 1fr 1fr",
+    gap: "40px",
+  },
+};
+
+export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => {
   const defaultValues = contact.address?.countryName
     ? contact
     : { ...contact, address: { ...contact.address, countryName: "France" } };
@@ -59,51 +68,56 @@ export const ContactDetailsDialog = ({ open, handleClose, contact }: Props) => {
     defaultValues: defaultValues,
   });
 
-  const onSubmit = handleSubmit(data => {
-    console.log(data);
+  const { mutateAsync, isPending } = useFetchMutation("/api/contacts/{id}", "put");
+
+  const onSubmit = handleSubmit(async data => {
+    console.log({ data });
+    await mutateAsync({ body: data, urlParams: { id: contact.identifier } });
+    onSave();
   });
 
+  console.log({ errors });
+
   return (
-    <Dialog open={open} onClose={handleClose} sx={{ ".MuiPaper-root": { maxWidth: "1160px", px: 3 } }}>
+    <Dialog open={open} onClose={onClose} sx={{ ".MuiPaper-root": { maxWidth: "1160px", px: 3 } }}>
       <form action="#" onSubmit={onSubmit}>
         <DialogTitle>Modification des coordonnées</DialogTitle>
-        <DialogContent sx={{ ".MuiDialogContent-root": { mt: 2 } }}>
-          <Row spacing={5} alignItems={"flex-start"} flexWrap={"wrap"} sx={style.root}>
-            <Row gap={4}>
-              <Stack gap={4}>
+        <DialogContent>
+          <Box sx={styles.Grid}>
+            <Stack gap={4}>
+              <Field
+                control={control}
+                label="Civilité"
+                name="civility"
+                type="radios"
+                error={errors?.civility?.message}
+                options={civilities}
+              />
+              <Field label="Nom" error={errors.lastName?.message} {...register("lastName")} />
+              <Field label="Prénom" error={errors.firstName?.message} {...register("firstName")} />
+              <Field label="Fonction" error={errors.function?.message} {...register("function")} />
+              <Field label="Adresse courriel" error={errors.email?.message} {...register("email")} />
+              <Row gap={3}>
                 <Field
-                  control={control}
-                  label="Civilité"
-                  name="civility"
-                  type="radios"
-                  options={civilities}
+                  sx={{ width: "150px" }}
+                  label="Téléphone 1"
+                  error={errors.phone?.message}
+                  {...register("phone")}
                 />
-                <Field label="Nom" error={errors.lastName?.message} {...register("lastName")} />
-                <Field label="Prénom" error={errors.firstName?.message} {...register("firstName")} />
-                <Field label="Fonction" error={errors.function?.message} {...register("function")} />
-                <Field label="Adresse courriel" error={errors.email?.message} {...register("email")} />
-                <Row gap={3}>
-                  <Field
-                    sx={{ width: "150px" }}
-                    label="Téléphone 1"
-                    error={errors.phone?.message}
-                    {...register("phone")}
-                  />
-                  <StarIcon fontSize="small" color="yellow" />
-                </Row>
-                <Row gap={3}>
-                  <Field
-                    sx={{ width: "150px" }}
-                    label="Téléphone 2"
-                    error={errors.secondPhone?.message}
-                    {...register("secondPhone")}
-                  />
-                  <StarIcon fontSize="small" color="text.hint" />
-                </Row>
-              </Stack>
-              <Divider orientation="vertical" variant="middle" sx={{ height: "470px" }} />
-            </Row>
-            <Stack gap={4} pt={9}>
+                <StarIcon fontSize="small" color="yellow" />
+              </Row>
+              <Row gap={3}>
+                <Field
+                  sx={{ width: "150px" }}
+                  label="Téléphone 2"
+                  error={errors.secondPhone?.message}
+                  {...register("secondPhone")}
+                />
+                <StarIcon fontSize="small" color="text.hint" />
+              </Row>
+            </Stack>
+            <Divider orientation="vertical" variant="middle" />
+            <Stack gap={4} pt={7}>
               <Field
                 label="Raison sociale"
                 error={errors.socialReason?.message}
@@ -151,7 +165,7 @@ export const ContactDetailsDialog = ({ open, handleClose, contact }: Props) => {
                 {...register("address.specialDistribution")}
               />
             </Stack>
-            <Stack gap={4} pt={9}>
+            <Stack gap={4} pt={7}>
               <Field
                 sx={{ width: "210px" }}
                 label="Commune"
@@ -187,11 +201,13 @@ export const ContactDetailsDialog = ({ open, handleClose, contact }: Props) => {
                 />
               </Box>
             </Stack>
-          </Row>
+          </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Annuler</Button>
-          <Button type="submit" variant="contained">
+          <Button onClick={onClose} disabled={isPending}>
+            Annuler
+          </Button>
+          <Button type="submit" variant="contained" disabled={isPending}>
             Enregistrer
           </Button>
         </DialogActions>

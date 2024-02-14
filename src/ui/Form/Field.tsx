@@ -12,7 +12,7 @@ import { RadioLine } from "./RadioLine";
 import { Controller, type UseFormReturn } from "react-hook-form";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 
-import { FormControl, InputLabel, MenuItem, Select, SelectProps } from "@mui/material";
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from "@mui/material";
 
 type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required" | "sx"> &
   Pick<SelectProps, "onChange" | "defaultValue"> & {
@@ -121,28 +121,32 @@ export function uncontrolledField(props: Props, ref: any) {
   );
 }
 
-export function controlledField({ type, name, options }: Props, field: any) {
+export function controlledField({ type, name, options, error }: Props, field: any) {
   if (type === "switch") {
     return <Switch checked={field.value} color="green" {...field} />;
   }
   if (type === "radios") {
     return (
-      <RadioGroup
-        value={field.value}
-        onChange={e => field.onChange(e.target.value)}
-        row
-        aria-labelledby={`label-${name}`}
-        name={name}
-      >
-        {options?.map(o => (
-          <FormControlLabel
-            key={o.value}
-            value={o.value}
-            control={<Radio sx={{ p: 0 }} size="small" />}
-            label={o.label}
-          />
-        ))}
-      </RadioGroup>
+      <FormControl error={!!error}>
+        <RadioGroup
+          value={field.value}
+          onChange={e => field.onChange(e.target.value)}
+          row
+          aria-labelledby={`label-${name}`}
+          name={name}
+          sx={{ flexWrap: "nowrap" }}
+        >
+          {options?.map(o => (
+            <FormControlLabel
+              key={o.value}
+              value={o.value}
+              control={<Radio sx={{ p: 0 }} size="small" />}
+              label={o.label}
+            />
+          ))}
+        </RadioGroup>
+        {error && <FormHelperText>{error}</FormHelperText>}
+      </FormControl>
     );
   }
   if (type === "radiostack") {
