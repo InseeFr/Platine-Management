@@ -102,6 +102,7 @@ declare module "@mui/material/SvgIcon" {
     cardMedia: true;
     tabTitle: true;
     headerSinglePage: true;
+    cardTitle: true;
   }
   interface SvgIconPropsColorOverrides {
     yellow: true;
@@ -289,6 +290,12 @@ export const theme = createTheme({
           props: { fontSize: "headerSinglePage" },
           style: {
             fontSize: 48,
+          },
+        },
+        {
+          props: { fontSize: "cardTitle" },
+          style: {
+            fontSize: 24,
           },
         },
       ],
