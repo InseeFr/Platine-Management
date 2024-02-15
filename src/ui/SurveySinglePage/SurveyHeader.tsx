@@ -12,12 +12,6 @@ type Props = {
   survey: APISchemas["SurveyDto"];
 };
 
-const breadcrumbs = [
-  { href: "/", title: "Accueil" },
-  { href: "/search/surveys", title: "Recherche" },
-  "Fiche enquête",
-];
-
 export const SurveyHeader = ({ survey }: Props) => {
   const [year, setYear] = useState(survey.year);
   const navigate = useNavigate();
@@ -39,9 +33,6 @@ export const SurveyHeader = ({ survey }: Props) => {
 
   return (
     <Stack>
-      <Row bgcolor={"white"} justifyContent={"right"}>
-        <Breadcrumbs items={breadcrumbs} />
-      </Row>
       <Row spacing={5} px={6} py={2} bgcolor={"white"}>
         <IconButton sx={{ bgcolor: "background.default" }} onClick={() => navigate(-1)}>
           <ArrowBackIosNewIcon sx={{ color: "black.main" }} />

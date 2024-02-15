@@ -358,13 +358,6 @@ export const theme = createTheme({
         },
       },
     },
-    MuiDivider: {
-      styleOverrides: {
-        root: {
-          borderBottomWidth: 2,
-        },
-      },
-    },
     MuiToggleButton: {
       styleOverrides: {
         root: {
