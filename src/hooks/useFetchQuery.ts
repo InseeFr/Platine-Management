@@ -71,7 +71,7 @@ export function useInfiniteFetchQuery<Path extends APIPaths, Options extends API
         },
       } as any),
     getNextPageParam: (data, pages) => {
-      return pages.length < data.totalPages ? pages.length + 1 : undefined;
+      return pages.length - 1 < data.totalPages ? pages.length : undefined;
     },
   });
   const results = useMemo(() => {

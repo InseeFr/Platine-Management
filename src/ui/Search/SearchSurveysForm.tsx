@@ -1,6 +1,7 @@
 import { OutlinedInput, Select } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import { SearchSurveySelect } from "./SearchSurveySelect.tsx";
+import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
 
 // TODO : Replace with true data
 const names = ["AQV", "a1", "a2", "a3", "a4", "a5"];
@@ -8,6 +9,8 @@ const years = ["2024", "2023", "2022"];
 const periodicity = ["Daily", "Monthly"];
 
 export const SearchSurveysForm = () => {
+  const { data: periodicities } = useFetchQuery("/api/periodicities");
+  console.log(periodicities);
   return (
     <>
       <SearchSurveySelect name="surveyId" label={"Nom de l'enquête"} options={names} />
