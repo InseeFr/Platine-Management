@@ -8,6 +8,7 @@ import { type SyntheticEvent, useState } from "react";
 import { SurveyHeader } from "../ui/SurveySinglePage/SurveyHeader.tsx";
 import { SurveyInformationContent } from "../ui/SurveySinglePage/SurveyInformationContent.tsx";
 import { SurveyCalendarCard } from "../ui/SurveySinglePage/SurveyCalendarCard/SurveyCalendarCard.tsx";
+import { SurveyCreateCampaignCard } from "../ui/SurveySinglePage/SurveyCreateCampaignCard.tsx";
 
 export function SurveyPage() {
   const { id } = useParams();
@@ -55,9 +56,9 @@ export function SurveyPage() {
         {currentTab === 1 && "1" && <SurveyCalendarCard survey={survey} />}
         {currentTab === 2 && "2"}
         {currentTab === 3 && "3"}
-        {currentTab === 2 && "4"}
-        {currentTab === 3 && "5"}
-        {currentTab === 2 && "6"}
+        {currentTab === 4 && "4" && <SurveyCreateCampaignCard survey={survey} />}
+        {currentTab === 5 && "5"}
+        {currentTab === 6 && "6"}
       </Stack>
     </>
   );
