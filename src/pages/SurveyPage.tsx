@@ -3,7 +3,7 @@ import { useFetchQuery } from "../hooks/useFetchQuery.ts";
 import { useParams } from "react-router-dom";
 import { Row } from "../ui/Row.tsx";
 import { CircularProgress, Stack, Tabs } from "@mui/material";
-import { ContactTab, SurveyTab } from "../ui/ContactSinglePage/CustomTab.tsx";
+import { SurveyTab } from "../ui/ContactSinglePage/CustomTab.tsx";
 import { type SyntheticEvent, useState } from "react";
 import { SurveyHeader } from "../ui/SurveySinglePage/SurveyHeader.tsx";
 import { SurveyInformationContent } from "../ui/SurveySinglePage/SurveyInformationContent.tsx";

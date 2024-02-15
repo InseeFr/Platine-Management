@@ -24,21 +24,31 @@ import moment from "moment";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useState } from "react";
-import { SurveyCalendarDialog } from "./SurveyCalendarDialog.tsx";
+import { SurveyCalendarCreateDialog } from "./SurveyCalendarCreateDialog.tsx";
+import { SurveyCalendarModifyDialog } from "./SurveyCalendarModifyDialog.tsx";
 
 type Props = {
   survey: APISchemas["SurveyDto"] | undefined;
 };
 
 export const SurveyCalendarCard = ({ survey }: Props) => {
-  const [open, setOpen] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
+  const [openModify, setOpenModify] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpenCreate = () => {
+    setOpenCreate(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseCreate = () => {
+    setOpenCreate(false);
+  };
+
+  const handleClickOpenModify = () => {
+    setOpenModify(true);
+  };
+
+  const handleCloseModify = () => {
+    setOpenModify(false);
   };
   const { data: campPartition } = useFetchQuery("/api/surveys/{id}/campaigns-partitionings", {
     urlParams: {
@@ -163,6 +173,7 @@ export const SurveyCalendarCard = ({ survey }: Props) => {
               sx={{ typography: "bodyLarge" }}
               size={"large"}
               startIcon={<BorderColorOutlinedIcon />}
+              onClick={handleClickOpenModify}
             >
               Modifier
             </Button>
@@ -171,13 +182,24 @@ export const SurveyCalendarCard = ({ survey }: Props) => {
               sx={{ typography: "bodyLarge" }}
               size={"large"}
               startIcon={<AddCircleOutlineOutlinedIcon />}
-              onClick={handleClickOpen}
+              onClick={handleClickOpenCreate}
             >
               Nouvelle Vague
             </Button>
           </Row>
         </Stack>
-        <SurveyCalendarDialog open={open} handleClose={handleClose} survey={survey} />
+        <SurveyCalendarCreateDialog
+          open={openCreate}
+          handleClose={handleCloseCreate}
+          survey={survey}
+          campPartition={campPartition[0]}
+        />
+        <SurveyCalendarModifyDialog
+          open={openModify}
+          handleClose={handleCloseModify}
+          survey={survey}
+          campPartition={campPartition}
+        />
       </Card>
     </Grid>
   );
