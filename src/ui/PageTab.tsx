@@ -4,7 +4,7 @@ type Props = {
   label: string;
 } & TabProps;
 
-export const ContactTab = ({ label, ...props }: Props) => {
+export const PageTab = ({ label, ...props }: Props) => {
   return (
     <Tab
       label={label}
