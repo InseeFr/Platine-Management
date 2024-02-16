@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { Row } from "../../Row";
+import { Row } from "../Row";
 
 type Props = {
   label: string;

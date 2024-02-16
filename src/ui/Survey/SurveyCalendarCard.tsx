@@ -1,6 +1,6 @@
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { APISchemas } from "../../../types/api.ts";
+import { APISchemas } from "../../types/api.ts";
 import {
   Button,
   Card,
@@ -17,39 +17,27 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { ContactDetailsCardTitle } from "../../ContactSinglePage/TitleWithIcon.tsx";
-import { Row } from "../../Row.tsx";
-import { useFetchQuery } from "../../../hooks/useFetchQuery.ts";
+import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
+import { Row } from "../Row.tsx";
+import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
 import moment from "moment";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import { useState } from "react";
-import { SurveyCalendarCreateDialog } from "./SurveyCalendarCreateDialog.tsx";
-import { SurveyCalendarModifyDialog } from "./SurveyCalendarModifyDialog.tsx";
+import { useToggle } from "react-use";
 
 type Props = {
   survey: APISchemas["SurveyDto"] | undefined;
+  onSave: () => void;
 };
 
-export const SurveyCalendarCard = ({ survey }: Props) => {
-  const [openCreate, setOpenCreate] = useState(false);
-  const [openModify, setOpenModify] = useState(false);
+export const SurveyCalendarCard = ({ survey, onSave }: Props) => {
+  const [hasDialog, toggleDialog] = useToggle(false);
 
-  const handleClickOpenCreate = () => {
-    setOpenCreate(true);
+  const handleSave = () => {
+    toggleDialog();
+    onSave();
   };
 
-  const handleCloseCreate = () => {
-    setOpenCreate(false);
-  };
-
-  const handleClickOpenModify = () => {
-    setOpenModify(true);
-  };
-
-  const handleCloseModify = () => {
-    setOpenModify(false);
-  };
   const { data: campPartition } = useFetchQuery("/api/surveys/{id}/campaigns-partitionings", {
     urlParams: {
       id: survey!.id!,
@@ -78,10 +66,7 @@ export const SurveyCalendarCard = ({ survey }: Props) => {
     >
       <Card sx={{ px: 6, py: 3 }} elevation={2}>
         <Stack spacing={4}>
-          <ContactDetailsCardTitle
-            IconComponent={CalendarMonthOutlinedIcon}
-            title={"Dates de l'enquête"}
-          />
+          <CardtitleWithIcon IconComponent={CalendarMonthOutlinedIcon} title={"Dates de l'enquête"} />
           <Divider variant="fullWidth" />
           <Stack>
             <Row spacing={1}>
@@ -173,7 +158,7 @@ export const SurveyCalendarCard = ({ survey }: Props) => {
               sx={{ typography: "bodyLarge" }}
               size={"large"}
               startIcon={<BorderColorOutlinedIcon />}
-              onClick={handleClickOpenModify}
+              //  onClick={toggleDialog}
             >
               Modifier
             </Button>
@@ -182,24 +167,12 @@ export const SurveyCalendarCard = ({ survey }: Props) => {
               sx={{ typography: "bodyLarge" }}
               size={"large"}
               startIcon={<AddCircleOutlineOutlinedIcon />}
-              onClick={handleClickOpenCreate}
+              onClick={toggleDialog}
             >
               Nouvelle Vague
             </Button>
           </Row>
         </Stack>
-        <SurveyCalendarCreateDialog
-          open={openCreate}
-          handleClose={handleCloseCreate}
-          survey={survey}
-          campPartition={campPartition[0]}
-        />
-        <SurveyCalendarModifyDialog
-          open={openModify}
-          handleClose={handleCloseModify}
-          survey={survey}
-          campPartition={campPartition}
-        />
       </Card>
     </Grid>
   );

@@ -3,7 +3,6 @@ import { IconButton, MenuItem, Select, SelectChangeEvent, Stack, Typography } fr
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
 import { BinocularIcon } from "../Icon/BinocularIcon.tsx";
-import { Breadcrumbs } from "../Breadcrumbs.tsx";
 import { useState } from "react";
 import { APISchemas } from "../../types/api.ts";
 import { useFetchQuery } from "../../hooks/useFetchQuery.ts";

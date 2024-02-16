@@ -1,14 +1,14 @@
 import Grid from "@mui/material/Grid";
 import { APISchemas } from "../../types/api.ts";
-import { SurveyDetailsCard } from "./SurveyDetailsCard/SurveyDetailsCard.tsx";
-import { HistoryActionsCard } from "../ContactSinglePage/HistoryActionsCard.tsx";
-import { CommentsCard } from "../ContactSinglePage/CommentsCard.tsx";
+import { SurveyDetailsCard } from "../../ui/Survey/SurveyDetailsCard.tsx";
+import { HistoryActionsCard } from "../../ui/Contact/HistoryActionsCard.tsx";
+import { CommentsCard } from "../../ui/Contact/CommentsCard.tsx";
 
 type Props = {
   survey: APISchemas["SurveyDto"] | undefined;
 };
 
-export const SurveyInformationContent = ({ survey }: Props) => {
+export const SurveyInfosTab = ({ survey }: Props) => {
   return (
     <Grid
       px={6}

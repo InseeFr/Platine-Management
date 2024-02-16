@@ -1,8 +1,8 @@
 import { Card, Stack } from "@mui/material";
-import { ContactDetailsCardTitle } from "../../ContactSinglePage/TitleWithIcon.tsx";
+import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
-import { Row } from "../../Row";
-import { APISchemas } from "../../../types/api.ts";
+import { Row } from "../Row.tsx";
+import { APISchemas } from "../../types/api.ts";
 import { SurveyMetadataItem } from "./SurveyMetadataItem.tsx";
 
 type Props = {
@@ -13,10 +13,7 @@ export const SurveyDetailsCard = ({ survey }: Props) => {
   return (
     <Card sx={{ px: 6, py: 3 }} elevation={2}>
       <Stack spacing={4}>
-        <ContactDetailsCardTitle
-          IconComponent={AssignmentOutlinedIcon}
-          title={"Métadonnées de l'enquête"}
-        />
+        <CardtitleWithIcon IconComponent={AssignmentOutlinedIcon} title={"Métadonnées de l'enquête"} />
         <Row spacing={8} justifyContent={"space-evenly"}>
           <Stack spacing={1} typography={"bodyMedium"}>
             <SurveyMetadataItem label="Identifiant" value={survey?.id} />

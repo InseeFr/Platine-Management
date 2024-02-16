@@ -1,7 +1,7 @@
 import { Button, Card, Divider, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import { APISchemas } from "../../types/api";
-import { ContactDetailsCardTitle } from "../ContactSinglePage/TitleWithIcon";
+import { CardtitleWithIcon } from "../CardtitleWithIcon";
 import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
 import { Field } from "../Form/Field";
 import { Row } from "../Row";
@@ -30,7 +30,7 @@ export const SurveyCreateCampaignCard = ({ survey }: Props) => {
   return (
     <Card sx={{ px: 6, py: 3 }} elevation={2}>
       <Stack spacing={4}>
-        <ContactDetailsCardTitle
+        <CardtitleWithIcon
           IconComponent={AutorenewOutlinedIcon}
           title={"Création d'une nouvelle campagne"}
         />

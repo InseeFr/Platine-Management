@@ -4,12 +4,12 @@ import { useParams } from "react-router-dom";
 import { Row } from "../ui/Row.tsx";
 import { CircularProgress, Stack, Tabs } from "@mui/material";
 import { type SyntheticEvent, useState } from "react";
-import { SurveyHeader } from "../ui/SurveySinglePage/SurveyHeader.tsx";
-import { SurveyInformationContent } from "../ui/SurveySinglePage/SurveyInformationContent.tsx";
-import { SurveyCalendarCard } from "../ui/SurveySinglePage/SurveyCalendarCard/SurveyCalendarCard.tsx";
-import { SurveyCreateCampaignCard } from "../ui/SurveySinglePage/SurveyCreateCampaignCard.tsx";
+import { SurveyHeader } from "../ui/Survey/SurveyHeader.tsx";
+import { SurveyInfosTab } from "./Survey/SurveyInfosTab.tsx";
 import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
 import { PageTab } from "../ui/PageTab.tsx";
+import { SurveyCalendarTab } from "./Survey/SurveyCalendarTab.tsx";
+import { SurveyCampaignTab } from "./Survey/SurveyCampaignTab.tsx";
 
 enum Tab {
   Infos = "Infos",
@@ -33,7 +33,7 @@ const TabNames = {
 
 export function SurveyPage() {
   const { id } = useParams();
-  const { data: survey } = useFetchQuery("/api/surveys/{id}", {
+  const { data: survey, refetch } = useFetchQuery("/api/surveys/{id}", {
     urlParams: {
       id: id!,
     },
@@ -88,11 +88,11 @@ export function SurveyPage() {
 
       <Stack px={3} py={3}>
         <Breadcrumbs items={breadcrumbs} />
-        {currentTab === Tab.Infos && <SurveyInformationContent survey={survey} />}
-        {currentTab === Tab.Calendar && "1" && <SurveyCalendarCard survey={survey} />}
+        {currentTab === Tab.Infos && <SurveyInfosTab survey={survey} />}
+        {currentTab === Tab.Calendar && "1" && <SurveyCalendarTab survey={survey} onSave={refetch} />}
         {currentTab === Tab.SurveyUnits && "2"}
         {currentTab === Tab.FollowUp && "3"}
-        {currentTab === Tab.Campaign && "4" && <SurveyCreateCampaignCard survey={survey} />}
+        {currentTab === Tab.Campaign && "4" && <SurveyCampaignTab survey={survey} />}
         {currentTab === Tab.Faq && "5"}
         {currentTab === Tab.History && "6"}
       </Stack>
