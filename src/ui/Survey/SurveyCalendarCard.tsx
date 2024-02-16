@@ -26,16 +26,14 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useToggle } from "react-use";
 
 type Props = {
-  survey: APISchemas["SurveyDto"] | undefined;
-  onSave: () => void;
+  survey: APISchemas["SurveyDto"];
 };
 
-export const SurveyCalendarCard = ({ survey, onSave }: Props) => {
+export const SurveyCalendarCard = ({ survey }: Props) => {
   const [hasDialog, toggleDialog] = useToggle(false);
 
   const handleSave = () => {
     toggleDialog();
-    onSave();
   };
 
   const { data: campPartition } = useFetchQuery("/api/surveys/{id}/campaigns-partitionings", {

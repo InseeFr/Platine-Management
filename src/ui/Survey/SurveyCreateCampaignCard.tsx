@@ -8,9 +8,10 @@ import { Row } from "../Row";
 import { z } from "zod";
 import { useForm } from "../../hooks/useForm";
 import AddIcon from "@mui/icons-material/Add";
+import { useFetchQuery } from "../../hooks/useFetchQuery";
 
 type Props = {
-  survey: APISchemas["SurveyDto"] | undefined;
+  survey: APISchemas["SurveyDto"];
 };
 
 const schema = z.object({
@@ -20,6 +21,7 @@ const schema = z.object({
 });
 
 export const SurveyCreateCampaignCard = ({ survey }: Props) => {
+  const { data: periods } = useFetchQuery("/api/periods");
   const { register, control, errors, handleSubmit } = useForm(schema, {
     defaultValues: {
       label: survey?.sourceId,
@@ -35,25 +37,33 @@ export const SurveyCreateCampaignCard = ({ survey }: Props) => {
           title={"Création d'une nouvelle campagne"}
         />
         <Divider />
-        <Typography>
+        <Typography variant="itemSmall">
           {
-            "La sélection du libellé d'une année de référence, et d'une période de référence sont nécesaires pour la création d'une nouvelle campagne."
+            "La sélection du libellé d'une année de référence, et d'une période de référence sont nécessaires pour la création d'une nouvelle campagne."
           }
         </Typography>
-        <Row spacing={28}>
-          <Field error={errors.label?.message} {...register("label")}></Field>
-          <Field error={errors.year?.message} {...register("year")}></Field>
-          <Field label=""></Field>
+        <Row justifyContent={"space-between"}>
+          <Typography>{survey.sourceId}</Typography>
+          <Typography>{survey.year}</Typography>
+          <Field
+            sx={{ width: "120px" }}
+            type="select"
+            selectoptions={periods?.sort((a, b) => (a.label! > b.label! ? 1 : -1)).map(p => p.label!)}
+            error={errors.period?.message}
+            {...register("period")}
+          ></Field>
         </Row>
-        <Button
-          variant="contained"
-          sx={{ typography: "bodyLarge" }}
-          size={"small"}
-          startIcon={<AddIcon />}
-          //onClick={}
-        >
-          {"Créer une Nouvelle campagne"}
-        </Button>
+        <Row justifyContent={"right"}>
+          <Button
+            variant="contained"
+            sx={{ typography: "bodyLarge" }}
+            size={"medium"}
+            startIcon={<AddIcon />}
+            //onClick={}
+          >
+            {"Créer une Nouvelle campagne"}
+          </Button>
+        </Row>
       </Stack>
     </Card>
   );

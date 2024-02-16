@@ -3,7 +3,7 @@ import { APISchemas } from "../../types/api";
 import { SurveyCreateCampaignCard } from "../../ui/Survey/SurveyCreateCampaignCard";
 
 type Props = {
-  survey: APISchemas["SurveyDto"] | undefined;
+  survey: APISchemas["SurveyDto"];
 };
 
 export const SurveyCampaignTab = ({ survey }: Props) => {

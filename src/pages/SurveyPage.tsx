@@ -17,7 +17,7 @@ enum Tab {
   SurveyUnits = "SurveyUnits",
   FollowUp = "FollowUp",
   Campaign = "Campaign",
-  Faq = "Faq",
+  FAQ = "FAQ",
   History = "History",
 }
 
@@ -27,7 +27,7 @@ const TabNames = {
   [Tab.SurveyUnits]: "Unités enquêtées",
   [Tab.FollowUp]: "Suivi Collecte",
   [Tab.Campaign]: "Nouvelle Campagne",
-  [Tab.Faq]: "Faq",
+  [Tab.FAQ]: "FAQ",
   [Tab.History]: "Historique",
 };
 
@@ -88,12 +88,12 @@ export function SurveyPage() {
 
       <Stack px={3} py={3}>
         <Breadcrumbs items={breadcrumbs} />
-        {currentTab === Tab.Infos && <SurveyInfosTab survey={survey} />}
-        {currentTab === Tab.Calendar && "1" && <SurveyCalendarTab survey={survey} onSave={refetch} />}
+        {currentTab === Tab.Infos && <SurveyInfosTab survey={survey} onSave={refetch} />}
+        {currentTab === Tab.Calendar && "1" && <SurveyCalendarTab survey={survey} />}
         {currentTab === Tab.SurveyUnits && "2"}
         {currentTab === Tab.FollowUp && "3"}
         {currentTab === Tab.Campaign && "4" && <SurveyCampaignTab survey={survey} />}
-        {currentTab === Tab.Faq && "5"}
+        {currentTab === Tab.FAQ && "5"}
         {currentTab === Tab.History && "6"}
       </Stack>
     </>

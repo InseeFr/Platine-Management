@@ -3,11 +3,10 @@ import { APISchemas } from "../../types/api";
 import { SurveyCalendarCard } from "../../ui/Survey/SurveyCalendarCard";
 
 type Props = {
-  survey: APISchemas["SurveyDto"] | undefined;
-  onSave: () => void;
+  survey: APISchemas["SurveyDto"];
 };
 
-export const SurveyCalendarTab = ({ survey, onSave }: Props) => {
+export const SurveyCalendarTab = ({ survey }: Props) => {
   return (
     <Grid
       px={6}
@@ -20,7 +19,7 @@ export const SurveyCalendarTab = ({ survey, onSave }: Props) => {
         rowGap: 3,
       }}
     >
-      <SurveyCalendarCard survey={survey} onSave={onSave} />
+      <SurveyCalendarCard survey={survey} />
     </Grid>
   );
 };

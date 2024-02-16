@@ -5,10 +5,11 @@ import { HistoryActionsCard } from "../../ui/Contact/HistoryActionsCard.tsx";
 import { CommentsCard } from "../../ui/Contact/CommentsCard.tsx";
 
 type Props = {
-  survey: APISchemas["SurveyDto"] | undefined;
+  survey: APISchemas["SurveyDto"];
+  onSave: () => void;
 };
 
-export const SurveyInfosTab = ({ survey }: Props) => {
+export const SurveyInfosTab = ({ survey, onSave }: Props) => {
   return (
     <Grid
       px={6}
@@ -21,7 +22,7 @@ export const SurveyInfosTab = ({ survey }: Props) => {
         rowGap: 3,
       }}
     >
-      <SurveyDetailsCard survey={survey} />
+      <SurveyDetailsCard survey={survey} onSave={onSave} />
       <Grid item container spacing={3} xs={12}>
         <Grid item xs={6}>
           <HistoryActionsCard />

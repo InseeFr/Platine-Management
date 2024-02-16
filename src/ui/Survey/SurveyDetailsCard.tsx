@@ -1,19 +1,34 @@
-import { Card, Stack } from "@mui/material";
+import { Card, IconButton, Stack } from "@mui/material";
 import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { Row } from "../Row.tsx";
 import { APISchemas } from "../../types/api.ts";
 import { SurveyMetadataItem } from "./SurveyMetadataItem.tsx";
+import { useToggle } from "react-use";
+import { SurveyFormDialog } from "./SurveyFormDialog.tsx";
 
 type Props = {
-  survey: APISchemas["SurveyDto"] | undefined;
+  survey: APISchemas["SurveyDto"];
+  onSave: () => void;
 };
 
-export const SurveyDetailsCard = ({ survey }: Props) => {
+export const SurveyDetailsCard = ({ survey, onSave }: Props) => {
+  const [hasDialog, toggleDialog] = useToggle(false);
+
+  const handleSave = () => {
+    toggleDialog();
+    onSave();
+  };
   return (
     <Card sx={{ px: 6, py: 3 }} elevation={2}>
       <Stack spacing={4}>
-        <CardtitleWithIcon IconComponent={AssignmentOutlinedIcon} title={"Métadonnées de l'enquête"} />
+        <Row justifyContent={"space-between"}>
+          <CardtitleWithIcon IconComponent={AssignmentOutlinedIcon} title={"Métadonnées de l'enquête"} />
+          <IconButton onClick={toggleDialog} color="inherit">
+            <BorderColorOutlinedIcon fontSize="small" />
+          </IconButton>
+        </Row>
         <Row spacing={8} justifyContent={"space-evenly"}>
           <Stack spacing={1} typography={"bodyMedium"}>
             <SurveyMetadataItem label="Identifiant" value={survey?.id} />
@@ -36,6 +51,7 @@ export const SurveyDetailsCard = ({ survey }: Props) => {
           </Stack>
         </Row>
       </Stack>
+      <SurveyFormDialog open={hasDialog} onClose={toggleDialog} onSave={handleSave} survey={survey} />
     </Card>
   );
 };

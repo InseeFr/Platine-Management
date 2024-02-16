@@ -17,7 +17,11 @@ export const SearchSurveysForm = () => {
       <SelectWithOptions
         name="period"
         label={"Périodicité"}
-        options={periodicities ? periodicities.map(p => p.label!) : []}
+        options={
+          periodicities
+            ? periodicities.sort((a, b) => (a.label! > b.label! ? 1 : -1)).map(p => p.label!)
+            : []
+        }
       />
     </>
   );
