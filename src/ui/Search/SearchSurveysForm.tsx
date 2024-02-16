@@ -6,16 +6,19 @@ import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
 // TODO : Replace with true data
 const names = ["AQV", "a1", "a2", "a3", "a4", "a5"];
 const years = ["2024", "2023", "2022"];
-const periodicity = ["Daily", "Monthly"];
 
 export const SearchSurveysForm = () => {
   const { data: periodicities } = useFetchQuery("/api/periodicities");
-  console.log(periodicities);
+
   return (
     <>
       <SearchSurveySelect name="surveyId" label={"Nom de l'enquête"} options={names} />
       <SelectWithOptions name="year" label={"Année de collecte"} options={years} />
-      <SelectWithOptions name="period" label={"Périodicité"} options={periodicity} />
+      <SelectWithOptions
+        name="period"
+        label={"Périodicité"}
+        options={periodicities ? periodicities.map(p => p.label!) : []}
+      />
     </>
   );
 };
