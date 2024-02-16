@@ -38,8 +38,7 @@ export function RadioLine({ value, disabled, label }: Props) {
       label={label}
       slotProps={{
         typography: {
-          variant: "body1",
-          fontWeight: 600,
+          variant: "bodyMedium",
         },
       }}
     />

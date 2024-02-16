@@ -1,35 +1,38 @@
 import { Box, Card, Divider, IconButton, Stack, Typography } from "@mui/material";
-import { ContactDetailsCardTitle } from "../TitleWithIcon";
+import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
-import { Row } from "../../Row";
+import { Row } from "../Row";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import StarIcon from "@mui/icons-material/Star";
-import { useState } from "react";
-import { ContactDetailsDialog } from "./ContactDetailsDialog";
-import { APISchemas } from "../../../types/api.ts";
+import { ContactFormDialog } from "./ContactFormDialog.tsx";
+import { APISchemas } from "../../types/api.ts";
+import { useToggle } from "react-use";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
+  onSave: () => void;
 };
 
-export const ContactDetailsCard = ({ contact }: Props) => {
-  const [open, setOpen] = useState(false);
+export const ContactDetailsCard = ({ contact, onSave }: Props) => {
+  const [hasDialog, toggleDialog] = useToggle(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleSave = () => {
+    toggleDialog();
+    onSave();
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const civility = contact.civility ? (contact.civility === "Female" ? "Madame" : "Monsieur") : "";
+  const civility =
+    contact.civility !== "Undefined" && contact.civility
+      ? contact.civility === "Female"
+        ? "Madame"
+        : "Monsieur"
+      : "";
   return (
     <Card sx={{ px: 6, py: 3 }} elevation={2}>
       <Stack spacing={4}>
         <Row justifyContent={"space-between"}>
-          <ContactDetailsCardTitle IconComponent={AssignmentIndOutlinedIcon} title={"Coordonnées"} />
-          <IconButton onClick={handleClickOpen} color="inherit">
+          <CardtitleWithIcon IconComponent={AssignmentIndOutlinedIcon} title={"Coordonnées"} />
+          <IconButton onClick={toggleDialog} color="inherit">
             <BorderColorOutlinedIcon fontSize="small" />
           </IconButton>
         </Row>
@@ -54,18 +57,18 @@ export const ContactDetailsCard = ({ contact }: Props) => {
               ${contact.address?.zipCode}, ${contact.address?.cityName}`}
             </Box>
             <Box component={"span"}>
-              {`${contact.address?.specialDistribution} 
+              {`TODO Bureau distributeur 
               ${contact.address?.cedexCode && ","} 
               ${contact.address?.cedexCode}
               ${contact.address?.countryName && ","} 
               ${contact.address?.countryName}`}
             </Box>
             <Box component={"span"}>{contact.address?.addressSupplement}</Box>
-            <Box component={"span"}>Mention Spéciale</Box>
+            <Box component={"span"}>{contact.address?.specialDistribution}</Box>
           </Stack>
         </Row>
       </Stack>
-      <ContactDetailsDialog open={open} handleClose={handleClose} contact={contact} />
+      <ContactFormDialog open={hasDialog} onClose={toggleDialog} onSave={handleSave} contact={contact} />
     </Card>
   );
 };

@@ -12,13 +12,17 @@ import { RadioLine } from "./RadioLine";
 import { Controller, type UseFormReturn } from "react-hook-form";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 
-type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required"> & {
-  type?: "radios" | "radiostack" | "switch" | "text";
-  error?: string;
-  control?: UseFormReturn<any, any, any>["control"];
-  labelOutside?: boolean;
-  options?: { label: string; value: string }[];
-};
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from "@mui/material";
+
+type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required" | "sx"> &
+  Pick<SelectProps, "onChange" | "defaultValue"> & {
+    type?: "radios" | "radiostack" | "switch" | "text" | "select";
+    error?: string;
+    control?: UseFormReturn<any, any, any>["control"];
+    labelOutside?: boolean;
+    options?: { label: string; value: string }[];
+    selectoptions?: string[];
+  };
 
 export const Field = forwardRef<HTMLElement, Props>((props, ref) => {
   const isControlled = !!props.control;
@@ -31,7 +35,8 @@ export const Field = forwardRef<HTMLElement, Props>((props, ref) => {
     return `A controlled field must have a name`;
   }
 
-  const labelOutside = (props.type && props.type !== "text") || props.labelOutside;
+  const labelOutside =
+    (props.type && props.type !== "text" && props.type !== "select") || props.labelOutside;
 
   return (
     <Row gap={3}>
@@ -72,35 +77,76 @@ export const Field = forwardRef<HTMLElement, Props>((props, ref) => {
 
 export function uncontrolledField(props: Props, ref: any) {
   if (props.labelOutside) {
-    return <OutlinedInput fullWidth {...props} error={!!props.error} inputRef={ref} />;
+    return <OutlinedInput fullWidth {...props} error={!!props.error} inputRef={ref} size="small" />;
   }
+
+  if (props.type === "select" && props.selectoptions) {
+    const labelId = `label-${props.name}`;
+
+    return (
+      <FormControl fullWidth>
+        <InputLabel size="small" id={labelId}>
+          {props.label}
+        </InputLabel>
+        <Select
+          fullWidth
+          {...props}
+          labelId={labelId}
+          defaultValue={props.defaultValue}
+          id={`select-${props.name}`}
+          error={!!props.error}
+          inputRef={ref}
+          size="small"
+          displayEmpty
+        >
+          {props.selectoptions.map(option => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    );
+  }
+
   return (
-    <TextField fullWidth {...props} inputRef={ref} error={!!props.error} helperText={props.error} />
+    <TextField
+      fullWidth
+      {...props}
+      inputRef={ref}
+      error={!!props.error}
+      helperText={props.error}
+      size="small"
+    />
   );
 }
 
-export function controlledField({ type, name, options }: Props, field: any) {
+export function controlledField({ type, name, options, error }: Props, field: any) {
   if (type === "switch") {
     return <Switch checked={field.value} color="green" {...field} />;
   }
   if (type === "radios") {
     return (
-      <RadioGroup
-        value={field.value}
-        onChange={e => field.onChange(e.target.value)}
-        row
-        aria-labelledby={`label-${name}`}
-        name={name}
-      >
-        {options?.map(o => (
-          <FormControlLabel
-            key={o.value}
-            value={o.value}
-            control={<Radio sx={{ p: 0 }} />}
-            label={o.label}
-          />
-        ))}
-      </RadioGroup>
+      <FormControl error={!!error}>
+        <RadioGroup
+          value={field.value}
+          onChange={e => field.onChange(e.target.value)}
+          row
+          aria-labelledby={`label-${name}`}
+          name={name}
+          sx={{ flexWrap: "nowrap" }}
+        >
+          {options?.map(o => (
+            <FormControlLabel
+              key={o.value}
+              value={o.value}
+              control={<Radio sx={{ p: 0 }} size="small" />}
+              label={o.label}
+            />
+          ))}
+        </RadioGroup>
+        {error && <FormHelperText>{error}</FormHelperText>}
+      </FormControl>
     );
   }
   if (type === "radiostack") {

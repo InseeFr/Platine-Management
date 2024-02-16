@@ -400,6 +400,22 @@ export const theme = createTheme({
         },
       },
     },
+    MuiFormGroup: {
+      styleOverrides: {
+        root: {
+          "& .MuiSvgIcon-root": {
+            fontSize: 14,
+          },
+          ".MuiTypography-root": {
+            ...typography.bodyMedium,
+          },
+          ".MuiFormControlLabel-root": {
+            gap: "8px",
+          },
+          gap: "24px",
+        },
+      },
+    },
   },
 });
 

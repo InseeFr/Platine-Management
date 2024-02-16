@@ -1,5 +1,5 @@
 import { ElementType } from "react";
-import { Row } from "../Row";
+import { Row } from "./Row.tsx";
 import { Typography } from "@mui/material";
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
   title: string;
 };
 
-export const ContactDetailsCardTitle = ({ IconComponent, title }: Props) => {
+export const CardtitleWithIcon = ({ IconComponent, title }: Props) => {
   return (
     <Row spacing={2}>
       <IconComponent fontSize="small" />
