@@ -71,8 +71,10 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
   const { mutateAsync, isPending } = useFetchMutation("/api/contacts/{id}", "put");
 
   const onSubmit = handleSubmit(async data => {
-    console.log({ data });
-    await mutateAsync({ body: data, urlParams: { id: contact.identifier } });
+    await mutateAsync({
+      body: { ...data, identifier: contact.identifier },
+      urlParams: { id: contact.identifier },
+    });
     onSave();
   });
 

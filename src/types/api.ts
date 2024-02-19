@@ -779,7 +779,7 @@ export type APISchemas = {
     empty?: boolean
   }
   ContactFirstLoginDto: {
-    identifier?: string
+    identifier: string
     externalId?: string
     civility?: "Female" | "Male" | "Undefined"
     lastName?: string
