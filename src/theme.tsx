@@ -2,6 +2,12 @@ import { createTheme, CssBaseline } from "@mui/material";
 import { type CSSProperties, type PropsWithChildren } from "react";
 import { ThemeProvider } from "@emotion/react";
 
+declare module "@mui/material/SvgIcon" {
+  interface SvgIconPropsColorOverrides {
+    "text.hint": true;
+  }
+}
+
 declare module "@mui/material/styles" {
   interface Palette {
     red: string;
@@ -37,6 +43,7 @@ declare module "@mui/material/styles" {
     titleLarge: CSSProperties;
     titleMedium: CSSProperties;
     titleSmall: CSSProperties;
+    itemSmall: CSSProperties;
     labelMedium: CSSProperties;
     labelSmall: CSSProperties;
     bodyLarge: CSSProperties;
@@ -54,6 +61,7 @@ declare module "@mui/material/styles" {
     titleLarge?: CSSProperties;
     titleMedium?: CSSProperties;
     titleSmall?: CSSProperties;
+    itemSmall?: CSSProperties;
     labelMedium?: CSSProperties;
     labelSmall?: CSSProperties;
     bodyLarge?: CSSProperties;
@@ -73,6 +81,7 @@ declare module "@mui/material/Typography" {
     titleLarge: true;
     titleMedium: true;
     titleSmall: true;
+    itemSmall: true;
     labelMedium: true;
     labelSmall: true;
     bodyLarge: true;
@@ -161,6 +170,12 @@ const typography = {
     fontSize: 14,
     lineHeight: "20px",
     fontWeight: 600,
+    letterSpacing: 0.1,
+  },
+  itemSmall: {
+    fontSize: 12,
+    lineHeight: "16px",
+    fontWeight: 400,
     letterSpacing: 0.1,
   },
   labelMedium: {
@@ -342,6 +357,13 @@ export const theme = createTheme({
         },
       },
     },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          borderBottom: "none",
+        },
+      },
+    },
     MuiToggleButton: {
       styleOverrides: {
         root: {
@@ -381,6 +403,13 @@ export const theme = createTheme({
           ...typography.titleMedium,
           fontSize: "20px",
           lineHeight: "32px",
+        },
+      },
+    },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          padding: "24px",
         },
       },
     },

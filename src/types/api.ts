@@ -347,8 +347,8 @@ export type APISchemas = {
     pageNumber?: number
     /* Format: int32 */
     pageSize?: number
-    paged?: boolean
     unpaged?: boolean
+    paged?: boolean
   }
   SortObject: { empty?: boolean; sorted?: boolean; unsorted?: boolean }
   UserPage: {
@@ -607,6 +607,8 @@ export type APISchemas = {
     numberOfElements?: number
     empty?: boolean
   }
+  PeriodDto: { value?: string; label?: string; period?: string }
+  PeriodicityDto: { value: string; label: string }
   EligibleDto: { eligible?: string }
   OwnerPage: {
     content?: Array<APISchemas["OwnerDto"]>
@@ -777,7 +779,7 @@ export type APISchemas = {
     empty?: boolean
   }
   ContactFirstLoginDto: {
-    identifier?: string
+    identifier: string
     externalId?: string
     civility?: "Female" | "Male" | "Undefined"
     lastName?: string
@@ -1105,7 +1107,7 @@ export type APIEndpoints = {
         }
   }
   "/api/contacts/{id}": {
-    responses: { get: null; put: APISchemas["ContactDto"]; delete: null }
+    responses: { get: APISchemas["ContactFirstLoginDto"]; put: APISchemas["ContactDto"]; delete: null }
     requests:
       | { method?: "get"; urlParams: { id: string } }
       | {
@@ -1351,13 +1353,16 @@ export type APIEndpoints = {
       }
     }
   }
-  "/api/periods": { responses: { get: string }; requests: { method?: "get" } }
-  "/api/periodicities": {
-    responses: { get: string }
+  "/api/periods": {
+    responses: { get: Array<APISchemas["PeriodDto"]> }
     requests: { method?: "get" }
   }
-  "/api/periodicities/{id}/periods": {
-    responses: { get: string }
+  "/api/periodicities": {
+    responses: { get: Array<APISchemas["PeriodicityDto"]> }
+    requests: { method?: "get" }
+  }
+  "/api/periodicities/{periodicity}/periods": {
+    responses: { get: Array<APISchemas["PeriodDto"]> }
     requests: { method?: "get"; query: { periodicity: string } }
   }
   "/api/partitionings/{idPartitioning}/survey-units/{idSu}/state": {

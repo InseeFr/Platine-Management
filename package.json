@@ -1,7 +1,11 @@
 {
   "name": "platine-management",
   "private": true,
+<<<<<<< HEAD
   "version": "1.0.7",
+=======
+  "version": "1.0.6",
+>>>>>>> develop
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -22,6 +26,7 @@
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.10",
     "@tanstack/react-query": "^5.17.15",
+    "date-fns": "^3.3.1",
     "oidc-spa": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
