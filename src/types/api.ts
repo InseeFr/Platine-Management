@@ -344,11 +344,11 @@ export type APISchemas = {
     offset?: number
     sort?: APISchemas["SortObject"]
     /* Format: int32 */
-    pageSize?: number
-    /* Format: int32 */
     pageNumber?: number
-    paged?: boolean
+    /* Format: int32 */
+    pageSize?: number
     unpaged?: boolean
+    paged?: boolean
   }
   SortObject: { empty?: boolean; sorted?: boolean; unsorted?: boolean }
   UserPage: {
@@ -359,12 +359,12 @@ export type APISchemas = {
     totalElements?: number
     /* Format: int32 */
     totalPages?: number
+    first?: boolean
     /* Format: int32 */
     size?: number
     /* Format: int32 */
     number?: number
     sort?: APISchemas["SortObject"]
-    first?: boolean
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
@@ -409,12 +409,12 @@ export type APISchemas = {
     totalElements?: number
     /* Format: int32 */
     totalPages?: number
+    first?: boolean
     /* Format: int32 */
     size?: number
     /* Format: int32 */
     number?: number
     sort?: APISchemas["SortObject"]
-    first?: boolean
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
@@ -561,12 +561,12 @@ export type APISchemas = {
     totalElements?: number
     /* Format: int32 */
     totalPages?: number
+    first?: boolean
     /* Format: int32 */
     size?: number
     /* Format: int32 */
     number?: number
     sort?: APISchemas["SortObject"]
-    first?: boolean
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
@@ -579,12 +579,12 @@ export type APISchemas = {
     totalElements?: number
     /* Format: int32 */
     totalPages?: number
+    first?: boolean
     /* Format: int32 */
     size?: number
     /* Format: int32 */
     number?: number
     sort?: APISchemas["SortObject"]
-    first?: boolean
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
@@ -597,12 +597,12 @@ export type APISchemas = {
     totalElements?: number
     /* Format: int32 */
     totalPages?: number
+    first?: boolean
     /* Format: int32 */
     size?: number
     /* Format: int32 */
     number?: number
     sort?: APISchemas["SortObject"]
-    first?: boolean
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
@@ -618,12 +618,12 @@ export type APISchemas = {
     totalElements?: number
     /* Format: int32 */
     totalPages?: number
+    first?: boolean
     /* Format: int32 */
     size?: number
     /* Format: int32 */
     number?: number
     sort?: APISchemas["SortObject"]
-    first?: boolean
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
@@ -746,14 +746,14 @@ export type APISchemas = {
     totalElements?: number
     /* Format: int32 */
     totalPages?: number
+    first?: boolean
+    last?: boolean
     /* Format: int32 */
     size?: number
     content?: Array<APISchemas["MoogSearchDto"]>
     /* Format: int32 */
     number?: number
     sort?: APISchemas["SortObject"]
-    first?: boolean
-    last?: boolean
     /* Format: int32 */
     numberOfElements?: number
     pageable?: APISchemas["PageableObject"]
@@ -768,12 +768,12 @@ export type APISchemas = {
     totalElements?: number
     /* Format: int32 */
     totalPages?: number
+    first?: boolean
     /* Format: int32 */
     size?: number
     /* Format: int32 */
     number?: number
     sort?: APISchemas["SortObject"]
-    first?: boolean
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
@@ -957,12 +957,12 @@ export type APISchemas = {
     totalElements?: number
     /* Format: int32 */
     totalPages?: number
+    first?: boolean
     /* Format: int32 */
     size?: number
     /* Format: int32 */
     number?: number
     sort?: APISchemas["SortObject"]
-    first?: boolean
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
@@ -1361,7 +1361,7 @@ export type APIEndpoints = {
     responses: { get: Array<APISchemas["PeriodicityDto"]> }
     requests: { method?: "get" }
   }
-  "/api/periodicities/{id}/periods": {
+  "/api/periodicities/{periodicity}/periods": {
     responses: { get: Array<APISchemas["PeriodDto"]> }
     requests: { method?: "get"; query: { periodicity: string } }
   }

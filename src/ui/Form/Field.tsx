@@ -15,13 +15,14 @@ import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from "@mui/material";
 
 type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required" | "sx"> &
-  Pick<SelectProps, "onChange" | "defaultValue"> & {
+  Pick<SelectProps, "onChange" | "defaultValue" | "disabled"> & {
     type?: "radios" | "radiostack" | "switch" | "text" | "select";
     error?: string;
     control?: UseFormReturn<any, any, any>["control"];
     labelOutside?: boolean;
     options?: { label: string; value: string }[];
     selectoptions?: string[];
+    disabled?: boolean;
   };
 
 export const Field = forwardRef<HTMLElement, Props>((props, ref) => {
@@ -89,6 +90,7 @@ export function uncontrolledField(props: Props, ref: any) {
           {props.label}
         </InputLabel>
         <Select
+          disabled={props.disabled}
           fullWidth
           {...props}
           labelId={labelId}

@@ -8,7 +8,7 @@ import { Row } from "../Row";
 import { z } from "zod";
 import { useForm } from "../../hooks/useForm";
 import AddIcon from "@mui/icons-material/Add";
-import { useFetchQuery } from "../../hooks/useFetchQuery";
+import { useFetchMutation, useFetchQuery } from "../../hooks/useFetchQuery";
 
 type Props = {
   survey: APISchemas["SurveyDto"];
@@ -22,6 +22,18 @@ const schema = z.object({
 
 export const SurveyCreateCampaignCard = ({ survey }: Props) => {
   const { data: periods } = useFetchQuery("/api/periods");
+  const { data: campaigns } = useFetchQuery("/api/surveys/{id}/campaigns", {
+    urlParams: {
+      id: survey.id!,
+    },
+  });
+  const existingPeriods = campaigns ? campaigns.map(c => c.period?.toString()) : [];
+  const periodicity = existingPeriods[0]?.substring(0, 1);
+  const selectoptions = periods
+    ?.map(p => p.label!)
+    .filter(p => p.substring(0, 1) === periodicity && !existingPeriods?.includes(p))
+    .sort((a, b) => (a > b ? 1 : -1));
+
   const { register, control, errors, handleSubmit } = useForm(schema, {
     defaultValues: {
       label: survey?.sourceId,
@@ -29,6 +41,7 @@ export const SurveyCreateCampaignCard = ({ survey }: Props) => {
       period: "",
     },
   });
+  const { mutateAsync, isPending } = useFetchMutation("/api/campaigns/{id}", "put");
   return (
     <Card sx={{ px: 6, py: 3 }} elevation={2}>
       <Stack spacing={4}>
@@ -48,9 +61,10 @@ export const SurveyCreateCampaignCard = ({ survey }: Props) => {
           <Field
             sx={{ width: "120px" }}
             type="select"
-            selectoptions={periods?.sort((a, b) => (a.label! > b.label! ? 1 : -1)).map(p => p.label!)}
+            selectoptions={selectoptions}
             error={errors.period?.message}
             {...register("period")}
+            disabled={!selectoptions?.length}
           ></Field>
         </Row>
         <Row justifyContent={"right"}>
@@ -60,6 +74,7 @@ export const SurveyCreateCampaignCard = ({ survey }: Props) => {
             size={"medium"}
             startIcon={<AddIcon />}
             //onClick={}
+            disabled={!selectoptions?.length}
           >
             {"Créer une Nouvelle campagne"}
           </Button>

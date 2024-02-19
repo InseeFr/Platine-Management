@@ -21,12 +21,11 @@ export const SurveyHeader = ({ survey }: Props) => {
     },
   });
 
-  const surveyYears = surveys?.map(s => s.year);
+  const surveyYears = surveys?.sort((a, b) => b.year! - a.year!).map(s => s.year);
 
   const handleChange = (event: SelectChangeEvent) => {
     const { value } = event.target;
     setYear(parseInt(value));
-    console.log(`/surveys/${survey.sourceId}${value}`);
     navigate(`/surveys/${survey.sourceId}${value}`);
   };
 

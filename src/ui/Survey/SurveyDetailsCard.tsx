@@ -1,4 +1,4 @@
-import { Card, IconButton, Stack } from "@mui/material";
+import { Card, Divider, IconButton, Stack } from "@mui/material";
 import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
@@ -29,6 +29,7 @@ export const SurveyDetailsCard = ({ survey, onSave }: Props) => {
             <BorderColorOutlinedIcon fontSize="small" />
           </IconButton>
         </Row>
+        <Divider variant="fullWidth" />
         <Row spacing={8} justifyContent={"space-evenly"}>
           <Stack spacing={1} typography={"bodyMedium"}>
             <SurveyMetadataItem label="Identifiant" value={survey?.id} />
