@@ -8,7 +8,7 @@ import { Row } from "../Row";
 import { z } from "zod";
 import { useForm } from "../../hooks/useForm";
 import AddIcon from "@mui/icons-material/Add";
-import { useFetchMutation, useFetchQuery } from "../../hooks/useFetchQuery";
+import { useFetchQuery } from "../../hooks/useFetchQuery";
 
 type Props = {
   survey: APISchemas["SurveyDto"];
@@ -34,14 +34,14 @@ export const SurveyCreateCampaignCard = ({ survey }: Props) => {
     .filter(p => p.substring(0, 1) === periodicity && !existingPeriods?.includes(p))
     .sort((a, b) => (a > b ? 1 : -1));
 
-  const { register, control, errors, handleSubmit } = useForm(schema, {
+  const { register, errors } = useForm(schema, {
     defaultValues: {
       label: survey?.sourceId,
       year: survey?.year?.toString(),
       period: "",
     },
   });
-  const { mutateAsync, isPending } = useFetchMutation("/api/campaigns/{id}", "put");
+  //const { mutateAsync, isPending } = useFetchMutation("/api/campaigns/{id}", "put");
   return (
     <Card sx={{ px: 6, py: 3 }} elevation={2}>
       <Stack spacing={4}>

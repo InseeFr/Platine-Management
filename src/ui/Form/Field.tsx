@@ -22,7 +22,6 @@ type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "re
     labelOutside?: boolean;
     options?: { label: string; value: string }[];
     selectoptions?: string[];
-    disabled?: boolean;
   };
 
 export const Field = forwardRef<HTMLElement, Props>((props, ref) => {

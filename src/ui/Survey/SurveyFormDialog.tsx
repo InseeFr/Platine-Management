@@ -39,7 +39,7 @@ const styles = {
 
 export const SurveyFormDialog = ({ open, onClose, survey, onSave }: Props) => {
   const defaultValues = survey;
-  const { register, control, errors, handleSubmit } = useForm(schema, {
+  const { register, errors, handleSubmit } = useForm(schema, {
     defaultValues: defaultValues,
   });
 

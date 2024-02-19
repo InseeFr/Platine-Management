@@ -22,19 +22,12 @@ import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
 import moment from "moment";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import { useToggle } from "react-use";
 
 type Props = {
   survey: APISchemas["SurveyDto"];
 };
 
 export const SurveyCalendarCard = ({ survey }: Props) => {
-  const [hasDialog, toggleDialog] = useToggle(false);
-
-  const handleSave = () => {
-    toggleDialog();
-  };
-
   const { data: campPartition } = useFetchQuery("/api/surveys/{id}/campaigns-partitionings", {
     urlParams: {
       id: survey!.id!,
@@ -149,7 +142,6 @@ export const SurveyCalendarCard = ({ survey }: Props) => {
             sx={{ typography: "bodyLarge" }}
             size={"large"}
             startIcon={<AddCircleOutlineOutlinedIcon />}
-            onClick={toggleDialog}
           >
             Nouvelle Vague
           </Button>
