@@ -2,6 +2,7 @@ import { Divider, Stack, Tabs } from "@mui/material";
 import { PageTab } from "../ui/PageTab";
 import { useState, SyntheticEvent } from "react";
 import { SettingsHeader } from "../ui/Settings/SettingsHeader";
+import { SettingsHabilitationsTab } from "./Settings/SettingsHabilitationsTab";
 
 enum Tab {
   Habilitations = "Habilitations",
@@ -49,7 +50,7 @@ export function SettingsPage() {
       </Tabs>
 
       <Stack px={3} py={3}>
-        {currentTab === Tab.Habilitations && "0"}
+        {currentTab === Tab.Habilitations && <SettingsHabilitationsTab />}
         {currentTab === Tab.Communications && "1"}
         {currentTab === Tab.NewSource && "2"}
       </Stack>
