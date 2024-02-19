@@ -29,7 +29,7 @@ export function Header() {
       </Row>
       <Box>
         {preferred_username}
-        <IconButton component={RouterLink} to="/reglages">
+        <IconButton component={RouterLink} to="/settings">
           <SettingsOutlinedIcon />
         </IconButton>
         <IconButton
