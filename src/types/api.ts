@@ -608,7 +608,7 @@ export type APISchemas = {
     empty?: boolean
   }
   PeriodDto: { value?: string; label?: string; period?: string }
-  PeriodicityDto: { value?: string; label?: string }
+  PeriodicityDto: { value: string; label: string }
   EligibleDto: { eligible?: string }
   OwnerPage: {
     content?: Array<APISchemas["OwnerDto"]>
@@ -1107,7 +1107,7 @@ export type APIEndpoints = {
         }
   }
   "/api/contacts/{id}": {
-    responses: { get: null; put: APISchemas["ContactDto"]; delete: null }
+    responses: { get: APISchemas["ContactFirstLoginDto"]; put: APISchemas["ContactDto"]; delete: null }
     requests:
       | { method?: "get"; urlParams: { id: string } }
       | {

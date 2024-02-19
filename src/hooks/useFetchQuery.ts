@@ -92,9 +92,15 @@ export function useFetchMutation<Path extends APIPaths, Method extends APIMethod
     Omit<APIRequest<Path, Method>, "method">
   >,
 ) {
+  const token = useAccessToken();
+  const authHeaders = {
+    Authorization: `Bearer ${token}`,
+  };
   return useMutation<APIResponse<Path, Method>, APIError, Omit<APIRequest<Path, Method>, "method">>({
     ...(queryOptions as any),
-    mutationFn: request => fetchAPI(path, { ...request, method }),
+    mutationFn: request => {
+      return fetchAPI(path, { ...request, method, headers: authHeaders });
+    },
     onError: (err, variables) => {
       queryOptions?.onError?.(err, variables, undefined);
       alert(err.message);

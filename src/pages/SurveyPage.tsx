@@ -2,14 +2,18 @@ import Divider from "@mui/material/Divider";
 import { useFetchQuery } from "../hooks/useFetchQuery.ts";
 import { useParams } from "react-router-dom";
 import { Row } from "../ui/Row.tsx";
-import { CircularProgress, Stack, Tabs } from "@mui/material";
+import { Box, CircularProgress, Tabs } from "@mui/material";
 import { type SyntheticEvent, useState } from "react";
 import { SurveyHeader } from "../ui/Survey/SurveyHeader.tsx";
-import { SurveyInfosTab } from "./Survey/SurveyInfosTab.tsx";
 import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
 import { PageTab } from "../ui/PageTab.tsx";
-import { SurveyCalendarTab } from "./Survey/SurveyCalendarTab.tsx";
-import { SurveyCampaignTab } from "./Survey/SurveyCampaignTab.tsx";
+import { APISchemas } from "../types/api.ts";
+import Grid from "@mui/material/Grid";
+import { SurveyDetailsCard } from "../ui/Survey/SurveyDetailsCard.tsx";
+import { HistoryActionsCard } from "../ui/Contact/HistoryActionsCard.tsx";
+import { CommentsCard } from "../ui/Contact/CommentsCard.tsx";
+import { SurveyCalendarCard } from "../ui/Survey/SurveyCalendarCard.tsx";
+import { SurveyCreateCampaignCard } from "../ui/Survey/SurveyCreateCampaignCard.tsx";
 
 enum Tab {
   Infos = "Infos",
@@ -86,16 +90,47 @@ export function SurveyPage() {
         ))}
       </Tabs>
 
-      <Stack px={3} py={3}>
-        <Breadcrumbs items={breadcrumbs} />
-        {currentTab === Tab.Infos && <SurveyInfosTab survey={survey} onSave={refetch} />}
-        {currentTab === Tab.Calendar && <SurveyCalendarTab survey={survey} />}
-        {currentTab === Tab.SurveyUnits && "2"}
-        {currentTab === Tab.FollowUp && "3"}
-        {currentTab === Tab.Campaign && <SurveyCampaignTab survey={survey} />}
-        {currentTab === Tab.FAQ && "5"}
-        {currentTab === Tab.History && "6"}
-      </Stack>
+      <Breadcrumbs items={breadcrumbs} />
+
+      <Box px={4}>
+        <SurveyUnitTab tab={currentTab} survey={survey} onSave={refetch} />
+      </Box>
     </>
   );
+}
+
+function SurveyUnitTab({
+  survey,
+  onSave,
+  tab,
+}: {
+  tab: Tab;
+  survey: APISchemas["SurveyDto"];
+  onSave: () => void;
+}) {
+  if (tab === Tab.Infos) {
+    return (
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <SurveyDetailsCard survey={survey} onSave={onSave} />
+        </Grid>
+        <Grid item xs={6}>
+          <HistoryActionsCard />
+        </Grid>
+        <Grid item xs={6}>
+          <CommentsCard />
+        </Grid>
+      </Grid>
+    );
+  }
+
+  if (tab === Tab.Calendar) {
+    return <SurveyCalendarCard survey={survey} />;
+  }
+
+  if (tab === Tab.Campaign) {
+    return <SurveyCreateCampaignCard survey={survey} />;
+  }
+
+  return;
 }

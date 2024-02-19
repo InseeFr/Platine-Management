@@ -400,6 +400,13 @@ export const theme = createTheme({
         },
       },
     },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          padding: "24px",
+        },
+      },
+    },
     MuiFormGroup: {
       styleOverrides: {
         root: {

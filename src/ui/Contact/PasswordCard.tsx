@@ -7,7 +7,7 @@ import { CardInner } from "./CardInner";
 import { GeneralCardContent } from "./GeneralCardContent";
 import { FormDialog } from "./FormDialog";
 import { theme } from "../../theme";
-import { SelectWithOptions } from "../Search/SearchSurveysForm";
+import { SelectWithOptions } from "../Form/SelectWithOptions.tsx";
 
 export const PasswordCard = () => {
   const [open, setOpen] = useState(false);

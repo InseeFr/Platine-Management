@@ -4,7 +4,7 @@ import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { Row } from "../Row.tsx";
 import { APISchemas } from "../../types/api.ts";
-import { SurveyMetadataItem } from "./SurveyMetadataItem.tsx";
+import { SurveyMetadataItem, SurveyMetadataItems } from "./SurveyMetadataItem.tsx";
 import { useToggle } from "react-use";
 import { SurveyFormDialog } from "./SurveyFormDialog.tsx";
 
@@ -30,8 +30,8 @@ export const SurveyDetailsCard = ({ survey, onSave }: Props) => {
           </IconButton>
         </Row>
         <Divider variant="fullWidth" />
-        <Row spacing={8} justifyContent={"space-evenly"}>
-          <Stack spacing={1} typography={"bodyMedium"}>
+        <Row spacing={8} typography={"bodyMedium"}>
+          <SurveyMetadataItems>
             <SurveyMetadataItem label="Identifiant" value={survey?.id} />
             <SurveyMetadataItem label="Année de collecte" value={survey?.year} />
             <SurveyMetadataItem label="Libellé long" value={survey?.shortWording} />
@@ -39,8 +39,8 @@ export const SurveyDetailsCard = ({ survey, onSave }: Props) => {
             <SurveyMetadataItem label="Objectif long" value={survey?.longObjectives} />
             <SurveyMetadataItem label="Date de début" value="not provided" />
             <SurveyMetadataItem label="Date de fin" value="not provided" />
-          </Stack>
-          <Stack spacing={1} typography={"bodyMedium"}>
+          </SurveyMetadataItems>
+          <SurveyMetadataItems>
             <SurveyMetadataItem label="Statut de l'enquête" value="not provided" />
             <SurveyMetadataItem label="Caractère obligatoire" value="not provided" />
             <SurveyMetadataItem label="Numéro de visa" value={survey?.visaNumber} />
@@ -49,7 +49,7 @@ export const SurveyDetailsCard = ({ survey, onSave }: Props) => {
             <SurveyMetadataItem label="URL diffusion" value={survey?.diffusionUrl} />
             <SurveyMetadataItem label="URL notice" value={survey?.noticeUrl} />
             <SurveyMetadataItem label="URL spécimen" value={survey?.specimenUrl} />
-          </Stack>
+          </SurveyMetadataItems>
         </Row>
       </Stack>
       <SurveyFormDialog open={hasDialog} onClose={toggleDialog} onSave={handleSave} survey={survey} />

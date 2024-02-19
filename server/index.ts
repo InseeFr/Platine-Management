@@ -6,6 +6,8 @@ import { fakeContact } from "./functions/contact.ts";
 import cors from "@fastify/cors";
 import { fakeSurveyUnit } from "./functions/surveys.ts";
 import { fakeCampaign } from "./functions/campaign.ts";
+import { fakeCampaignPartitioning, fakeSurvey } from "./functions/survey.ts";
+import { fakePeriodicities } from "./functions/periodicity.ts";
 
 const wait = (duration: number) => new Promise(resolve => setTimeout(resolve, duration));
 
@@ -21,6 +23,8 @@ fastify.register(cors, {
 const paginatedUrls = [
   { path: "/api/contacts", content: fakeContact },
   { path: "/api/survey-units", content: fakeSurveyUnit },
+  { path: "/api/surveys/search", content: fakeSurvey },
+  { path: "/api/surveys", content: fakeSurvey },
   { path: "/api/campaigns", content: fakeCampaign },
 ];
 
@@ -37,6 +41,10 @@ for (const url of paginatedUrls) {
     return url.content(request.params.id.length);
   });
 }
+
+fastify.get("/api/periodicities", fakePeriodicities);
+fastify.get("/api/surveys/:id/campaigns-partitionings", () => times(5, fakeCampaignPartitioning));
+fastify.get("/api/sources/:id/surveys", () => times(5, fakeSurvey));
 
 fastify.put<{ Params: { id: string } }>("/api/contacts/:id", async request => {
   await wait(1000);
