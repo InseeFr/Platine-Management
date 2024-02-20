@@ -48,12 +48,6 @@ export const SettingsHabilitationsMenu = ({ user }: Props) => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        PaperProps={{
-          style: {
-            maxHeight: ITEM_HEIGHT * 4.5,
-            width: "418px",
-          },
-        }}
       >
         {options.map(option => (
           <MenuItem
