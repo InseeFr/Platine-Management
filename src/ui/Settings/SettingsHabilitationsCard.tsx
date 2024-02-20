@@ -125,16 +125,16 @@ export const SettingsHabilitationsCard = () => {
               {searchList.map(user => (
                 <TableRow key={user.identifier}>
                   <TableCell align="center">{user.identifier}</TableCell>
-                  <TableCell align="center">{"not provided"}</TableCell>
-                  <TableCell align="center"> {"not provided"}</TableCell>
-                  <TableCell align="center">{"not provided"}</TableCell>
+                  <TableCell align="center">{user.name}</TableCell>
+                  <TableCell align="center"> {user.firstName}</TableCell>
+                  <TableCell align="center">{user.organization}</TableCell>
                   <TableCell align="center">
                     {user.role ? <RoleChip role={user.role.toLowerCase()} /> : null}
                   </TableCell>
                   <TableCell align="center">{"not provided"}</TableCell>
                   <TableCell align="center">{"not provided"}</TableCell>
-                  <TableCell align="center">{"not provided"}</TableCell>
-                  <TableCell align="center">{"not provided"}</TableCell>
+                  <TableCell align="center">{user.accreditedSources}</TableCell>
+                  <TableCell align="center">{`Le "${user.creationDate}" par "${user.creationAuthor}`}</TableCell>
                   <TableCell align="center">
                     <SettingsHabilitationsMenu user={user} />
                   </TableCell>
