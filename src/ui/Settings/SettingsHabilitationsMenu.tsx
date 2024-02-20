@@ -16,8 +16,6 @@ const options = [
   "Ajout/suppression de sources dans Pilotage",
 ];
 
-const ITEM_HEIGHT = 48;
-
 export const SettingsHabilitationsMenu = ({ user }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

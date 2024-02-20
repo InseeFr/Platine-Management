@@ -10,7 +10,6 @@ import {
   TableHead,
   TableRow,
   TableBody,
-  IconButton,
   TextField,
   CircularProgress,
   Button,
@@ -21,8 +20,6 @@ import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery";
 import { SettingsHabilitationsMenu } from "./SettingsHabilitationsMenu";
 import { RoleChip } from "./RoleChip";
 import { Row } from "../Row";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { ChangeEvent, useEffect, useState } from "react";
 import { APISchemas } from "../../types/api";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
