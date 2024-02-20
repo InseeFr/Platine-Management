@@ -114,6 +114,11 @@ declare module "@mui/material/Paper" {
     disabled: true;
   }
 }
+declare module "@mui/material/Chip" {
+  interface ChipPropsVariantOverrides {
+    role: true;
+  }
+}
 
 declare module "@mui/material/Tab" {
   interface TabPropsClassesOverrides {
@@ -382,10 +387,26 @@ export const theme = createTheme({
     },
     MuiInputLabel: {
       styleOverrides: {
-        sizeSmall: {
-          ...typography.bodyMedium,
+        root: {
+          ...typography.bodyLarge,
         },
       },
+    },
+    MuiChip: {
+      variants: [
+        {
+          props: { variant: "role" },
+          style: {
+            fontWeight: 600,
+            lineHeight: "18px",
+            letterSpacing: "0.1px",
+            fontSize: "14px",
+            textTransform: "capitalize",
+            backgroundColor: "#EBEBEB",
+            height: "34px",
+          },
+        },
+      ],
     },
     MuiInputBase: {
       styleOverrides: {
