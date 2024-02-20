@@ -9,7 +9,7 @@ type Props = {
   placeholderLabel?: string;
   label: string;
   name: string;
-  onFilterChange: (event: SelectChangeEvent, filterName: string) => void;
+  onFilterChange: (event: SelectChangeEvent) => void;
 };
 
 export const ContactSurveysFilterSelect = ({
@@ -33,7 +33,7 @@ export const ContactSurveysFilterSelect = ({
         name={name}
         fullWidth
         defaultValue={defaultValue ?? placeholderLabel ?? ""}
-        onChange={e => onFilterChange(e, name)}
+        onChange={onFilterChange}
         id={`select-${name}`}
         size="small"
         displayEmpty

@@ -2,20 +2,23 @@ import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-export const MoreAction = () => {
+type Props = {
+  surveyId?: string;
+  surveyUnitId?: string;
+};
+
+export const MoreAction = ({ surveyId, surveyUnitId }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
+
   const onClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const onClose = () => {
     setAnchorEl(null);
-  };
-
-  const onRedirect = () => {
-    setAnchorEl(null);
-    //TODO redirect with survey unit or survey url
   };
 
   return (
@@ -38,10 +41,15 @@ export const MoreAction = () => {
           horizontal: "right",
         }}
       >
-        <MenuItem onClick={onRedirect} sx={{ typography: "titleMedium", fontWeight: "400" }}>
+        <MenuItem
+          onClick={() => navigate(`/survey-units/${surveyUnitId}`)}
+          sx={{ typography: "titleMedium", fontWeight: "400" }}
+        >
           Consulter la fiche “unité enquêtée”
         </MenuItem>
-        <MenuItem onClick={onRedirect}>Consulter la fiche “enquête”</MenuItem>
+        <MenuItem onClick={() => navigate(`/surveys/${surveyId}`)}>
+          Consulter la fiche “enquête”
+        </MenuItem>
       </Menu>
     </Box>
   );

@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import { Row } from "../Row.tsx";
 import StarIcon from "@mui/icons-material/Star";
 import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
+import { countries } from "../../constants/countries.ts";
 
 type Props = {
   open: boolean;
@@ -23,7 +24,7 @@ const schema = z.object({
   email: z.string().email(),
   phone: z.string().min(10).max(14).optional().or(z.literal("")),
   secondPhone: z.string().min(10).max(14).optional().or(z.literal("")),
-  socialReason: z.string().optional(), //TODO: add in api
+  identificationName: z.string().optional(),
   address: z
     .object({
       streetNumber: z.string().optional(),
@@ -49,8 +50,6 @@ const civilities = [
 const repetitionIndex = ["bis"]; //TODO: use real repetition index
 
 const streetType = ["rue", "avenue"]; // TODO: use real street type
-
-const countries = ["France", "Belgique"]; // TODO: use real countries
 
 const styles = {
   Grid: {
@@ -122,8 +121,8 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
             <Stack gap={4} pt={7}>
               <Field
                 label="Raison sociale"
-                error={errors.socialReason?.message}
-                {...register("socialReason")}
+                error={errors.identificationName?.message}
+                {...register("identificationName")}
               />
               <Row gap={2}>
                 <Field
@@ -194,7 +193,7 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
               />
               <Box sx={{ width: "300px" }}>
                 <Field
-                  defaultValue={contact.address?.countryName ? contact.address.countryName : "France"}
+                  defaultValue={contact.address?.countryName ? contact.address.countryName : "FRANCE"}
                   type="select"
                   label="Sélectionnez un pays"
                   selectoptions={countries}

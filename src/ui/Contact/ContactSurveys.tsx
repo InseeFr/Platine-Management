@@ -1,27 +1,76 @@
 import Card from "@mui/material/Card";
-import { Row } from "../../Row";
-import { TitleWithIconAndDivider } from "../../TitleWithIconAndDivider";
-import { BinocularIcon } from "../../Icon/BinocularIcon";
+import { Row } from "../Row";
+import { TitleWithIconAndDivider } from "../TitleWithIconAndDivider";
+import { BinocularIcon } from "../Icon/BinocularIcon";
 import { ContactSurveysFilterSelect } from "./ContactSurveysFilterSelect";
-import { SelectChangeEvent } from "@mui/material/Select";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import { ContactSurveysTable } from "./ContactSurveysTable";
+import { APISchemas } from "../../types/api";
+import { useFetchQuery } from "../../hooks/useFetchQuery";
+import CircularProgress from "@mui/material/CircularProgress";
 
-export const ContactSurveysContent = () => {
-  const [filters, setFilters] = useState<{ filterName: string; value: string }[]>([]);
+type Props = {
+  contact: APISchemas["ContactFirstLoginDto"];
+};
+
+// function useDebounce<T>(value: T, delay?: number): T {
+//   const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+//   useEffect(() => {
+//     const timer = setTimeout(() => {
+//       setDebouncedValue(value);
+//     }, delay ?? 500);
+
+//     return () => {
+//       clearTimeout(timer);
+//     };
+//   }, [value, delay]);
+
+//   return debouncedValue;
+// }
+
+export const ContactSurveysContent = ({ contact }: Props) => {
+  const [role, setRole] = useState("");
+  const [state, setState] = useState("");
+  const [search, setSearch] = useState("");
+
+  // const debouncedValue = useDebounce<string>(search, 5000);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+
+  const { data: surveys, refetch } = useFetchQuery("/api/contacts/{id}/accreditations", {
+    urlParams: {
+      id: contact.identifier!,
+    },
+    params: {
+      role,
+      state,
+    },
+  });
+
+  // useEffect(() => {
+  //   refetch();
+  // }, [debouncedValue]);
+
+  console.log({ role, state, search });
+
   const [tab, setTab] = useState("inProgress");
 
-  console.log({ filters });
-  const onFilterChange = (event: SelectChangeEvent, filterName: string) => {
-    console.log(event.target.value, filterName);
-    setFilters([...filters, { filterName: filterName, value: event.target.value }]);
-    // call api with filter
-  };
+  if (!surveys) {
+    return (
+      <Row justifyContent="center" py={10}>
+        <CircularProgress />
+      </Row>
+    );
+  }
+
   return (
     <Card sx={{ mx: 2, px: 6, py: 3 }} elevation={2}>
       <TitleWithIconAndDivider title={"Liste des enquêtes du contact"} IconComponent={BinocularIcon} />
@@ -34,7 +83,7 @@ export const ContactSurveysContent = () => {
             defaultValue={"Tous"}
             label={"Rôle du contact"}
             name={"role"}
-            onFilterChange={onFilterChange}
+            onFilterChange={e => setRole(e.target.value)}
           />
 
           <ContactSurveysFilterSelect
@@ -42,7 +91,7 @@ export const ContactSurveysContent = () => {
             placeholderLabel="Sélectionnez un état"
             label={"Etat de la collecte"}
             name={"state"}
-            onFilterChange={onFilterChange}
+            onFilterChange={e => setState(e.target.value)}
           />
 
           <TextField
@@ -59,6 +108,7 @@ export const ContactSurveysContent = () => {
             placeholder="Saisissez votre recherche"
             variant="outlined"
             size="small"
+            onChange={handleChange}
           />
         </Row>
         <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
@@ -71,7 +121,7 @@ export const ContactSurveysContent = () => {
         </ToggleButtonGroup>
       </Row>
 
-      <ContactSurveysTable />
+      <ContactSurveysTable surveys={surveys} />
     </Card>
   );
 };
