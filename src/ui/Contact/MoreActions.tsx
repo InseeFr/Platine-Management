@@ -23,7 +23,7 @@ export const MoreAction = ({ surveyId, surveyUnitId }: Props) => {
 
   return (
     <Box component="div">
-      <IconButton sx={{ color: "text.secondary" }} aria-label="delete" onClick={onClick}>
+      <IconButton sx={{ color: "text.secondary" }} onClick={onClick}>
         <MoreVertIcon />
       </IconButton>
       <Menu
@@ -41,15 +41,14 @@ export const MoreAction = ({ surveyId, surveyUnitId }: Props) => {
           horizontal: "right",
         }}
       >
-        <MenuItem
-          onClick={() => navigate(`/survey-units/${surveyUnitId}`)}
-          sx={{ typography: "titleMedium", fontWeight: "400" }}
-        >
+        <MenuItem onClick={() => navigate(`/survey-units/${surveyUnitId}`)}>
           Consulter la fiche “unité enquêtée”
         </MenuItem>
         <MenuItem onClick={() => navigate(`/surveys/${surveyId}`)}>
           Consulter la fiche “enquête”
         </MenuItem>
+        {/* Add url */}
+        <MenuItem onClick={() => navigate(`/`)}>Consulter le questionnaire</MenuItem>
       </Menu>
     </Box>
   );

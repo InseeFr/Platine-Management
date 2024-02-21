@@ -436,6 +436,18 @@ export const theme = createTheme({
         },
       },
     },
+    MuiChip: {
+      styleOverrides: {
+        colorError: {
+          backgroundColor: "#FDDBC3",
+          color: "#C71A01",
+        },
+        colorSuccess: {
+          backgroundColor: "#D0E6D4",
+          color: "#057345",
+        },
+      },
+    },
   },
 });
 

@@ -18,32 +18,36 @@ type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
 };
 
-// function useDebounce<T>(value: T, delay?: number): T {
-//   const [debouncedValue, setDebouncedValue] = useState<T>(value);
+function useDebounce<T>(value: T, delay?: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
-//   useEffect(() => {
-//     const timer = setTimeout(() => {
-//       setDebouncedValue(value);
-//     }, delay ?? 500);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay ?? 500);
 
-//     return () => {
-//       clearTimeout(timer);
-//     };
-//   }, [value, delay]);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [value, delay]);
 
-//   return debouncedValue;
-// }
+  return debouncedValue;
+}
 
 export const ContactSurveysContent = ({ contact }: Props) => {
   const [role, setRole] = useState("");
   const [state, setState] = useState("");
   const [search, setSearch] = useState("");
 
-  // const debouncedValue = useDebounce<string>(search, 5000);
+  const debouncedValue = useDebounce<string>(search);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
+
+  // useEffect(() => {
+  //   refetch();
+  // }, [debouncedValue]);
 
   const { data: surveys, refetch } = useFetchQuery("/api/contacts/{id}/accreditations", {
     urlParams: {
@@ -52,14 +56,9 @@ export const ContactSurveysContent = ({ contact }: Props) => {
     params: {
       role,
       state,
+      search,
     },
   });
-
-  // useEffect(() => {
-  //   refetch();
-  // }, [debouncedValue]);
-
-  console.log({ role, state, search });
 
   const [tab, setTab] = useState("inProgress");
 
