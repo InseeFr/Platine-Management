@@ -25,6 +25,7 @@ export const SettingsHabilitationsMenu = ({ user }: Props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  console.log(user);
 
   return (
     <>
