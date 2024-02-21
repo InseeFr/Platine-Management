@@ -3,7 +3,7 @@ import { Row } from "../Row";
 import { TitleWithIconAndDivider } from "../TitleWithIconAndDivider";
 import { BinocularIcon } from "../Icon/BinocularIcon";
 import { ContactSurveysFilterSelect } from "./ContactSurveysFilterSelect";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import TextField from "@mui/material/TextField";
@@ -12,34 +12,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import { ContactSurveysTable } from "./ContactSurveysTable";
 import { APISchemas } from "../../types/api";
 import { useFetchQuery } from "../../hooks/useFetchQuery";
-import CircularProgress from "@mui/material/CircularProgress";
+import { useDebouncedState } from "../../hooks/useDebouncedState.ts";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
 };
 
-function useDebounce<T>(value: T, delay?: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay ?? 500);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-}
-
 export const ContactSurveysContent = ({ contact }: Props) => {
   const [role, setRole] = useState("");
   const [state, setState] = useState("");
-  const [search, setSearch] = useState("");
-
-  const debouncedValue = useDebounce<string>(search);
+  const [search, setSearch] = useDebouncedState("");
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -52,7 +34,7 @@ export const ContactSurveysContent = ({ contact }: Props) => {
     query: {
       role,
       state,
-      search: debouncedValue,
+      search,
     },
   });
 

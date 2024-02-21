@@ -41,7 +41,7 @@ export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }
   // }
 
   return (
-    <Dialog onClose={onClose} open={open} sx={{ ".MuiPaper-root": { maxWidth: "800px", px: 3, py: 2 } }}>
+    <Dialog onClose={onClose} open={open}>
       <DialogTitle>Historique {surveyName} </DialogTitle>
       <DialogContent
         sx={{
