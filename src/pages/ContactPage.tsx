@@ -8,6 +8,7 @@ import { type SyntheticEvent, useState } from "react";
 import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
 import { ContactInfosTab } from "./Contact/ContactInfosTab.tsx";
 import { PageTab } from "../ui/PageTab.tsx";
+import { ContactSurveysContent } from "../ui/Contact/ContactSurveys.tsx";
 
 enum Tab {
   Infos = "Infos",
@@ -70,7 +71,7 @@ export function ContactPage() {
       <Stack px={3} py={3}>
         <Breadcrumbs items={breadcrumbs} />
         {currentTab === Tab.Infos && <ContactInfosTab contact={contact} onSave={refetch} />}
-        {currentTab === Tab.Surveys && "1"}
+        {currentTab === Tab.Surveys && <ContactSurveysContent contact={contact} />}
         {currentTab === Tab.Ids && "2"}
         {currentTab === Tab.Permissions && "3"}
       </Stack>
