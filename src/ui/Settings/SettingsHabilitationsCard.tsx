@@ -18,17 +18,15 @@ import {
   InputAdornment,
   CardContent,
 } from "@mui/material";
-import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery";
+import { useFetchQuery } from "../../hooks/useFetchQuery";
 import { SettingsHabilitationsMenu } from "./SettingsHabilitationsMenu";
 import { RoleChip } from "./RoleChip";
 import { Row } from "../Row";
 import { ChangeEvent, useEffect, useState } from "react";
-import { APISchemas } from "../../types/api";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { format } from "date-fns";
 import SearchIcon from "@mui/icons-material/Search";
-
-const endpoint = "/api/users" as const;
+import { APISchemas } from "../../types/api";
 
 interface Column {
   id: string;
@@ -51,19 +49,13 @@ const columns: readonly Column[] = [
 ];
 
 export const SettingsHabilitationsCard = () => {
-  const {
-    results: users,
-    /*   hasNextPage,
-    hasPreviousPage,
-    fetchNextPage,
-    fetchPreviousPage, */
-  } = useInfiniteFetchQuery(endpoint);
+  const { data: users, refetch } = useFetchQuery("/api/users/v2");
   const [searchList, setSearchList] = useState<Array<APISchemas["UserDto"]>>([]);
-  const [rowsPerPage, setRowsPerPage] = useState(7);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [pageNumber, setPageNumber] = useState<number>(0);
 
   useEffect(() => {
-    setSearchList(users);
+    if (users) setSearchList(users);
   }, [users]);
 
   const handleChangePage = (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -86,7 +78,7 @@ export const SettingsHabilitationsCard = () => {
     setSearchList(filteredList);
     setPageNumber(0);
   }
-  if (!users) {
+  if (!users || !searchList) {
     return (
       <Row justifyContent="center" py={10}>
         <CircularProgress />
@@ -147,28 +139,30 @@ export const SettingsHabilitationsCard = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {searchList.slice(rowsPerPage * pageNumber, rowsPerPage * (pageNumber + 1)).map(user => (
-                  <TableRow key={user.identifier}>
-                    <TableCell align="center">{user.identifier}</TableCell>
-                    <TableCell align="center">{user.name}</TableCell>
-                    <TableCell align="center"> {user.firstName}</TableCell>
-                    <TableCell align="center">{user.organization}</TableCell>
-                    <TableCell align="center">
-                      {user.role ? <RoleChip role={user.role.toLowerCase()} /> : null}
-                    </TableCell>
-                    <TableCell align="center">{"not provided"}</TableCell>
-                    <TableCell align="center">{"not provided"}</TableCell>
-                    <TableCell align="center">{user.accreditedSources?.join()}</TableCell>
-                    <TableCell align="center">
-                      {user.creationDate ? `Le ${format(user.creationDate, "dd/MM/yyyy")}` : ""}{" "}
-                      {`par 
+                {searchList
+                  ?.slice(rowsPerPage * pageNumber, rowsPerPage * (pageNumber + 1))
+                  .map(user => (
+                    <TableRow key={user.identifier}>
+                      <TableCell align="center">{user.identifier}</TableCell>
+                      <TableCell align="center">{user.name}</TableCell>
+                      <TableCell align="center"> {user.firstName}</TableCell>
+                      <TableCell align="center">{user.organization}</TableCell>
+                      <TableCell align="center">
+                        {user.role ? <RoleChip role={user.role.toLowerCase()} /> : null}
+                      </TableCell>
+                      <TableCell align="center">{"not provided"}</TableCell>
+                      <TableCell align="center">{"not provided"}</TableCell>
+                      <TableCell align="center">{user.accreditedSources?.join()}</TableCell>
+                      <TableCell align="center">
+                        {user.creationDate ? `Le ${format(user.creationDate, "dd/MM/yyyy")}` : ""}{" "}
+                        {`par 
                     ${user.creationAuthor}`}
-                    </TableCell>
-                    <TableCell align="center">
-                      <SettingsHabilitationsMenu user={user} />
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      </TableCell>
+                      <TableCell align="center">
+                        <SettingsHabilitationsMenu user={user} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
               <TableFooter>
                 <TableRow>

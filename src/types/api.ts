@@ -1250,6 +1250,10 @@ export type APIEndpoints = {
     responses: { get: null }
     requests: { method?: "get"; urlParams: { id: string } }
   }
+  "/api/users/v2": {
+    responses: { get: Array<APISchemas["UserDto"]> }
+    requests: { method?: "get" }
+  }
   "/api/temp/moog/campaigns/{idCampaign}/monitoring/progress": {
     responses: { get: APISchemas["JSONCollectionWrapperMoogProgressDto"] }
     requests: { method?: "get"; urlParams: { idCampaign: string } }
