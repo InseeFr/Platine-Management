@@ -1,5 +1,6 @@
 import {
   Chip,
+  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -53,10 +54,13 @@ const columns: readonly Column[] = [
 ];
 
 type Props = {
-  surveys: APISchemas["AccreditationDetailDto"][];
+  surveys?: APISchemas["AccreditationDetailDto"][];
 };
 
-export const ContactSurveysTable = ({ surveys }: Props) => {
+export const ContactSurveysTable = (props: Props) => {
+  const surveys = props.surveys ?? [];
+
+  const isLoading = props.surveys === undefined;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openCollectStateHistory, setOpenCollectStateHistory] = useState(false);
@@ -160,6 +164,13 @@ export const ContactSurveysTable = ({ surveys }: Props) => {
               </TableRow>
             );
           })}
+          {isLoading && (
+            <TableRow>
+              <TableCell align="center" colSpan={columns.length}>
+                <CircularProgress />
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
         <TableFooter>
           <TableRow>

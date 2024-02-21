@@ -45,30 +45,18 @@ export const ContactSurveysContent = ({ contact }: Props) => {
     setSearch(event.target.value);
   };
 
-  // useEffect(() => {
-  //   refetch();
-  // }, [debouncedValue]);
-
-  const { data: surveys, refetch } = useFetchQuery("/api/contacts/{id}/accreditations", {
+  const { data: surveys } = useFetchQuery("/api/contacts/{id}/accreditations", {
     urlParams: {
       id: contact.identifier!,
     },
-    params: {
+    query: {
       role,
       state,
-      search,
+      search: debouncedValue,
     },
   });
 
   const [tab, setTab] = useState("inProgress");
-
-  if (!surveys) {
-    return (
-      <Row justifyContent="center" py={10}>
-        <CircularProgress />
-      </Row>
-    );
-  }
 
   return (
     <Card sx={{ mx: 2, px: 6, py: 3 }} elevation={2}>
