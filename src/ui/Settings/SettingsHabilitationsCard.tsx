@@ -15,6 +15,7 @@ import {
   Button,
   TableFooter,
   TablePagination,
+  InputAdornment,
 } from "@mui/material";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery";
 import { SettingsHabilitationsMenu } from "./SettingsHabilitationsMenu";
@@ -24,8 +25,29 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { APISchemas } from "../../types/api";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { format } from "date-fns";
+import SearchIcon from "@mui/icons-material/Search";
 
 const endpoint = "/api/users" as const;
+
+interface Column {
+  id: string;
+  label: string;
+  minWidth?: string;
+  format?: (value: number) => string;
+}
+
+const columns: readonly Column[] = [
+  { id: "id", label: "Idep", minWidth: "95px" },
+  { id: "name", label: "Nom", minWidth: "95px" },
+  { id: "firstName", label: "Prénom", minWidth: "95px" },
+  { id: "Organisation", label: "Organisation", minWidth: "150px" },
+  { id: "role", label: "Rôle", minWidth: "120px" },
+  { id: "pilotRights", label: "Droits Pilotage", minWidth: "50px" },
+  { id: "ldapRights", label: "Droits Annuaire", minWidth: "50px" },
+  { id: "accreditedSources", label: "Source", minWidth: "100px" },
+  { id: "creation", label: "Date de création", minWidth: "120px" },
+  { id: "actions", label: "Actions", minWidth: "80px" },
+];
 
 export const SettingsHabilitationsCard = () => {
   const {
@@ -81,7 +103,20 @@ export const SettingsHabilitationsCard = () => {
         <Divider variant="fullWidth" sx={{ borderWidth: 2 }} />
         <Row justifyContent={"space-between"}>
           <Row spacing={2}>
-            <TextField label="Rechercher dans le tableau" onChange={e => filterValues(e)} />
+            <TextField
+              label="Rechercher dans le tableau"
+              placeholder="Rechercher par nom, idep, rôle..."
+              size="small"
+              sx={{ width: "300px" }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon fontSize="small" />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={e => filterValues(e)}
+            />
           </Row>
 
           <Button
@@ -97,36 +132,16 @@ export const SettingsHabilitationsCard = () => {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead sx={{ background: "#EBEFF5" }}>
               <TableRow>
-                <TableCell align="center" sx={{ fontWeight: 700 }}>
-                  Idep
-                </TableCell>
-                <TableCell align="center" sx={{ fontWeight: 700 }}>
-                  Nom
-                </TableCell>
-                <TableCell align="center" sx={{ fontWeight: 700 }}>
-                  Prénom
-                </TableCell>
-                <TableCell align="center" sx={{ fontWeight: 700 }}>
-                  Organisation
-                </TableCell>
-                <TableCell align="center" sx={{ fontWeight: 700 }}>
-                  Rôle
-                </TableCell>
-                <TableCell align="center" sx={{ fontWeight: 700 }}>
-                  Droits Pilotage
-                </TableCell>
-                <TableCell align="center" sx={{ fontWeight: 700 }}>
-                  Droits annuaire
-                </TableCell>
-                <TableCell align="center" sx={{ fontWeight: 700 }}>
-                  Source
-                </TableCell>
-                <TableCell align="center" sx={{ fontWeight: 700 }}>
-                  Unité enquêtée
-                </TableCell>
-                <TableCell align="center" sx={{ fontWeight: 700 }}>
-                  Actions
-                </TableCell>
+                {columns.map(column => (
+                  <TableCell
+                    align="center"
+                    key={column.id}
+                    style={{ minWidth: column.minWidth }}
+                    sx={{ typography: "titleSmall", py: 3, fontWeight: 700 }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
