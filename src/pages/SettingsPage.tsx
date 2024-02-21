@@ -1,8 +1,9 @@
-import { Divider, Stack, Tabs } from "@mui/material";
+import { Box, Divider, Tabs } from "@mui/material";
 import { PageTab } from "../ui/PageTab";
 import { useState, SyntheticEvent } from "react";
 import { SettingsHeader } from "../ui/Settings/SettingsHeader";
-import { SettingsHabilitationsTab } from "./Settings/SettingsHabilitationsTab";
+import { SettingsHabilitationsCard } from "../ui/Settings/SettingsHabilitationsCard";
+import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
 
 enum Tab {
   Habilitations = "Habilitations",
@@ -11,7 +12,7 @@ enum Tab {
 }
 
 const TabNames = {
-  [Tab.Habilitations]: "Habilitations",
+  [Tab.Habilitations]: "Gestion des habilitations",
   [Tab.Communications]: "Communications",
   [Tab.NewSource]: "Nouvelle Source",
 };
@@ -21,7 +22,11 @@ export function SettingsPage() {
   const handleChange = (_: SyntheticEvent, newValue: Tab) => {
     setCurrentTab(newValue);
   };
-
+  const breadcrumbs = [
+    { href: "/", title: "Accueil" },
+    { href: "/settings", title: "Réglages" },
+    TabNames[currentTab],
+  ];
   return (
     <>
       <SettingsHeader />
@@ -49,11 +54,19 @@ export function SettingsPage() {
         ))}
       </Tabs>
 
-      <Stack px={3} py={3}>
-        {currentTab === Tab.Habilitations && <SettingsHabilitationsTab />}
-        {currentTab === Tab.Communications && "1"}
-        {currentTab === Tab.NewSource && "2"}
-      </Stack>
+      <Breadcrumbs items={breadcrumbs} />
+
+      <Box px={4}>
+        <SettingsTab tab={currentTab} />
+      </Box>
     </>
   );
+}
+
+function SettingsTab({ tab }: { tab: Tab }) {
+  if (tab === Tab.Habilitations) {
+    return <SettingsHabilitationsCard />;
+  }
+
+  return;
 }
