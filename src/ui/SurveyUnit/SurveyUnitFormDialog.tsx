@@ -1,13 +1,10 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 import { z } from "zod";
 import { useForm } from "../../hooks/useForm.ts";
 import { APISchemas } from "../../types/api.ts";
-import { Field } from "../Form/Field.tsx";
-import Stack from "@mui/material/Stack";
-import { Row } from "../Row.tsx";
 import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
-import { countries } from "../../constants/countries.ts";
-import { addressSchema, repetitionIndex, streetType, styles } from "../Contact/ContactFormDialog.tsx";
+import { addressSchema } from "../Contact/ContactFormDialog.tsx";
+import { AddressFormPart } from "../Form/AddressFormPart.tsx";
 
 type Props = {
   open: boolean;
@@ -48,94 +45,13 @@ export const SurveyUnitFormDialog = ({ open, onClose, surveyUnit, onSave }: Prop
       <form action="#" onSubmit={onSubmit}>
         <DialogTitle>Modification des informations</DialogTitle>
         <DialogContent>
-          <Box sx={styles.Grid}>
-            <Stack gap={4} pt={1}>
-              <Field
-                label="Raison sociale"
-                error={errors.identificationName?.message}
-                {...register("identificationName")}
-              />
-              <Row gap={2}>
-                <Field
-                  sx={{ width: "100px" }}
-                  label="N° de voie"
-                  error={errors.address?.streetNumber?.message}
-                  {...register("address.streetNumber")}
-                />
-                <Box sx={{ width: "200px" }}>
-                  <Field
-                    type="select"
-                    selectoptions={repetitionIndex}
-                    defaultValue={surveyUnit.address?.repetitionIndex}
-                    label="Indice de répétition"
-                    error={errors.address?.repetitionIndex?.message}
-                    {...register("address.repetitionIndex")}
-                  />
-                </Box>
-              </Row>
-              <Field
-                type="select"
-                label="Type de voie"
-                selectoptions={streetType}
-                defaultValue={surveyUnit.address?.streetType}
-                error={errors.address?.streetType?.message}
-                {...register("address.streetType")}
-              />
-              <Field
-                label="Libellé de voie"
-                error={errors.address?.streetName?.message}
-                {...register("address.streetName")}
-              />
-              <Field
-                label="Complément (ZI, Bat, Res ...)"
-                error={errors.address?.addressSupplement?.message}
-                {...register("address.addressSupplement")}
-              />
-              <Field
-                label="Mention spéciale (BP, TSA ...)"
-                error={errors.address?.specialDistribution?.message}
-                {...register("address.specialDistribution")}
-              />
-            </Stack>
-            <Stack gap={4} pt={1}>
-              <Field
-                sx={{ width: "210px" }}
-                label="Commune"
-                error={errors.address?.cityName?.message}
-                {...register("address.cityName")}
-              />
-              <Field
-                sx={{ width: "120px" }}
-                label="Code postal"
-                error={errors.address?.zipCode?.message}
-                {...register("address.zipCode")}
-              />
-              <Field
-                sx={{ width: "210px" }}
-                label="Bureau distributeur"
-                error={errors.address?.deliveryOffice?.message}
-                {...register("address.deliveryOffice")}
-              />
-              <Field
-                sx={{ width: "210px" }}
-                label="Code cedex"
-                error={errors.address?.cedexCode?.message}
-                {...register("address.cedexCode")}
-              />
-              <Box sx={{ width: "300px" }}>
-                <Field
-                  defaultValue={
-                    surveyUnit.address?.countryName ? surveyUnit.address.countryName : "France"
-                  }
-                  type="select"
-                  label="Sélectionnez un pays"
-                  selectoptions={countries}
-                  error={errors.address?.countryName?.message}
-                  {...register("address.countryName")}
-                />
-              </Box>
-            </Stack>
-          </Box>
+          <AddressFormPart
+            errors={errors}
+            register={register}
+            repetitionIndexValue={surveyUnit.address?.repetitionIndex}
+            streetTypeValue={surveyUnit.address?.streetType}
+            countryValue={surveyUnit.address?.countryName}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose} disabled={isPending}>
