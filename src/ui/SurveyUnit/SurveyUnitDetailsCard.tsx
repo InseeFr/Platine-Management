@@ -7,6 +7,7 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { APISchemas } from "../../types/api.ts";
 import { useToggle } from "react-use";
 import { SurveyUnitFormDialog } from "./SurveyUnitFormDialog.tsx";
+import { AddressInformations } from "../AddressInformations.tsx";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDto"];
@@ -31,27 +32,10 @@ export const SurveyUnitDetailsCard = ({ surveyUnit, onSave }: Props) => {
           </IconButton>
         </Row>
         <Row spacing={8} alignItems={"flex-start"} justifyContent={"space-between"} pr={2}>
-          <Stack spacing={1} typography={"bodyMedium"}>
-            <Typography variant="titleSmall">{surveyUnit.identificationName?.toUpperCase()}</Typography>
-
-            <Box component={"span"}>
-              {`${surveyUnit.address?.streetNumber ?? ""} ${surveyUnit.address?.streetType ?? ""} ${
-                surveyUnit.address?.streetName ? surveyUnit.address?.streetName && "," : ""
-              }
-              ${surveyUnit.address?.zipCode ? surveyUnit.address?.zipCode && "," : ""} ${
-                surveyUnit.address?.cityName ?? ""
-              }`}
-            </Box>
-            <Box component={"span"}>
-              {`TODO Bureau distributeur 
-              ${surveyUnit.address?.cedexCode ? surveyUnit.address?.cedexCode && "," : ""} 
-              ${surveyUnit.address?.countryName ?? ""} 
-              `}
-            </Box>
-            <Box component={"span"}>{surveyUnit.address?.addressSupplement ?? ""}</Box>
-            <Box component={"span"}>{surveyUnit.address?.specialDistribution ?? ""}</Box>
-          </Stack>
-
+          <AddressInformations
+            identificationName={surveyUnit.identificationName}
+            address={surveyUnit.address}
+          />
           <Stack spacing={1}>
             <TitleAndInformation title={"Siren"} value={"NO DATA"} />
             <TitleAndInformation title={"Groupe"} value={"NO DATA"} />

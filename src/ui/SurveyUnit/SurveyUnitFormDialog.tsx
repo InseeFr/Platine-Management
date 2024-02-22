@@ -6,6 +6,8 @@ import { Field } from "../Form/Field.tsx";
 import Stack from "@mui/material/Stack";
 import { Row } from "../Row.tsx";
 import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
+import { countries } from "../../constants/countries.ts";
+import { addressSchema, repetitionIndex, streetType, styles } from "../Contact/ContactFormDialog.tsx";
 
 type Props = {
   open: boolean;
@@ -18,35 +20,8 @@ const schema = z.object({
   identificationName: z.string(),
   identificationCode: z.string().optional(),
   // add "groupe", "niveau de gestion", "qualité" et "taille"
-  address: z
-    .object({
-      streetNumber: z.string().optional(),
-      repetitionIndex: z.string().optional(), //TODO: use real repetition index
-      streetType: z.string().optional(), // TODO: use real street type
-      streetName: z.string().optional(),
-      addressSupplement: z.string().optional(),
-      specialDistribution: z.string().optional(),
-      cityName: z.string().optional(),
-      zipCode: z.string().optional(),
-      deliveryOffice: z.string().optional(), // TODO: add in api
-      cedexCode: z.string().optional(),
-      countryName: z.string().optional().or(z.literal("")),
-    })
-    .optional(),
+  address: addressSchema,
 });
-
-const repetitionIndex = ["bis"]; //TODO: use real repetition index
-
-const streetType = ["rue", "avenue"]; // TODO: use real street type
-
-const styles = {
-  Grid: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1px 1fr 1fr",
-    gap: "40px",
-    paddingTop: 1,
-  },
-};
 
 export const SurveyUnitFormDialog = ({ open, onClose, surveyUnit, onSave }: Props) => {
   const defaultValues = surveyUnit.address?.countryName
@@ -74,7 +49,7 @@ export const SurveyUnitFormDialog = ({ open, onClose, surveyUnit, onSave }: Prop
         <DialogTitle>Modification des informations</DialogTitle>
         <DialogContent>
           <Box sx={styles.Grid}>
-            <Stack gap={4}>
+            <Stack gap={4} pt={1}>
               <Field
                 label="Raison sociale"
                 error={errors.identificationName?.message}
@@ -122,7 +97,7 @@ export const SurveyUnitFormDialog = ({ open, onClose, surveyUnit, onSave }: Prop
                 {...register("address.specialDistribution")}
               />
             </Stack>
-            <Stack gap={4}>
+            <Stack gap={4} pt={1}>
               <Field
                 sx={{ width: "210px" }}
                 label="Commune"
@@ -154,8 +129,7 @@ export const SurveyUnitFormDialog = ({ open, onClose, surveyUnit, onSave }: Prop
                   }
                   type="select"
                   label="Sélectionnez un pays"
-                  //   selectoptions={countries}
-                  selectoptions={[]}
+                  selectoptions={countries}
                   error={errors.address?.countryName?.message}
                   {...register("address.countryName")}
                 />

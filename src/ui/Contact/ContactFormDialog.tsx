@@ -16,30 +16,32 @@ type Props = {
   onSave: () => void;
 };
 
+export const addressSchema = z
+  .object({
+    streetNumber: z.string().optional(),
+    repetitionIndex: z.string().optional().nullable(), //TODO: use real repetition index
+    streetType: z.string().optional().nullable(), // TODO: use real street type
+    streetName: z.string().optional(),
+    addressSupplement: z.string().optional().nullable(),
+    specialDistribution: z.string().optional().nullable(),
+    cityName: z.string().optional(),
+    zipCode: z.string().optional(),
+    deliveryOffice: z.string().optional(), // TODO: add in api
+    cedexCode: z.string().optional().nullable(),
+    countryName: z.string().optional().or(z.literal("")),
+  })
+  .optional();
+
 const schema = z.object({
   civility: z.enum(["Female", "Male", "Undefined"]),
   lastName: z.string().min(3),
   firstName: z.string().min(3),
   function: z.string().optional(),
   email: z.string().email(),
-  phone: z.string().min(10).max(14).optional().or(z.literal("")),
-  secondPhone: z.string().min(10).max(14).optional().or(z.literal("")),
+  phone: z.string().optional().or(z.literal("")),
+  secondPhone: z.string().optional().or(z.literal("")),
   identificationName: z.string().optional(),
-  address: z
-    .object({
-      streetNumber: z.string().optional(),
-      repetitionIndex: z.string().optional(), //TODO: use real repetition index
-      streetType: z.string().optional(), // TODO: use real street type
-      streetName: z.string().optional(),
-      addressSupplement: z.string().optional(),
-      specialDistribution: z.string().optional(),
-      cityName: z.string().optional(),
-      zipCode: z.string().optional(),
-      deliveryOffice: z.string().optional(), // TODO: add in api
-      cedexCode: z.string().optional(),
-      countryName: z.string().optional().or(z.literal("")),
-    })
-    .optional(),
+  address: addressSchema,
 });
 
 const civilities = [
@@ -47,11 +49,11 @@ const civilities = [
   { label: "Monsieur", value: "Male" },
 ];
 
-const repetitionIndex = ["bis"]; //TODO: use real repetition index
+export const repetitionIndex = ["bis"]; //TODO: use real repetition index
 
-const streetType = ["rue", "avenue"]; // TODO: use real street type
+export const streetType = ["rue", "avenue"]; // TODO: use real street type
 
-const styles = {
+export const styles = {
   Grid: {
     display: "grid",
     gridTemplateColumns: "1fr 1px 1fr 1fr",
