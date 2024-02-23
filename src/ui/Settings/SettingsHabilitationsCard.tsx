@@ -49,7 +49,7 @@ const columns: readonly Column[] = [
 ];
 
 export const SettingsHabilitationsCard = () => {
-  const { data: users, refetch } = useFetchQuery("/api/users/v2");
+  const { data: users /*, refetch*/ } = useFetchQuery("/api/users/v2");
   const [searchList, setSearchList] = useState<Array<APISchemas["UserDto"]>>([]);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [pageNumber, setPageNumber] = useState<number>(0);
