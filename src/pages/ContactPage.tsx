@@ -9,6 +9,7 @@ import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
 import { ContactInfosTab } from "./Contact/ContactInfosTab.tsx";
 import { PageTab } from "../ui/PageTab.tsx";
 import { ContactSurveysContent } from "../ui/Contact/ContactSurveys.tsx";
+import { IdsManagement } from "../ui/Contact/IdsManagement.tsx";
 
 enum Tab {
   Infos = "Infos",
@@ -72,7 +73,7 @@ export function ContactPage() {
         <Breadcrumbs items={breadcrumbs} />
         {currentTab === Tab.Infos && <ContactInfosTab contact={contact} onSave={refetch} />}
         {currentTab === Tab.Surveys && <ContactSurveysContent contact={contact} />}
-        {currentTab === Tab.Ids && "2"}
+        {currentTab === Tab.Ids && <IdsManagement contact={contact} />}
         {currentTab === Tab.Permissions && "3"}
       </Stack>
     </>

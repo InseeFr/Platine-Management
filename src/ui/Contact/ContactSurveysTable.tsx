@@ -155,22 +155,12 @@ export const ContactSurveysTable = (props: Props) => {
                     );
                   }
 
-                  if (value === undefined) {
-                    return <TableCell key={column.id}>NO DATA</TableCell>;
-                  }
-
-                  return <TableCell key={column.id}>{value}</TableCell>;
+                  return <TableCell key={column.id}>{value ?? "NO DATA"}</TableCell>;
                 })}
               </TableRow>
             );
           })}
-          {isLoading && (
-            <TableRow>
-              <TableCell align="center" colSpan={columns.length}>
-                <CircularProgress />
-              </TableCell>
-            </TableRow>
-          )}
+          {isLoading && <LoadingCell columnLength={columns.length} />}
         </TableBody>
         <TableFooter>
           <TableRow>
@@ -207,4 +197,14 @@ const getCollectStateChipColor = (state: string) => {
     default:
       return "default";
   }
+};
+
+export const LoadingCell = ({ columnLength }: { columnLength: number }) => {
+  return (
+    <TableRow>
+      <TableCell align="center" colSpan={columnLength}>
+        <CircularProgress />
+      </TableCell>
+    </TableRow>
+  );
 };
