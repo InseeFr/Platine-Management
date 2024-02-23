@@ -68,7 +68,7 @@ export const SettingsHabilitationsCard = () => {
   };
 
   function filterValues(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void {
-    const filteredList = users.filter(u =>
+    const filteredList = users!.filter(u =>
       e.target.value.length > 0
         ? u.identifier.toLowerCase().includes(e.target.value.toLowerCase()) ||
           u.name?.toLowerCase().includes(e.target.value.toLowerCase()) ||
@@ -78,6 +78,8 @@ export const SettingsHabilitationsCard = () => {
     setSearchList(filteredList);
     setPageNumber(0);
   }
+
+  const sortedUsers = searchList.sort((a, b) => (a.identifier > b.identifier ? 1 : -1));
   if (!users || !searchList) {
     return (
       <Row justifyContent="center" py={10}>
@@ -139,7 +141,7 @@ export const SettingsHabilitationsCard = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {searchList
+                {sortedUsers
                   ?.slice(rowsPerPage * pageNumber, rowsPerPage * (pageNumber + 1))
                   .map(user => (
                     <TableRow key={user.identifier}>

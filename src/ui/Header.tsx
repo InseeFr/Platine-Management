@@ -8,7 +8,7 @@ import { useUser, useLogout } from "../hooks/useAuth.ts";
 import packageInfo from "../../package.json";
 
 export function Header() {
-  const { preferred_username } = useUser();
+  const { decodedToken, isAdminLdap, isUserLdap } = useUser();
   const logout = useLogout();
 
   return (
@@ -20,15 +20,27 @@ export function Header() {
             <Box component="span" color="black.main" fontWeight={600}>
               Platine
             </Box>
-            Collecte
+            Gestion
           </Row>
           <Typography variant="bodySmall" color="black.main">
             v{packageInfo.version}
           </Typography>
         </Stack>
       </Row>
-      <Box>
-        {preferred_username}
+
+      <Row spacing={4}>
+        <Stack>
+          <Typography variant={"bodyMedium"}>
+            Bienvenue, {decodedToken.preferred_username.toUpperCase()}
+          </Typography>
+          <Typography variant={"bodyMedium"}>
+            {isAdminLdap
+              ? "Vous avez le profil Administrateur"
+              : isUserLdap
+              ? "Vous avez le profil Utilisateur"
+              : "Vous n'avez aucune habilitation annuaire"}
+          </Typography>
+        </Stack>
         <IconButton component={RouterLink} to="/settings">
           <SettingsOutlinedIcon />
         </IconButton>
@@ -42,7 +54,7 @@ export function Header() {
         >
           <ExitToAppIcon />
         </IconButton>
-      </Box>
+      </Row>
     </Row>
   );
 }
