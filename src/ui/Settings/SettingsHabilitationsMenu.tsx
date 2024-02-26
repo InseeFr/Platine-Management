@@ -1,4 +1,4 @@
-import { IconButton } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Menu from "@mui/material/Menu";
@@ -49,18 +49,8 @@ export const SettingsHabilitationsMenu = ({ user }: Props) => {
         onClose={handleClose}
       >
         {options.map(option => (
-          <MenuItem
-            key={option}
-            onClick={handleClose}
-            sx={{
-              lineHeight: "24px",
-              fontSize: "16px",
-              letterSpacing: "0.15px",
-              fontWeight: 400,
-              fontFamily: "Roboto",
-            }}
-          >
-            {option}
+          <MenuItem key={option} onClick={handleClose}>
+            <Typography variant="robotoLarge">{option}</Typography>
           </MenuItem>
         ))}
       </Menu>

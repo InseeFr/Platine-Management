@@ -49,6 +49,7 @@ declare module "@mui/material/styles" {
     bodyLarge: CSSProperties;
     bodyMedium: CSSProperties;
     bodySmall: CSSProperties;
+    robotoLarge: CSSProperties;
   }
 
   interface TypographyVariantsOptions {
@@ -67,6 +68,7 @@ declare module "@mui/material/styles" {
     bodyLarge?: CSSProperties;
     bodyMedium?: CSSProperties;
     bodySmall?: CSSProperties;
+    robotoLarge?: CSSProperties;
   }
 }
 
@@ -87,6 +89,7 @@ declare module "@mui/material/Typography" {
     bodyLarge: true;
     bodyMedium: true;
     bodySmall: true;
+    robotoLarge: true;
   }
 }
 
@@ -209,6 +212,13 @@ const typography = {
     fontSize: 12,
     lineHeight: "16px",
     letterSpacing: 0.4,
+  },
+  robotoLarge: {
+    lineHeight: "24px",
+    fontSize: "16px",
+    letterSpacing: "0.15px",
+    fontWeight: 400,
+    fontFamily: "Roboto",
   },
 };
 const palette = {
