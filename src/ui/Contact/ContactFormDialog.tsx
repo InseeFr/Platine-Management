@@ -7,7 +7,7 @@ import Stack from "@mui/material/Stack";
 import { Row } from "../Row.tsx";
 import StarIcon from "@mui/icons-material/Star";
 import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
-import { AddressFormPart } from "../Form/AddressFormPart.tsx";
+import { AddressFormFields } from "../Form/AddressFormFields.tsx";
 
 type Props = {
   open: boolean;
@@ -121,7 +121,7 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
             </Stack>
             <Divider orientation="vertical" variant="middle" />
             <Box component={"div"} pt={6}>
-              <AddressFormPart
+              <AddressFormFields
                 errors={errors}
                 register={register}
                 repetitionIndexValue={contact.address?.repetitionIndex}

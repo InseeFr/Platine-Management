@@ -23,7 +23,7 @@ export function useDebouncedState<T>(
     timer.current = setTimeout(() => {
       setDebouncedValue(value)
     }, delay)
-  }, [])
+  }, [delay])
 
 
   return [debouncedValue, setValue]

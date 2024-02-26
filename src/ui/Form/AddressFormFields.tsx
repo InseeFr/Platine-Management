@@ -23,7 +23,7 @@ const styles = {
   },
 };
 
-export const AddressFormPart = ({
+export const AddressFormFields = ({
   errors,
   register,
   repetitionIndexValue,

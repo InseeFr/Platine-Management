@@ -32,6 +32,9 @@ export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }
     },
   });
 
+  // TODO: remove (console log to use states in order to fix lint error temporarily)
+  console.log(states);
+
   // if (!states) {
   //   return (
   //     <Row justifyContent="center" py={10}>

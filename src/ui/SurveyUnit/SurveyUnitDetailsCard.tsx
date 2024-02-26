@@ -1,4 +1,4 @@
-import { Box, Card, IconButton, Stack, Typography } from "@mui/material";
+import { Card, IconButton, Stack, Typography } from "@mui/material";
 import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import { Row } from "../Row";
@@ -23,7 +23,7 @@ export const SurveyUnitDetailsCard = ({ surveyUnit, onSave }: Props) => {
   };
 
   return (
-    <Card sx={{ px: 6, py: 3 }} elevation={2}>
+    <Card sx={{ px: 6, py: 3, width: "100%" }} elevation={2}>
       <Stack spacing={4}>
         <Row justifyContent={"space-between"}>
           <CardtitleWithIcon IconComponent={AssignmentIndOutlinedIcon} title={"Informations"} />
