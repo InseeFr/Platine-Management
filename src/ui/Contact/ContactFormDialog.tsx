@@ -19,15 +19,35 @@ type Props = {
 export const addressSchema = z
   .object({
     streetNumber: z.string().optional(),
-    repetitionIndex: z.string().optional().nullable(), //TODO: use real repetition index
-    streetType: z.string().optional().nullable(), // TODO: use real street type
+    repetitionIndex: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val))
+      .optional(), //TODO: use real repetition index
+    streetType: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val))
+      .optional(), // TODO: use real street type
     streetName: z.string().optional(),
-    addressSupplement: z.string().optional().nullable(),
-    specialDistribution: z.string().optional().nullable(),
+    addressSupplement: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val))
+      .optional(),
+    specialDistribution: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val))
+      .optional(),
     cityName: z.string().optional(),
     zipCode: z.string().optional(),
     deliveryOffice: z.string().optional(), // TODO: add in api
-    cedexCode: z.string().optional().nullable(),
+    cedexCode: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val))
+      .optional(),
     countryName: z.string().optional().or(z.literal("")),
   })
   .optional();
