@@ -10,6 +10,7 @@ import { ContactInfosTab } from "./Contact/ContactInfosTab.tsx";
 import { PageTab } from "../ui/PageTab.tsx";
 import { ContactSurveysContent } from "../ui/Contact/ContactSurveys.tsx";
 import { IdsManagement } from "../ui/Contact/IdsManagement.tsx";
+import { RightsManagement } from "../ui/Contact/RightsManagement.tsx";
 
 enum Tab {
   Infos = "Infos",
@@ -74,7 +75,7 @@ export function ContactPage() {
         {currentTab === Tab.Infos && <ContactInfosTab contact={contact} onSave={refetch} />}
         {currentTab === Tab.Surveys && <ContactSurveysContent contact={contact} />}
         {currentTab === Tab.Ids && <IdsManagement contact={contact} />}
-        {currentTab === Tab.Permissions && "3"}
+        {currentTab === Tab.Permissions && <RightsManagement contact={contact} />}
       </Stack>
     </>
   );

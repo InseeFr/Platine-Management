@@ -61,7 +61,7 @@ export const AssociateAnotherAccount = ({ contact }: Props) => {
         </Alert>
       )}
       <form action="#" onSubmit={onSearch}>
-        <Row spacing={5}>
+        <Row spacing={5} alignItems={"flex-start"}>
           <TextField
             error={!isSuccess && searchId.length > 0}
             helperText={
@@ -79,7 +79,7 @@ export const AssociateAnotherAccount = ({ contact }: Props) => {
           </Button>
         </Row>
       </form>
-      {isSuccess && (
+      {isSuccess && searchId.length > 0 && (
         <Stack gap={4}>
           <Typography>
             Souhaitez-vous associer le compte {searchId} au compte {contact.identifier} ?
