@@ -50,7 +50,7 @@ export const GeneralCardContent = ({
               {buttonLabel}
             </Button>
           )}
-          {CardContent && CardContent}
+          {CardContent}
         </Stack>
         {seeMoreLabel && (
           <Box width={"fit-content"}>
@@ -59,7 +59,7 @@ export const GeneralCardContent = ({
         )}
         {expanded && seeMoreContent}
       </Stack>
-      {CardDialog && CardDialog}
+      {CardDialog}
     </Card>
   );
 };
