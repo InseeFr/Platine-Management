@@ -4,7 +4,11 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useState } from "react";
 import { APISchemas } from "../../types/api";
-import { DeleteContactRightsDialog } from "./DeleteContactRightsDialog";
+import {
+  DeletePrimaryContactRightsDialog,
+  DeletePrimaryWithoutSecondaryDialog,
+  DeleteSecondaryContactRightsDialog,
+} from "./DeleteContactRightsDialogs";
 
 type Props = {
   role: string;
@@ -23,6 +27,22 @@ export const UpdateContactRightsActions = ({ role, secondaryContacts, source }: 
     setOpen(false);
   };
 
+  const getDialog = () => {
+    if (role === "Secondaire") {
+      return <DeleteSecondaryContactRightsDialog open={open} onClose={onClose} source={source} />;
+    }
+
+    return secondaryContacts.length === 0 ? (
+      <DeletePrimaryWithoutSecondaryDialog open={open} onClose={onClose} />
+    ) : (
+      <DeletePrimaryContactRightsDialog
+        open={open}
+        onClose={onClose}
+        secondaryContacts={secondaryContacts}
+      />
+    );
+  };
+
   return (
     <Row justifyContent={"center"}>
       <Row width={"fit-content"} gap={1}>
@@ -33,13 +53,7 @@ export const UpdateContactRightsActions = ({ role, secondaryContacts, source }: 
           <DeleteOutlinedIcon />
         </IconButton>
       </Row>
-      <DeleteContactRightsDialog
-        open={open}
-        onClose={onClose}
-        role={role}
-        secondaryContacts={secondaryContacts}
-        source={source}
-      />
+      {getDialog()}
     </Row>
   );
 };

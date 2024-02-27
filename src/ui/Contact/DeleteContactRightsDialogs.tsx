@@ -1,62 +1,59 @@
 import Typography from "@mui/material/Typography";
 import { FormDialog } from "./FormDialog";
-import { APISchemas } from "../../types/api";
-import { FormControl, FormControlLabel, Radio, RadioGroup, Stack } from "@mui/material";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Stack from "@mui/material/Stack";
+import { useState } from "react";
+import FormControl from "@mui/material/FormControl";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Radio from "@mui/material/Radio";
+import { APISchemas } from "../../types/api";
 
-type Props = {
+type CommonContactRightsProps = {
   open: boolean;
   onClose: () => void;
-  role: string;
-  secondaryContacts: APISchemas["ContactFirstLoginDto"][];
+};
+
+type DeleteSecondaryContactRightsProps = CommonContactRightsProps & {
   source: string;
 };
-export const DeleteContactRightsDialog = ({ open, onClose, role, secondaryContacts, source }: Props) => {
-  const navigate = useNavigate();
-  const [selectedContact, setSelectedContact] = useState("");
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedContact(event.target.value);
-  };
-
-  // TODO: add logic in functions
+export const DeleteSecondaryContactRightsDialog = ({
+  open,
+  onClose,
+  source,
+}: DeleteSecondaryContactRightsProps) => {
   const onDeleteSecondaryContactRights = () => {
     onClose();
   };
 
-  const onChangePrimaryContact = () => {
-    onClose();
-    if (selectedContact === "newContact") {
-      navigate("/contacts/createContact");
-    }
-  };
+  return (
+    <FormDialog
+      open={open}
+      onCancel={onClose}
+      onSubmit={() => {
+        onDeleteSecondaryContactRights();
+      }}
+      title={"Suppression des droits"}
+      submitButtonLabel="Supprimer"
+    >
+      <Typography variant="bodyMedium" textAlign="center" px={5} color="text.secondary">
+        Vous êtes sur le point de supprimer les droits du contact secondaire de la source : <br /> “
+        {source}”.
+      </Typography>
+    </FormDialog>
+  );
+};
+
+export const DeletePrimaryWithoutSecondaryDialog = ({ open, onClose }: CommonContactRightsProps) => {
+  const navigate = useNavigate();
 
   const goToCreateContactForm = () => {
     onClose();
     navigate("/contacts/createContact");
   };
 
-  if (role === "Secondaire") {
-    return (
-      <FormDialog
-        open={open}
-        onCancel={onClose}
-        onSubmit={() => {
-          onDeleteSecondaryContactRights();
-        }}
-        title={"Suppression des droits"}
-        submitButtonLabel="Supprimer"
-      >
-        <Typography variant="bodyMedium" textAlign="center" px={5} color="text.secondary">
-          Vous êtes sur le point de supprimer les droits du contact secondaire de la source : <br /> “
-          {source}”.
-        </Typography>
-      </FormDialog>
-    );
-  }
-
-  return secondaryContacts.length === 0 ? (
+  return (
     <FormDialog
       open={open}
       onCancel={onClose}
@@ -74,7 +71,33 @@ export const DeleteContactRightsDialog = ({ open, onClose, role, secondaryContac
         <Typography variant="bodyMedium">Voulez vous créer un nouveau contact principal ?</Typography>
       </Stack>
     </FormDialog>
-  ) : (
+  );
+};
+
+type DeletePrimaryContactRightsProps = CommonContactRightsProps & {
+  secondaryContacts: APISchemas["ContactFirstLoginDto"][];
+};
+
+export const DeletePrimaryContactRightsDialog = ({
+  open,
+  onClose,
+  secondaryContacts,
+}: DeletePrimaryContactRightsProps) => {
+  const navigate = useNavigate();
+  const [selectedContact, setSelectedContact] = useState("");
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedContact(event.target.value);
+  };
+
+  const onChangePrimaryContact = () => {
+    onClose();
+    if (selectedContact === "newContact") {
+      navigate("/contacts/createContact");
+    }
+  };
+
+  return (
     <FormDialog
       open={open}
       onCancel={() => {

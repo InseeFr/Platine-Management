@@ -6,7 +6,6 @@ import {
   TableCell,
   TableContainer,
   TableFooter,
-  TableHead,
   TablePagination,
   TableRow,
 } from "@mui/material";
