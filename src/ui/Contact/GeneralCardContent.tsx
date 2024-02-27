@@ -35,7 +35,7 @@ export const GeneralCardContent = ({
   };
 
   return (
-    <Card sx={{ px: 6, py: 3 }} elevation={2}>
+    <Card sx={{ px: 6, py: 3, width: "100%" }} elevation={2}>
       <Stack spacing={2}>
         <Stack spacing={3}>
           <CardtitleWithIcon IconComponent={TitleIconComponent} title={title} />
@@ -50,7 +50,7 @@ export const GeneralCardContent = ({
               {buttonLabel}
             </Button>
           )}
-          {CardContent && CardContent}
+          {CardContent}
         </Stack>
         {seeMoreLabel && (
           <Box width={"fit-content"}>
@@ -59,7 +59,7 @@ export const GeneralCardContent = ({
         )}
         {expanded && seeMoreContent}
       </Stack>
-      {CardDialog && CardDialog}
+      {CardDialog}
     </Card>
   );
 };

@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import { Row } from "../Row.tsx";
 import StarIcon from "@mui/icons-material/Star";
 import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
+import { AddressFormFields } from "../Form/AddressFormFields.tsx";
 
 type Props = {
   open: boolean;
@@ -15,30 +16,52 @@ type Props = {
   onSave: () => void;
 };
 
+export const addressSchema = z
+  .object({
+    streetNumber: z.string().optional(),
+    repetitionIndex: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val))
+      .optional(), //TODO: use real repetition index
+    streetType: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val))
+      .optional(), // TODO: use real street type
+    streetName: z.string().optional(),
+    addressSupplement: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val))
+      .optional(),
+    specialDistribution: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val))
+      .optional(),
+    cityName: z.string().optional(),
+    zipCode: z.string().optional(),
+    deliveryOffice: z.string().optional(), // TODO: add in api
+    cedexCode: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val))
+      .optional(),
+    countryName: z.string().optional().or(z.literal("")),
+  })
+  .optional();
+
 const schema = z.object({
   civility: z.enum(["Female", "Male", "Undefined"]),
   lastName: z.string().min(3),
   firstName: z.string().min(3),
   function: z.string().optional(),
   email: z.string().email(),
-  phone: z.string().min(10).max(14).optional().or(z.literal("")),
-  secondPhone: z.string().min(10).max(14).optional().or(z.literal("")),
-  socialReason: z.string().optional(), //TODO: add in api
-  address: z
-    .object({
-      streetNumber: z.string().optional(),
-      repetitionIndex: z.string().optional(), //TODO: use real repetition index
-      streetType: z.string().optional(), // TODO: use real street type
-      streetName: z.string().optional(),
-      addressSupplement: z.string().optional(),
-      specialDistribution: z.string().optional(),
-      cityName: z.string().optional(),
-      zipCode: z.string().optional(),
-      deliveryOffice: z.string().optional(), // TODO: add in api
-      cedexCode: z.string().optional(),
-      countryName: z.string().optional().or(z.literal("")),
-    })
-    .optional(),
+  phone: z.string().optional().or(z.literal("")),
+  secondPhone: z.string().optional().or(z.literal("")),
+  identificationName: z.string().optional(),
+  address: addressSchema,
 });
 
 const civilities = [
@@ -46,13 +69,11 @@ const civilities = [
   { label: "Monsieur", value: "Male" },
 ];
 
-const repetitionIndex = ["bis"]; //TODO: use real repetition index
+export const repetitionIndexEnum = ["bis"]; //TODO: use real repetition index
 
-const streetType = ["rue", "avenue"]; // TODO: use real street type
+export const streetTypeEnum = ["rue", "avenue"]; // TODO: use real street type
 
-const countries = ["France", "Belgique"]; // TODO: use real countries
-
-const styles = {
+export const styles = {
   Grid: {
     display: "grid",
     gridTemplateColumns: "1fr 1px 1fr 1fr",
@@ -119,90 +140,15 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
               </Row>
             </Stack>
             <Divider orientation="vertical" variant="middle" />
-            <Stack gap={4} pt={7}>
-              <Field
-                label="Raison sociale"
-                error={errors.socialReason?.message}
-                {...register("socialReason")}
+            <Box component={"div"} pt={6}>
+              <AddressFormFields
+                errors={errors}
+                register={register}
+                repetitionIndexValue={contact.address?.repetitionIndex}
+                streetTypeValue={contact.address?.streetType}
+                countryValue={contact.address?.countryName}
               />
-              <Row gap={2}>
-                <Field
-                  sx={{ width: "100px" }}
-                  label="N° de voie"
-                  error={errors.address?.streetNumber?.message}
-                  {...register("address.streetNumber")}
-                />
-                <Box sx={{ width: "200px" }}>
-                  <Field
-                    type="select"
-                    selectoptions={repetitionIndex}
-                    defaultValue={contact.address?.repetitionIndex}
-                    label="Indice de répétition"
-                    error={errors.address?.repetitionIndex?.message}
-                    {...register("address.repetitionIndex")}
-                  />
-                </Box>
-              </Row>
-              <Field
-                type="select"
-                label="Type de voie"
-                selectoptions={streetType}
-                defaultValue={contact.address?.streetType}
-                error={errors.address?.streetType?.message}
-                {...register("address.streetType")}
-              />
-              <Field
-                label="Libellé de voie"
-                error={errors.address?.streetName?.message}
-                {...register("address.streetName")}
-              />
-              <Field
-                label="Complément (ZI, Bat, Res ...)"
-                error={errors.address?.addressSupplement?.message}
-                {...register("address.addressSupplement")}
-              />
-              <Field
-                label="Mention spéciale (BP, TSA ...)"
-                error={errors.address?.specialDistribution?.message}
-                {...register("address.specialDistribution")}
-              />
-            </Stack>
-            <Stack gap={4} pt={7}>
-              <Field
-                sx={{ width: "210px" }}
-                label="Commune"
-                error={errors.address?.cityName?.message}
-                {...register("address.cityName")}
-              />
-              <Field
-                sx={{ width: "120px" }}
-                label="Code postal"
-                error={errors.address?.zipCode?.message}
-                {...register("address.zipCode")}
-              />
-              <Field
-                sx={{ width: "210px" }}
-                label="Bureau distributeur"
-                error={errors.address?.deliveryOffice?.message}
-                {...register("address.deliveryOffice")}
-              />
-              <Field
-                sx={{ width: "210px" }}
-                label="Code cedex"
-                error={errors.address?.cedexCode?.message}
-                {...register("address.cedexCode")}
-              />
-              <Box sx={{ width: "300px" }}>
-                <Field
-                  defaultValue={contact.address?.countryName ? contact.address.countryName : "France"}
-                  type="select"
-                  label="Sélectionnez un pays"
-                  selectoptions={countries}
-                  error={errors.address?.countryName?.message}
-                  {...register("address.countryName")}
-                />
-              </Box>
-            </Stack>
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions>
