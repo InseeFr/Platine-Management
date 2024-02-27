@@ -5,7 +5,7 @@ import { Layout } from "./ui/Layout";
 import { PageError } from "./ui/PageError";
 import { SurveyPage } from "./pages/SurveyPage";
 import { ContactPage } from "./pages/ContactPage";
-import { Settings } from "./pages/Settings";
+import { SettingsPage } from "./pages/SettingsPage.tsx";
 import { SearchContacts } from "./pages/Search/SearchContacts.tsx";
 import { SearchSurveys } from "./pages/Search/SearchSurveys.tsx";
 import { SearchSurveyUnits } from "./pages/Search/SearchSurveyUnits.tsx";
@@ -33,8 +33,8 @@ export const routes: RouteObject[] = [
       },
       { path: "surveys/:id", element: <SurveyPage /> },
       { path: "contacts/:id", element: <ContactPage /> },
+      { path: "settings", element: <SettingsPage /> },
       { path: "survey-units/:id", element: <SurveyUnitPage /> },
-      { path: "reglages", element: <Settings /> },
       { path: "", element: <Home /> },
     ],
   },

@@ -30,7 +30,7 @@ export const SurveyCreateCampaignCard = ({ survey }: Props) => {
   const existingPeriods = campaigns ? campaigns.map(c => c.period?.toString()) : [];
   const periodicity = existingPeriods[0]?.substring(0, 1);
   const selectoptions = periods
-    ?.map(p => p.label!)
+    ?.map(p => p.value!)
     .filter(p => p.substring(0, 1) === periodicity && !existingPeriods?.includes(p))
     .sort((a, b) => (a > b ? 1 : -1));
 

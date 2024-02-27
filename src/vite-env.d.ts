@@ -5,6 +5,8 @@ interface ImportMetaEnv {
   readonly VITE_OIDC_CLIENT_ID: string;
   readonly VITE_OIDC_ISSUER: string;
   readonly VITE_IDENTITY_PROVIDER: string;
+  readonly VITE_ADMIN_LDAP_ROLE: string;
+  readonly VITE_USER_LDAP_ROLE: string;
 }
 
 interface ImportMeta {

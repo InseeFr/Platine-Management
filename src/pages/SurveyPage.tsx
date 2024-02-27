@@ -93,13 +93,13 @@ export function SurveyPage() {
       <Breadcrumbs items={breadcrumbs} />
 
       <Box px={4}>
-        <SurveyUnitTab tab={currentTab} survey={survey} onSave={refetch} />
+        <SurveyTab tab={currentTab} survey={survey} onSave={refetch} />
       </Box>
     </>
   );
 }
 
-function SurveyUnitTab({
+function SurveyTab({
   survey,
   onSave,
   tab,

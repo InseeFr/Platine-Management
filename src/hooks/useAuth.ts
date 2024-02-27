@@ -13,7 +13,11 @@ export const useAccessToken = (): string => {
 };
 
 export const useUser = () => {
-  return useOidc({ assertUserLoggedIn: true }).oidcTokens.decodedIdToken;
+  return {
+    decodedToken: useOidc({ assertUserLoggedIn: true }).oidcTokens.decodedIdToken,
+    isAdminLdap: useHasRole(import.meta.env.VITE_ADMIN_LDAP_ROLE),
+    isUserLdap: useHasRole(import.meta.env.VITE_USER_LDAP_ROLE),
+  };
 };
 
 export const useLogout = () => {

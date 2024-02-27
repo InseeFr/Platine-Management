@@ -49,6 +49,7 @@ declare module "@mui/material/styles" {
     bodyLarge: CSSProperties;
     bodyMedium: CSSProperties;
     bodySmall: CSSProperties;
+    robotoLarge: CSSProperties;
   }
 
   interface TypographyVariantsOptions {
@@ -67,6 +68,7 @@ declare module "@mui/material/styles" {
     bodyLarge?: CSSProperties;
     bodyMedium?: CSSProperties;
     bodySmall?: CSSProperties;
+    robotoLarge?: CSSProperties;
   }
 }
 
@@ -87,6 +89,7 @@ declare module "@mui/material/Typography" {
     bodyLarge: true;
     bodyMedium: true;
     bodySmall: true;
+    robotoLarge: true;
   }
 }
 
@@ -113,6 +116,11 @@ declare module "@mui/material/Paper" {
   interface PaperPropsVariantOverrides {
     home: true;
     disabled: true;
+  }
+}
+declare module "@mui/material/Chip" {
+  interface ChipPropsVariantOverrides {
+    role: true;
   }
 }
 
@@ -205,6 +213,13 @@ const typography = {
     fontSize: 12,
     lineHeight: "16px",
     letterSpacing: 0.4,
+  },
+  robotoLarge: {
+    lineHeight: "24px",
+    fontSize: "16px",
+    letterSpacing: "0.15px",
+    fontWeight: 400,
+    fontFamily: "Roboto",
   },
 };
 const palette = {
@@ -389,10 +404,26 @@ export const theme = createTheme({
     },
     MuiInputLabel: {
       styleOverrides: {
-        sizeSmall: {
-          ...typography.bodyMedium,
+        root: {
+          ...typography.bodyLarge,
         },
       },
+    },
+    MuiChip: {
+      variants: [
+        {
+          props: { variant: "role" },
+          style: {
+            fontWeight: 600,
+            lineHeight: "18px",
+            letterSpacing: "0.1px",
+            fontSize: "14px",
+            textTransform: "capitalize",
+            backgroundColor: "#EBEBEB",
+            height: "34px",
+          },
+        },
+      ],
     },
     MuiInputBase: {
       styleOverrides: {

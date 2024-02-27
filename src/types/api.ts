@@ -7,7 +7,17 @@ export type APISchemas = {
     /* Format: date-time */
     timestamp?: string
   }
-  UserDto: { identifier: string; role?: string }
+  UserDto: {
+    identifier: string
+    role?: string
+    name?: string
+    firstName?: string
+    organization?: string
+    accreditedSources?: Array<string>
+    /* Format: date-time */
+    creationDate?: string
+    creationAuthor?: string
+  }
   SurveyDto: {
     id: string
     sourceId: string
@@ -340,17 +350,17 @@ export type APISchemas = {
   }
   OnGoingDto: { ongoing?: boolean }
   PageableObject: {
-    /* Format: int64 */
-    offset?: number
-    sort?: APISchemas["SortObject"]
     /* Format: int32 */
     pageNumber?: number
     /* Format: int32 */
     pageSize?: number
-    unpaged?: boolean
+    /* Format: int64 */
+    offset?: number
+    sort?: APISchemas["SortObject"]
     paged?: boolean
+    unpaged?: boolean
   }
-  SortObject: { empty?: boolean; sorted?: boolean; unsorted?: boolean }
+  SortObject: { sorted?: boolean; empty?: boolean; unsorted?: boolean }
   UserPage: {
     content?: Array<APISchemas["UserDto"]>
     pageable?: APISchemas["PageableObject"]
@@ -608,7 +618,7 @@ export type APISchemas = {
     empty?: boolean
   }
   PeriodDto: { value?: string; label?: string; period?: string }
-  PeriodicityDto: { value: string; label: string }
+  PeriodicityDto: { value?: string; label?: string }
   EligibleDto: { eligible?: string }
   OwnerPage: {
     content?: Array<APISchemas["OwnerDto"]>
@@ -748,6 +758,7 @@ export type APISchemas = {
     totalPages?: number
     first?: boolean
     last?: boolean
+    pageable?: APISchemas["PageableObject"]
     /* Format: int32 */
     size?: number
     content?: Array<APISchemas["MoogSearchDto"]>
@@ -756,7 +767,6 @@ export type APISchemas = {
     sort?: APISchemas["SortObject"]
     /* Format: int32 */
     numberOfElements?: number
-    pageable?: APISchemas["PageableObject"]
     empty?: boolean
   }
   HealthcheckDto: { status?: string }
@@ -779,7 +789,7 @@ export type APISchemas = {
     empty?: boolean
   }
   ContactFirstLoginDto: {
-    identifier: string
+    identifier?: string
     externalId?: string
     civility?: "Female" | "Male" | "Undefined"
     lastName?: string
@@ -1107,7 +1117,7 @@ export type APIEndpoints = {
         }
   }
   "/api/contacts/{id}": {
-    responses: { get: APISchemas["ContactFirstLoginDto"]; put: APISchemas["ContactDto"]; delete: null }
+    responses: { get: null; put: APISchemas["ContactDto"]; delete: null }
     requests:
       | { method?: "get"; urlParams: { id: string } }
       | {
@@ -1239,6 +1249,10 @@ export type APIEndpoints = {
   "/api/users/{id}/accredited-sources": {
     responses: { get: null }
     requests: { method?: "get"; urlParams: { id: string } }
+  }
+  "/api/users/v2": {
+    responses: { get: Array<APISchemas["UserDto"]> }
+    requests: { method?: "get" }
   }
   "/api/temp/moog/campaigns/{idCampaign}/monitoring/progress": {
     responses: { get: APISchemas["JSONCollectionWrapperMoogProgressDto"] }
