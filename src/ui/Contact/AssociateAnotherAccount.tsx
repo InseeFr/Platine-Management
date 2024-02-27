@@ -23,11 +23,7 @@ export const AssociateAnotherAccount = ({ contact }: Props) => {
   });
 
   // TODO: use correct endpoint
-  const {
-    mutateAsync,
-    isPending,
-    isSuccess: isSuccessAssociate,
-  } = useFetchMutation("/api/contacts/{id}", "put");
+  const { isPending, isSuccess: isSuccessAssociate } = useFetchMutation("/api/contacts/{id}", "put");
 
   const [alertIsOpen, setAlertIsOpen] = useState(isSuccessAssociate);
 

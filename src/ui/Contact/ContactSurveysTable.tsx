@@ -17,13 +17,7 @@ import { CollectStateSelect, collectStates } from "./CollectStateSelect";
 import { Row } from "../Row";
 import { CollectStateHistory } from "./CollectStateHistory";
 import { theme } from "../../theme";
-
-interface Column {
-  id: string;
-  label: string;
-  minWidth?: string;
-  format?: (value: number) => string;
-}
+import { Column, TableHeader } from "./AssociateSurveysTable";
 
 const style = {
   root: {
@@ -90,19 +84,7 @@ export const ContactSurveysTable = (props: Props) => {
   return (
     <TableContainer>
       <Table aria-label="surveys table">
-        <TableHead sx={{ backgroundColor: "#EBEFF5" }}>
-          <TableRow sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}>
-            {columns.map(column => (
-              <TableCell
-                key={column.id}
-                style={{ minWidth: column.minWidth }}
-                sx={{ typography: "titleSmall", py: 3 }}
-              >
-                {column.label}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
+        <TableHeader columns={columns} />
         <TableBody>
           {surveys.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(survey => {
             return (

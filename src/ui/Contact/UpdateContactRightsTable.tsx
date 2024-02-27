@@ -1,19 +1,12 @@
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import { theme } from "../../theme";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Box from "@mui/system/Box";
 import { UpdateContactRightsActions } from "./UpdateContactRightsActions";
-
-interface Column {
-  id: string;
-  label: string;
-  minWidth?: string;
-  align?: "center" | "left" | "right" | "inherit" | "justify";
-}
+import { Column, TableHeader } from "./AssociateSurveysTable";
 
 // TODO: use real ids
 const columns: readonly Column[] = [
@@ -78,20 +71,7 @@ export const UpdateContactRightsTable = () => {
     <Box>
       <TableContainer sx={{ py: 4 }}>
         <Table>
-          <TableHead sx={{ backgroundColor: "#EBEFF5" }}>
-            <TableRow sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}>
-              {columns.map(column => (
-                <TableCell
-                  key={column.id}
-                  style={{ minWidth: column.minWidth }}
-                  sx={{ typography: "titleSmall", py: 3 }}
-                  align={column.align ?? "left"}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
+          <TableHeader columns={columns} />
           <TableBody>
             {mockedData.map(data => {
               return (

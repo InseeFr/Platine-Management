@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import TableFooter from "@mui/material/TableFooter";
 import { LoadingCell } from "./ContactSurveysTable";
 
-interface Column {
+export interface Column {
   id: string;
   label: string;
   minWidth?: string;
@@ -63,20 +63,7 @@ export const AssociateSurveysTable = () => {
     <Box>
       <TableContainer sx={{ py: 3 }}>
         <Table>
-          <TableHead sx={{ backgroundColor: "#EBEFF5" }}>
-            <TableRow sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}>
-              {columns.map(column => (
-                <TableCell
-                  key={column.id}
-                  style={{ minWidth: column.minWidth }}
-                  sx={{ typography: "titleSmall", py: 3 }}
-                  align={column.align ?? "left"}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
+          <TableHeader columns={columns} />
           <TableBody>
             {surveysMock.map(survey => {
               return (
@@ -127,5 +114,24 @@ export const AssociateSurveysTable = () => {
         </Table>
       </TableContainer>
     </Box>
+  );
+};
+
+export const TableHeader = ({ columns }: { columns: readonly Column[] }) => {
+  return (
+    <TableHead sx={{ backgroundColor: "#EBEFF5" }}>
+      <TableRow sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}>
+        {columns.map(column => (
+          <TableCell
+            key={column.id}
+            style={{ minWidth: column.minWidth }}
+            sx={{ typography: "titleSmall", py: 3 }}
+            align={column.align ?? "left"}
+          >
+            {column.label}
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
   );
 };
