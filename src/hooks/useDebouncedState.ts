@@ -9,22 +9,21 @@ import { useCallback, useRef, useState } from "react";
  * Usage: debouncedValue is updated after 500 ms
  * const [value, debouncedValue, setValue] = useDebouncedState("", 500)
  */
-export function useDebouncedState<T>(
-  initialValue: T,
-  delay = 300
-): [T, (v: T) => void] {
-  const [debouncedValue, setDebouncedValue] = useState(initialValue)
-  const timer = useRef<ReturnType<typeof setTimeout>>()
+export function useDebouncedState<T>(initialValue: T, delay = 300): [T, (v: T) => void] {
+  const [debouncedValue, setDebouncedValue] = useState(initialValue);
+  const timer = useRef<ReturnType<typeof setTimeout>>();
 
-  const setValue =useCallback((value: T) => {
-    if (timer.current) {
-      clearTimeout(timer.current)
-    }
-    timer.current = setTimeout(() => {
-      setDebouncedValue(value)
-    }, delay)
-  }, [])
+  const setValue = useCallback(
+    (value: T) => {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+    },
+    [delay],
+  );
 
-
-  return [debouncedValue, setValue]
+  return [debouncedValue, setValue];
 }

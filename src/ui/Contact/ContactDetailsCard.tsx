@@ -7,6 +7,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { ContactFormDialog } from "./ContactFormDialog.tsx";
 import { APISchemas } from "../../types/api.ts";
 import { useToggle } from "react-use";
+import { AddressInformations } from "../AddressInformations.tsx";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
@@ -50,22 +51,7 @@ export const ContactDetailsCard = ({ contact, onSave }: Props) => {
             <Box component={"span"}>{contact.phone}</Box>
           </Stack>
           <Divider orientation="vertical" variant="middle" sx={{ height: "130px" }} />
-          <Stack spacing={1} typography={"bodyMedium"}>
-            <Typography variant="titleSmall">TODO DATA</Typography>
-            <Box component={"span"}>
-              {`${contact.address?.streetNumber} ${contact.address?.streetType} ${contact.address?.streetName},
-              ${contact.address?.zipCode}, ${contact.address?.cityName}`}
-            </Box>
-            <Box component={"span"}>
-              {`TODO Bureau distributeur 
-              ${contact.address?.cedexCode && ","} 
-              ${contact.address?.cedexCode}
-              ${contact.address?.countryName && ","} 
-              ${contact.address?.countryName}`}
-            </Box>
-            <Box component={"span"}>{contact.address?.addressSupplement}</Box>
-            <Box component={"span"}>{contact.address?.specialDistribution}</Box>
-          </Stack>
+          <AddressInformations identificationName={"TODO DATA"} address={contact.address} />
         </Row>
       </Stack>
       <ContactFormDialog open={hasDialog} onClose={toggleDialog} onSave={handleSave} contact={contact} />

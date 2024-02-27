@@ -113,7 +113,7 @@ export const ContactSurveysTable = (props: Props) => {
                 sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}
               >
                 {columns.map(column => {
-                  const value = survey[column.id];
+                  const value = survey[column.id as keyof typeof survey];
 
                   if (column.id === "state") {
                     return (
