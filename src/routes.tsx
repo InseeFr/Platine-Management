@@ -10,6 +10,7 @@ import { SearchContacts } from "./pages/Search/SearchContacts.tsx";
 import { SearchSurveys } from "./pages/Search/SearchSurveys.tsx";
 import { SearchSurveyUnits } from "./pages/Search/SearchSurveyUnits.tsx";
 import { SurveyUnitPage } from "./pages/SurveyUnitPage.tsx";
+import { CreateContactPage } from "./pages/CreateContactPage.tsx";
 
 export const routes: RouteObject[] = [
   {
@@ -35,6 +36,7 @@ export const routes: RouteObject[] = [
       { path: "contacts/:id", element: <ContactPage /> },
       { path: "survey-units/:id", element: <SurveyUnitPage /> },
       { path: "reglages", element: <Settings /> },
+      { path: "contacts/createContact", element: <CreateContactPage /> },
       { path: "", element: <Home /> },
     ],
   },

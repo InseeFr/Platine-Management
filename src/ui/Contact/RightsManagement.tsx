@@ -8,6 +8,7 @@ import { AddRightsForm } from "./AddRightsForm";
 import { Row } from "../Row";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Typography from "@mui/material/Typography";
+import { UpdateContactRightsTable } from "./UpdateContactRightsTable";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
@@ -37,6 +38,7 @@ export const RightsManagement = ({ contact }: Props) => {
             ou un autre contact de l‘enquête peut devenir principal
           </Typography>
         </Row>
+        <UpdateContactRightsTable />
       </Card>
     </Stack>
   );
