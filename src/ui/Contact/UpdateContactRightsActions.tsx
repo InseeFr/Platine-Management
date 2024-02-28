@@ -5,15 +5,13 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useState } from "react";
 import { APISchemas } from "../../types/api";
 import {
-  DeletePrimaryContactRightsDialog,
+  PrimaryContactRightsDialog,
   DeletePrimaryWithoutSecondaryDialog,
   DeleteSecondaryContactRightsDialog,
-} from "./DeleteContactRightsDialogs";
-import {
-  EditPrimaryContactRightsDialog,
-  EditPrimaryWithoutSecondaryDialog,
   EditSecondaryToPrimaryDialog,
-} from "./EditContactRightsDialog";
+  EditPrimaryWithoutSecondaryDialog,
+} from "./ContactRightsDialogs";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   role: string;
@@ -30,6 +28,7 @@ export const UpdateContactRightsActions = ({
   primaryContact,
   source,
 }: Props) => {
+  const navigate = useNavigate();
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
 
@@ -47,6 +46,19 @@ export const UpdateContactRightsActions = ({
 
   const onCloseEdit = () => {
     setOpenEdit(false);
+  };
+
+  const onDeletePrimaryContact = (selectedContact: string) => {
+    if (selectedContact === "newContact") {
+      navigate("/contacts/createContact");
+    }
+  };
+
+  const onEditPrimaryContact = (selectedContact: string) => {
+    // TODO: add logic
+    if (selectedContact === "newContact") {
+      navigate("/contacts/createContact");
+    }
   };
 
   const getDialog = () => {
@@ -74,16 +86,20 @@ export const UpdateContactRightsActions = ({
       </>
     ) : (
       <>
-        <DeletePrimaryContactRightsDialog
+        <PrimaryContactRightsDialog
+          type="delete"
           open={openDelete}
           onClose={onCloseDelete}
           secondaryContacts={secondaryContacts}
+          contactIdentifier={contact.identifier}
+          onChangePrimaryContact={onDeletePrimaryContact}
         />
-        <EditPrimaryContactRightsDialog
+        <PrimaryContactRightsDialog
           open={openEdit}
           onClose={onCloseEdit}
           secondaryContacts={secondaryContacts}
           contactIdentifier={contact.identifier}
+          onChangePrimaryContact={onEditPrimaryContact}
         />
       </>
     );

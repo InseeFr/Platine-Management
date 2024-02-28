@@ -46,7 +46,7 @@ const surveysMock = [
 export const AssociateSurveysTable = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  // const isLoading = surveys === undefined;
+  // TODO: use surveys props after;
   const isLoading = false;
 
   const onChange = (id: string) => {
