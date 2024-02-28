@@ -46,10 +46,18 @@ export function ContactPage() {
     );
   }
 
+  const contactTitle =
+    contact.firstName || contact.lastName
+      ? `${contact.firstName ?? ""} ${contact.lastName ?? ""}`
+      : contact.identifier;
+
   const breadcrumbs = [
     { href: "/", title: "Accueil" },
     { href: "/search", title: "Recherche" },
-    { href: `/contacts/${contact.identifier}`, title: `${contact.firstName} ${contact.lastName}` },
+    {
+      href: `/contacts/${contact.identifier}`,
+      title: contactTitle,
+    },
     TabNames[currentTab],
   ];
 

@@ -276,6 +276,8 @@ export type APISchemas = {
     email?: string
     phone?: string
     address?: APISchemas["AddressDto"]
+    listSurveyUnitNames?: string[]
+    listSourcesId? : string[]
   }
   JsonNode: {}
   UserEventDto: {
@@ -1478,7 +1480,7 @@ export type APIEndpoints = {
     requests: { method?: "get"; urlParams: { id: string } }
   }
   "/api/contacts/search": {
-    responses: { get: Array<APISchemas["SearchContactDto"]> }
+    responses: { get: APISchemas["ContactPage"] }
     requests: {
       method?: "get"
       query?: {

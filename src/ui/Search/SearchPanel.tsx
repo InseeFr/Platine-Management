@@ -64,8 +64,8 @@ export const SearchPanel = () => {
     }
     if (currentTab === "contacts") {
       setFilter(currentTab, {
-        id: data.get("id")!.toString(),
-        name: data.get("nbame")!.toString(),
+        identifier: data.get("id")!.toString(),
+        name: data.get("name")!.toString(),
         email: data.get("email")!.toString(),
       });
     }

@@ -42,7 +42,7 @@ const columns: readonly Column[] = [
   { id: "endDate", label: "Date fin enquête", minWidth: "120px" },
   { id: "surveyUnit", label: "Unité enquêtée", minWidth: "150px" },
   { id: "identificationName", label: "Raison sociale", minWidth: "190px" },
-  { id: "role", label: "Rôle", minWidth: "120px" },
+  { id: "main", label: "Rôle", minWidth: "120px" },
   { id: "actions", label: "Actions", minWidth: "100px" },
 ];
 
@@ -136,7 +136,19 @@ export const ContactSurveysTable = (props: Props) => {
                     );
                   }
 
-                  return <TableCell key={column.id}>{value ?? "NO DATA"}</TableCell>;
+                  if (column.id === "main") {
+                    return (
+                      <TableCell key={column.id}>
+                        {value === true ? "Principal" : "Secondaire"}
+                      </TableCell>
+                    );
+                  }
+
+                  if (value === undefined) {
+                    return <TableCell key={column.id}>NO DATA</TableCell>;
+                  }
+
+                  return <TableCell key={column.id}>{value}</TableCell>;
                 })}
               </TableRow>
             );
