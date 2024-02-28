@@ -38,7 +38,7 @@ export const RightsManagement = ({ contact }: Props) => {
             ou un autre contact de l‘enquête peut devenir principal
           </Typography>
         </Row>
-        <UpdateContactRightsTable />
+        <UpdateContactRightsTable contact={contact} />
       </Card>
     </Stack>
   );

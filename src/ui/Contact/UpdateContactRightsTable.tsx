@@ -7,6 +7,7 @@ import TableBody from "@mui/material/TableBody";
 import Box from "@mui/system/Box";
 import { UpdateContactRightsActions } from "./UpdateContactRightsActions";
 import { Column, TableHeader } from "./AssociateSurveysTable";
+import { APISchemas } from "../../types/api";
 
 // TODO: use real ids
 const columns: readonly Column[] = [
@@ -66,7 +67,11 @@ const mockedData = [
   },
 ];
 
-export const UpdateContactRightsTable = () => {
+type Props = {
+  contact: APISchemas["ContactFirstLoginDto"];
+};
+
+export const UpdateContactRightsTable = ({ contact }: Props) => {
   return (
     <Box>
       <TableContainer sx={{ py: 4 }}>
@@ -89,8 +94,16 @@ export const UpdateContactRightsTable = () => {
                         <TableCell key={`action-${data.source}`}>
                           <UpdateContactRightsActions
                             role={data.role}
-                            secondaryContacts={data.secondaryContacts}
+                            secondaryContacts={data.secondaryContacts ?? []}
                             source={data.source}
+                            contact={contact}
+                            primaryContact={
+                              data.role === "Principal"
+                                ? contact
+                                : {
+                                    identifier: "UI541",
+                                  }
+                            }
                           />
                         </TableCell>
                       );

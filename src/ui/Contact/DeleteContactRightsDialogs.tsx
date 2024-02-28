@@ -9,7 +9,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import { APISchemas } from "../../types/api";
 
-type CommonContactRightsProps = {
+export type CommonContactRightsProps = {
   open: boolean;
   onClose: () => void;
 };
@@ -23,7 +23,7 @@ export const DeleteSecondaryContactRightsDialog = ({
   onClose,
   source,
 }: DeleteSecondaryContactRightsProps) => {
-  const onDeleteSecondaryContactRights = () => {
+  const onDelete = () => {
     onClose();
   };
 
@@ -32,7 +32,7 @@ export const DeleteSecondaryContactRightsDialog = ({
       open={open}
       onCancel={onClose}
       onSubmit={() => {
-        onDeleteSecondaryContactRights();
+        onDelete();
       }}
       title={"Suppression des droits"}
       submitButtonLabel="Supprimer"
@@ -110,47 +110,67 @@ export const DeletePrimaryContactRightsDialog = ({
       title={"Suppression des droits"}
       submitButtonLabel="Valider"
     >
-      <Stack gap={2} textAlign={"center"} color="text.secondary" px={5}>
-        <Typography variant="bodyMedium">
-          Une enquête doit obligatoirement avoir un contact principal.
-        </Typography>
-        <Typography variant="bodyMedium">
-          Sélectionnez le contact auquel vous souhaitez attribuer les droits “contact principal” :
-        </Typography>
-        <FormControl>
-          <RadioGroup
-            aria-labelledby="radio-buttons-group"
-            name="contact-radio-buttons-group"
-            value={selectedContact}
-            onChange={handleChange}
-            sx={{ gap: 1, pl: 4 }}
-          >
-            {secondaryContacts.map(contact => (
-              <FormControlLabel
-                key={contact.identifier}
-                value={contact.identifier}
-                slotProps={{
-                  typography: {
-                    variant: "titleSmall",
-                  },
-                }}
-                control={<Radio />}
-                label={`${contact.firstName} ${contact.lastName} (${contact.identifier})`}
-              />
-            ))}
+      <SecondaryContactsList
+        secondaryContacts={secondaryContacts}
+        onChange={handleChange}
+        selectedContact={selectedContact}
+      />
+    </FormDialog>
+  );
+};
+
+type SecondaryContactsListProps = {
+  secondaryContacts: APISchemas["ContactFirstLoginDto"][];
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  selectedContact: string;
+};
+
+export const SecondaryContactsList = ({
+  secondaryContacts,
+  onChange,
+  selectedContact,
+}: SecondaryContactsListProps) => {
+  return (
+    <Stack gap={2} textAlign={"center"} color="text.secondary" px={5}>
+      <Typography variant="bodyMedium">
+        Une enquête doit obligatoirement avoir un contact principal.
+      </Typography>
+      <Typography variant="bodyMedium">
+        Sélectionnez le contact auquel vous souhaitez attribuer les droits “contact principal” :
+      </Typography>
+      <FormControl>
+        <RadioGroup
+          aria-labelledby="radio-buttons-group"
+          name="contact-radio-buttons-group"
+          value={selectedContact}
+          onChange={onChange}
+          sx={{ gap: 1, pl: 4 }}
+        >
+          {secondaryContacts.map(contact => (
             <FormControlLabel
-              value={"newContact"}
+              key={contact.identifier}
+              value={contact.identifier}
               slotProps={{
                 typography: {
                   variant: "titleSmall",
                 },
               }}
               control={<Radio />}
-              label={"Créer un nouveau contact"}
+              label={`${contact.firstName} ${contact.lastName} (${contact.identifier})`}
             />
-          </RadioGroup>
-        </FormControl>
-      </Stack>
-    </FormDialog>
+          ))}
+          <FormControlLabel
+            value={"newContact"}
+            slotProps={{
+              typography: {
+                variant: "titleSmall",
+              },
+            }}
+            control={<Radio />}
+            label={"Créer un nouveau contact"}
+          />
+        </RadioGroup>
+      </FormControl>
+    </Stack>
   );
 };
