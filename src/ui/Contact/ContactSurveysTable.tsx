@@ -18,6 +18,7 @@ import { CollectStateHistory } from "./CollectStateHistory";
 import { theme } from "../../theme";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Column, TableHeader } from "./AssociateSurveysTable";
+import { useToggle } from "react-use";
 
 const style = {
   root: {
@@ -56,15 +57,7 @@ export const ContactSurveysTable = (props: Props) => {
   const isLoading = props.surveys === undefined;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [openCollectStateHistory, setOpenCollectStateHistory] = useState(false);
-
-  const onOpenCollectStateHistory = () => {
-    setOpenCollectStateHistory(true);
-  };
-
-  const onCloseCollectStateHistory = () => {
-    setOpenCollectStateHistory(false);
-  };
+  const [openCollectStateHistory, toggle] = useToggle(false);
 
   const handleChangePage = (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -107,14 +100,14 @@ export const ContactSurveysTable = (props: Props) => {
                               textOverflow: "ellipsis",
                             }}
                             label={collectStates.find(state => state.value === value)?.label}
-                            onClick={onOpenCollectStateHistory}
+                            onClick={toggle}
                             color={getCollectStateChipColor(value as string)}
-                            onDelete={onOpenCollectStateHistory}
+                            onDelete={toggle}
                             deleteIcon={<ArrowDropDownIcon />}
                           />
                           {survey.questioningId && (
                             <CollectStateHistory
-                              onClose={onCloseCollectStateHistory}
+                              onClose={toggle}
                               open={openCollectStateHistory}
                               questioningId={survey.questioningId}
                               surveyName={survey.partition ?? ""}

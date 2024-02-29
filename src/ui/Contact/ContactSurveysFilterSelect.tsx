@@ -4,7 +4,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 type Props = {
-  options: string[];
+  options: { label: string; value: string }[];
   defaultValue?: string;
   placeholderLabel?: string;
   label: string;
@@ -43,7 +43,8 @@ export const ContactSurveysFilterSelect = ({
             return <>{label}</>;
           }
 
-          return <>{selected}</>;
+          const labelState = options.find(option => selected === option.value)?.label;
+          return <>{labelState ?? placeholderLabel}</>;
         }}
       >
         {placeholderLabel && (
@@ -53,8 +54,8 @@ export const ContactSurveysFilterSelect = ({
         )}
         {options.map(option => {
           return (
-            <MenuItem value={option} key={option}>
-              {option}
+            <MenuItem value={option.value} key={option.value}>
+              {option.label}
             </MenuItem>
           );
         })}

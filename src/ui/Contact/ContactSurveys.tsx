@@ -3,7 +3,7 @@ import { Row } from "../Row";
 import { TitleWithIconAndDivider } from "../TitleWithIconAndDivider";
 import { BinocularIcon } from "../Icon/BinocularIcon";
 import { ContactSurveysFilterSelect } from "./ContactSurveysFilterSelect";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import TextField from "@mui/material/TextField";
@@ -13,15 +13,17 @@ import { ContactSurveysTable } from "./ContactSurveysTable";
 import { APISchemas } from "../../types/api";
 import { useFetchQuery } from "../../hooks/useFetchQuery";
 import { useDebouncedState } from "../../hooks/useDebouncedState.ts";
+import { collectStates } from "./CollectStateSelect.tsx";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
 };
 
 export const ContactSurveysContent = ({ contact }: Props) => {
-  const [role, setRole] = useState("");
-  const [state, setState] = useState("");
+  const [role, setRole] = useState<string>("tous");
+  const [state, setState] = useState<string>();
   const [search, setSearch] = useDebouncedState("");
+  const [isFilteredOpened, setIsFilteredOpened] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -32,13 +34,27 @@ export const ContactSurveysContent = ({ contact }: Props) => {
       id: contact.identifier!,
     },
     query: {
-      role,
-      state,
+      isFilteredOpened,
       search,
     },
   });
 
-  const [tab, setTab] = useState("inProgress");
+  const [filteredSurveys, setFilteredSurveys] = useState(surveys ?? []);
+
+  useEffect(() => {
+    let filteredSurveysTmp = surveys ?? [];
+
+    if (role !== "tous") {
+      filteredSurveysTmp =
+        role === "primary"
+          ? filteredSurveysTmp.filter(s => s.main === true)
+          : filteredSurveysTmp.filter(s => s.main === false);
+    }
+
+    state && (filteredSurveysTmp = filteredSurveysTmp.filter(s => s.lastEvent === state));
+
+    setFilteredSurveys(filteredSurveysTmp);
+  }, [role, state, search, surveys]);
 
   return (
     <Card sx={{ mx: 2, px: 6, py: 3 }} elevation={2}>
@@ -46,17 +62,20 @@ export const ContactSurveysContent = ({ contact }: Props) => {
 
       <Row justifyContent={"space-between"}>
         <Row spacing={3} py={4}>
-          {/* use real options */}
           <ContactSurveysFilterSelect
-            options={["Tous", "Principal", "Secondaire"]}
-            defaultValue={"Tous"}
+            options={[
+              { label: "Tous", value: "tous" },
+              { label: "Principal", value: "primary" },
+              { label: "Secondaire", value: "secondary" },
+            ]}
+            defaultValue={"tous"}
             label={"Rôle du contact"}
             name={"role"}
             onFilterChange={e => setRole(e.target.value)}
           />
 
           <ContactSurveysFilterSelect
-            options={["Collecte initialisée", "Questionnaire validé sur internet", "Unité relancée"]}
+            options={collectStates}
             placeholderLabel="Sélectionnez un état"
             label={"Etat de la collecte"}
             name={"state"}
@@ -80,17 +99,21 @@ export const ContactSurveysContent = ({ contact }: Props) => {
             onChange={handleChange}
           />
         </Row>
-        <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
-          <ToggleButton value="inProgress" aria-label="left aligned">
+        <ToggleButtonGroup
+          value={isFilteredOpened}
+          exclusive
+          onChange={(_, v) => setIsFilteredOpened(v)}
+        >
+          <ToggleButton value={false} aria-label="left aligned">
             En cours
           </ToggleButton>
-          <ToggleButton value="all" aria-label="left aligned">
+          <ToggleButton value={true} aria-label="left aligned">
             Tout
           </ToggleButton>
         </ToggleButtonGroup>
       </Row>
 
-      <ContactSurveysTable surveys={surveys} />
+      <ContactSurveysTable surveys={filteredSurveys} />
     </Card>
   );
 };
