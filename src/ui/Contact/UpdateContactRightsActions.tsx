@@ -2,7 +2,6 @@ import IconButton from "@mui/material/IconButton";
 import { Row } from "../Row";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import { useState } from "react";
 import { APISchemas } from "../../types/api";
 import {
   PrimaryContactRightsDialog,
@@ -12,6 +11,7 @@ import {
   EditPrimaryWithoutSecondaryDialog,
 } from "./ContactRightsDialogs";
 import { useNavigate } from "react-router-dom";
+import { useToggle } from "react-use";
 
 type Props = {
   role: string;
@@ -29,24 +29,8 @@ export const UpdateContactRightsActions = ({
   source,
 }: Props) => {
   const navigate = useNavigate();
-  const [openDelete, setOpenDelete] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-
-  const onOpenDelete = () => {
-    setOpenDelete(true);
-  };
-
-  const onCloseDelete = () => {
-    setOpenDelete(false);
-  };
-
-  const onOpenEdit = () => {
-    setOpenEdit(true);
-  };
-
-  const onCloseEdit = () => {
-    setOpenEdit(false);
-  };
+  const [openDelete, toggleDelete] = useToggle(false);
+  const [openEdit, toggleEdit] = useToggle(false);
 
   const onDeletePrimaryContact = (selectedContact: string) => {
     if (selectedContact === "newContact") {
@@ -65,14 +49,10 @@ export const UpdateContactRightsActions = ({
     if (role === "Secondaire") {
       return (
         <>
-          <DeleteSecondaryContactRightsDialog
-            open={openDelete}
-            onClose={onCloseDelete}
-            source={source}
-          />
+          <DeleteSecondaryContactRightsDialog open={openDelete} toggle={toggleDelete} source={source} />
           <EditSecondaryToPrimaryDialog
             open={openEdit}
-            onClose={onCloseEdit}
+            toggle={toggleEdit}
             contactIdentifier={contact.identifier}
             primaryContactIdentifier={primaryContact.identifier}
           />
@@ -81,22 +61,22 @@ export const UpdateContactRightsActions = ({
     }
     return secondaryContacts.length === 0 ? (
       <>
-        <DeletePrimaryWithoutSecondaryDialog open={openDelete} onClose={onCloseDelete} />
-        <EditPrimaryWithoutSecondaryDialog open={openEdit} onClose={onCloseEdit} />
+        <DeletePrimaryWithoutSecondaryDialog open={openDelete} toggle={toggleDelete} />
+        <EditPrimaryWithoutSecondaryDialog open={openEdit} toggle={toggleEdit} />
       </>
     ) : (
       <>
         <PrimaryContactRightsDialog
           type="delete"
           open={openDelete}
-          onClose={onCloseDelete}
+          toggle={toggleDelete}
           secondaryContacts={secondaryContacts}
           contactIdentifier={contact.identifier}
           onChangePrimaryContact={onDeletePrimaryContact}
         />
         <PrimaryContactRightsDialog
           open={openEdit}
-          onClose={onCloseEdit}
+          toggle={toggleEdit}
           secondaryContacts={secondaryContacts}
           contactIdentifier={contact.identifier}
           onChangePrimaryContact={onEditPrimaryContact}
@@ -108,10 +88,10 @@ export const UpdateContactRightsActions = ({
   return (
     <Row justifyContent={"center"}>
       <Row width={"fit-content"} gap={1}>
-        <IconButton aria-label="modify" color={"inherit"} onClick={onOpenEdit}>
+        <IconButton aria-label="modify" color={"inherit"} onClick={toggleEdit}>
           <BorderColorOutlinedIcon />
         </IconButton>
-        <IconButton aria-label="delete" color={"inherit"} onClick={onOpenDelete}>
+        <IconButton aria-label="delete" color={"inherit"} onClick={toggleDelete}>
           <DeleteOutlinedIcon />
         </IconButton>
       </Row>

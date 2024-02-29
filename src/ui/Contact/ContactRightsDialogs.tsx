@@ -11,7 +11,7 @@ import { APISchemas } from "../../types/api";
 
 export type CommonContactRightsProps = {
   open: boolean;
-  onClose: () => void;
+  toggle: () => void;
 };
 
 type DeleteSecondaryContactRightsProps = CommonContactRightsProps & {
@@ -20,17 +20,17 @@ type DeleteSecondaryContactRightsProps = CommonContactRightsProps & {
 
 export const DeleteSecondaryContactRightsDialog = ({
   open,
-  onClose,
+  toggle,
   source,
 }: DeleteSecondaryContactRightsProps) => {
   const onDelete = () => {
-    onClose();
+    toggle();
   };
 
   return (
     <FormDialog
       open={open}
-      onCancel={onClose}
+      onCancel={toggle}
       onSubmit={() => {
         onDelete();
       }}
@@ -45,18 +45,18 @@ export const DeleteSecondaryContactRightsDialog = ({
   );
 };
 
-export const DeletePrimaryWithoutSecondaryDialog = ({ open, onClose }: CommonContactRightsProps) => {
+export const DeletePrimaryWithoutSecondaryDialog = ({ open, toggle }: CommonContactRightsProps) => {
   const navigate = useNavigate();
 
   const goToCreateContactForm = () => {
-    onClose();
+    toggle();
     navigate("/contacts/createContact");
   };
 
   return (
     <FormDialog
       open={open}
-      onCancel={onClose}
+      onCancel={toggle}
       onSubmit={() => {
         goToCreateContactForm();
       }}
@@ -83,7 +83,7 @@ type PrimaryContactRightsProps = CommonContactRightsProps & {
 
 export const PrimaryContactRightsDialog = ({
   open,
-  onClose,
+  toggle,
   secondaryContacts,
   type = "edit",
   contactIdentifier,
@@ -96,7 +96,7 @@ export const PrimaryContactRightsDialog = ({
   };
 
   const onSubmit = (selectedContact: string) => {
-    onClose();
+    toggle();
     onChangePrimaryContact(selectedContact);
   };
 
@@ -105,7 +105,7 @@ export const PrimaryContactRightsDialog = ({
       open={open}
       onCancel={() => {
         setSelectedContact("");
-        onClose();
+        toggle();
       }}
       onSubmit={() => {
         onSubmit(selectedContact);
@@ -170,18 +170,18 @@ type EditSecondaryToPrimaryProps = CommonContactRightsProps & {
 
 export const EditSecondaryToPrimaryDialog = ({
   open,
-  onClose,
+  toggle,
   contactIdentifier,
   primaryContactIdentifier,
 }: EditSecondaryToPrimaryProps) => {
   const onEdit = () => {
-    onClose();
+    toggle();
   };
 
   return (
     <FormDialog
       open={open}
-      onCancel={onClose}
+      onCancel={toggle}
       onSubmit={() => {
         onEdit();
       }}
@@ -201,18 +201,18 @@ export const EditSecondaryToPrimaryDialog = ({
   );
 };
 
-export const EditPrimaryWithoutSecondaryDialog = ({ open, onClose }: CommonContactRightsProps) => {
+export const EditPrimaryWithoutSecondaryDialog = ({ open, toggle }: CommonContactRightsProps) => {
   const navigate = useNavigate();
 
   const goToCreateContactForm = () => {
-    onClose();
+    toggle();
     navigate("/contacts/createContact");
   };
 
   return (
     <FormDialog
       open={open}
-      onCancel={onClose}
+      onCancel={toggle}
       onSubmit={() => {
         goToCreateContactForm();
       }}
