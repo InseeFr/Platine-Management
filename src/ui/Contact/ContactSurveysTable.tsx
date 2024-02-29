@@ -16,6 +16,7 @@ import { CollectStateSelect, collectStates } from "./CollectStateSelect";
 import { Row } from "../Row";
 import { CollectStateHistory } from "./CollectStateHistory";
 import { theme } from "../../theme";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Column, TableHeader } from "./AssociateSurveysTable";
 
 const style = {
@@ -33,14 +34,13 @@ const style = {
   },
 };
 
-// TODO: use real ids (state, endDate, surveyUnit, role)
 const columns: readonly Column[] = [
-  { id: "state", label: "Etat de la collecte", minWidth: "330px" },
+  { id: "lastEvent", label: "Etat de la collecte", minWidth: "330px" },
   { id: "sourceWording", label: "Nom enquête", minWidth: "95px" },
   { id: "year", label: "Millésime", minWidth: "95px" },
   { id: "period", label: "Campagne", minWidth: "120px" },
-  { id: "endDate", label: "Date fin enquête", minWidth: "120px" },
-  { id: "surveyUnit", label: "Unité enquêtée", minWidth: "150px" },
+  { id: "partioningClosingDate", label: "Date fin enquête", minWidth: "120px" },
+  { id: "surveyUnitId", label: "Unité enquêtée", minWidth: "150px" },
   { id: "identificationName", label: "Raison sociale", minWidth: "190px" },
   { id: "main", label: "Rôle", minWidth: "120px" },
   { id: "actions", label: "Actions", minWidth: "100px" },
@@ -90,15 +90,15 @@ export const ContactSurveysTable = (props: Props) => {
               <TableRow
                 hover
                 tabIndex={-1}
-                key={`row-${survey.partition}`}
+                key={`row-${survey.partition}-${survey.identificationName}`}
                 sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}
               >
                 {columns.map(column => {
                   const value = survey[column.id as keyof typeof survey];
 
-                  if (column.id === "state") {
+                  if (column.id === "lastEvent") {
                     return (
-                      <TableCell key={`state-${survey.partition}`}>
+                      <TableCell key={`state-${survey.partition}-${survey.identificationName}`}>
                         <Row spacing={1}>
                           <Chip
                             sx={{
@@ -106,21 +106,20 @@ export const ContactSurveysTable = (props: Props) => {
                               maxWidth: "300px",
                               textOverflow: "ellipsis",
                             }}
-                            label={
-                              // TODO add collect state here
-                              collectStates.find(state => state.value === "TODO")?.label ?? "NO DATA"
-                            }
+                            label={collectStates.find(state => state.value === value)?.label}
                             onClick={onOpenCollectStateHistory}
-                            // TODO add collect state here
-                            color={getCollectStateChipColor("TODO")}
+                            color={getCollectStateChipColor(value as string)}
+                            onDelete={onOpenCollectStateHistory}
+                            deleteIcon={<ArrowDropDownIcon />}
                           />
-                          <CollectStateHistory
-                            onClose={onCloseCollectStateHistory}
-                            open={openCollectStateHistory}
-                            // TODO: add questionningId in api
-                            questioningId={123}
-                            surveyName={survey.partition ?? ""}
-                          />
+                          {survey.questioningId && (
+                            <CollectStateHistory
+                              onClose={onCloseCollectStateHistory}
+                              open={openCollectStateHistory}
+                              questioningId={survey.questioningId}
+                              surveyName={survey.partition ?? ""}
+                            />
+                          )}
                           <CollectStateSelect onSelect={onSelectCollectState} />
                         </Row>
                       </TableCell>
@@ -129,9 +128,12 @@ export const ContactSurveysTable = (props: Props) => {
 
                   if (column.id === "actions") {
                     return (
-                      <TableCell key={`action-${survey.partition}`} align="center">
+                      <TableCell
+                        key={`action-${survey.partition}-${survey.identificationName}`}
+                        align="center"
+                      >
                         {/* add id when id is in api */}
-                        <MoreAction surveyId={survey.sourceId} surveyUnitId={"id"} />
+                        <MoreAction surveyId={survey.sourceId} surveyUnitId={survey.surveyUnitId} />
                       </TableCell>
                     );
                   }
@@ -144,8 +146,12 @@ export const ContactSurveysTable = (props: Props) => {
                     );
                   }
 
-                  if (value === undefined) {
-                    return <TableCell key={column.id}>NO DATA</TableCell>;
+                  if (column.id === "partioningClosingDate") {
+                    return (
+                      <TableCell key={column.id}>
+                        {new Date(Date.parse(value as string)).toLocaleDateString()}
+                      </TableCell>
+                    );
                   }
 
                   return <TableCell key={column.id}>{value}</TableCell>;
@@ -179,7 +185,7 @@ export const ContactSurveysTable = (props: Props) => {
   );
 };
 
-const getCollectStateChipColor = (state: string) => {
+const getCollectStateChipColor = (state?: string) => {
   switch (state) {
     case "PND":
     case "PARTIELINT":

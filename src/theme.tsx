@@ -448,10 +448,27 @@ export const theme = createTheme({
         colorError: {
           backgroundColor: "#FDDBC3",
           color: "#C71A01",
+          ".MuiChip-deleteIcon": {
+            color: "#C71A01",
+          },
+          "&:hover": {
+            backgroundColor: "#F9C3AF",
+          },
         },
         colorSuccess: {
           backgroundColor: "#D0E6D4",
           color: "#057345",
+          ".MuiChip-deleteIcon": {
+            color: "#057345",
+          },
+          "&:hover": {
+            backgroundColor: "#A9C6AF",
+          },
+        },
+        root: {
+          ".MuiChip-deleteIcon": {
+            color: palette.text.primary,
+          },
         },
       },
     },

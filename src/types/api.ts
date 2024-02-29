@@ -926,6 +926,10 @@ export type APISchemas = {
     partition?: string
     identificationCode?: string
     identificationName?: string
+    partioningClosingDate?: string
+    surveyUnitId?: string
+    lastEvent?: string
+    questioningId?: string
     main?: boolean
   }
   SearchContactDto: {
