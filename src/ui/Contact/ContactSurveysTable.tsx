@@ -6,7 +6,6 @@ import {
   TableCell,
   TableContainer,
   TableFooter,
-  TableHead,
   TablePagination,
   TableRow,
 } from "@mui/material";
@@ -17,13 +16,7 @@ import { CollectStateSelect, collectStates } from "./CollectStateSelect";
 import { Row } from "../Row";
 import { CollectStateHistory } from "./CollectStateHistory";
 import { theme } from "../../theme";
-
-interface Column {
-  id: string;
-  label: string;
-  minWidth?: string;
-  format?: (value: number) => string;
-}
+import { Column, TableHeader } from "./AssociateSurveysTable";
 
 const style = {
   root: {
@@ -90,19 +83,7 @@ export const ContactSurveysTable = (props: Props) => {
   return (
     <TableContainer>
       <Table aria-label="surveys table">
-        <TableHead sx={{ backgroundColor: "#EBEFF5" }}>
-          <TableRow sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}>
-            {columns.map(column => (
-              <TableCell
-                key={column.id}
-                style={{ minWidth: column.minWidth }}
-                sx={{ typography: "titleSmall", py: 3 }}
-              >
-                {column.label}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
+        <TableHeader columns={columns} />
         <TableBody>
           {surveys.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(survey => {
             return (
@@ -155,22 +136,12 @@ export const ContactSurveysTable = (props: Props) => {
                     );
                   }
 
-                  if (value === undefined) {
-                    return <TableCell key={column.id}>NO DATA</TableCell>;
-                  }
-
-                  return <TableCell key={column.id}>{value}</TableCell>;
+                  return <TableCell key={column.id}>{value ?? "NO DATA"}</TableCell>;
                 })}
               </TableRow>
             );
           })}
-          {isLoading && (
-            <TableRow>
-              <TableCell align="center" colSpan={columns.length}>
-                <CircularProgress />
-              </TableCell>
-            </TableRow>
-          )}
+          {isLoading && <LoadingCell columnLength={columns.length} />}
         </TableBody>
         <TableFooter>
           <TableRow>
@@ -207,4 +178,14 @@ const getCollectStateChipColor = (state: string) => {
     default:
       return "default";
   }
+};
+
+export const LoadingCell = ({ columnLength }: { columnLength: number }) => {
+  return (
+    <TableRow>
+      <TableCell align="center" colSpan={columnLength}>
+        <CircularProgress />
+      </TableCell>
+    </TableRow>
+  );
 };

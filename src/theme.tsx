@@ -103,6 +103,7 @@ declare module "@mui/material/SvgIcon" {
     tabTitle: true;
     headerSinglePage: true;
     cardTitle: true;
+    smallIcon: true;
   }
   interface SvgIconPropsColorOverrides {
     yellow: true;
@@ -298,6 +299,12 @@ export const theme = createTheme({
             fontSize: 24,
           },
         },
+        {
+          props: { fontSize: "smallIcon" },
+          style: {
+            fontSize: 20,
+          },
+        },
       ],
     },
     MuiTab: {
@@ -445,6 +452,13 @@ export const theme = createTheme({
         colorSuccess: {
           backgroundColor: "#D0E6D4",
           color: "#057345",
+        },
+      },
+    },
+    MuiAlert: {
+      styleOverrides: {
+        standardSuccess: {
+          color: "#2E7D32",
         },
       },
     },
