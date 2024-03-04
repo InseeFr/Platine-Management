@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom";
 type Props = {
   surveyId?: string;
   surveyUnitId?: string;
+  questioningUrl?: string;
 };
 
-export const MoreAction = ({ surveyId, surveyUnitId }: Props) => {
+export const MoreAction = ({ surveyId, surveyUnitId, questioningUrl }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -47,8 +48,12 @@ export const MoreAction = ({ surveyId, surveyUnitId }: Props) => {
         <MenuItem onClick={() => navigate(`/surveys/${surveyId}`)}>
           Consulter la fiche “enquête”
         </MenuItem>
-        {/* Add url */}
-        <MenuItem onClick={() => navigate(`/`)}>Consulter le questionnaire</MenuItem>
+        <MenuItem
+          disabled={questioningUrl === undefined}
+          onClick={() => window.location.replace(questioningUrl!)}
+        >
+          Consulter le questionnaire
+        </MenuItem>
       </Menu>
     </Box>
   );

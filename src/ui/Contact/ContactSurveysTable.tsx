@@ -125,8 +125,11 @@ export const ContactSurveysTable = (props: Props) => {
                         key={`action-${survey.partition}-${survey.identificationName}`}
                         align="center"
                       >
-                        {/* add id when id is in api */}
-                        <MoreAction surveyId={survey.sourceId} surveyUnitId={survey.surveyUnitId} />
+                        <MoreAction
+                          surveyId={survey.surveyId}
+                          surveyUnitId={survey.surveyUnitId}
+                          questioningUrl={survey.questioningUrl}
+                        />
                       </TableCell>
                     );
                   }

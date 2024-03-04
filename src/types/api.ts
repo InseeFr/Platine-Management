@@ -931,6 +931,8 @@ export type APISchemas = {
     lastEvent?: string
     questioningId?: string
     main?: boolean
+    surveyId?: string
+    questioningUrl?: string
   }
   SearchContactDto: {
     identifier?: string
