@@ -13,7 +13,7 @@ import { APISchemas } from "../../types/api";
 import { Column, TableHeader } from "./AssociateSurveysTable";
 import { ContactSurveysTableRow } from "./ContactSurveysTableRow";
 
-const style = {
+export const style = {
   root: {
     ".MuiTablePagination-displayedRows": {
       typography: "bodySmall",
