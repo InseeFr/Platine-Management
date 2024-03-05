@@ -58,7 +58,11 @@ const schema = z.object({
   firstName: z.string().min(3),
   function: z.string().optional(),
   email: z.string().email(),
-  phone: z.string().optional().or(z.literal("")),
+  phone: z
+    .string()
+    .nullable()
+    .transform(val => (val === null ? "" : val))
+    .optional(),
   secondPhone: z.string().optional().or(z.literal("")),
   identificationName: z.string().optional(),
   address: addressSchema,

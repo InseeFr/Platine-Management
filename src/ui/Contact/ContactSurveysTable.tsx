@@ -19,6 +19,7 @@ import { theme } from "../../theme";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Column, TableHeader } from "./AssociateSurveysTable";
 import { useToggle } from "react-use";
+import { useFetchMutation } from "../../hooks/useFetchQuery";
 
 const style = {
   root: {
@@ -59,6 +60,8 @@ export const ContactSurveysTable = (props: Props) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [openCollectStateHistory, toggle] = useToggle(false);
 
+  const { mutateAsync } = useFetchMutation("/api/questionings/questioning-events", "post");
+
   const handleChangePage = (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
   };
@@ -68,9 +71,20 @@ export const ContactSurveysTable = (props: Props) => {
     setPage(0);
   };
 
-  const onSelectCollectState = (value: string) => {
-    console.log(value);
-    // add new state
+  const onSelectCollectState = async (type: string, questioningId?: string) => {
+    if (questioningId) {
+      await mutateAsync({
+        query: {
+          id: parseInt(questioningId),
+        },
+        body: {
+          questioningId: parseInt(questioningId),
+          eventDate: new Date().toISOString(),
+          type,
+          payload: { "source": "platine-gestion" },
+        },
+      });
+    }
   };
 
   return (
@@ -113,7 +127,11 @@ export const ContactSurveysTable = (props: Props) => {
                               surveyName={survey.partition ?? ""}
                             />
                           )}
-                          <CollectStateSelect onSelect={onSelectCollectState} />
+                          <CollectStateSelect
+                            onSelect={(value: string) =>
+                              onSelectCollectState(value, survey.questioningId)
+                            }
+                          />
                         </Row>
                       </TableCell>
                     );

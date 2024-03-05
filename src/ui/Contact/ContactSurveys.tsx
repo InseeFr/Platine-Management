@@ -22,7 +22,7 @@ type Props = {
 export const ContactSurveysContent = ({ contact }: Props) => {
   const [role, setRole] = useState<string>("tous");
   const [state, setState] = useState<string>();
-  const [search, setSearch] = useDebouncedState("");
+  const [search, setSearch] = useDebouncedState("", 500);
   const [isFilteredOpened, setIsFilteredOpened] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,18 +31,17 @@ export const ContactSurveysContent = ({ contact }: Props) => {
 
   const { data: surveys } = useFetchQuery("/api/contacts/{id}/accreditations", {
     urlParams: {
-      id: contact.identifier!,
+      id: contact.identifier,
     },
     query: {
       isFilteredOpened,
-      search,
     },
   });
 
   const [filteredSurveys, setFilteredSurveys] = useState(surveys ?? []);
 
   useEffect(() => {
-    let filteredSurveysTmp = surveys ?? [];
+    let filteredSurveysTmp: Array<APISchemas["AccreditationDetailDto"]> = surveys ?? [];
 
     if (role !== "tous") {
       filteredSurveysTmp =
@@ -52,6 +51,14 @@ export const ContactSurveysContent = ({ contact }: Props) => {
     }
 
     state && (filteredSurveysTmp = filteredSurveysTmp.filter(s => s.lastEvent === state));
+
+    if (search && search !== "")
+      filteredSurveysTmp = filteredSurveysTmp.filter(
+        item =>
+          item.year?.toString().includes(search) ||
+          item.surveyUnitId?.toLocaleLowerCase().includes(search.toLowerCase()) ||
+          item.sourceWording?.toLocaleLowerCase().includes(search.toLowerCase()),
+      );
 
     setFilteredSurveys(filteredSurveysTmp);
   }, [role, state, search, surveys]);

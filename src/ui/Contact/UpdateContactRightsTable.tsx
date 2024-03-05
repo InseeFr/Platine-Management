@@ -5,9 +5,14 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Box from "@mui/system/Box";
-import { UpdateContactRightsActions } from "./UpdateContactRightsActions";
 import { Column, TableHeader } from "./AssociateSurveysTable";
 import { APISchemas } from "../../types/api";
+import { Row } from "../Row";
+import IconButton from "@mui/material/IconButton";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import { mockedDataSurveyType } from "./ContactRightsEditDialog";
+import useToggle from "react-use/lib/useToggle";
 
 // TODO: use real ids
 const columns: readonly Column[] = [
@@ -18,12 +23,12 @@ const columns: readonly Column[] = [
   { id: "surveyUnit", label: "Unités enquêtées", minWidth: "155px" },
 
   { id: "identificationName", label: "Raison sociale", minWidth: "280px" },
-  { id: "role", label: "Rôle", minWidth: "135px" },
+  { id: "main", label: "Rôle", minWidth: "135px" },
   { id: "action", label: "Actions", minWidth: "150px", align: "center" },
 ];
 
 // TODO: remove mocks
-const mockedData = [
+export const mockedData = [
   {
     source: "Source 1",
     year: "2018",
@@ -31,7 +36,7 @@ const mockedData = [
     vague: "01",
     surveyUnit: "300000000",
     identificationName: "la raison sociale",
-    role: "Principal",
+    main: true,
     secondaryContacts: [],
   },
   {
@@ -41,7 +46,7 @@ const mockedData = [
     vague: "02",
     surveyUnit: "000000000",
     identificationName: "la raison sociale",
-    role: "Secondaire",
+    main: false,
     secondaryContacts: [],
   },
   {
@@ -51,7 +56,7 @@ const mockedData = [
     vague: "03",
     surveyUnit: "000000001",
     identificationName: "la raison sociale",
-    role: "Principal",
+    main: true,
     secondaryContacts: [
       {
         identifier: "#MG01235",
@@ -69,9 +74,18 @@ const mockedData = [
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
+  onAction: (v: {
+    type: "delete" | "edit";
+    contact: APISchemas["ContactFirstLoginDto"];
+    survey: mockedDataSurveyType;
+    open: boolean;
+    toggle: () => void;
+  }) => void;
 };
 
-export const UpdateContactRightsTable = ({ contact }: Props) => {
+export const UpdateContactRightsTable = ({ contact, onAction }: Props) => {
+  const [openDelete, toggleDelete] = useToggle(false);
+  const [openEdit, toggleEdit] = useToggle(false);
   return (
     <Box>
       <TableContainer sx={{ py: 4 }}>
@@ -92,22 +106,70 @@ export const UpdateContactRightsTable = ({ contact }: Props) => {
                     if (column.id === "action") {
                       return (
                         <TableCell key={`action-${data.source}`}>
-                          <UpdateContactRightsActions
-                            role={data.role}
-                            secondaryContacts={data.secondaryContacts ?? []}
-                            source={data.source}
-                            contact={contact}
-                            primaryContact={
-                              data.role === "Principal"
-                                ? contact
-                                : {
-                                    identifier: "UI541",
-                                  }
-                            }
-                          />
+                          <Row justifyContent={"center"}>
+                            <Row width={"fit-content"} gap={1}>
+                              <IconButton
+                                aria-label="modify"
+                                color={"inherit"}
+                                onClick={() => {
+                                  toggleEdit();
+                                  onAction({
+                                    type: "edit",
+                                    contact,
+                                    survey: data,
+                                    open: openEdit,
+                                    toggle: toggleEdit,
+                                  });
+                                }}
+                              >
+                                <BorderColorOutlinedIcon />
+                              </IconButton>
+                              <IconButton
+                                aria-label="delete"
+                                color={"inherit"}
+                                onClick={() => {
+                                  toggleDelete();
+                                  onAction({
+                                    type: "delete",
+                                    contact,
+                                    survey: data,
+                                    open: openDelete,
+                                    toggle: toggleDelete,
+                                  });
+                                }}
+                              >
+                                <DeleteOutlinedIcon />
+                              </IconButton>
+                            </Row>
+                          </Row>
+                          {/* {getDialog()} */}
                         </TableCell>
                       );
                     }
+
+                    if (column.id === "main") {
+                      return (
+                        <TableCell key={column.id}>
+                          {value === true ? "Principal" : "Secondaire"}
+                        </TableCell>
+                      );
+                    }
+
+                    // return (
+                    //   <TableCell key={`action-${data.source}`}>
+                    //     <UpdateContactRightsActions
+                    //       role={data.role}
+                    //       secondaryContacts={data.secondaryContacts ?? []}
+                    //       source={data.source}
+                    //       contact={contact}
+                    //       primaryContact={
+                    //         data.role === "Principal"
+                    //           ? contact
+                    //           : {
+                    //               identifier: "UI541",
+                    //             }
+                    //       }
+                    //     />
 
                     return (
                       <TableCell key={column.id}>
