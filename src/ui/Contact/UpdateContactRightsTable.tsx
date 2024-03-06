@@ -6,13 +6,11 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Box from "@mui/system/Box";
 import { Column, TableHeader } from "./AssociateSurveysTable";
-import { APISchemas } from "../../types/api";
 import { Row } from "../Row";
 import IconButton from "@mui/material/IconButton";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { mockedDataSurveyType } from "./ContactRightsEditDialog";
-import useToggle from "react-use/lib/useToggle";
 
 // TODO: use real ids
 const columns: readonly Column[] = [
@@ -73,19 +71,10 @@ export const mockedData = [
 ];
 
 type Props = {
-  contact: APISchemas["ContactFirstLoginDto"];
-  onAction: (v: {
-    type: "delete" | "edit";
-    contact: APISchemas["ContactFirstLoginDto"];
-    survey: mockedDataSurveyType;
-    open: boolean;
-    toggle: () => void;
-  }) => void;
+  onAction: (v: { type: "delete" | "edit"; survey: mockedDataSurveyType }) => void;
 };
 
-export const UpdateContactRightsTable = ({ contact, onAction }: Props) => {
-  const [openDelete, toggleDelete] = useToggle(false);
-  const [openEdit, toggleEdit] = useToggle(false);
+export const UpdateContactRightsTable = ({ onAction }: Props) => {
   return (
     <Box>
       <TableContainer sx={{ py: 4 }}>
@@ -112,13 +101,9 @@ export const UpdateContactRightsTable = ({ contact, onAction }: Props) => {
                                 aria-label="modify"
                                 color={"inherit"}
                                 onClick={() => {
-                                  toggleEdit();
                                   onAction({
                                     type: "edit",
-                                    contact,
                                     survey: data,
-                                    open: openEdit,
-                                    toggle: toggleEdit,
                                   });
                                 }}
                               >
@@ -128,13 +113,9 @@ export const UpdateContactRightsTable = ({ contact, onAction }: Props) => {
                                 aria-label="delete"
                                 color={"inherit"}
                                 onClick={() => {
-                                  toggleDelete();
                                   onAction({
                                     type: "delete",
-                                    contact,
                                     survey: data,
-                                    open: openDelete,
-                                    toggle: toggleDelete,
                                   });
                                 }}
                               >
@@ -142,7 +123,6 @@ export const UpdateContactRightsTable = ({ contact, onAction }: Props) => {
                               </IconButton>
                             </Row>
                           </Row>
-                          {/* {getDialog()} */}
                         </TableCell>
                       );
                     }
@@ -154,22 +134,6 @@ export const UpdateContactRightsTable = ({ contact, onAction }: Props) => {
                         </TableCell>
                       );
                     }
-
-                    // return (
-                    //   <TableCell key={`action-${data.source}`}>
-                    //     <UpdateContactRightsActions
-                    //       role={data.role}
-                    //       secondaryContacts={data.secondaryContacts ?? []}
-                    //       source={data.source}
-                    //       contact={contact}
-                    //       primaryContact={
-                    //         data.role === "Principal"
-                    //           ? contact
-                    //           : {
-                    //               identifier: "UI541",
-                    //             }
-                    //       }
-                    //     />
 
                     return (
                       <TableCell key={column.id}>

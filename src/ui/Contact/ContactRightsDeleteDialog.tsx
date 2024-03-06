@@ -6,7 +6,7 @@ import {
 } from "./ContactRightsDialogs";
 import { DialogProps } from "./ContactRightsEditDialog";
 
-export const ContactRightsDeleteDialog = ({ survey, contact, onAlert, open, toggle }: DialogProps) => {
+export const ContactRightsDeleteDialog = ({ survey, contact, onAlert, onClose }: DialogProps) => {
   const navigate = useNavigate();
 
   const onDeletePrimaryContact = (selectedContact: string) => {
@@ -16,14 +16,22 @@ export const ContactRightsDeleteDialog = ({ survey, contact, onAlert, open, togg
   };
 
   if (survey.main === false) {
-    return <DeleteSecondaryContactRightsDialog source={survey.source} open={open} toggle={toggle} />;
+    return (
+      <DeleteSecondaryContactRightsDialog
+        contactIdentifier={contact.identifier}
+        source={survey.source}
+        open
+        onClose={onClose}
+        onAlert={onAlert}
+      />
+    );
   }
   return survey.secondaryContacts.length === 0 ? (
-    <DeletePrimaryWithoutSecondaryDialog open={open} toggle={toggle} />
+    <DeletePrimaryWithoutSecondaryDialog open onClose={onClose} />
   ) : (
     <PrimaryContactRightsDialog
-      open={open}
-      toggle={toggle}
+      open
+      onClose={onClose}
       type="delete"
       secondaryContacts={survey.secondaryContacts}
       contactIdentifier={contact.identifier}

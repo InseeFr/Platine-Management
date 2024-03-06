@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import { UpdateContactRightsTable } from "./UpdateContactRightsTable";
 import { ContactRightsEditDialog, mockedDataSurveyType } from "./ContactRightsEditDialog";
 import { ContactRightsDeleteDialog } from "./ContactRightsDeleteDialog";
+import { Alert } from "../Alert";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
@@ -20,13 +21,13 @@ type Props = {
 export const RightsManagement = ({ contact }: Props) => {
   const [dialog, setDialog] = useState<{
     type: string;
-    contact: APISchemas["ContactFirstLoginDto"];
     survey: mockedDataSurveyType;
-    open: boolean;
-    toggle: () => void;
   }>();
-  const [message, setMessage] = useState<{ type: string; content: unknown }>();
-  console.log({ dialog });
+  const [message, setMessage] = useState<{ type: string; content: string }>();
+  const dismissDialog = () => {
+    setDialog(undefined);
+  };
+
   return (
     <Stack spacing={2}>
       <Card sx={{ mx: 2, px: 6, py: 3 }} elevation={2}>
@@ -50,25 +51,25 @@ export const RightsManagement = ({ contact }: Props) => {
             ou un autre contact de l‘enquête peut devenir principal
           </Typography>
         </Row>
-
-        <UpdateContactRightsTable contact={contact} onAction={setDialog} />
+        {message && (
+          <Alert type={message?.type} content={message.content} onClose={() => setMessage(undefined)} />
+        )}
+        <UpdateContactRightsTable onAction={setDialog} />
 
         {dialog?.type === "edit" && (
           <ContactRightsEditDialog
-            contact={dialog.contact}
+            contact={contact}
             onAlert={setMessage}
             survey={dialog.survey}
-            open={dialog.open}
-            toggle={dialog.toggle}
+            onClose={dismissDialog}
           />
         )}
         {dialog?.type === "delete" && (
           <ContactRightsDeleteDialog
-            contact={dialog.contact}
+            contact={contact}
             onAlert={setMessage}
             survey={dialog.survey}
-            open={dialog.open}
-            toggle={dialog.toggle}
+            onClose={dismissDialog}
           />
         )}
       </Card>

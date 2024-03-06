@@ -22,20 +22,11 @@ export type mockedDataSurveyType = {
 export type DialogProps = {
   contact: APISchemas["ContactFirstLoginDto"];
   survey: mockedDataSurveyType;
-  onAlert: React.Dispatch<
-    React.SetStateAction<
-      | {
-          type: string;
-          content: unknown;
-        }
-      | undefined
-    >
-  >;
-  open: boolean;
-  toggle: () => void;
+  onAlert: (message: { type: string; content: string }) => void;
+  onClose: () => void;
 };
 
-export const ContactRightsEditDialog = ({ survey, contact, onAlert, open, toggle }: DialogProps) => {
+export const ContactRightsEditDialog = ({ survey, contact, onAlert, onClose }: DialogProps) => {
   const navigate = useNavigate();
 
   const onEditPrimaryContact = (selectedContact: string) => {
@@ -48,19 +39,20 @@ export const ContactRightsEditDialog = ({ survey, contact, onAlert, open, toggle
   if (survey.main === false) {
     return (
       <EditSecondaryToPrimaryDialog
-        open={open}
-        toggle={toggle}
+        open
+        onClose={onClose}
         contactIdentifier={contact.identifier}
         primaryContactIdentifier={survey.primaryContact?.identifier}
+        onAlert={onAlert}
       />
     );
   }
   return survey.secondaryContacts.length === 0 ? (
-    <EditPrimaryWithoutSecondaryDialog open={open} toggle={toggle} />
+    <EditPrimaryWithoutSecondaryDialog open onClose={onClose} />
   ) : (
     <PrimaryContactRightsDialog
-      open={open}
-      toggle={toggle}
+      open
+      onClose={onClose}
       secondaryContacts={survey.secondaryContacts}
       contactIdentifier={contact.identifier}
       onChangePrimaryContact={onEditPrimaryContact}

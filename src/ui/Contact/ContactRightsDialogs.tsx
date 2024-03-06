@@ -8,27 +8,38 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import { APISchemas } from "../../types/api";
-import { useAlertMessage } from "./AlertMessageContext";
 
 export type CommonContactRightsProps = {
   open: boolean;
-  toggle: () => void;
+  onClose: () => void;
+  onAlert?: (message: { type: string; content: string }) => void;
 };
 
 type DeleteSecondaryContactRightsProps = CommonContactRightsProps & {
   source: string;
+  contactIdentifier: string;
 };
 
 export const DeleteSecondaryContactRightsDialog = ({
   open,
   source,
+  contactIdentifier,
+  onAlert,
+  onClose,
 }: DeleteSecondaryContactRightsProps) => {
-  const onDelete = () => {};
+  const onDelete = () => {
+    onAlert &&
+      onAlert({
+        type: "success",
+        content: `Le contact ${contactIdentifier} a perdu son droit de répondre à la source ${source}`,
+      });
+    onClose();
+  };
 
   return (
     <FormDialog
       open={open}
-      onCancel={() => {}}
+      onCancel={onClose}
       onSubmit={() => {
         onDelete();
       }}
@@ -43,17 +54,18 @@ export const DeleteSecondaryContactRightsDialog = ({
   );
 };
 
-export const DeletePrimaryWithoutSecondaryDialog = ({ open }: CommonContactRightsProps) => {
+export const DeletePrimaryWithoutSecondaryDialog = ({ open, onClose }: CommonContactRightsProps) => {
   const navigate = useNavigate();
 
   const goToCreateContactForm = () => {
+    onClose();
     navigate("/contacts/createContact");
   };
 
   return (
     <FormDialog
       open={open}
-      onCancel={() => {}}
+      onCancel={onClose}
       onSubmit={() => {
         goToCreateContactForm();
       }}
@@ -84,6 +96,7 @@ export const PrimaryContactRightsDialog = ({
   type = "edit",
   contactIdentifier,
   onChangePrimaryContact,
+  onClose,
 }: PrimaryContactRightsProps) => {
   const [selectedContact, setSelectedContact] = useState("");
 
@@ -93,6 +106,7 @@ export const PrimaryContactRightsDialog = ({
 
   const onSubmit = (selectedContact: string) => {
     onChangePrimaryContact(selectedContact);
+    onClose();
   };
 
   return (
@@ -100,6 +114,7 @@ export const PrimaryContactRightsDialog = ({
       open={open}
       onCancel={() => {
         setSelectedContact("");
+        onClose();
       }}
       onSubmit={() => {
         onSubmit(selectedContact);
@@ -164,21 +179,26 @@ type EditSecondaryToPrimaryProps = CommonContactRightsProps & {
 
 export const EditSecondaryToPrimaryDialog = ({
   open,
+  onClose,
+  onAlert,
   contactIdentifier,
   primaryContactIdentifier,
-  toggle,
 }: EditSecondaryToPrimaryProps) => {
-  const { setMessage } = useAlertMessage();
   const onEdit: FormEventHandler = e => {
     e.preventDefault();
-    toggle();
-    setMessage({ type: "error", content: "Tout cest bien passé" });
+    onClose();
+
+    onAlert &&
+      onAlert({
+        type: "success",
+        content: `Le contact ${contactIdentifier} a bien été défini comme contact principal`,
+      });
   };
 
   return (
     <FormDialog
       open={open}
-      onCancel={toggle}
+      onCancel={onClose}
       onSubmit={onEdit}
       title={"Modifier en contact principal"}
       submitButtonLabel="Modifier"
@@ -196,19 +216,19 @@ export const EditSecondaryToPrimaryDialog = ({
   );
 };
 
-export const EditPrimaryWithoutSecondaryDialog = ({ open }: CommonContactRightsProps) => {
+export const EditPrimaryWithoutSecondaryDialog = ({ open, onClose }: CommonContactRightsProps) => {
   const navigate = useNavigate();
 
   const goToCreateContactForm: FormEventHandler = e => {
     e.preventDefault();
-
+    onClose();
     navigate("/contacts/createContact");
   };
 
   return (
     <FormDialog
       open={open}
-      onCancel={() => {}}
+      onCancel={onClose}
       onSubmit={goToCreateContactForm}
       title={"Modifier en contact secondaire"}
       submitButtonLabel="Créer un contact"
