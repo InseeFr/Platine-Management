@@ -3,7 +3,7 @@ import { Row } from "../Row";
 import { TitleWithIconAndDivider } from "../TitleWithIconAndDivider";
 import { BinocularIcon } from "../Icon/BinocularIcon";
 import { ContactSurveysFilterSelect } from "./ContactSurveysFilterSelect";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import TextField from "@mui/material/TextField";
@@ -14,22 +14,19 @@ import { APISchemas } from "../../types/api";
 import { useFetchQuery } from "../../hooks/useFetchQuery";
 import { useDebouncedState } from "../../hooks/useDebouncedState.ts";
 import { collectStates } from "./CollectStateSelect.tsx";
+import { useToggle } from "react-use";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
 };
 
 export const ContactSurveysContent = ({ contact }: Props) => {
-  const [role, setRole] = useState<string>("tous");
-  const [state, setState] = useState<string>();
+  const [role, setRole] = useState("tous");
+  const [state, setState] = useState("");
   const [search, setSearch] = useDebouncedState("", 500);
-  const [isFilteredOpened, setIsFilteredOpened] = useState(false);
+  const [isFilteredOpened, toggle] = useToggle(false);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-  };
-
-  const { data: surveys } = useFetchQuery("/api/contacts/{id}/accreditations", {
+  const { data: surveys, refetch } = useFetchQuery("/api/contacts/{id}/accreditations", {
     urlParams: {
       id: contact.identifier,
     },
@@ -38,30 +35,7 @@ export const ContactSurveysContent = ({ contact }: Props) => {
     },
   });
 
-  const [filteredSurveys, setFilteredSurveys] = useState(surveys ?? []);
-
-  useEffect(() => {
-    let filteredSurveysTmp: Array<APISchemas["AccreditationDetailDto"]> = surveys ?? [];
-
-    if (role !== "tous") {
-      filteredSurveysTmp =
-        role === "primary"
-          ? filteredSurveysTmp.filter(s => s.main === true)
-          : filteredSurveysTmp.filter(s => s.main === false);
-    }
-
-    state && (filteredSurveysTmp = filteredSurveysTmp.filter(s => s.lastEvent === state));
-
-    if (search && search !== "")
-      filteredSurveysTmp = filteredSurveysTmp.filter(
-        item =>
-          item.year?.toString().includes(search) ||
-          item.surveyUnitId?.toLocaleLowerCase().includes(search.toLowerCase()) ||
-          item.sourceWording?.toLocaleLowerCase().includes(search.toLowerCase()),
-      );
-
-    setFilteredSurveys(filteredSurveysTmp);
-  }, [role, state, search, surveys]);
+  const filteredSurveys = filterSurveys(surveys ?? [], { search, role, state });
 
   return (
     <Card sx={{ mx: 2, px: 6, py: 3 }} elevation={2}>
@@ -103,14 +77,10 @@ export const ContactSurveysContent = ({ contact }: Props) => {
             placeholder="Saisissez votre recherche"
             variant="outlined"
             size="small"
-            onChange={handleChange}
+            onChange={e => setSearch(e.target.value)}
           />
         </Row>
-        <ToggleButtonGroup
-          value={isFilteredOpened}
-          exclusive
-          onChange={(_, v) => setIsFilteredOpened(v)}
-        >
+        <ToggleButtonGroup value={isFilteredOpened} exclusive onChange={(_, v) => toggle(v)}>
           <ToggleButton value={false} aria-label="left aligned">
             En cours
           </ToggleButton>
@@ -120,7 +90,31 @@ export const ContactSurveysContent = ({ contact }: Props) => {
         </ToggleButtonGroup>
       </Row>
 
-      <ContactSurveysTable surveys={filteredSurveys} />
+      <ContactSurveysTable surveys={filteredSurveys} onSelectState={refetch} />
     </Card>
   );
 };
+
+function filterSurveys(
+  surveys: Array<APISchemas["AccreditationDetailDto"]>,
+  { search, role, state }: { search?: string; role?: string; state?: string },
+) {
+  if (role !== "tous") {
+    surveys =
+      role === "primary" ? surveys.filter(s => s.main === true) : surveys.filter(s => s.main === false);
+  }
+
+  if (state) {
+    surveys = surveys.filter(s => s.lastEvent === state);
+  }
+
+  if (search) {
+    surveys = surveys.filter(
+      item =>
+        item.year?.toString().includes(search) ||
+        item.surveyUnitId?.toLocaleLowerCase().includes(search.toLowerCase()) ||
+        item.sourceWording?.toLocaleLowerCase().includes(search.toLowerCase()),
+    );
+  }
+  return surveys;
+}

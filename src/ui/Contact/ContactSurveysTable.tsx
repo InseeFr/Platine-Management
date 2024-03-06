@@ -1,5 +1,4 @@
 import {
-  Chip,
   CircularProgress,
   Table,
   TableBody,
@@ -10,16 +9,9 @@ import {
   TableRow,
 } from "@mui/material";
 import { useState } from "react";
-import { MoreAction } from "./MoreActions";
 import { APISchemas } from "../../types/api";
-import { CollectStateSelect, collectStates } from "./CollectStateSelect";
-import { Row } from "../Row";
-import { CollectStateHistory } from "./CollectStateHistory";
-import { theme } from "../../theme";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Column, TableHeader } from "./AssociateSurveysTable";
-import { useToggle } from "react-use";
-import { useFetchMutation } from "../../hooks/useFetchQuery";
+import { ContactSurveysTableRow } from "./ContactSurveysTableRow";
 
 const style = {
   root: {
@@ -36,7 +28,7 @@ const style = {
   },
 };
 
-const columns: readonly Column[] = [
+export const columns: readonly Column[] = [
   { id: "lastEvent", label: "Etat de la collecte", minWidth: "330px" },
   { id: "sourceWording", label: "Nom enquête", minWidth: "95px" },
   { id: "year", label: "Millésime", minWidth: "95px" },
@@ -50,6 +42,7 @@ const columns: readonly Column[] = [
 
 type Props = {
   surveys?: APISchemas["AccreditationDetailDto"][];
+  onSelectState: () => void;
 };
 
 export const ContactSurveysTable = (props: Props) => {
@@ -58,9 +51,6 @@ export const ContactSurveysTable = (props: Props) => {
   const isLoading = props.surveys === undefined;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [openCollectStateHistory, toggle] = useToggle(false);
-
-  const { mutateAsync } = useFetchMutation("/api/questionings/questioning-events", "post");
 
   const handleChangePage = (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -71,22 +61,6 @@ export const ContactSurveysTable = (props: Props) => {
     setPage(0);
   };
 
-  const onSelectCollectState = async (type: string, questioningId?: string) => {
-    if (questioningId) {
-      await mutateAsync({
-        query: {
-          id: parseInt(questioningId),
-        },
-        body: {
-          questioningId: parseInt(questioningId),
-          eventDate: new Date().toISOString(),
-          type,
-          payload: { "source": "platine-gestion" },
-        },
-      });
-    }
-  };
-
   return (
     <TableContainer>
       <Table aria-label="surveys table">
@@ -94,83 +68,11 @@ export const ContactSurveysTable = (props: Props) => {
         <TableBody>
           {surveys.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(survey => {
             return (
-              <TableRow
-                hover
-                tabIndex={-1}
-                key={`row-${survey.partition}-${survey.identificationName}`}
-                sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}
-              >
-                {columns.map(column => {
-                  const value = survey[column.id as keyof typeof survey];
-
-                  if (column.id === "lastEvent") {
-                    return (
-                      <TableCell key={`state-${survey.partition}-${survey.identificationName}`}>
-                        <Row spacing={1}>
-                          <Chip
-                            sx={{
-                              typography: "titleSmall",
-                              maxWidth: "300px",
-                              textOverflow: "ellipsis",
-                            }}
-                            label={collectStates.find(state => state.value === value)?.label}
-                            onClick={toggle}
-                            color={getCollectStateChipColor(value as string)}
-                            onDelete={toggle}
-                            deleteIcon={<ArrowDropDownIcon />}
-                          />
-                          {survey.questioningId && (
-                            <CollectStateHistory
-                              onClose={toggle}
-                              open={openCollectStateHistory}
-                              questioningId={survey.questioningId}
-                              surveyName={survey.partition ?? ""}
-                            />
-                          )}
-                          <CollectStateSelect
-                            onSelect={(value: string) =>
-                              onSelectCollectState(value, survey.questioningId)
-                            }
-                          />
-                        </Row>
-                      </TableCell>
-                    );
-                  }
-
-                  if (column.id === "actions") {
-                    return (
-                      <TableCell
-                        key={`action-${survey.partition}-${survey.identificationName}`}
-                        align="center"
-                      >
-                        <MoreAction
-                          surveyId={survey.surveyId}
-                          surveyUnitId={survey.surveyUnitId}
-                          questioningUrl={survey.questioningUrl}
-                        />
-                      </TableCell>
-                    );
-                  }
-
-                  if (column.id === "main") {
-                    return (
-                      <TableCell key={column.id}>
-                        {value === true ? "Principal" : "Secondaire"}
-                      </TableCell>
-                    );
-                  }
-
-                  if (column.id === "partioningClosingDate") {
-                    return (
-                      <TableCell key={column.id}>
-                        {new Date(Date.parse(value as string)).toLocaleDateString()}
-                      </TableCell>
-                    );
-                  }
-
-                  return <TableCell key={column.id}>{value}</TableCell>;
-                })}
-              </TableRow>
+              <ContactSurveysTableRow
+                survey={survey}
+                key={`survey-${survey.partition}-${survey.identificationName}`}
+                onSelectState={props.onSelectState}
+              />
             );
           })}
           {isLoading && <LoadingCell columnLength={columns.length} />}
@@ -197,19 +99,6 @@ export const ContactSurveysTable = (props: Props) => {
       </Table>
     </TableContainer>
   );
-};
-
-const getCollectStateChipColor = (state?: string) => {
-  switch (state) {
-    case "PND":
-    case "PARTIELINT":
-      return "error";
-    case "VALINT":
-    case "VALPAP":
-      return "success";
-    default:
-      return "default";
-  }
 };
 
 export const LoadingCell = ({ columnLength }: { columnLength: number }) => {

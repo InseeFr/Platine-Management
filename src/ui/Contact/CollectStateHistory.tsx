@@ -31,6 +31,8 @@ export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }
     );
   }
 
+  const sortedStates = states.sort((a, b) => a.eventDate!.localeCompare(b.eventDate!));
+
   return (
     <Dialog onClose={onClose} open={open}>
       <DialogTitle>Historique {surveyName} </DialogTitle>
@@ -50,7 +52,7 @@ export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }
               </TableRow>
             </TableHead>
             <TableBody>
-              {states.map(state => {
+              {sortedStates.map(state => {
                 const date =
                   state.eventDate && new Date(Date.parse(state.eventDate)).toLocaleDateString();
                 const hour =
