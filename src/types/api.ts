@@ -975,6 +975,23 @@ export type APISchemas = {
     numberOfElements?: number
     empty?: boolean
   }
+  SurveyUnitContact: {
+    identifier: string,
+    firstName?:string,
+    lastName?: string,
+    city?:string,
+    email?: string,
+    listSourcesId?: string[],
+    phoneNumber?: string
+  }
+  SurveyUnitPartitioning: {
+    sourceWording?: string,
+    year?: number,
+    period?: string,
+    campaignWording?: string,
+    partitioningClosingDate?: string,
+    lastEvent?: string,
+  }
 }
 
 export type APIEndpoints = {
@@ -1307,8 +1324,33 @@ export type APIEndpoints = {
       }
     }
   }
+  "/api/survey-units/search": {
+    responses: { get: APISchemas["SurveyUnitPage"] }
+    requests: {
+      method?: "get"
+      query?: {
+        idSu?: string
+        /* Format: int32 */
+        identificationCode?: string
+        identificationName?: string
+        /* Format: int32 */
+        page?: number
+        /* Format: int32 */
+        size?: number
+        sort?: string
+      }
+    }
+  }
   "/api/survey-units/{id}/questionings": {
     responses: { get: Array<APISchemas["QuestioningDto"]> }
+    requests: { method?: "get"; urlParams: { id: string } }
+  }
+  "/api/survey-units/{id}/contacts": {
+    responses: {get: Array<APISchemas["SurveyUnitContact"]>}
+    requests: { method?: "get"; urlParams: { id: string } }
+  }
+  "/api/survey-units/{id}/partitionings": {
+    responses: {get: Array<APISchemas["SurveyUnitPartitioning"]>}
     requests: { method?: "get"; urlParams: { id: string } }
   }
   "/api/supports": {

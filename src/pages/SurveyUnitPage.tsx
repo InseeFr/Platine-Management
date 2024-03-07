@@ -70,8 +70,8 @@ export function SurveyUnitPage() {
       <Stack px={3} py={3}>
         <Breadcrumbs items={breadcrumbs} />
         {currentTab === Tab.Infos && <SurveyUnitInfos surveyUnit={su} onSave={refetch} />}
-        {currentTab === Tab.Contacts && <SurveyUnitContacts />}
-        {currentTab === Tab.Surveys && <SurveyUnitSurveys />}
+        {currentTab === Tab.Contacts && <SurveyUnitContacts surveyUnit={su} />}
+        {currentTab === Tab.Surveys && <SurveyUnitSurveys surveyUnit={su} />}
       </Stack>
     </>
   );

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Row } from "../Row";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
-import { Box, Button, Card, CardActionArea, Grid, Typography } from "@mui/material";
+import { Box, Button, Card, CardActionArea, CircularProgress, Grid, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { TextWithLeftIcon } from "../TextWithLeftIcon";
@@ -12,34 +12,31 @@ import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import EmailIcon from "@mui/icons-material/Email";
 import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import EditIcon from "@mui/icons-material/Edit";
+import { useFetchQuery } from "../../hooks/useFetchQuery";
+import { APISchemas } from "../../types/api";
 
-// TODO: remove mock
-const contacts = [
-  {
-    identifier: "identifier",
-    firstName: "prenom",
-    lastName: "nom",
-    cityName: "ville",
-    phone: "0123456789",
-    email: "nom.prenom@gmail.com",
-    surveys: ["enquête 1", "enquête 2"],
-    role: "primary",
-  },
-  {
-    identifier: "identifier",
-    firstName: "prenom",
-    lastName: "nom",
-    cityName: "ville",
-    phone: "0123456789",
-    email: "nom.prenom@gmail.com",
-    surveys: ["enquête 1", "enquête 2"],
-    role: "secondary",
-  },
-];
+type Props = {
+  surveyUnit: APISchemas["SurveyUnitDto"];
+};
 
-export const SurveyUnitContacts = () => {
+export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
   const navigate = useNavigate();
   const [tab, setTab] = useState("me");
+
+  const { data: contacts } = useFetchQuery("/api/survey-units/{id}/contacts", {
+    urlParams: {
+      id: surveyUnit.idSu,
+    },
+  });
+
+  if (!contacts) {
+    return (
+      <Row justifyContent="center" py={10}>
+        <CircularProgress />
+      </Row>
+    );
+  }
+
   return (
     <Box>
       <Stack spacing={4} sx={{ minHeight: 0, px: 3, py: 1 }}>
@@ -62,8 +59,8 @@ export const SurveyUnitContacts = () => {
           columnGap={5}
           rowGap={6}
         >
-          {contacts.map((c, index) => (
-            <div key={index}>
+          {contacts.map(c => (
+            <div key={c.identifier}>
               <SurveyUnitContactCard contact={c} />
             </div>
           ))}
@@ -110,17 +107,17 @@ const SurveyUnitContactCard = ({ contact }: any) => {
             </Row>
 
             <Stack spacing={0.5} color="text.secondary">
-              <TextWithLeftIcon IconComponent={LocationOnIcon} text={contact.cityName} />
-              <TextWithLeftIcon IconComponent={LocalPhoneOutlinedIcon} text={contact.phone} />
+              <TextWithLeftIcon IconComponent={LocationOnIcon} text={contact.city} />
+              <TextWithLeftIcon IconComponent={LocalPhoneOutlinedIcon} text={contact.phoneNumber} />
               <TextWithLeftIcon IconComponent={EmailIcon} text={contact.email} />
             </Stack>
             <Typography color={"text.tertiary"} variant="titleSmall">
-              {contact.surveys?.join(", ")}
+              {contact.listSourcesId?.join(", ")}
             </Typography>
             <Row gap={1}>
               <ContactPageOutlinedIcon />
               <Typography variant="titleSmall" fontWeight={700} color="black">
-                Contact {contact.role === "primary" ? "principal" : "secondaire"}
+                Contact {contact.role === "primary" ? "principal" : "secondaire"} TODO
               </Typography>
             </Row>
           </Stack>

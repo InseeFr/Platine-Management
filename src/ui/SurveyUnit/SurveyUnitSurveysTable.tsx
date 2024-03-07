@@ -14,40 +14,16 @@ import { useMemo, useState } from "react";
 import { Row } from "../Row";
 import { theme } from "../../theme";
 import { Column } from "../Contact/AssociateSurveysTable";
-import { getCollectStateChipColor, style } from "../Contact/ContactSurveysTable";
+import { LoadingCell, getCollectStateChipColor, style } from "../Contact/ContactSurveysTable";
 import { collectStates } from "../Contact/CollectStateSelect";
+import { APISchemas } from "../../types/api";
 
 const columns: readonly Column[] = [
-  { id: "shortWording", label: "Source", minWidth: "200px" },
+  { id: "sourceWording", label: "Source", minWidth: "200px" },
   { id: "year", label: "Millésime", minWidth: "115px" },
   { id: "campaign", label: "Campagne", minWidth: "250px" },
-  { id: "endDate", label: "Date fin enquête", minWidth: "175px" },
+  { id: "partioningClosingDate", label: "Date fin enquête", minWidth: "175px" },
   { id: "lastEvent", label: "Etat de la collecte", minWidth: "150px" },
-];
-
-// TODO: remove mocks
-const surveysMock = [
-  {
-    shortWording: "Mock 1",
-    campaign: "MOCK 1 Fréquentation dans les hébergements collectifs touristiques janvier 2021",
-    year: "2018",
-    endDate: "2023-03-02T13:17:32.813Z",
-    lastEvent: "PARTIELINT",
-  },
-  {
-    shortWording: "Mock2",
-    campaign: "MOCK 2 Fréquentation dans les hébergements collectifs touristiques janvier 2021",
-    year: "2017",
-    endDate: "2022-07-08T13:17:32.813Z",
-    lastEvent: "PARTIELINT",
-  },
-  {
-    shortWording: "Mock3",
-    campaign: "MOCK  Fréquentation dans les hébergements collectifs touristiques janvier 2021",
-    year: "2019",
-    endDate: "2023-03-01T13:17:32.813Z",
-    lastEvent: "PARTIELINT",
-  },
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -69,7 +45,14 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-export const SurveyUnitSurveysTable = () => {
+type Props = {
+  surveys?: APISchemas["SurveyUnitPartitioning"][];
+};
+
+export const SurveyUnitSurveysTable = (props: Props) => {
+  const surveys = props.surveys ?? [];
+  const isLoading = props.surveys === undefined;
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
@@ -90,7 +73,7 @@ export const SurveyUnitSurveysTable = () => {
     setOrderBy(property);
   };
 
-  const visibleRows = useMemo(() => surveysMock.sort(getComparator(order, orderBy)), [order, orderBy]);
+  const visibleRows = useMemo(() => surveys.sort(getComparator(order, orderBy)), [order, orderBy]);
 
   return (
     <TableContainer>
@@ -102,7 +85,7 @@ export const SurveyUnitSurveysTable = () => {
               <TableRow
                 hover
                 tabIndex={-1}
-                key={`row-${survey.campaign}`}
+                key={`row-${survey.sourceWording}`}
                 sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}
               >
                 {columns.map(column => {
@@ -110,15 +93,17 @@ export const SurveyUnitSurveysTable = () => {
 
                   if (column.id === "lastEvent") {
                     return (
-                      <TableCell key={`state-${survey.campaign}`}>
+                      <TableCell key={`state-${survey.sourceWording}`}>
                         <Row spacing={1}>
-                          <Chip
-                            sx={{
-                              typography: "titleSmall",
-                            }}
-                            label={collectStates.find(state => state.value === value)?.label}
-                            color={getCollectStateChipColor(value)}
-                          />
+                          {value && (
+                            <Chip
+                              sx={{
+                                typography: "titleSmall",
+                              }}
+                              label={collectStates.find(state => state.value === value)?.label}
+                              color={getCollectStateChipColor(value as string)}
+                            />
+                          )}
                         </Row>
                       </TableCell>
                     );
@@ -126,16 +111,17 @@ export const SurveyUnitSurveysTable = () => {
                   if (column.id === "endDate") {
                     return (
                       <TableCell key={column.id}>
-                        {new Date(Date.parse(value)).toLocaleDateString()}
+                        {value && new Date(Date.parse(value as string)).toLocaleDateString()}
                       </TableCell>
                     );
                   }
 
-                  return <TableCell key={column.id}>{value ?? "NO DATA"}</TableCell>;
+                  return <TableCell key={column.id}>{value}</TableCell>;
                 })}
               </TableRow>
             );
           })}
+          {isLoading && <LoadingCell columnLength={columns.length} />}
         </TableBody>
         <TableFooter>
           <TableRow>
@@ -148,7 +134,7 @@ export const SurveyUnitSurveysTable = () => {
                   page.count
                 } entités affichées`
               }
-              count={surveysMock.length}
+              count={surveys.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
