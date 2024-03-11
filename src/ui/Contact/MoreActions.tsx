@@ -3,6 +3,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useState } from "react";
 import { Box, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { Link } from "../Link";
 
 type Props = {
   surveyId?: string;
@@ -48,11 +49,10 @@ export const MoreAction = ({ surveyId, surveyUnitId, questioningUrl }: Props) =>
         <MenuItem onClick={() => navigate(`/surveys/${surveyId}`)}>
           Consulter la fiche “enquête”
         </MenuItem>
-        <MenuItem
-          disabled={questioningUrl === undefined}
-          onClick={() => window.location.replace(questioningUrl!)}
-        >
-          Consulter le questionnaire
+        <MenuItem disabled={questioningUrl === undefined}>
+          <Link to={questioningUrl!} color="inherit" underline="none">
+            Consulter le questionnaire
+          </Link>
         </MenuItem>
       </Menu>
     </Box>

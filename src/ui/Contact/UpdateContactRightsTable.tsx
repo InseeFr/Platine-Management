@@ -94,35 +94,33 @@ export const UpdateContactRightsTable = ({ onAction }: Props) => {
 
                     if (column.id === "action") {
                       return (
-                        <TableCell key={`action-${data.source}`}>
-                          <Row justifyContent={"center"}>
-                            <Row width={"fit-content"} gap={1}>
-                              <IconButton
-                                aria-label="modify"
-                                color={"inherit"}
-                                onClick={() => {
-                                  onAction({
-                                    type: "edit",
-                                    survey: data,
-                                  });
-                                }}
-                              >
-                                <BorderColorOutlinedIcon />
-                              </IconButton>
-                              <IconButton
-                                aria-label="delete"
-                                color={"inherit"}
-                                onClick={() => {
-                                  onAction({
-                                    type: "delete",
-                                    survey: data,
-                                  });
-                                }}
-                              >
-                                <DeleteOutlinedIcon />
-                              </IconButton>
-                            </Row>
-                          </Row>
+                        <TableCell key={`action-${data.source}`} align="center">
+                          <Box>
+                            <IconButton
+                              aria-label="modify"
+                              color={"inherit"}
+                              onClick={() => {
+                                onAction({
+                                  type: "edit",
+                                  survey: data,
+                                });
+                              }}
+                            >
+                              <BorderColorOutlinedIcon />
+                            </IconButton>
+                            <IconButton
+                              aria-label="delete"
+                              color={"inherit"}
+                              onClick={() => {
+                                onAction({
+                                  type: "delete",
+                                  survey: data,
+                                });
+                              }}
+                            >
+                              <DeleteOutlinedIcon />
+                            </IconButton>
+                          </Box>
                         </TableCell>
                       );
                     }

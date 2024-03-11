@@ -2,7 +2,7 @@ import { AlertColor, Alert as MUIAlert } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 type Props = {
-  type: string;
+  type: "error" | "success";
   content: string;
   onClose?: () => void;
 };

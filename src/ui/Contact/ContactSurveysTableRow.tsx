@@ -24,19 +24,21 @@ export const ContactSurveysTableRow = ({ survey, onSelectState }: Props) => {
   const { mutateAsync } = useFetchMutation("/api/questionings/questioning-events", "post");
 
   const onSelectCollectState = async (type: string, questioningId?: string) => {
-    if (questioningId) {
-      await mutateAsync({
-        query: {
-          id: parseInt(questioningId),
-        },
-        body: {
-          questioningId: parseInt(questioningId),
-          eventDate: new Date().toISOString(),
-          type,
-          payload: { "source": "platine-gestion" },
-        },
-      });
+    if (!questioningId) {
+      return;
     }
+
+    await mutateAsync({
+      query: {
+        id: parseInt(questioningId),
+      },
+      body: {
+        questioningId: parseInt(questioningId),
+        eventDate: new Date().toISOString(),
+        type,
+        payload: { "source": "platine-gestion" },
+      },
+    });
     onSelectState();
   };
 
@@ -51,6 +53,9 @@ export const ContactSurveysTableRow = ({ survey, onSelectState }: Props) => {
         const value = survey[column.id as keyof typeof survey];
 
         if (column.id === "lastEvent") {
+          const isCollectStateHistoryVisible =
+            survey.questioningId !== undefined && openCollectStateHistory === survey;
+
           return (
             <TableCell key={`state-${survey.partition}-${survey.identificationName}`}>
               <Row spacing={1}>
@@ -66,11 +71,11 @@ export const ContactSurveysTableRow = ({ survey, onSelectState }: Props) => {
                   onDelete={() => null}
                   deleteIcon={<ArrowDropDownIcon />}
                 />
-                {survey.questioningId && openCollectStateHistory === survey && (
+                {isCollectStateHistoryVisible && (
                   <CollectStateHistory
                     onClose={() => setOpenCollectStateHistory(undefined)}
                     open={true}
-                    questioningId={survey.questioningId}
+                    questioningId={survey.questioningId!}
                     surveyName={survey.partition ?? ""}
                   />
                 )}

@@ -47,9 +47,10 @@ export const ContactRightsEditDialog = ({ survey, contact, onAlert, onClose }: D
       />
     );
   }
-  return survey.secondaryContacts.length === 0 ? (
-    <EditPrimaryWithoutSecondaryDialog open onClose={onClose} />
-  ) : (
+  if (survey.secondaryContacts.length === 0) {
+    return <EditPrimaryWithoutSecondaryDialog open onClose={onClose} />;
+  }
+  return (
     <PrimaryContactRightsDialog
       open
       onClose={onClose}
