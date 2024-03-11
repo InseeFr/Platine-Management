@@ -49,7 +49,7 @@ export const AddressFormFields = ({
             <Field
               type="select"
               selectoptions={repetitionIndexEnum}
-              defaultValue={repetitionIndexValue}
+              defaultValue={repetitionIndexValue ?? ""}
               label="Indice de répétition"
               error={errors.address?.repetitionIndex?.message}
               {...register("address.repetitionIndex")}
@@ -60,7 +60,7 @@ export const AddressFormFields = ({
           type="select"
           label="Type de voie"
           selectoptions={streetTypeEnum}
-          defaultValue={streetTypeValue}
+          defaultValue={streetTypeValue ?? ""}
           error={errors.address?.streetType?.message}
           {...register("address.streetType")}
         />
