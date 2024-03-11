@@ -73,7 +73,7 @@ export const SurveyUnitSurveysTable = (props: Props) => {
     setOrderBy(property);
   };
 
-  const visibleRows = useMemo(() => surveys.sort(getComparator(order, orderBy)), [order, orderBy]);
+  const visibleRows = surveys.sort(getComparator(order, orderBy));
 
   return (
     <TableContainer>
@@ -90,6 +90,14 @@ export const SurveyUnitSurveysTable = (props: Props) => {
               >
                 {columns.map(column => {
                   const value = survey[column.id as keyof typeof survey];
+
+                  if (column.id === "campaign") {
+                    return (
+                      <TableCell key={column.id}>
+                        {`${survey.campaignWording ?? ""} - ${survey.period ?? ""}`}
+                      </TableCell>
+                    );
+                  }
 
                   if (column.id === "lastEvent") {
                     return (
@@ -108,7 +116,7 @@ export const SurveyUnitSurveysTable = (props: Props) => {
                       </TableCell>
                     );
                   }
-                  if (column.id === "endDate") {
+                  if (column.id === "partioningClosingDate") {
                     return (
                       <TableCell key={column.id}>
                         {value && new Date(Date.parse(value as string)).toLocaleDateString()}
