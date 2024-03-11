@@ -115,7 +115,7 @@ export const addressSchema = z
     }
   });
 
-const schema = z.object({
+export const schema = z.object({
   civility: z.enum(["Female", "Male", "Undefined"]),
   lastName: z.string().min(3),
   firstName: z.string().min(3),
