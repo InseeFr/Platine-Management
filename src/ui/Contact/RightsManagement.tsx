@@ -23,7 +23,7 @@ export const RightsManagement = ({ contact }: Props) => {
     type: string;
     survey: mockedDataSurveyType;
   }>();
-  const [message, setMessage] = useState<{ type: string; content: string }>();
+  const [message, setMessage] = useState<{ type: "error" | "success"; content: string }>();
   const dismissDialog = () => {
     setDialog(undefined);
   };

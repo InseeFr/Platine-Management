@@ -22,7 +22,7 @@ export type mockedDataSurveyType = {
 export type DialogProps = {
   contact: APISchemas["ContactFirstLoginDto"];
   survey: mockedDataSurveyType;
-  onAlert: (message: { type: string; content: string }) => void;
+  onAlert: (message: { type: "error" | "success"; content: string }) => void;
   onClose: () => void;
 };
 

@@ -50,68 +50,16 @@ export const ContactSurveysTableRow = ({ survey, onSelectState }: Props) => {
       sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}
     >
       {columns.map(column => {
-        const value = survey[column.id as keyof typeof survey];
-
-        if (column.id === "lastEvent") {
-          const isCollectStateHistoryVisible =
-            survey.questioningId !== undefined && openCollectStateHistory === survey;
-
-          return (
-            <TableCell key={`state-${survey.partition}-${survey.identificationName}`}>
-              <Row spacing={1}>
-                <Chip
-                  sx={{
-                    typography: "titleSmall",
-                    maxWidth: "300px",
-                    textOverflow: "ellipsis",
-                  }}
-                  label={collectStates.find(state => state.value === value)?.label}
-                  onClick={() => setOpenCollectStateHistory(survey)}
-                  color={getCollectStateChipColor(value as string)}
-                  onDelete={() => null}
-                  deleteIcon={<ArrowDropDownIcon />}
-                />
-                {isCollectStateHistoryVisible && (
-                  <CollectStateHistory
-                    onClose={() => setOpenCollectStateHistory(undefined)}
-                    open={true}
-                    questioningId={survey.questioningId!}
-                    surveyName={survey.partition ?? ""}
-                  />
-                )}
-                <CollectStateSelect
-                  onSelect={(value: string) => onSelectCollectState(value, survey.questioningId)}
-                />
-              </Row>
-            </TableCell>
-          );
-        }
-
-        if (column.id === "actions") {
-          return (
-            <TableCell key={`action-${survey.partition}-${survey.identificationName}`} align="center">
-              <MoreAction
-                surveyId={survey.surveyId}
-                surveyUnitId={survey.surveyUnitId}
-                questioningUrl={survey.questioningUrl}
-              />
-            </TableCell>
-          );
-        }
-
-        if (column.id === "main") {
-          return <TableCell key={column.id}>{value === true ? "Principal" : "Secondaire"}</TableCell>;
-        }
-
-        if (column.id === "partioningClosingDate") {
-          return (
-            <TableCell key={column.id}>
-              {new Date(Date.parse(value as string)).toLocaleDateString()}
-            </TableCell>
-          );
-        }
-
-        return <TableCell key={column.id}>{value}</TableCell>;
+        return (
+          <ContactSurveysTableCell
+            key={survey["identificationCode"]}
+            survey={survey}
+            columnId={column.id}
+            openCollectStateHistory={openCollectStateHistory}
+            setOpenCollectStateHistory={setOpenCollectStateHistory}
+            onSelectCollectState={onSelectCollectState}
+          />
+        );
       })}
     </TableRow>
   );
@@ -128,4 +76,81 @@ const getCollectStateChipColor = (state?: string) => {
     default:
       return "default";
   }
+};
+
+type ContactSurveysTableCellProps = {
+  survey: APISchemas["AccreditationDetailDto"];
+  columnId: string;
+  openCollectStateHistory: APISchemas["AccreditationDetailDto"] | undefined;
+  setOpenCollectStateHistory: (survey?: APISchemas["AccreditationDetailDto"]) => void;
+  onSelectCollectState: (type: string, questioningId?: string) => void;
+};
+
+const ContactSurveysTableCell = ({
+  survey,
+  columnId,
+  openCollectStateHistory,
+  setOpenCollectStateHistory,
+  onSelectCollectState,
+}: ContactSurveysTableCellProps) => {
+  const value = survey[columnId as keyof typeof survey];
+
+  if (columnId === "lastEvent") {
+    const isCollectStateHistoryVisible =
+      survey.questioningId !== undefined && openCollectStateHistory === survey;
+
+    return (
+      <TableCell key={`state-${survey.partition}-${survey.identificationName}`}>
+        <Row spacing={1}>
+          <Chip
+            sx={{
+              typography: "titleSmall",
+              maxWidth: "300px",
+              textOverflow: "ellipsis",
+            }}
+            label={collectStates.find(state => state.value === value)?.label}
+            onClick={() => setOpenCollectStateHistory(survey)}
+            color={getCollectStateChipColor(value as string)}
+            onDelete={() => null}
+            deleteIcon={<ArrowDropDownIcon />}
+          />
+          {isCollectStateHistoryVisible && (
+            <CollectStateHistory
+              onClose={() => setOpenCollectStateHistory(undefined)}
+              open={true}
+              questioningId={survey.questioningId!}
+              surveyName={survey.partition ?? ""}
+            />
+          )}
+          <CollectStateSelect
+            onSelect={(value: string) => onSelectCollectState(value, survey.questioningId)}
+          />
+        </Row>
+      </TableCell>
+    );
+  }
+
+  if (columnId === "actions") {
+    return (
+      <TableCell key={`action-${survey.partition}-${survey.identificationName}`} align="center">
+        <MoreAction
+          surveyId={survey.surveyId}
+          surveyUnitId={survey.surveyUnitId}
+          questioningUrl={survey.questioningUrl}
+        />
+      </TableCell>
+    );
+  }
+
+  if (columnId === "main") {
+    return <TableCell key={columnId}>{value === true ? "Principal" : "Secondaire"}</TableCell>;
+  }
+
+  if (columnId === "partioningClosingDate") {
+    return (
+      <TableCell key={columnId}>{new Date(Date.parse(value as string)).toLocaleDateString()}</TableCell>
+    );
+  }
+
+  return <TableCell key={columnId}>{value}</TableCell>;
 };

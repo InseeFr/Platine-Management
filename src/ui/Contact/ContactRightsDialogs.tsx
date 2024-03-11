@@ -12,7 +12,7 @@ import { APISchemas } from "../../types/api";
 export type CommonContactRightsProps = {
   open: boolean;
   onClose: () => void;
-  onAlert?: (message: { type: string; content: string }) => void;
+  onAlert?: (message: { type: "error" | "success"; content: string }) => void;
 };
 
 type DeleteSecondaryContactRightsProps = CommonContactRightsProps & {
