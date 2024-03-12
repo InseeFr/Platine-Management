@@ -19,12 +19,19 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import EmailIcon from "@mui/icons-material/Email";
 import DesktopWindowsOutlinedIcon from "@mui/icons-material/DesktopWindowsOutlined";
+import { useSearchFilterParams } from "../../hooks/useSearchFilter.ts";
 
-const endpoint = "/api/contacts" as const;
+const endpoint = "/api/contacts/search" as const;
 type Item = ItemOf<Required<APIResponse<typeof endpoint, "get">>["content"]>;
 
 export const SearchContacts = () => {
-  const { results: contacts, hasNextPage, fetchNextPage } = useInfiniteFetchQuery(endpoint);
+  const {
+    results: contacts,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteFetchQuery(endpoint, {
+    query: useSearchFilterParams("contacts"),
+  });
   const [tab, setTab] = useState("me");
   return (
     <Stack spacing={3} sx={{ minHeight: 0 }}>
@@ -53,7 +60,7 @@ export const SearchContacts = () => {
   );
 };
 
-export function ItemCard({ contact }: { contact: Item }) {
+export function ItemCard({ contact }: Readonly<{ contact: Item }>) {
   const isDisabled = false; // TODO : calculated this value
   return (
     <Card elevation={2} variant={isDisabled ? "disabled" : undefined}>
@@ -66,11 +73,9 @@ export function ItemCard({ contact }: { contact: Item }) {
           <Stack gap={2.5}>
             <Row gap={1}>
               <PersonOutlineOutlinedIcon />
-              <Typography
-                variant="titleLarge"
-                fontWeight={600}
-                color="text.primary"
-              >{`${contact.firstName} ${contact.lastName}`}</Typography>
+              <Typography variant="titleLarge" fontWeight={600} color="text.primary">
+                {`${contact.firstName ?? ""} ${contact.lastName ?? ""}`}
+              </Typography>
             </Row>
 
             <Stack spacing={0.5} color="text.secondary">
@@ -81,8 +86,8 @@ export function ItemCard({ contact }: { contact: Item }) {
             </Stack>
 
             <Stack spacing={1} typography="titleSmall" color="text.hint">
-              <div>Carrefour, Auchan, E.Leclerc</div>
-              <div>EVA, PIAAC</div>
+              <div>{contact.listSurveyUnitNames?.join(", ")}</div>
+              <div>{contact.listSourcesId?.join(", ")}</div>
             </Stack>
           </Stack>
         </Box>

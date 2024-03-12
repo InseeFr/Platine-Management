@@ -20,7 +20,7 @@ export const ContactHeader = ({ contact }: Props) => {
         <PersonOutlineOutlinedIcon fontSize="headerSinglePage" />
         <Stack>
           <Typography component={"span"} fontWeight={700} fontSize={"20px"} color={"text.primary"}>
-            {`${contact.firstName} ${contact?.lastName?.toUpperCase()} `}
+            {`${contact.firstName ?? ""} ${contact?.lastName?.toUpperCase() ?? ""} `}
           </Typography>
           <Typography component={"span"} fontSize={"20px"} fontWeight={600} color={"text.tertiary"}>
             {contact.identifier}

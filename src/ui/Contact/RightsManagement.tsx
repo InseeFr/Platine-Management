@@ -6,15 +6,28 @@ import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import ChangeCircleOutlinedIcon from "@mui/icons-material/ChangeCircleOutlined";
 import { AddRightsForm } from "./AddRightsForm";
 import { Row } from "../Row";
+import { useState } from "react";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Typography from "@mui/material/Typography";
 import { UpdateContactRightsTable } from "./UpdateContactRightsTable";
+import { ContactRightsEditDialog, mockedDataSurveyType } from "./ContactRightsEditDialog";
+import { ContactRightsDeleteDialog } from "./ContactRightsDeleteDialog";
+import { Alert } from "../Alert";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
 };
 
 export const RightsManagement = ({ contact }: Props) => {
+  const [dialog, setDialog] = useState<{
+    type: string;
+    survey: mockedDataSurveyType;
+  }>();
+  const [message, setMessage] = useState<{ type: "error" | "success"; content: string }>();
+  const dismissDialog = () => {
+    setDialog(undefined);
+  };
+
   return (
     <Stack spacing={2}>
       <Card sx={{ mx: 2, px: 6, py: 3 }} elevation={2}>
@@ -38,7 +51,27 @@ export const RightsManagement = ({ contact }: Props) => {
             ou un autre contact de l‘enquête peut devenir principal
           </Typography>
         </Row>
-        <UpdateContactRightsTable contact={contact} />
+        {message && (
+          <Alert type={message?.type} content={message.content} onClose={() => setMessage(undefined)} />
+        )}
+        <UpdateContactRightsTable onAction={setDialog} />
+
+        {dialog?.type === "edit" && (
+          <ContactRightsEditDialog
+            contact={contact}
+            onAlert={setMessage}
+            survey={dialog.survey}
+            onClose={dismissDialog}
+          />
+        )}
+        {dialog?.type === "delete" && (
+          <ContactRightsDeleteDialog
+            contact={contact}
+            onAlert={setMessage}
+            survey={dialog.survey}
+            onClose={dismissDialog}
+          />
+        )}
       </Card>
     </Stack>
   );

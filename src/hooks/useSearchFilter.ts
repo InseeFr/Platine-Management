@@ -3,7 +3,7 @@ import { combine } from "zustand/middleware";
 
 const base = {
   contacts: {
-    id: "",
+    identifier: "",
     name: "",
     email: "",
   },

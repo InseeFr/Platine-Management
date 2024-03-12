@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { CircularProgress, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -7,48 +7,38 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TableContainer from "@mui/material/TableContainer";
 import { collectStates } from "./CollectStateSelect";
 import { useFetchQuery } from "../../hooks/useFetchQuery";
+import { Row } from "../Row";
 
-const mockHistory = [
-  {
-    eventDate: "2024-02-21T07:27:50.890Z",
-    type: "PND",
-  },
-  {
-    eventDate: "2024-02-21T07:27:50.890Z",
-    type: "PARTIELINT",
-  },
-];
 type Props = {
   onClose: () => void;
   open: boolean;
-  questioningId: number;
+  questioningId: string;
   surveyName: string;
 };
 
 export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }: Props) => {
   const { data: states } = useFetchQuery("/api/questionings/{id}/questioning-events", {
     urlParams: {
-      id: questioningId,
+      id: parseInt(questioningId),
     },
   });
 
-  // TODO: remove (console log to use states in order to fix lint error temporarily)
-  console.log(states);
+  if (!states) {
+    return (
+      <Row justifyContent="center" py={10}>
+        <CircularProgress />
+      </Row>
+    );
+  }
 
-  // if (!states) {
-  //   return (
-  //     <Row justifyContent="center" py={10}>
-  //       <CircularProgress />
-  //     </Row>
-  //   );
-  // }
+  const sortedStates = states.sort((a, b) => a.eventDate!.localeCompare(b.eventDate!));
 
   return (
     <Dialog onClose={onClose} open={open}>
       <DialogTitle>Historique {surveyName} </DialogTitle>
       <DialogContent
         sx={{
-          width: "700px",
+          width: "500px",
           height: "fit-content",
         }}
       >
@@ -62,13 +52,13 @@ export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }
               </TableRow>
             </TableHead>
             <TableBody>
-              {/* TODO: replace mockHistory by states */}
-              {mockHistory.map((state, index) => {
-                const formattedDate = new Date(Date.parse(state.eventDate));
-                const date = formattedDate.toLocaleDateString();
-                const hour = formattedDate.toLocaleTimeString();
+              {sortedStates.map(state => {
+                const date =
+                  state.eventDate && new Date(Date.parse(state.eventDate)).toLocaleDateString();
+                const hour =
+                  state.eventDate && new Date(Date.parse(state.eventDate)).toLocaleTimeString();
                 return (
-                  <TableRow key={index}>
+                  <TableRow key={state.id}>
                     <TableCell>{date}</TableCell>
                     <TableCell>{hour}</TableCell>
                     <TableCell>

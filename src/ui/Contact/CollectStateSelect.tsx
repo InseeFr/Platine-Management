@@ -8,8 +8,8 @@ export const collectStates = [
   { label: "Questionnaire papier réceptionné", value: "VALPAP" },
   { label: "Pli non distribué", value: "PND" },
   { label: "Hors champ de l’enquête", value: "HC" },
-  { label: "Refus de réponse", value: "REFUS" },
-  { label: "Déchet (incapacité de répondre, maladie, absence de longue durée…)", value: "DECHET" },
+  { label: "Refus de réponse", value: "REFUSAL" },
+  { label: "Déchet (incapacité de répondre, maladie, absence de longue durée…)", value: "WASTE" },
   { label: "Collecte initialisée", value: "INITLA" },
   { label: "Unité enquêtée relancée", value: "RELANCE" },
   { label: "Questionnaire validé sur internet", value: "VALINT" },
@@ -17,7 +17,7 @@ export const collectStates = [
 ];
 
 const options = collectStates.filter(state =>
-  ["VALPAP", "PND", "HC", "REFUS", "DECHET"].includes(state.value),
+  ["VALPAP", "PND", "HC", "REFUSAL", "WASTE"].includes(state.value),
 );
 
 type Props = {
