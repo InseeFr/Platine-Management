@@ -77,25 +77,13 @@ export const ContactSurveysTable = (props: Props) => {
           })}
           {isLoading && <LoadingCell columnLength={columns.length} />}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              sx={style.root}
-              rowsPerPageOptions={[10, 20, 50]}
-              labelRowsPerPage={"Lignes par page :"}
-              labelDisplayedRows={page =>
-                `${page.from}-${page.to === -1 ? page.count : page.to} sur ${
-                  page.count
-                } entités affichées`
-              }
-              count={surveys.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </TableRow>
-        </TableFooter>
+        <SurveysTableFooter
+          count={surveys.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
       </Table>
     </TableContainer>
   );
@@ -108,5 +96,41 @@ export const LoadingCell = ({ columnLength }: { columnLength: number }) => {
         <CircularProgress />
       </TableCell>
     </TableRow>
+  );
+};
+
+type SurveysTableFooterProps = {
+  count: number;
+  rowsPerPage: number;
+  page: number;
+  onChangePage: (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
+  onChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+};
+
+export const SurveysTableFooter = ({
+  count,
+  rowsPerPage,
+  page,
+  onChangePage,
+  onChangeRowsPerPage,
+}: SurveysTableFooterProps) => {
+  return (
+    <TableFooter>
+      <TableRow>
+        <TablePagination
+          sx={style.root}
+          rowsPerPageOptions={[10, 20, 50]}
+          labelRowsPerPage={"Lignes par page :"}
+          labelDisplayedRows={page =>
+            `${page.from}-${page.to === -1 ? page.count : page.to} sur ${page.count} entités affichées`
+          }
+          count={count}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={onChangePage}
+          onRowsPerPageChange={onChangeRowsPerPage}
+        />
+      </TableRow>
+    </TableFooter>
   );
 };

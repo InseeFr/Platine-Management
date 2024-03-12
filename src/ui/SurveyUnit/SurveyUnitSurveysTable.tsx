@@ -4,17 +4,19 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableFooter,
   TableHead,
-  TablePagination,
   TableRow,
   TableSortLabel,
 } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Row } from "../Row";
 import { theme } from "../../theme";
 import { Column } from "../Contact/AssociateSurveysTable";
-import { LoadingCell, getCollectStateChipColor, style } from "../Contact/ContactSurveysTable";
+import {
+  LoadingCell,
+  SurveysTableFooter,
+  getCollectStateChipColor,
+} from "../Contact/ContactSurveysTable";
 import { collectStates } from "../Contact/CollectStateSelect";
 import { APISchemas } from "../../types/api";
 
@@ -83,73 +85,31 @@ export const SurveyUnitSurveysTable = (props: Props) => {
           {visibleRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(survey => {
             return (
               <TableRow
-                hover
                 tabIndex={-1}
                 key={`row-${survey.sourceWording}`}
                 sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}
               >
                 {columns.map(column => {
-                  const value = survey[column.id as keyof typeof survey];
-
-                  if (column.id === "campaign") {
-                    return (
-                      <TableCell key={column.id}>
-                        {`${survey.campaignWording ?? ""} - ${survey.period ?? ""}`}
-                      </TableCell>
-                    );
-                  }
-
-                  if (column.id === "lastEvent") {
-                    return (
-                      <TableCell key={`state-${survey.sourceWording}`}>
-                        <Row spacing={1}>
-                          {value && (
-                            <Chip
-                              sx={{
-                                typography: "titleSmall",
-                              }}
-                              label={collectStates.find(state => state.value === value)?.label}
-                              color={getCollectStateChipColor(value as string)}
-                            />
-                          )}
-                        </Row>
-                      </TableCell>
-                    );
-                  }
-                  if (column.id === "partioningClosingDate") {
-                    return (
-                      <TableCell key={column.id}>
-                        {value && new Date(Date.parse(value as string)).toLocaleDateString()}
-                      </TableCell>
-                    );
-                  }
-
-                  return <TableCell key={column.id}>{value}</TableCell>;
+                  return (
+                    <SurveyUnitSurveysTableCell
+                      survey={survey}
+                      columnId={column.id}
+                      key={survey.sourceWording}
+                    />
+                  );
                 })}
               </TableRow>
             );
           })}
           {isLoading && <LoadingCell columnLength={columns.length} />}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              sx={style.root}
-              rowsPerPageOptions={[10, 20, 50]}
-              labelRowsPerPage={"Lignes par page :"}
-              labelDisplayedRows={page =>
-                `${page.from}-${page.to === -1 ? page.count : page.to} sur ${
-                  page.count
-                } entités affichées`
-              }
-              count={surveys.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </TableRow>
-        </TableFooter>
+        <SurveysTableFooter
+          count={visibleRows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
       </Table>
     </TableContainer>
   );
@@ -193,4 +153,40 @@ const TableHeaderWithSort = ({ order, orderBy, onRequestSort }: TableHeaderWithS
       </TableRow>
     </TableHead>
   );
+};
+
+type SurveyUnitSurveysTableCellProps = {
+  survey: APISchemas["SurveyUnitPartitioning"];
+  columnId: string;
+};
+
+const SurveyUnitSurveysTableCell = ({ survey, columnId }: SurveyUnitSurveysTableCellProps) => {
+  const value = survey[columnId as keyof typeof survey];
+
+  if (columnId === "campaign") {
+    return <TableCell>{`${survey.campaignWording ?? ""} - ${survey.period ?? ""}`}</TableCell>;
+  }
+
+  if (columnId === "lastEvent") {
+    return (
+      <TableCell key={`state-${survey.sourceWording}`}>
+        <Row spacing={1}>
+          {value && (
+            <Chip
+              sx={{
+                typography: "titleSmall",
+              }}
+              label={collectStates.find(state => state.value === value)?.label}
+              color={getCollectStateChipColor(value as string)}
+            />
+          )}
+        </Row>
+      </TableCell>
+    );
+  }
+  if (columnId === "partioningClosingDate") {
+    return <TableCell>{value && new Date(Date.parse(value as string)).toLocaleDateString()}</TableCell>;
+  }
+
+  return <TableCell>{value}</TableCell>;
 };
