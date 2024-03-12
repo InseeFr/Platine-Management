@@ -97,14 +97,7 @@ const SurveyUnitContactCard = ({ contact }: any) => {
           </Typography>
 
           <Stack gap={2.5}>
-            <Row gap={1}>
-              <PersonOutlineOutlinedIcon />
-              <Typography
-                variant="titleLarge"
-                fontWeight={600}
-                color="text.primary"
-              >{`${contact.firstName} ${contact.lastName}`}</Typography>
-            </Row>
+            <ContactCardTitle firstName={contact.firstName} lastName={contact.lastName} />
 
             <Stack spacing={0.5} color="text.secondary">
               <TextWithLeftIcon IconComponent={LocationOnIcon} text={contact.city} />
@@ -124,5 +117,16 @@ const SurveyUnitContactCard = ({ contact }: any) => {
         </Box>
       </CardActionArea>
     </Card>
+  );
+};
+
+export const ContactCardTitle = ({ firstName, lastName }: { firstName?: string; lastName?: string }) => {
+  return (
+    <Row gap={1}>
+      <PersonOutlineOutlinedIcon />
+      <Typography variant="titleLarge" fontWeight={600} color="text.primary">
+        {`${firstName ?? ""} ${lastName ?? ""}`}
+      </Typography>
+    </Row>
   );
 };

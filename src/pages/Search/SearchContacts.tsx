@@ -13,13 +13,13 @@ import Card from "@mui/material/Card";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { TextWithLeftIcon } from "../../ui/TextWithLeftIcon.tsx";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import EmailIcon from "@mui/icons-material/Email";
 import DesktopWindowsOutlinedIcon from "@mui/icons-material/DesktopWindowsOutlined";
 import { useSearchFilterParams } from "../../hooks/useSearchFilter.ts";
+import { ContactCardTitle } from "../../ui/SurveyUnit/SurveyUnitContacts.tsx";
 
 const endpoint = "/api/contacts/search" as const;
 type Item = ItemOf<Required<APIResponse<typeof endpoint, "get">>["content"]>;
@@ -71,12 +71,7 @@ export function ItemCard({ contact }: Readonly<{ contact: Item }>) {
           </Typography>
 
           <Stack gap={2.5}>
-            <Row gap={1}>
-              <PersonOutlineOutlinedIcon />
-              <Typography variant="titleLarge" fontWeight={600} color="text.primary">
-                {`${contact.firstName ?? ""} ${contact.lastName ?? ""}`}
-              </Typography>
-            </Row>
+            <ContactCardTitle firstName={contact.firstName} lastName={contact.lastName} />
 
             <Stack spacing={0.5} color="text.secondary">
               <TextWithLeftIcon IconComponent={LocationOnIcon} text={contact.address?.cityName} />
