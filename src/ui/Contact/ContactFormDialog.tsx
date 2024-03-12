@@ -1,5 +1,15 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider } from "@mui/material";
-import { z } from "zod";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  FormControlLabel,
+} from "@mui/material";
+import { Schema, z } from "zod";
 import { useForm } from "../../hooks/useForm.ts";
 import { APISchemas } from "../../types/api.ts";
 import { Field } from "../Form/Field.tsx";
@@ -8,6 +18,7 @@ import { Row } from "../Row.tsx";
 import StarIcon from "@mui/icons-material/Star";
 import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
 import { AddressFormFields } from "../Form/AddressFormFields.tsx";
+import { UseFormRegister, UseFormReturn } from "react-hook-form";
 
 type Props = {
   open: boolean;
@@ -232,5 +243,68 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
         </DialogActions>
       </form>
     </Dialog>
+  );
+};
+
+type FormContentProps = {
+  errors: any;
+  register: UseFormRegister<z.TypeOf<Schema>>;
+  control?: UseFormReturn<any, any, any>["control"];
+  contact?: APISchemas["ContactFirstLoginDto"];
+};
+
+export const FormContent = ({ errors, register, control, contact }: FormContentProps) => {
+  return (
+    <Box sx={styles.Grid}>
+      <Stack gap={4} pt={1}>
+        <Field
+          control={control}
+          label="Civilité"
+          name="civility"
+          type="radios"
+          error={errors?.civility?.message}
+          options={civilities}
+        />
+        <Field label="Nom" error={errors.lastName?.message} {...register("lastName")} />
+        <Field label="Prénom" error={errors.firstName?.message} {...register("firstName")} />
+        <Field label="Fonction" error={errors.function?.message} {...register("function")} />
+        <Field label="Adresse courriel" error={errors.email?.message} {...register("email")} />
+        <Row gap={3}>
+          <Field
+            sx={{ width: "150px" }}
+            label="Téléphone 1"
+            error={errors.phone?.message}
+            {...register("phone")}
+          />
+          <StarIcon fontSize="small" color="yellow" />
+        </Row>
+        <Row gap={3}>
+          <Field
+            sx={{ width: "150px" }}
+            label="Téléphone 2"
+            error={errors.secondPhone?.message}
+            {...register("secondPhone")}
+          />
+          <StarIcon fontSize="small" color="text.hint" />
+        </Row>
+      </Stack>
+      <Divider orientation="vertical" variant="middle" />
+      <Box component={"div"} pt={contact === undefined ? 0 : 6}>
+        {contact === undefined && (
+          <FormControlLabel
+            sx={{ pb: 2, ".MuiFormControlLabel-label": { typography: "titleSmall" } }}
+            control={<Checkbox size="small" />}
+            label="L’adresse du contact est identique à l’adresse de l’unité enquêtée"
+          />
+        )}
+        <AddressFormFields
+          errors={errors}
+          register={register}
+          repetitionIndexValue={contact?.address?.repetitionIndex ?? ""}
+          streetTypeValue={contact?.address?.streetType ?? ""}
+          countryValue={contact?.address?.countryName ?? ""}
+        />
+      </Box>
+    </Box>
   );
 };
