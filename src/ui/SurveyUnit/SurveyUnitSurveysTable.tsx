@@ -12,13 +12,10 @@ import { useState } from "react";
 import { Row } from "../Row";
 import { theme } from "../../theme";
 import { Column } from "../Contact/AssociateSurveysTable";
-import {
-  LoadingCell,
-  SurveysTableFooter,
-  getCollectStateChipColor,
-} from "../Contact/ContactSurveysTable";
+import { LoadingCell, SurveysTableFooter } from "../Contact/ContactSurveysTable";
 import { collectStates } from "../Contact/CollectStateSelect";
 import { APISchemas } from "../../types/api";
+import { getCollectStateChipColor } from "../Contact/ContactSurveysTableRow";
 
 const columns: readonly Column[] = [
   { id: "sourceWording", label: "Source", minWidth: "200px" },

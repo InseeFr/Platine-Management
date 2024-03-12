@@ -65,7 +65,7 @@ export const ContactSurveysTableRow = ({ survey, onSelectState }: Props) => {
   );
 };
 
-const getCollectStateChipColor = (state?: string) => {
+export const getCollectStateChipColor = (state?: string) => {
   switch (state) {
     case "PND":
     case "PARTIELINT":
