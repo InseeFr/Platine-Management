@@ -5,17 +5,19 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TableContainer from "@mui/material/TableContainer";
-import { collectStates } from "./CollectStateSelect";
+import { CollectStateSelect, collectStates } from "./CollectStateSelect";
 import { useFetchQuery } from "../../hooks/useFetchQuery";
+import { Row } from "../Row";
 
 type Props = {
   onClose: () => void;
   open: boolean;
   questioningId: string;
   surveyName: string;
+  onSelect: (value: string) => void;
 };
 
-export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }: Props) => {
+export const CollectStateHistory = ({ onClose, open, questioningId, surveyName, onSelect }: Props) => {
   const { data: states } = useFetchQuery("/api/questionings/{id}/questioning-events", {
     urlParams: {
       id: parseInt(questioningId),
@@ -26,14 +28,18 @@ export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }
     return;
   }
 
-  const sortedStates = states.sort((a, b) => a.eventDate!.localeCompare(b.eventDate!));
+  const sortedStates = states.sort((a, b) => b.eventDate!.localeCompare(a.eventDate!));
 
   return (
     <Dialog onClose={onClose} open={open}>
-      <DialogTitle>Historique {surveyName} </DialogTitle>
+      <DialogTitle>
+        <Row justifyContent={"space-between"}>
+          Historique {surveyName} <CollectStateSelect onSelect={onSelect} />
+        </Row>
+      </DialogTitle>
       <DialogContent
         sx={{
-          width: "500px",
+          width: "600px",
           height: "fit-content",
         }}
       >

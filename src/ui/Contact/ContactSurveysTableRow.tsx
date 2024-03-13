@@ -3,7 +3,7 @@ import { columns } from "./ContactSurveysTable";
 import TableCell from "@mui/material/TableCell";
 import { Row } from "../Row";
 import Chip from "@mui/material/Chip";
-import { CollectStateSelect, collectStates } from "./CollectStateSelect";
+import { collectStates } from "./CollectStateSelect";
 import { CollectStateHistory } from "./CollectStateHistory";
 import { APISchemas } from "../../types/api";
 import { theme } from "../../theme";
@@ -120,11 +120,9 @@ const ContactSurveysTableCell = ({
               open={true}
               questioningId={survey.questioningId!}
               surveyName={survey.partition ?? ""}
+              onSelect={(value: string) => onSelectCollectState(value, survey.questioningId)}
             />
           )}
-          <CollectStateSelect
-            onSelect={(value: string) => onSelectCollectState(value, survey.questioningId)}
-          />
         </Row>
       </TableCell>
     );

@@ -1,7 +1,6 @@
 import MenuItem from "@mui/material/MenuItem";
-import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
-import { IconButton, Menu } from "@mui/material";
+import { Button, Menu } from "@mui/material";
 import { useState } from "react";
 
 export const collectStates = [
@@ -42,9 +41,9 @@ export const CollectStateSelect = ({ onSelect }: Props) => {
 
   return (
     <Box component="div">
-      <IconButton sx={{ color: "text.secondary" }} onClick={onClick} size="small">
-        <AddIcon fontSize="small" />
-      </IconButton>
+      <Button variant="outlined" onClick={onClick}>
+        Ajouter un état
+      </Button>
       <Menu
         id="add-state-menu"
         aria-labelledby="add-state--button"
@@ -53,11 +52,11 @@ export const CollectStateSelect = ({ onSelect }: Props) => {
         onClose={onClose}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "left",
+          horizontal: "right",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "left",
+          horizontal: "right",
         }}
       >
         {options.map(o => (

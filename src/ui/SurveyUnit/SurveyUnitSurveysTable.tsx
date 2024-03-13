@@ -20,7 +20,7 @@ import { getCollectStateChipColor } from "../Contact/ContactSurveysTableRow";
 const columns: readonly Column[] = [
   { id: "sourceWording", label: "Source", minWidth: "200px" },
   { id: "year", label: "Millésime", minWidth: "115px" },
-  { id: "campaign", label: "Campagne", minWidth: "250px" },
+  { id: "campaignWording", label: "Campagne", minWidth: "250px" },
   { id: "partioningClosingDate", label: "Date fin enquête", minWidth: "175px" },
   { id: "lastEvent", label: "Etat de la collecte", minWidth: "150px" },
 ];
@@ -134,7 +134,7 @@ const TableHeaderWithSort = ({ order, orderBy, onRequestSort }: TableHeaderWithS
             align={column.align ?? "left"}
             sortDirection={orderBy === column.id ? order : false}
           >
-            {["year", "endDate", "campaign"].includes(column.id) ? (
+            {["year", "partioningClosingDate", "campaignWording"].includes(column.id) ? (
               <TableSortLabel
                 active={orderBy === column.id}
                 direction={orderBy === column.id ? order : "asc"}
@@ -160,7 +160,7 @@ type SurveyUnitSurveysTableCellProps = {
 const SurveyUnitSurveysTableCell = ({ survey, columnId }: SurveyUnitSurveysTableCellProps) => {
   const value = survey[columnId as keyof typeof survey];
 
-  if (columnId === "campaign") {
+  if (columnId === "campaignWording") {
     return <TableCell>{`${survey.campaignWording ?? ""} - ${survey.period ?? ""}`}</TableCell>;
   }
 

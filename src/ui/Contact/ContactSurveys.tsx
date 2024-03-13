@@ -15,6 +15,7 @@ import { useFetchQuery } from "../../hooks/useFetchQuery";
 import { useDebouncedState } from "../../hooks/useDebouncedState.ts";
 import { collectStates } from "./CollectStateSelect.tsx";
 import { useToggle } from "react-use";
+import { SelectChangeEvent } from "@mui/material/Select";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
@@ -54,31 +55,7 @@ export const ContactSurveysContent = ({ contact }: Props) => {
             name={"role"}
             onFilterChange={e => setRole(e.target.value)}
           />
-
-          <ContactSurveysFilterSelect
-            options={[...collectStates, { label: "Tous", value: "all" }]}
-            placeholderLabel="Sélectionnez un état"
-            label={"Etat de la collecte"}
-            name={"state"}
-            onFilterChange={e => setState(e.target.value)}
-          />
-
-          <TextField
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon fontSize="small" />
-                </InputAdornment>
-              ),
-            }}
-            name="name"
-            id="name"
-            label="Rechercher dans le tableau"
-            placeholder="Saisissez votre recherche"
-            variant="outlined"
-            size="small"
-            onChange={e => setSearch(e.target.value)}
-          />
+          <Filters onSearch={e => setSearch(e.target.value)} onSelect={e => setState(e.target.value)} />
         </Row>
         <ToggleButtonGroup value={isFilteredOpened} exclusive onChange={(_, v) => toggle(v)}>
           <ToggleButton value={false} aria-label="left aligned">
@@ -118,3 +95,39 @@ function filterSurveys(
   }
   return surveys;
 }
+
+type FiltersProps = {
+  onSelect: (e: SelectChangeEvent) => void;
+  onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export const Filters = ({ onSelect, onSearch }: FiltersProps) => {
+  return (
+    <Row gap={3}>
+      <ContactSurveysFilterSelect
+        options={[...collectStates, { label: "Tous", value: "all" }]}
+        placeholderLabel="Sélectionnez un état"
+        label={"Etat de la collecte"}
+        name={"state"}
+        onFilterChange={onSelect}
+      />
+
+      <TextField
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon fontSize="small" />
+            </InputAdornment>
+          ),
+        }}
+        name="name"
+        id="name"
+        label="Rechercher dans le tableau"
+        placeholder="Saisissez votre recherche"
+        variant="outlined"
+        size="small"
+        onChange={onSearch}
+      />
+    </Row>
+  );
+};

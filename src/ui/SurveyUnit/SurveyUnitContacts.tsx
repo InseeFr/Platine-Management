@@ -138,12 +138,17 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
   );
 };
 
-const SurveyUnitContactCard = ({ contact }: any) => {
+const SurveyUnitContactCard = ({ contact }: { contact: APISchemas["SurveyUnitContact"] }) => {
+  const listSourcesId =
+    contact.listSourcesId !== undefined && contact.listSourcesId?.length > 12
+      ? `${contact.listSourcesId?.slice(0, 12).join(", ")}...`
+      : contact.listSourcesId?.join(", ");
+
   return (
     <Card elevation={2}>
       <CardActionArea component={Link} to={`/contacts/${contact.identifier}`}>
         <Box px={3} py={2}>
-          <Typography align="right" variant="titleMedium" color="text.tertiary" gutterBottom>
+          <Typography align="right" variant="titleLarge" color="text.tertiary" gutterBottom>
             #{contact.identifier}
           </Typography>
 
@@ -156,12 +161,13 @@ const SurveyUnitContactCard = ({ contact }: any) => {
               <TextWithLeftIcon IconComponent={EmailIcon} text={contact.email} />
             </Stack>
             <Typography color={"text.tertiary"} variant="titleSmall">
-              {contact.listSourcesId?.join(", ")}
+              {listSourcesId ?? ""}
             </Typography>
             <Row gap={1}>
               <ContactPageOutlinedIcon />
               <Typography variant="titleSmall" fontWeight={700} color="black">
-                Contact {contact.role === "primary" ? "principal" : "secondaire"} TODO
+                {/* Contact {contact.role === "primary" ? "principal" : "secondaire"} TODO */}
+                TODO Role
               </Typography>
             </Row>
           </Stack>
@@ -175,7 +181,7 @@ export const ContactCardTitle = ({ firstName, lastName }: { firstName?: string; 
   return (
     <Row gap={1}>
       <PersonOutlineOutlinedIcon />
-      <Typography variant="titleLarge" fontWeight={600} color="text.primary">
+      <Typography variant="titleMedium" fontWeight={600} color="text.primary">
         {`${firstName ?? ""} ${lastName ?? ""}`}
       </Typography>
     </Row>
@@ -186,6 +192,7 @@ function filterContacts(
   contacts: Array<APISchemas["SurveyUnitContact"]>,
   { search }: { search?: string; role?: string },
 ) {
+  // TODO: wait api role data
   // if (role !== "tous") {
   //   contacts =
   //     role === "primary"

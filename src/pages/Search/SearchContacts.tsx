@@ -62,11 +62,22 @@ export const SearchContacts = () => {
 
 export function ItemCard({ contact }: Readonly<{ contact: Item }>) {
   const isDisabled = false; // TODO : calculated this value
+
+  const listSurveyUnitNames =
+    contact.listSurveyUnitNames !== undefined && contact.listSurveyUnitNames?.length > 12
+      ? `${contact.listSurveyUnitNames?.slice(0, 12).join(", ")}...`
+      : contact.listSurveyUnitNames?.join(", ");
+
+  const listSourcesId =
+    contact.listSourcesId !== undefined && contact.listSourcesId?.length > 12
+      ? `${contact.listSourcesId?.slice(0, 12).join(", ")}...`
+      : contact.listSourcesId?.join(", ");
+
   return (
     <Card elevation={2} variant={isDisabled ? "disabled" : undefined}>
       <CardActionArea component={Link} to={`/contacts/${contact.identifier}`}>
         <Box px={3} py={2}>
-          <Typography align="right" variant="titleMedium" color="text.tertiary" gutterBottom>
+          <Typography align="right" variant="titleLarge" color="text.tertiary" gutterBottom>
             #{contact.identifier}
           </Typography>
 
@@ -74,15 +85,15 @@ export function ItemCard({ contact }: Readonly<{ contact: Item }>) {
             <ContactCardTitle firstName={contact.firstName} lastName={contact.lastName} />
 
             <Stack spacing={0.5} color="text.secondary">
-              <TextWithLeftIcon IconComponent={LocationOnIcon} text={contact.address?.cityName} />
+              <TextWithLeftIcon IconComponent={LocationOnIcon} text={contact.city} />
               <TextWithLeftIcon IconComponent={LocalPhoneOutlinedIcon} text={contact.phone} />
               <TextWithLeftIcon IconComponent={EmailIcon} text={contact.email} />
               <TextWithLeftIcon IconComponent={DesktopWindowsOutlinedIcon} text={contact.function} />
             </Stack>
 
             <Stack spacing={1} typography="titleSmall" color="text.hint">
-              <div>{contact.listSurveyUnitNames?.join(", ")}</div>
-              <div>{contact.listSourcesId?.join(", ")}</div>
+              <div>{listSurveyUnitNames ?? ""}</div>
+              <div>{listSourcesId ?? ""}</div>
             </Stack>
           </Stack>
         </Box>

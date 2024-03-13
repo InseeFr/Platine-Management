@@ -274,6 +274,7 @@ export type APISchemas = {
     firstName?: string
     function?: string
     email?: string
+    city?: string
     phone?: string
     address?: APISchemas["AddressDto"]
     listSurveyUnitNames?: string[]
@@ -1543,7 +1544,7 @@ export type APIEndpoints = {
         year?: string
         period?: string
         /* Format: int32 */
-        pageNo?: number
+        page?: number
         /* Format: int32 */
         pageSize?: number
       }
