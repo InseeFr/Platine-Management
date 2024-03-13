@@ -29,15 +29,15 @@ export const style = {
 };
 
 export const columns: readonly Column[] = [
-  { id: "lastEvent", label: "Etat de la collecte", minWidth: "330px" },
+  { id: "lastEvent", label: "Etat de la collecte", minWidth: "240px" },
   { id: "sourceWording", label: "Nom enquête", minWidth: "95px" },
   { id: "year", label: "Millésime", minWidth: "95px" },
-  { id: "period", label: "Campagne", minWidth: "120px" },
-  { id: "partioningClosingDate", label: "Date fin enquête", minWidth: "120px" },
-  { id: "surveyUnitId", label: "Unité enquêtée", minWidth: "150px" },
-  { id: "identificationName", label: "Raison sociale", minWidth: "190px" },
-  { id: "main", label: "Rôle", minWidth: "120px" },
-  { id: "actions", label: "Actions", minWidth: "100px" },
+  { id: "period", label: "Campagne", minWidth: "100px" },
+  { id: "partioningClosingDate", label: "Date fin enquête", minWidth: "100px" },
+  { id: "surveyUnitId", label: "Unité enquêtée", minWidth: "140px" },
+  { id: "identificationName", label: "Raison sociale", minWidth: "130px" },
+  { id: "main", label: "Rôle", minWidth: "100px" },
+  { id: "actions", label: "Actions", minWidth: "90px", align: "center" },
 ];
 
 type Props = {

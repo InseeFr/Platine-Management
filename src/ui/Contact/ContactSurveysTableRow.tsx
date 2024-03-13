@@ -100,12 +100,12 @@ const ContactSurveysTableCell = ({
       survey.questioningId !== undefined && openCollectStateHistory === survey;
 
     return (
-      <TableCell key={`state-${survey.partition}-${survey.identificationName}`}>
+      <TableCell key={`state-${survey.partition}-${survey.identificationName}`} width={"240px"}>
         <Row spacing={1}>
           <Chip
             sx={{
               typography: "titleSmall",
-              maxWidth: "300px",
+              maxWidth: "220px",
               textOverflow: "ellipsis",
             }}
             label={collectStates.find(state => state.value === value)?.label}

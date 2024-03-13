@@ -56,7 +56,7 @@ export const ContactSurveysContent = ({ contact }: Props) => {
           />
 
           <ContactSurveysFilterSelect
-            options={collectStates}
+            options={[...collectStates, { label: "Tous", value: "all" }]}
             placeholderLabel="Sélectionnez un état"
             label={"Etat de la collecte"}
             name={"state"}
@@ -104,7 +104,7 @@ function filterSurveys(
       role === "primary" ? surveys.filter(s => s.main === true) : surveys.filter(s => s.main === false);
   }
 
-  if (state) {
+  if (state && state !== "all") {
     surveys = surveys.filter(s => s.lastEvent === state);
   }
 

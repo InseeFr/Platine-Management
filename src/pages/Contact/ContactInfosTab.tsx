@@ -1,9 +1,10 @@
-import Grid from "@mui/material/Grid";
 import { ContactDetailsCard } from "../../ui/Contact/ContactDetailsCard";
 import { PasswordCard } from "../../ui/Contact/PasswordCard";
 import { HistoryActionsCard } from "../../ui/Contact/HistoryActionsCard";
 import { CommentsCard } from "../../ui/Contact/CommentsCard";
 import { APISchemas } from "../../types/api.ts";
+import { Row } from "../../ui/Row.tsx";
+import Stack from "@mui/material/Stack";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
@@ -12,20 +13,15 @@ type Props = {
 
 export const ContactInfosTab = ({ contact, onSave }: Props) => {
   return (
-    <Grid
-      px={3}
-      container
-      sx={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(690px, 1fr))",
-        columnGap: 4,
-        rowGap: 3,
-      }}
-    >
-      <ContactDetailsCard contact={contact} onSave={onSave} />
-      <PasswordCard />
-      <HistoryActionsCard />
-      <CommentsCard />
-    </Grid>
+    <Stack gap={3}>
+      <Row px={3} gap={4} alignItems={"flex-start"}>
+        <ContactDetailsCard contact={contact} onSave={onSave} />
+        <PasswordCard />
+      </Row>
+      <Row px={3} gap={4} alignItems={"flex-start"}>
+        <HistoryActionsCard />
+        <CommentsCard />
+      </Row>
+    </Stack>
   );
 };

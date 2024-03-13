@@ -1,4 +1,4 @@
-import { CircularProgress, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -7,7 +7,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TableContainer from "@mui/material/TableContainer";
 import { collectStates } from "./CollectStateSelect";
 import { useFetchQuery } from "../../hooks/useFetchQuery";
-import { Row } from "../Row";
 
 type Props = {
   onClose: () => void;
@@ -24,11 +23,7 @@ export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }
   });
 
   if (!states) {
-    return (
-      <Row justifyContent="center" py={10}>
-        <CircularProgress />
-      </Row>
-    );
+    return;
   }
 
   const sortedStates = states.sort((a, b) => a.eventDate!.localeCompare(b.eventDate!));
@@ -61,9 +56,7 @@ export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }
                   <TableRow key={state.id}>
                     <TableCell>{date}</TableCell>
                     <TableCell>{hour}</TableCell>
-                    <TableCell>
-                      {collectStates.find(cs => cs.value === state.type)?.label ?? "NO DATA"}
-                    </TableCell>
+                    <TableCell>{collectStates.find(cs => cs.value === state.type)?.label}</TableCell>
                   </TableRow>
                 );
               })}
