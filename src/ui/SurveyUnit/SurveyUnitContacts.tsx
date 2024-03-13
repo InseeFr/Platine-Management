@@ -3,7 +3,17 @@ import { useState } from "react";
 import { Row } from "../Row";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
-import { Box, Button, Card, CardActionArea, CircularProgress, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CircularProgress,
+  Grid,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { TextWithLeftIcon } from "../TextWithLeftIcon";
@@ -14,6 +24,10 @@ import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import { useFetchQuery } from "../../hooks/useFetchQuery";
 import { APISchemas } from "../../types/api";
+import { ContactSurveysFilterSelect } from "../Contact/ContactSurveysFilterSelect";
+import SearchIcon from "@mui/icons-material/Search";
+import useToggle from "react-use/lib/useToggle";
+import { useDebouncedState } from "../../hooks/useDebouncedState";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDto"];
@@ -21,11 +35,16 @@ type Props = {
 
 export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
   const navigate = useNavigate();
-  const [tab, setTab] = useState("me");
+  const [search, setSearch] = useDebouncedState("", 500);
+  const [role, setRole] = useState("tous");
+  const [isFilteredOpened, toggle] = useToggle(false);
 
   const { data: contacts } = useFetchQuery("/api/survey-units/{id}/contacts", {
     urlParams: {
       id: surveyUnit.idSu,
+    },
+    query: {
+      isFilteredOpened,
     },
   });
 
@@ -37,15 +56,47 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
     );
   }
 
+  const filteredContacts = filterContacts(contacts ?? [], { search, role });
+
   return (
     <Box>
       <Stack spacing={4} sx={{ minHeight: 0, px: 3, py: 1 }}>
         <Row justifyContent={"space-between"}>
-          <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
-            <ToggleButton value="me" aria-label="left aligned">
+          <Row spacing={3} py={2}>
+            <ContactSurveysFilterSelect
+              options={[
+                { label: "Tous", value: "tous" },
+                { label: "Principal", value: "primary" },
+                { label: "Secondaire", value: "secondary" },
+              ]}
+              defaultValue={"tous"}
+              label={"Rôle du contact"}
+              name={"role"}
+              onFilterChange={e => setRole(e.target.value)}
+            />
+
+            <TextField
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon fontSize="small" />
+                  </InputAdornment>
+                ),
+              }}
+              name="name"
+              id="name"
+              label="Rechercher dans le tableau"
+              placeholder="Saisissez votre recherche"
+              variant="outlined"
+              size="small"
+              onChange={e => setSearch(e.target.value)}
+            />
+          </Row>
+          <ToggleButtonGroup value={isFilteredOpened} exclusive onChange={(_, v) => toggle(v)}>
+            <ToggleButton value={false} aria-label="left aligned">
               Mes contacts
             </ToggleButton>
-            <ToggleButton value="all" aria-label="left aligned">
+            <ToggleButton value={true} aria-label="left aligned">
               Tout
             </ToggleButton>
           </ToggleButtonGroup>
@@ -59,7 +110,7 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
           columnGap={5}
           rowGap={6}
         >
-          {contacts.map(c => (
+          {filteredContacts.map(c => (
             <div key={c.identifier}>
               <SurveyUnitContactCard contact={c} />
             </div>
@@ -130,3 +181,26 @@ export const ContactCardTitle = ({ firstName, lastName }: { firstName?: string; 
     </Row>
   );
 };
+
+function filterContacts(
+  contacts: Array<APISchemas["SurveyUnitContact"]>,
+  { search }: { search?: string; role?: string },
+) {
+  // if (role !== "tous") {
+  //   contacts =
+  //     role === "primary"
+  //       ? contacts.filter(c => c.main === true)
+  //       : contacts.filter(c => c.main === false);
+  // }
+
+  if (search) {
+    contacts = contacts.filter(
+      item =>
+        item.lastName?.toString().includes(search) ||
+        item.firstName?.toLocaleLowerCase().includes(search.toLowerCase()) ||
+        item.identifier?.toLocaleLowerCase().includes(search.toLowerCase()) ||
+        item.email?.toLocaleLowerCase().includes(search.toLowerCase()),
+    );
+  }
+  return contacts;
+}
