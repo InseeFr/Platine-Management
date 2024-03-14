@@ -40,7 +40,10 @@ export const ContactSurveysContent = ({ contact }: Props) => {
 
   return (
     <Card sx={{ mx: 2, px: 6, py: 3 }} elevation={2}>
-      <TitleWithIconAndDivider title={"Liste des enquêtes du contact"} IconComponent={BinocularIcon} />
+      <TitleWithIconAndDivider
+        title={"Liste des interrogations du contact"}
+        IconComponent={BinocularIcon}
+      />
 
       <Row justifyContent={"space-between"}>
         <Row spacing={3} py={4}>
