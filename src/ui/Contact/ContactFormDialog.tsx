@@ -150,7 +150,7 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 register={register}
                 repetitionIndexValue={contact.address?.repetitionIndex}
                 streetTypeValue={contact.address?.streetType}
-                countryValue={contact.address?.countryName}
+                countryValue={contact.address?.countryName ?? "FRANCE"}
               />
             </Box>
           </Box>
