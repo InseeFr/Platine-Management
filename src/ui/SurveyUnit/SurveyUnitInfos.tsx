@@ -1,7 +1,8 @@
 import { CommentsCard } from "../../ui/Contact/CommentsCard";
 import { APISchemas } from "../../types/api.ts";
 import { SurveyUnitDetailsCard } from "./SurveyUnitDetailsCard.tsx";
-import { Row } from "../Row.tsx";
+
+import Grid from "@mui/material/Grid";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDto"];
@@ -10,9 +11,18 @@ type Props = {
 
 export const SurveyUnitInfos = ({ surveyUnit, onSave }: Props) => {
   return (
-    <Row px={3} gap={4} alignItems={"flex-start"}>
+    <Grid
+      px={3}
+      container
+      sx={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        columnGap: 4,
+        rowGap: 3,
+      }}
+    >
       <SurveyUnitDetailsCard surveyUnit={surveyUnit} onSave={onSave} />
       <CommentsCard />
-    </Row>
+    </Grid>
   );
 };

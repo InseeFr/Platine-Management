@@ -14,7 +14,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { TextWithLeftIcon } from "../TextWithLeftIcon";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -28,13 +27,13 @@ import { ContactSurveysFilterSelect } from "../Contact/ContactSurveysFilterSelec
 import SearchIcon from "@mui/icons-material/Search";
 import useToggle from "react-use/lib/useToggle";
 import { useDebouncedState } from "../../hooks/useDebouncedState";
+import { Link } from "../Link";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDto"];
 };
 
 export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
-  const navigate = useNavigate();
   const [search, setSearch] = useDebouncedState("", 500);
   const [role, setRole] = useState("tous");
   const [isFilteredOpened, toggle] = useToggle(false);
@@ -105,7 +104,6 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
           sx={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-            paddingRight: ".5rem",
           }}
           columnGap={5}
           rowGap={6}
@@ -130,9 +128,10 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
         fullWidth={false}
         variant="contained"
         endIcon={<EditIcon />}
-        onClick={() => navigate("/contacts/createContact")}
       >
-        Créer un nouveau contact
+        <Link to={"/contacts/createContact"} color="inherit" underline="none">
+          Créer un nouveau contact
+        </Link>
       </Button>
     </Box>
   );

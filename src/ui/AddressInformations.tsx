@@ -20,7 +20,6 @@ export const AddressInformations = ({ identificationName, address }: Props) => {
       </Box>
       <Box component={"span"}>
         {`
-            TODO Bureau distributeur 
              ${address?.cedexCode ? address?.cedexCode.concat(",") : ""} 
             ${address?.countryName ?? ""} 
       `}

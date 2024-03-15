@@ -108,7 +108,7 @@ const ContactSurveysTableCell = ({
               maxWidth: "220px",
               textOverflow: "ellipsis",
             }}
-            label={collectStates.find(state => state.value === value)?.label}
+            label={collectStates.find(state => state.value === value)?.label ?? "Aucun état"}
             onClick={() => setOpenCollectStateHistory(survey)}
             color={getCollectStateChipColor(value as string)}
             onDelete={() => null}
