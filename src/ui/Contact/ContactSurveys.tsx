@@ -27,7 +27,11 @@ export const ContactSurveysContent = ({ contact }: Props) => {
   const [search, setSearch] = useDebouncedState("", 500);
   const [isFilteredOpened, toggle] = useToggle(false);
 
-  const { data: surveys, refetch } = useFetchQuery("/api/contacts/{id}/accreditations", {
+  const {
+    data: surveys,
+    refetch,
+    isLoading,
+  } = useFetchQuery("/api/contacts/{id}/accreditations", {
     urlParams: {
       id: contact.identifier,
     },
@@ -70,7 +74,7 @@ export const ContactSurveysContent = ({ contact }: Props) => {
         </ToggleButtonGroup>
       </Row>
 
-      <ContactSurveysTable surveys={filteredSurveys} onSelectState={refetch} />
+      <ContactSurveysTable surveys={filteredSurveys} onSelectState={refetch} isLoading={isLoading} />
     </Card>
   );
 };

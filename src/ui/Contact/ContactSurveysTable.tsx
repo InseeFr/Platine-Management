@@ -7,6 +7,7 @@ import {
   TableFooter,
   TablePagination,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { APISchemas } from "../../types/api";
@@ -43,12 +44,12 @@ export const columns: readonly Column[] = [
 type Props = {
   surveys?: APISchemas["AccreditationDetailDto"][];
   onSelectState: () => void;
+  isLoading: boolean;
 };
 
 export const ContactSurveysTable = (props: Props) => {
   const surveys = props.surveys ?? [];
 
-  const isLoading = props.surveys === undefined;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -75,7 +76,8 @@ export const ContactSurveysTable = (props: Props) => {
               />
             );
           })}
-          {isLoading && <LoadingCell columnLength={columns.length} />}
+          {props.isLoading && <LoadingCell columnLength={columns.length} />}
+          {!props.isLoading && surveys.length === 0 && <NoResultCell columnLength={columns.length} />}
         </TableBody>
         <SurveysTableFooter
           count={surveys.length}
@@ -132,5 +134,15 @@ export const SurveysTableFooter = ({
         />
       </TableRow>
     </TableFooter>
+  );
+};
+
+export const NoResultCell = ({ columnLength }: { columnLength: number }) => {
+  return (
+    <TableRow>
+      <TableCell align="center" colSpan={columnLength}>
+        <Typography variant="titleSmall">Aucun résultat</Typography>
+      </TableCell>
+    </TableRow>
   );
 };

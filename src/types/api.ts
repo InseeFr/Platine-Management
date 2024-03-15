@@ -1547,6 +1547,7 @@ export type APIEndpoints = {
         page?: number
         /* Format: int32 */
         pageSize?: number
+        sort?: string
       }
     }
   }

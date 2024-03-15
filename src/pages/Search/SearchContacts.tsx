@@ -1,5 +1,4 @@
-import { CardActionArea, Stack } from "@mui/material";
-import { FilterListBySelector } from "../../ui/Search/FilterListBySelector.tsx";
+import { CardActionArea, CircularProgress, Stack } from "@mui/material";
 import { Row } from "../../ui/Row";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
@@ -29,13 +28,14 @@ export const SearchContacts = () => {
     results: contacts,
     hasNextPage,
     fetchNextPage,
+    isLoading,
   } = useInfiniteFetchQuery(endpoint, {
-    query: useSearchFilterParams("contacts"),
+    query: { ...useSearchFilterParams("contacts"), pageSize: 20, sort: "identifier" },
   });
   const [tab, setTab] = useState("me");
   return (
     <Stack spacing={3} sx={{ minHeight: 0 }}>
-      <Row justifyContent={"space-between"}>
+      <Row>
         <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
           <ToggleButton value="me" aria-label="left aligned">
             Mes contacts
@@ -44,9 +44,17 @@ export const SearchContacts = () => {
             Tout
           </ToggleButton>
         </ToggleButtonGroup>
-        <FilterListBySelector />
       </Row>
-
+      {isLoading && (
+        <Row justifyContent={"space-around"} height={"100%"}>
+          <CircularProgress />
+        </Row>
+      )}
+      {!isLoading && contacts.length === 0 && (
+        <Row justifyContent={"space-around"} height={"100%"}>
+          <Typography variant="titleMedium">Aucun résultat</Typography>
+        </Row>
+      )}
       <CardGrid>
         {contacts.map(c => (
           <div key={c.identifier}>

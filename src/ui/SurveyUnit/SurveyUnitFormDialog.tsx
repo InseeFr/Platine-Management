@@ -48,7 +48,7 @@ export const SurveyUnitFormDialog = ({ open, onClose, surveyUnit, onSave }: Prop
             register={register}
             repetitionIndexValue={surveyUnit.address?.repetitionIndex}
             streetTypeValue={surveyUnit.address?.streetType}
-            countryValue={surveyUnit.address?.countryName}
+            countryValue={surveyUnit.address?.countryName ?? "FRANCE"}
           />
         </DialogContent>
         <DialogActions>
