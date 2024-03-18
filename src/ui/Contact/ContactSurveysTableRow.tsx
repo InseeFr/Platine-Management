@@ -111,7 +111,7 @@ const ContactSurveysTableCell = ({
             label={collectStates.find(state => state.value === value)?.label ?? "Aucun état"}
             onClick={() => setOpenCollectStateHistory(survey)}
             color={getCollectStateChipColor(value as string)}
-            onDelete={() => null}
+            onDelete={() => setOpenCollectStateHistory(survey)}
             deleteIcon={<ArrowDropDownIcon />}
           />
           {isCollectStateHistoryVisible && (

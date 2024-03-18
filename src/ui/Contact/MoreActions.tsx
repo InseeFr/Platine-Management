@@ -50,7 +50,7 @@ export const MoreAction = ({ surveyId, surveyUnitId, questioningUrl }: Props) =>
           Consulter la fiche “enquête”
         </MenuItem>
         <MenuItem disabled={questioningUrl === undefined}>
-          <Link to={questioningUrl!} color="inherit" underline="none">
+          <Link to={questioningUrl!} color="inherit" underline="none" target="_blank">
             Consulter le questionnaire
           </Link>
         </MenuItem>

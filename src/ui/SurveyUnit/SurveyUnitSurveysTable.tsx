@@ -12,7 +12,7 @@ import { useState } from "react";
 import { Row } from "../Row";
 import { theme } from "../../theme";
 import { Column } from "../Contact/AssociateSurveysTable";
-import { LoadingCell, SurveysTableFooter } from "../Contact/ContactSurveysTable";
+import { LoadingCell, NoResultCell, SurveysTableFooter } from "../Contact/ContactSurveysTable";
 import { collectStates } from "../Contact/CollectStateSelect";
 import { APISchemas } from "../../types/api";
 import { getCollectStateChipColor } from "../Contact/ContactSurveysTableRow";
@@ -46,11 +46,11 @@ function getComparator<Key extends keyof any>(
 
 type Props = {
   surveys?: APISchemas["SurveyUnitPartitioning"][];
+  isLoading: boolean;
 };
 
 export const SurveyUnitSurveysTable = (props: Props) => {
   const surveys = props.surveys ?? [];
-  const isLoading = props.surveys === undefined;
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -98,7 +98,8 @@ export const SurveyUnitSurveysTable = (props: Props) => {
               </TableRow>
             );
           })}
-          {isLoading && <LoadingCell columnLength={columns.length} />}
+          {props.isLoading && <LoadingCell columnLength={columns.length} />}
+          {!props.isLoading && surveys.length === 0 && <NoResultCell columnLength={columns.length} />}
         </TableBody>
         <SurveysTableFooter
           count={visibleRows.length}
