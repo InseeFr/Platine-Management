@@ -23,7 +23,7 @@ export const SurveyUnitDetailsCard = ({ surveyUnit, onSave }: Props) => {
   };
 
   return (
-    <Card sx={{ px: 6, py: 3, width: "100%" }} elevation={2}>
+    <Card sx={{ px: 6, py: 3 }} elevation={2}>
       <Stack spacing={4}>
         <Row justifyContent={"space-between"}>
           <CardtitleWithIcon IconComponent={AssignmentIndOutlinedIcon} title={"Informations"} />
@@ -31,7 +31,7 @@ export const SurveyUnitDetailsCard = ({ surveyUnit, onSave }: Props) => {
             <BorderColorOutlinedIcon fontSize="small" />
           </IconButton>
         </Row>
-        <Row spacing={8} alignItems={"flex-start"} justifyContent={"space-between"} pr={2}>
+        <Row spacing={5} alignItems={"flex-start"} justifyContent={"space-between"} pr={2}>
           <AddressInformations
             identificationName={surveyUnit.identificationName}
             address={surveyUnit.address}

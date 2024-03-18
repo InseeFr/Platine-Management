@@ -21,7 +21,7 @@ enum Tab {
 
 const TabNames = {
   [Tab.Infos]: "Infos contact",
-  [Tab.Surveys]: "Enquête(s)",
+  [Tab.Surveys]: "Interrogation(s)",
   [Tab.Ids]: "Gestion des identifiants",
   [Tab.Permissions]: "Gestion des droits",
 };

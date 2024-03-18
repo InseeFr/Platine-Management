@@ -1,11 +1,11 @@
-import { CircularProgress, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TableContainer from "@mui/material/TableContainer";
-import { collectStates } from "./CollectStateSelect";
+import { CollectStateSelect, collectStates } from "./CollectStateSelect";
 import { useFetchQuery } from "../../hooks/useFetchQuery";
 import { Row } from "../Row";
 
@@ -14,9 +14,10 @@ type Props = {
   open: boolean;
   questioningId: string;
   surveyName: string;
+  onSelect: (value: string) => void;
 };
 
-export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }: Props) => {
+export const CollectStateHistory = ({ onClose, open, questioningId, surveyName, onSelect }: Props) => {
   const { data: states } = useFetchQuery("/api/questionings/{id}/questioning-events", {
     urlParams: {
       id: parseInt(questioningId),
@@ -24,21 +25,21 @@ export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }
   });
 
   if (!states) {
-    return (
-      <Row justifyContent="center" py={10}>
-        <CircularProgress />
-      </Row>
-    );
+    return;
   }
 
-  const sortedStates = states.sort((a, b) => a.eventDate!.localeCompare(b.eventDate!));
+  const sortedStates = states.sort((a, b) => b.eventDate!.localeCompare(a.eventDate!));
 
   return (
     <Dialog onClose={onClose} open={open}>
-      <DialogTitle>Historique {surveyName} </DialogTitle>
+      <DialogTitle>
+        <Row justifyContent={"space-between"}>
+          Historique {surveyName} <CollectStateSelect onSelect={onSelect} />
+        </Row>
+      </DialogTitle>
       <DialogContent
         sx={{
-          width: "500px",
+          width: "600px",
           height: "fit-content",
         }}
       >
@@ -61,9 +62,7 @@ export const CollectStateHistory = ({ onClose, open, questioningId, surveyName }
                   <TableRow key={state.id}>
                     <TableCell>{date}</TableCell>
                     <TableCell>{hour}</TableCell>
-                    <TableCell>
-                      {collectStates.find(cs => cs.value === state.type)?.label ?? "NO DATA"}
-                    </TableCell>
+                    <TableCell>{collectStates.find(cs => cs.value === state.type)?.label}</TableCell>
                   </TableRow>
                 );
               })}

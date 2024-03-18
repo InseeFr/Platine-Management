@@ -3,7 +3,7 @@ import { columns } from "./ContactSurveysTable";
 import TableCell from "@mui/material/TableCell";
 import { Row } from "../Row";
 import Chip from "@mui/material/Chip";
-import { CollectStateSelect, collectStates } from "./CollectStateSelect";
+import { collectStates } from "./CollectStateSelect";
 import { CollectStateHistory } from "./CollectStateHistory";
 import { APISchemas } from "../../types/api";
 import { theme } from "../../theme";
@@ -65,7 +65,7 @@ export const ContactSurveysTableRow = ({ survey, onSelectState }: Props) => {
   );
 };
 
-const getCollectStateChipColor = (state?: string) => {
+export const getCollectStateChipColor = (state?: string) => {
   switch (state) {
     case "PND":
     case "PARTIELINT":
@@ -100,15 +100,15 @@ const ContactSurveysTableCell = ({
       survey.questioningId !== undefined && openCollectStateHistory === survey;
 
     return (
-      <TableCell key={`state-${survey.partition}-${survey.identificationName}`}>
+      <TableCell key={`state-${survey.partition}-${survey.identificationName}`} width={"240px"}>
         <Row spacing={1}>
           <Chip
             sx={{
               typography: "titleSmall",
-              maxWidth: "300px",
+              maxWidth: "220px",
               textOverflow: "ellipsis",
             }}
-            label={collectStates.find(state => state.value === value)?.label}
+            label={collectStates.find(state => state.value === value)?.label ?? "Aucun état"}
             onClick={() => setOpenCollectStateHistory(survey)}
             color={getCollectStateChipColor(value as string)}
             onDelete={() => null}
@@ -120,11 +120,9 @@ const ContactSurveysTableCell = ({
               open={true}
               questioningId={survey.questioningId!}
               surveyName={survey.partition ?? ""}
+              onSelect={(value: string) => onSelectCollectState(value, survey.questioningId)}
             />
           )}
-          <CollectStateSelect
-            onSelect={(value: string) => onSelectCollectState(value, survey.questioningId)}
-          />
         </Row>
       </TableCell>
     );

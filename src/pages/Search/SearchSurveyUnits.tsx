@@ -12,13 +12,21 @@ import { type ItemOf } from "../../types/utils.ts";
 import Card from "@mui/material/Card";
 import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import { BinocularIcon } from "../../ui/Icon/BinocularIcon.tsx";
+import { useSearchFilterParams } from "../../hooks/useSearchFilter.ts";
+import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 
-const endpoint = "/api/survey-units" as const;
+const endpoint = "/api/survey-units/search" as const;
 type Item = ItemOf<Required<APIResponse<typeof endpoint, "get">>["content"]>;
 
 export const SearchSurveyUnits = () => {
-  const { results: surveyUnits, hasNextPage, fetchNextPage } = useInfiniteFetchQuery(endpoint);
+  const {
+    results: surveyUnits,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteFetchQuery(endpoint, {
+    query: useSearchFilterParams("surveyUnits"),
+  });
+
   const [tab, setTab] = useState("me");
   return (
     <Stack spacing={3} sx={{ minHeight: 0 }}>
@@ -54,7 +62,7 @@ export function ItemCard({ surveyUnit }: { surveyUnit: Item }) {
       <CardActionArea component={Link} to={`/survey-units/${surveyUnit.idSu}`}>
         <Box px={3} py={2.5}>
           <Row gap={1} mb={5}>
-            <BinocularIcon />
+            <CorporateFareIcon />
             <Typography variant="titleLarge" fontWeight={600} color="text.primary">
               {surveyUnit.identificationName}
             </Typography>

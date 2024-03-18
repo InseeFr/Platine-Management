@@ -8,6 +8,8 @@ import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
 import { PageTab } from "../ui/PageTab.tsx";
 import { SurveyUnitHeader } from "../ui/SurveyUnit/SurveyUnitHeader.tsx";
 import { SurveyUnitInfos } from "../ui/SurveyUnit/SurveyUnitInfos.tsx";
+import { SurveyUnitContacts } from "../ui/SurveyUnit/SurveyUnitContacts.tsx";
+import { SurveyUnitSurveys } from "../ui/SurveyUnit/SurveyUnitSurveys.tsx";
 
 enum Tab {
   Infos = "Infos",
@@ -68,8 +70,8 @@ export function SurveyUnitPage() {
       <Stack px={3} py={3}>
         <Breadcrumbs items={breadcrumbs} />
         {currentTab === Tab.Infos && <SurveyUnitInfos surveyUnit={su} onSave={refetch} />}
-        {currentTab === Tab.Contacts && "1"}
-        {currentTab === Tab.Surveys && "2"}
+        {currentTab === Tab.Contacts && <SurveyUnitContacts surveyUnit={su} />}
+        {currentTab === Tab.Surveys && <SurveyUnitSurveys surveyUnit={su} />}
       </Stack>
     </>
   );
