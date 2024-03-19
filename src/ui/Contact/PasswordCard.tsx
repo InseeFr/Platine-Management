@@ -47,7 +47,7 @@ export const PasswordCard = () => {
       title={"Mot de passe"}
       ButtonStartIcon={<AddIcon />}
       buttonLabel={"demande de réinitialisation"}
-      CardContent={<CardInner content={<Typography>content</Typography>} />}
+      CardContent={<CardInner content={<Typography>work in progress</Typography>} />}
       CardDialog={
         <FormDialog
           open={open}

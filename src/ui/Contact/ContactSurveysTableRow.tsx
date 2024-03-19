@@ -9,9 +9,10 @@ import { APISchemas } from "../../types/api";
 import { theme } from "../../theme";
 import { useState } from "react";
 import { useFetchMutation } from "../../hooks/useFetchQuery";
-import { MoreAction } from "./MoreActions";
-
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import IconButton from "@mui/material/IconButton";
+import { Link } from "../Link";
 
 type Props = {
   survey: APISchemas["AccreditationDetailDto"];
@@ -131,11 +132,11 @@ const ContactSurveysTableCell = ({
   if (columnId === "actions") {
     return (
       <TableCell key={`action-${survey.partition}-${survey.identificationName}`} align="center">
-        <MoreAction
-          surveyId={survey.surveyId}
-          surveyUnitId={survey.surveyUnitId}
-          questioningUrl={survey.questioningUrl}
-        />
+        {survey.questioningUrl && (
+          <IconButton color="inherit" target="_blank" component={Link} to={survey.questioningUrl}>
+            <OpenInNewIcon fontSize="small" />
+          </IconButton>
+        )}
       </TableCell>
     );
   }
@@ -147,6 +148,36 @@ const ContactSurveysTableCell = ({
   if (columnId === "partioningClosingDate") {
     return (
       <TableCell key={columnId}>{new Date(Date.parse(value as string)).toLocaleDateString()}</TableCell>
+    );
+  }
+
+  if (columnId === "surveyUnitId") {
+    return (
+      <TableCell key={columnId}>
+        <Link
+          sx={{ cursor: "pointer", "&.MuiLink-root:hover": { color: "primary.main" } }}
+          to={`/survey-units/${value}`}
+          color={"inherit"}
+          underline="none"
+        >
+          {value}
+        </Link>
+      </TableCell>
+    );
+  }
+
+  if (columnId === "sourceWording") {
+    return (
+      <TableCell key={columnId}>
+        <Link
+          sx={{ cursor: "pointer", "&.MuiLink-root:hover": { color: "primary.main" } }}
+          to={`/surveys/${survey.surveyId}`}
+          color={"inherit"}
+          underline="none"
+        >
+          {value}
+        </Link>
+      </TableCell>
     );
   }
 

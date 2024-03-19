@@ -86,12 +86,12 @@ export const SurveyUnitSurveysTable = (props: Props) => {
                 key={`row-${survey.sourceWording}`}
                 sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}
               >
-                {columns.map(column => {
+                {columns.map((column, index) => {
                   return (
                     <SurveyUnitSurveysTableCell
                       survey={survey}
                       columnId={column.id}
-                      key={survey.sourceWording}
+                      key={`${survey.sourceWording}-${index}`}
                     />
                   );
                 })}

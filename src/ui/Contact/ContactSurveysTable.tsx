@@ -38,7 +38,7 @@ export const columns: readonly Column[] = [
   { id: "surveyUnitId", label: "Unité enquêtée", minWidth: "140px" },
   { id: "identificationName", label: "Raison sociale", minWidth: "130px" },
   { id: "main", label: "Rôle", minWidth: "100px" },
-  { id: "actions", label: "Actions", minWidth: "90px", align: "center" },
+  { id: "actions", label: "Accès au site miroir", minWidth: "90px", align: "center" },
 ];
 
 type Props = {
@@ -67,11 +67,11 @@ export const ContactSurveysTable = (props: Props) => {
       <Table aria-label="surveys table">
         <TableHeader columns={columns} />
         <TableBody>
-          {surveys.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(survey => {
+          {surveys.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((survey, index) => {
             return (
               <ContactSurveysTableRow
                 survey={survey}
-                key={`survey-${survey.partition}-${survey.identificationName}`}
+                key={`survey-${survey.partition}-${survey.identificationName}-${index}`}
                 onSelectState={props.onSelectState}
               />
             );
