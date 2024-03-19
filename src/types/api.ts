@@ -1538,6 +1538,8 @@ export type APIEndpoints = {
         lastName?: string
         firstName?: string
         email?: string
+        city?: string
+        function?: string
         idSu?: string
         identificationCode?: string
         identificationName?: string

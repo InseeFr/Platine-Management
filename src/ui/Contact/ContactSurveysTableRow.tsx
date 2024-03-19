@@ -151,27 +151,12 @@ const ContactSurveysTableCell = ({
     );
   }
 
-  if (columnId === "surveyUnitId") {
+  if (columnId === "surveyUnitId" || columnId === "sourceWording") {
     return (
       <TableCell key={columnId}>
         <Link
           sx={{ cursor: "pointer", "&.MuiLink-root:hover": { color: "primary.main" } }}
-          to={`/survey-units/${value}`}
-          color={"inherit"}
-          underline="none"
-        >
-          {value}
-        </Link>
-      </TableCell>
-    );
-  }
-
-  if (columnId === "sourceWording") {
-    return (
-      <TableCell key={columnId}>
-        <Link
-          sx={{ cursor: "pointer", "&.MuiLink-root:hover": { color: "primary.main" } }}
-          to={`/surveys/${survey.surveyId}`}
+          to={columnId === "surveyUnitId" ? `/survey-units/${value}` : `/surveys/${survey.surveyId}`}
           color={"inherit"}
           underline="none"
         >

@@ -6,6 +6,8 @@ const base = {
     identifier: "",
     name: "",
     email: "",
+    city: "",
+    function: "",
   },
   surveyUnits: {
     idSu: "",

@@ -22,7 +22,8 @@ export const SearchContactsForm = () => {
         <Stack spacing={2}>
           <TextField name="city" id="city" label="Ville" variant="outlined" size="small" />
           <TextField name="function" id="function" label="Fonction" variant="outlined" size="small" />
-          <TextField name="campaign" id="campaign" label="Campagne" variant="outlined" size="small" />
+          {/* TODO: keep this filter ? */}
+          {/* <TextField name="campaign" id="campaign" label="Campagne" variant="outlined" size="small" /> */}
         </Stack>
       )}
     </Stack>

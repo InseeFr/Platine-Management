@@ -67,6 +67,8 @@ export const SearchPanel = () => {
         identifier: data.get("id")!.toString(),
         name: data.get("name")!.toString(),
         email: data.get("email")!.toString(),
+        city: data.get("city")?.toString() ?? "",
+        function: data.get("function")?.toString() ?? "",
       });
     }
   };
