@@ -72,18 +72,18 @@ export function ItemCard({ contact }: Readonly<{ contact: Item }>) {
   const isDisabled = false; // TODO : calculated this value
 
   const listSurveyUnitNames =
-    contact.listSurveyUnitNames !== undefined && contact.listSurveyUnitNames?.length > 12
-      ? `${contact.listSurveyUnitNames?.slice(0, 12).join(", ")}...`
+    contact.listSurveyUnitNames !== undefined && contact.listSurveyUnitNames?.length > 6
+      ? `${contact.listSurveyUnitNames?.slice(0, 6).join(", ")}...`
       : contact.listSurveyUnitNames?.join(", ");
 
   const listSourcesId =
-    contact.listSourcesId !== undefined && contact.listSourcesId?.length > 12
-      ? `${contact.listSourcesId?.slice(0, 12).join(", ")}...`
+    contact.listSourcesId !== undefined && contact.listSourcesId?.length > 6
+      ? `${contact.listSourcesId?.slice(0, 6).join(", ")}...`
       : contact.listSourcesId?.join(", ");
 
   return (
-    <Card elevation={2} variant={isDisabled ? "disabled" : undefined}>
-      <CardActionArea component={Link} to={`/contacts/${contact.identifier}`}>
+    <Card elevation={2} variant={isDisabled ? "disabled" : undefined} sx={{ height: "100%" }}>
+      <CardActionArea sx={{ height: "100%" }} component={Link} to={`/contacts/${contact.identifier}`}>
         <Box px={3} py={2}>
           <Typography align="right" variant="titleLarge" color="text.tertiary" gutterBottom>
             #{contact.identifier}
