@@ -51,7 +51,7 @@ export const ContactDetailsCard = ({ contact, onSave }: Props) => {
             <Box component={"span"}>{contact.phone}</Box>
           </Stack>
           <Divider orientation="vertical" variant="middle" sx={{ height: "130px" }} />
-          <AddressInformations identificationName={"TODO DATA"} address={contact.address} />
+          <AddressInformations identificationName={contact.usualCompanyName} address={contact.address} />
         </Row>
       </Stack>
       <ContactFormDialog open={hasDialog} onClose={toggleDialog} onSave={handleSave} contact={contact} />

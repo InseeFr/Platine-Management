@@ -1,23 +1,11 @@
-import { InputBase, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import SearchIcon from "@mui/icons-material/Search";
 import { InfoBanner } from "../ui/InfoBanner.tsx";
 import { HomeCard } from "../ui/Card/HomeCard.tsx";
 import { BinocularIcon } from "../ui/Icon/BinocularIcon.tsx";
 import Stack from "@mui/material/Stack";
 import { Row } from "../ui/Row.tsx";
-import { theme } from "../theme.tsx";
-
-const styles = {
-  inputHero: {
-    paddingInline: 3,
-    height: 56,
-    borderRadius: 28,
-    background: "#FFF",
-    color: theme.palette.text.primary,
-  },
-};
 
 export function Home() {
   const maxWidth = 800;
@@ -34,18 +22,10 @@ export function Home() {
         minHeight={500}
         height="calc(100vh - 230px)"
       >
-        <Stack gap={3} sx={{ maxWidth }} my="auto">
+        <Stack gap={3} sx={{ maxWidth }} my={5}>
           <Typography variant="displayMedium" fontWeight={700} color="white">
             Trouver un contact, une enquête ou une unité enquêtée
           </Typography>
-          <InputBase
-            sx={styles.inputHero}
-            placeholder="Rechercher par nom, Idec, ID enquête, SIREN"
-            inputProps={{
-              "aria-label": "search",
-            }}
-            endAdornment={<SearchIcon />}
-          />
         </Stack>
         <Row
           position="relative"

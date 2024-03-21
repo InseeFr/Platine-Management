@@ -38,7 +38,7 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
   const [role, setRole] = useState("tous");
   const [isFilteredOpened, toggle] = useToggle(false);
 
-  const { data: contacts } = useFetchQuery("/api/survey-units/{id}/contacts", {
+  const { data: contacts, isLoading } = useFetchQuery("/api/survey-units/{id}/contacts", {
     urlParams: {
       id: surveyUnit.idSu,
     },
@@ -115,6 +115,13 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
           ))}
         </Grid>
       </Stack>
+
+      {!isLoading && filteredContacts.length === 0 && (
+        <Row justifyContent={"space-around"}>
+          <Typography variant="titleMedium">Aucun résultat</Typography>
+        </Row>
+      )}
+
       <Button
         sx={{
           position: "fixed",

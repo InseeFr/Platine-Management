@@ -7,6 +7,7 @@ import {
   TableFooter,
   TablePagination,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { APISchemas } from "../../types/api";
@@ -37,18 +38,18 @@ export const columns: readonly Column[] = [
   { id: "surveyUnitId", label: "Unité enquêtée", minWidth: "140px" },
   { id: "identificationName", label: "Raison sociale", minWidth: "130px" },
   { id: "main", label: "Rôle", minWidth: "100px" },
-  { id: "actions", label: "Actions", minWidth: "90px", align: "center" },
+  { id: "actions", label: "Accès au site miroir", minWidth: "90px", align: "center" },
 ];
 
 type Props = {
   surveys?: APISchemas["AccreditationDetailDto"][];
   onSelectState: () => void;
+  isLoading: boolean;
 };
 
 export const ContactSurveysTable = (props: Props) => {
   const surveys = props.surveys ?? [];
 
-  const isLoading = props.surveys === undefined;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -66,16 +67,17 @@ export const ContactSurveysTable = (props: Props) => {
       <Table aria-label="surveys table">
         <TableHeader columns={columns} />
         <TableBody>
-          {surveys.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(survey => {
+          {surveys.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((survey, index) => {
             return (
               <ContactSurveysTableRow
                 survey={survey}
-                key={`survey-${survey.partition}-${survey.identificationName}`}
+                key={`survey-${survey.partition}-${survey.identificationName}-${index}`}
                 onSelectState={props.onSelectState}
               />
             );
           })}
-          {isLoading && <LoadingCell columnLength={columns.length} />}
+          {props.isLoading && <LoadingCell columnLength={columns.length} />}
+          {!props.isLoading && surveys.length === 0 && <NoResultCell columnLength={columns.length} />}
         </TableBody>
         <SurveysTableFooter
           count={surveys.length}
@@ -132,5 +134,15 @@ export const SurveysTableFooter = ({
         />
       </TableRow>
     </TableFooter>
+  );
+};
+
+export const NoResultCell = ({ columnLength }: { columnLength: number }) => {
+  return (
+    <TableRow>
+      <TableCell align="center" colSpan={columnLength}>
+        <Typography variant="titleSmall">Aucun résultat</Typography>
+      </TableCell>
+    </TableRow>
   );
 };

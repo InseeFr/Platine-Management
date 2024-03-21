@@ -20,7 +20,7 @@ export function Header() {
             <Box component="span" color="black.main" fontWeight={600}>
               Platine
             </Box>
-            Collecte
+            Gestion
           </Row>
           <Typography variant="bodySmall" color="black.main">
             v{packageInfo.version}

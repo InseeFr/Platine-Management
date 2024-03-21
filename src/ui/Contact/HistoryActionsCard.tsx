@@ -8,9 +8,9 @@ export const HistoryActionsCard = () => {
     <GeneralCardContent
       TitleIconComponent={HistoryIcon}
       title={"Historique des actions"}
-      CardContent={<CardInner content={<Typography>content</Typography>} />}
+      CardContent={<CardInner content={<Typography>work in progress</Typography>} />}
       seeMoreLabel="Voir plus d’actions"
-      seeMoreContent={<CardInner content={<Typography>autre content</Typography>} />}
+      seeMoreContent={<CardInner content={<Typography>autre work in progress</Typography>} />}
     />
   );
 };

@@ -8,24 +8,34 @@ type Props = {
   address?: APISchemas["AddressDto"];
 };
 export const AddressInformations = ({ identificationName, address }: Props) => {
+  const isStreetBoxDisplayed =
+    address?.streetNumber || address?.repetitionIndex || address?.streetType || address?.streetName;
+
+  const isCodeBoxDisplayed =
+    address?.zipCode || address?.cityName || address?.cedexCode || address?.cedexName;
+
+  const isSupplementDisplayed = address?.addressSupplement || address?.specialDistribution;
   return (
     <Stack spacing={1} typography={"bodyMedium"}>
-      <Typography variant="titleSmall">{identificationName?.toUpperCase()}</Typography>
-
-      <Box component={"span"}>
-        {`${address?.streetNumber ?? ""} ${address?.streetType ?? ""} ${
-          address?.streetName ? address?.streetName.concat(",") : ""
-        }
-        ${address?.zipCode ? address?.zipCode.concat(",") : ""} ${address?.cityName ?? ""}`}
-      </Box>
-      <Box component={"span"}>
-        {`
-             ${address?.cedexCode ? address?.cedexCode.concat(",") : ""} 
-            ${address?.countryName ?? ""} 
-      `}
-      </Box>
-      <Box component={"span"}>{address?.addressSupplement ?? ""}</Box>
-      <Box component={"span"}>{address?.specialDistribution ?? ""}</Box>
+      {identificationName && (
+        <Typography variant="titleSmall">{identificationName.toUpperCase()}</Typography>
+      )}
+      {isStreetBoxDisplayed && (
+        <Box component={"span"}>
+          {address?.streetNumber} {address?.repetitionIndex} {address?.streetType} {address?.streetName}
+        </Box>
+      )}
+      {isSupplementDisplayed && (
+        <Box component={"span"}>
+          {address?.addressSupplement} {address?.specialDistribution}
+        </Box>
+      )}
+      {isCodeBoxDisplayed && (
+        <Box component={"span"}>
+          {address?.zipCode} {address?.cityName} {address?.cedexCode} {address?.cedexName}
+        </Box>
+      )}
+      <Box component={"span"}>{address?.countryName}</Box>
     </Stack>
   );
 };

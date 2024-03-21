@@ -18,7 +18,7 @@ export const SurveyUnitSurveys = ({ surveyUnit }: Props) => {
   const [state, setState] = useState("");
   const [search, setSearch] = useDebouncedState("", 500);
 
-  const { data: surveys } = useFetchQuery("/api/survey-units/{id}/partitionings", {
+  const { data: surveys, isLoading } = useFetchQuery("/api/survey-units/{id}/partitionings", {
     urlParams: {
       id: surveyUnit.idSu,
     },
@@ -43,7 +43,7 @@ export const SurveyUnitSurveys = ({ surveyUnit }: Props) => {
           </ToggleButton>
         </ToggleButtonGroup>
       </Row>
-      <SurveyUnitSurveysTable surveys={filteredSurveys} />
+      <SurveyUnitSurveysTable surveys={filteredSurveys} isLoading={isLoading} />
     </Card>
   );
 };

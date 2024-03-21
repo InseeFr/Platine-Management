@@ -790,6 +790,7 @@ export type APISchemas = {
     function?: string
     email?: string
     phone?: string
+    usualCompanyName?: string
     firstConnect?: boolean
     address?: APISchemas["AddressDto"]
   }
@@ -1537,6 +1538,8 @@ export type APIEndpoints = {
         lastName?: string
         firstName?: string
         email?: string
+        city?: string
+        function?: string
         idSu?: string
         identificationCode?: string
         identificationName?: string
@@ -1547,6 +1550,7 @@ export type APIEndpoints = {
         page?: number
         /* Format: int32 */
         pageSize?: number
+        sort?: string
       }
     }
   }

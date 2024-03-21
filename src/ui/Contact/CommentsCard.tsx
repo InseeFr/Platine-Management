@@ -31,9 +31,11 @@ export const CommentsCard = () => {
       title={"Commentaires"}
       ButtonStartIcon={<AddIcon />}
       buttonLabel={"Ajouter un commentaire"}
-      CardContent={<CardInner content={<Typography>content</Typography>} hasAction={true} />}
+      CardContent={<CardInner content={<Typography>work in progress</Typography>} hasAction={true} />}
       seeMoreLabel="Voir plus de commentaires"
-      seeMoreContent={<CardInner content={<Typography>autre content</Typography>} hasAction={true} />}
+      seeMoreContent={
+        <CardInner content={<Typography>autre work in progress</Typography>} hasAction={true} />
+      }
       handleClickOpen={onOpen}
       CardDialog={<CommentDialog open={open} onCancel={onClose} onSubmit={onSubmit} />}
     />
