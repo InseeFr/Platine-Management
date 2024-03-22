@@ -13,6 +13,8 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "../Link";
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import { Typography } from "@mui/material";
 
 type Props = {
   survey: APISchemas["AccreditationDetailDto"];
@@ -160,7 +162,10 @@ const ContactSurveysTableCell = ({
           color={"inherit"}
           underline="none"
         >
-          {value}
+          <Row spacing={0.5}>
+            <Typography> {value}</Typography>
+            <ArrowOutwardIcon fontSize="linkIcon" />
+          </Row>
         </Link>
       </TableCell>
     );

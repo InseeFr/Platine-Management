@@ -58,7 +58,7 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
   const filteredContacts = filterContacts(contacts ?? [], { search, role });
 
   return (
-    <Box>
+    <Box sx={{ height: "calc(100vh - 500px)" }}>
       <Stack spacing={4} sx={{ minHeight: 0, px: 3, py: 1 }}>
         <Row justifyContent={"space-between"}>
           <Row spacing={3} py={2}>
@@ -117,7 +117,7 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
       </Stack>
 
       {!isLoading && filteredContacts.length === 0 && (
-        <Row justifyContent={"space-around"}>
+        <Row justifyContent={"space-around"} height={"100%"}>
           <Typography variant="titleMedium">Aucun résultat</Typography>
         </Row>
       )}

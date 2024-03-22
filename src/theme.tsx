@@ -104,6 +104,7 @@ declare module "@mui/material/SvgIcon" {
     headerSinglePage: true;
     cardTitle: true;
     smallIcon: true;
+    linkIcon: true;
   }
   interface SvgIconPropsColorOverrides {
     yellow: true;
@@ -303,6 +304,12 @@ export const theme = createTheme({
           props: { fontSize: "smallIcon" },
           style: {
             fontSize: 20,
+          },
+        },
+        {
+          props: { fontSize: "linkIcon" },
+          style: {
+            fontSize: 16,
           },
         },
       ],

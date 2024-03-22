@@ -35,11 +35,31 @@ export const AddressFormFields = ({
 
   return (
     <Box sx={styles.Grid}>
-      <Stack gap={4} pt={1}>
+      <Stack gap={3} pt={1}>
+        <Box sx={{ width: "365px" }}>
+          <Field
+            defaultValue={countryValue ?? "FRANCE"}
+            type="select"
+            label="Sélectionnez un pays"
+            selectoptions={countries}
+            error={errors.address?.countryName?.message}
+            {...register("address.countryName")}
+            onChange={e => {
+              setCountry(e.target.value as string);
+            }}
+          />
+        </Box>
         <Field
+          sx={{ width: "365px" }}
           label="Raison sociale"
           error={errors.identificationName?.message}
           {...register("identificationName")}
+        />
+        <Field
+          sx={{ width: "365px" }}
+          label="Complément (ZI, Bat, Res ...)"
+          error={errors.address?.addressSupplement?.message}
+          {...register("address.addressSupplement")}
         />
         <Row gap={2}>
           <Field
@@ -48,7 +68,7 @@ export const AddressFormFields = ({
             error={errors.address?.streetNumber?.message}
             {...register("address.streetNumber")}
           />
-          <Box sx={{ width: "200px" }}>
+          <Box sx={{ width: "250px" }}>
             {country === "FRANCE" ? (
               <Field
                 type="select"
@@ -67,78 +87,65 @@ export const AddressFormFields = ({
               />
             )}
           </Box>
+          {country === "FRANCE" ? (
+            <Field
+              sx={{ width: "200px" }}
+              type="select"
+              label="Type de voie"
+              selectoptions={streetTypeEnum}
+              defaultValue={streetTypeValue}
+              error={errors.address?.streetType?.message}
+              {...register("address.streetType")}
+            />
+          ) : (
+            <Field
+              sx={{ width: "200px" }}
+              label="Type de voie"
+              defaultValue={streetTypeValue ?? ""}
+              error={errors.address?.streetType?.message}
+              {...register("address.streetType")}
+            />
+          )}
         </Row>
-        {country === "FRANCE" ? (
-          <Field
-            type="select"
-            label="Type de voie"
-            selectoptions={streetTypeEnum}
-            defaultValue={streetTypeValue}
-            error={errors.address?.streetType?.message}
-            {...register("address.streetType")}
-          />
-        ) : (
-          <Field
-            label="Type de voie"
-            defaultValue={streetTypeValue ?? ""}
-            error={errors.address?.streetType?.message}
-            {...register("address.streetType")}
-          />
-        )}
         <Field
+          sx={{ width: "365px" }}
           label="Libellé de voie"
           error={errors.address?.streetName?.message}
           {...register("address.streetName")}
         />
         <Field
-          label="Complément (ZI, Bat, Res ...)"
-          error={errors.address?.addressSupplement?.message}
-          {...register("address.addressSupplement")}
-        />
-        <Field
+          sx={{ width: "370px" }}
           label="Mention spéciale (BP, TSA ...)"
           error={errors.address?.specialDistribution?.message}
           {...register("address.specialDistribution")}
         />
-      </Stack>
-      <Stack gap={4} pt={1}>
-        <Field
-          sx={{ width: "210px" }}
-          label="Commune"
-          error={errors.address?.cityName?.message}
-          {...register("address.cityName")}
-        />
-        <Field
-          sx={{ width: "120px" }}
-          label="Code postal"
-          error={errors.address?.zipCode?.message}
-          {...register("address.zipCode")}
-        />
-        <Field
-          sx={{ width: "210px" }}
-          label="Bureau distributeur"
-          error={errors.address?.deliveryOffice?.message}
-          {...register("address.deliveryOffice")}
-        />
-        <Field
-          sx={{ width: "210px" }}
-          label="Code cedex"
-          error={errors.address?.cedexCode?.message}
-          {...register("address.cedexCode")}
-        />
-        <Box sx={{ width: "300px" }}>
+        <Row gap={2} alignItems={"flex-start"}>
           <Field
-            defaultValue={countryValue ?? "FRANCE"}
-            type="select"
-            label="Sélectionnez un pays"
-            selectoptions={countries}
-            error={errors.address?.countryName?.message}
-            {...register("address.countryName")}
-            onChange={e => {
-              setCountry(e.target.value as string);
-            }}
+            sx={{ width: "180px" }}
+            label="Commune"
+            error={errors.address?.cityName?.message}
+            {...register("address.cityName")}
           />
-        </Box>
+          <Field
+            sx={{ width: "120px" }}
+            label="Code postal"
+            error={errors.address?.zipCode?.message}
+            {...register("address.zipCode")}
+          />
+
+          <Field
+            sx={{ width: "180px" }}
+            label="Bureau distributeur"
+            error={errors.address?.cedexName?.message}
+            {...register("address.cedexName")}
+          />
+          <Field
+            sx={{ width: "120px" }}
+            label="Code cedex"
+            error={errors.address?.cedexCode?.message}
+            {...register("address.cedexCode")}
+          />
+        </Row>
       </Stack>
     </Box>
   );
