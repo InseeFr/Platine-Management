@@ -23,12 +23,12 @@ export const addressSchema = z
       .string()
       .nullable()
       .transform(val => (val === null ? "" : val))
-      .optional(), //TODO: use real repetition index
+      .optional(),
     streetType: z
       .string()
       .nullable()
       .transform(val => (val === null ? "" : val))
-      .optional(), // TODO: use real street type
+      .optional(),
     streetName: z.string().optional(),
     addressSupplement: z
       .string()
@@ -40,17 +40,43 @@ export const addressSchema = z
       .nullable()
       .transform(val => (val === null ? "" : val))
       .optional(),
-    cityName: z.string().optional(),
-    zipCode: z.string().optional(),
-    deliveryOffice: z.string().optional(), // TODO: add in api
-    cedexCode: z
-      .string()
-      .nullable()
-      .transform(val => (val === null ? "" : val))
-      .optional(),
+    cedexName: z.string(),
+    cedexCode: z.string(),
+    cityName: z.string(),
+    zipCode: z.string(),
     countryName: z.string().optional().or(z.literal("")),
   })
-  .optional();
+  .superRefine(({ cedexCode, zipCode, cityName, cedexName }, refinementContext) => {
+    console.log({ cedexCode, cedexName, zipCode, cityName });
+
+    if ((cedexCode === undefined || cedexCode === "") && (zipCode === undefined || zipCode === "")) {
+      refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "CedexCode ou zipCode requis",
+        path: ["zipCode"],
+      });
+      return refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "CedexCode ou zipCode requis",
+        path: ["cedexCode"],
+      });
+    }
+
+    if (cedexCode !== undefined && cedexCode !== "" && (cedexName === undefined || cedexName === "")) {
+      return refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Champs requis",
+        path: ["cedexName"],
+      });
+    }
+    if (zipCode !== undefined && zipCode !== "" && (cityName === undefined || cityName === "")) {
+      return refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Champs requis",
+        path: ["cityName"],
+      });
+    }
+  });
 
 const schema = z.object({
   civility: z.enum(["Female", "Male", "Undefined"]),
@@ -111,7 +137,7 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
         <DialogTitle>Modification des coordonnées</DialogTitle>
         <DialogContent>
           <Box sx={styles.Grid}>
-            <Stack gap={4}>
+            <Stack gap={3} pt={2.5}>
               <Field
                 control={control}
                 label="Civilité"
@@ -126,7 +152,7 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
               <Field label="Adresse courriel" error={errors.email?.message} {...register("email")} />
               <Row gap={3}>
                 <Field
-                  sx={{ width: "150px" }}
+                  sx={{ width: "180px" }}
                   label="Téléphone 1"
                   error={errors.phone?.message}
                   {...register("phone")}
@@ -135,7 +161,7 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
               </Row>
               <Row gap={3}>
                 <Field
-                  sx={{ width: "150px" }}
+                  sx={{ width: "180px" }}
                   label="Téléphone 2"
                   error={errors.secondPhone?.message}
                   {...register("secondPhone")}
@@ -144,15 +170,13 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
               </Row>
             </Stack>
             <Divider orientation="vertical" variant="middle" />
-            <Box component={"div"} pt={6}>
-              <AddressFormFields
-                errors={errors}
-                register={register}
-                repetitionIndexValue={contact.address?.repetitionIndex}
-                streetTypeValue={contact.address?.streetType}
-                countryValue={contact.address?.countryName?.toLocaleUpperCase() ?? "FRANCE"}
-              />
-            </Box>
+            <AddressFormFields
+              errors={errors}
+              register={register}
+              repetitionIndexValue={contact.address?.repetitionIndex}
+              streetTypeValue={contact.address?.streetType}
+              countryValue={contact.address?.countryName?.toLocaleUpperCase() ?? "FRANCE"}
+            />
           </Box>
         </DialogContent>
         <DialogActions>

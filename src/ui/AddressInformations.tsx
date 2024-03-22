@@ -14,25 +14,22 @@ export const AddressInformations = ({ identificationName, address }: Props) => {
   const isCodeBoxDisplayed =
     address?.zipCode || address?.cityName || address?.cedexCode || address?.cedexName;
 
-  const isSupplementDisplayed = address?.addressSupplement || address?.specialDistribution;
   return (
     <Stack spacing={1} typography={"bodyMedium"}>
       {identificationName && (
         <Typography variant="titleSmall">{identificationName.toUpperCase()}</Typography>
       )}
+      {address?.addressSupplement && <Box component={"span"}>{address?.addressSupplement}</Box>}
       {isStreetBoxDisplayed && (
         <Box component={"span"}>
           {address?.streetNumber} {address?.repetitionIndex} {address?.streetType} {address?.streetName}
         </Box>
       )}
-      {isSupplementDisplayed && (
-        <Box component={"span"}>
-          {address?.addressSupplement} {address?.specialDistribution}
-        </Box>
-      )}
+      {address?.specialDistribution && <Box component={"span"}>{address?.specialDistribution}</Box>}
       {isCodeBoxDisplayed && (
         <Box component={"span"}>
-          {address?.zipCode} {address?.cityName} {address?.cedexCode} {address?.cedexName}
+          {address?.zipCode} {address?.cityName?.toLocaleUpperCase()} {address?.cedexCode}
+          {address?.cedexName?.toLocaleUpperCase()}
         </Box>
       )}
       <Box component={"span"}>{address?.countryName}</Box>
