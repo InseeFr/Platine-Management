@@ -1,9 +1,14 @@
 import TextField from "@mui/material/TextField";
 
-export const SearchSurveyUnitsForm = () => {
+type Props = {
+  filters: { idSu: string; identificationCode: string; identificationName: string };
+};
+
+export const SearchSurveyUnitsForm = ({ filters }: Props) => {
   return (
     <>
       <TextField
+        defaultValue={filters.idSu}
         name="idSu"
         id="idSu"
         label="Identifiant unité enquêtée"
@@ -11,6 +16,7 @@ export const SearchSurveyUnitsForm = () => {
         size="small"
       />
       <TextField
+        defaultValue={filters.identificationCode}
         name="identificationCode"
         id="identificationCode"
         label="SIREN"
@@ -18,6 +24,7 @@ export const SearchSurveyUnitsForm = () => {
         size="small"
       />
       <TextField
+        defaultValue={filters.identificationName}
         name="identificationName"
         id="identificationName"
         label="Raison sociale"
