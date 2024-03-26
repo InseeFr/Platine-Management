@@ -18,9 +18,9 @@ import { Typography } from "@mui/material";
 
 type Props = {
   survey: APISchemas["AccreditationDetailDto"];
-  onSelectState: () => void;
+  refetchState: () => void;
 };
-export const ContactSurveysTableRow = ({ survey, onSelectState }: Props) => {
+export const ContactSurveysTableRow = ({ survey, refetchState }: Props) => {
   const [openCollectStateHistory, setOpenCollectStateHistory] =
     useState<APISchemas["AccreditationDetailDto"]>();
 
@@ -42,7 +42,6 @@ export const ContactSurveysTableRow = ({ survey, onSelectState }: Props) => {
         payload: { "source": "platine-gestion" },
       },
     });
-    onSelectState();
   };
 
   return (
@@ -61,6 +60,7 @@ export const ContactSurveysTableRow = ({ survey, onSelectState }: Props) => {
             openCollectStateHistory={openCollectStateHistory}
             setOpenCollectStateHistory={setOpenCollectStateHistory}
             onSelectCollectState={onSelectCollectState}
+            refetchState={refetchState}
           />
         );
       })}
@@ -87,6 +87,7 @@ type ContactSurveysTableCellProps = {
   openCollectStateHistory: APISchemas["AccreditationDetailDto"] | undefined;
   setOpenCollectStateHistory: (survey?: APISchemas["AccreditationDetailDto"]) => void;
   onSelectCollectState: (type: string, questioningId?: string) => void;
+  refetchState: () => void;
 };
 
 const ContactSurveysTableCell = ({
@@ -95,6 +96,7 @@ const ContactSurveysTableCell = ({
   openCollectStateHistory,
   setOpenCollectStateHistory,
   onSelectCollectState,
+  refetchState,
 }: ContactSurveysTableCellProps) => {
   const value = survey[columnId as keyof typeof survey];
 
@@ -119,7 +121,10 @@ const ContactSurveysTableCell = ({
           />
           {isCollectStateHistoryVisible && (
             <CollectStateHistory
-              onClose={() => setOpenCollectStateHistory(undefined)}
+              onClose={() => {
+                refetchState();
+                setOpenCollectStateHistory(undefined);
+              }}
               open={true}
               questioningId={survey.questioningId!}
               surveyName={survey.partition ?? ""}

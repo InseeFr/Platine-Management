@@ -45,7 +45,7 @@ export const ContactSurveysContent = ({ contact }: Props) => {
   return (
     <Card sx={{ mx: 2, px: 6, py: 3 }} elevation={2}>
       <TitleWithIconAndDivider
-        title={"Liste des interrogations du contact"}
+        title={"Liste des questionnaires du contact"}
         IconComponent={BinocularIcon}
       />
 
@@ -74,7 +74,7 @@ export const ContactSurveysContent = ({ contact }: Props) => {
         </ToggleButtonGroup>
       </Row>
 
-      <ContactSurveysTable surveys={filteredSurveys} onSelectState={refetch} isLoading={isLoading} />
+      <ContactSurveysTable surveys={filteredSurveys} refetchState={refetch} isLoading={isLoading} />
     </Card>
   );
 };
