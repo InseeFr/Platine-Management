@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
 
-const base = {
+export const base = {
   contacts: {
     identifier: "",
     name: "",
@@ -32,6 +32,10 @@ const useSearchFilter = create(
 
 export function useSetSearchFilter() {
   return useSearchFilter(v => v.setFilter);
+}
+
+export function useGetSearchFilter() {
+  return useSearchFilter(v => v);
 }
 
 export function useSearchFilterParams<K extends Key>(name: K): State[K] {

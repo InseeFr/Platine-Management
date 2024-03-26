@@ -13,7 +13,7 @@ import Stack from "@mui/material/Stack";
 import { theme } from "../../theme.tsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import { kebabCase } from "../../functions/string.ts";
-import { useSetSearchFilter } from "../../hooks/useSearchFilter.ts";
+import { useGetSearchFilter, useSetSearchFilter } from "../../hooks/useSearchFilter.ts";
 
 const getSearchTitle = (tab: string) => {
   switch (tab) {
@@ -40,6 +40,7 @@ export const SearchPanel = () => {
   const currentTab = useCurrentTab();
   const navigate = useNavigate();
   const setFilter = useSetSearchFilter();
+  const filters = useGetSearchFilter();
   const handleChange = (_: unknown, tab: string) => {
     navigate("/search/" + kebabCase(tab));
   };
@@ -106,9 +107,9 @@ export const SearchPanel = () => {
 
         <Stack spacing={3} m={3} component="form" onSubmit={handleSubmit}>
           <Stack spacing={2}>
-            {currentTab === "contacts" && <SearchContactsForm />}
+            {currentTab === "contacts" && <SearchContactsForm filters={filters.contacts} />}
             {currentTab === "surveys" && <SearchSurveysForm />}
-            {currentTab === "surveyUnits" && <SearchSurveyUnitsForm />}
+            {currentTab === "surveyUnits" && <SearchSurveyUnitsForm filters={filters.surveyUnits} />}
           </Stack>
           <Button
             type="submit"
