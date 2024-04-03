@@ -101,4 +101,4 @@ jobs:
           name: inseefr/platine-management
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          tags: "${{ steps.version.outputs.pe-version }}, ${{ needs.check-version.outputs.release-version }}"
+          tags: "latest, ${{ needs.check-version.outputs.release-version }}"
