@@ -6,6 +6,7 @@ export type Props = {
   options: Option[];
   label: string;
   name: string;
+  value?: string | number;
   onChange?: (e: SelectChangeEvent) => void;
 };
 
@@ -17,11 +18,24 @@ const getLabel = (o: Option) => {
   return typeof o === "string" ? o : o.label;
 };
 
-export function SelectWithOptions({ options, label, name, onChange }: Props) {
+const getSelectedLabel = (selected: string, options: Option[]) => {
+  if (typeof options[0] === "string") {
+    return selected;
+  }
+
+  const option = options.find((o: Option) => typeof o !== "string" && o.value === selected) as {
+    label: string;
+    value: string;
+  };
+  return option.label;
+};
+
+export function SelectWithOptions({ options, label, name, onChange, value }: Props) {
   return (
     <Select
       name={name}
       size="small"
+      value={value ? getValue(value.toLocaleString()) : ""}
       displayEmpty
       onChange={onChange}
       fullWidth
@@ -31,7 +45,7 @@ export function SelectWithOptions({ options, label, name, onChange }: Props) {
           return <>{label}</>;
         }
 
-        return <>{selected}</>;
+        return <>{getSelectedLabel(selected, options)}</>;
       }}
     >
       {options.map(o => (

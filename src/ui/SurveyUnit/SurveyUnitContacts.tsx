@@ -68,7 +68,7 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
                 { label: "Principal", value: "primary" },
                 { label: "Secondaire", value: "secondary" },
               ]}
-              defaultValue={"tous"}
+              value={role}
               label={"Rôle du contact"}
               name={"role"}
               onFilterChange={e => setRole(e.target.value)}

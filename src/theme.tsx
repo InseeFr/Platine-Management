@@ -309,7 +309,7 @@ export const theme = createTheme({
         {
           props: { fontSize: "linkIcon" },
           style: {
-            fontSize: 16,
+            fontSize: 14,
           },
         },
       ],

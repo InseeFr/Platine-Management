@@ -40,25 +40,61 @@ export const addressSchema = z
       .nullable()
       .transform(val => (val === null ? "" : val))
       .optional(),
-    cedexName: z.string(),
-    cedexCode: z.string(),
-    cityName: z.string(),
-    zipCode: z.string(),
+    cedexName: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val)),
+    cedexCode: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val)),
+    cityName: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val)),
+    zipCode: z
+      .string()
+      .nullable()
+      .transform(val => (val === null ? "" : val)),
     countryName: z.string().optional().or(z.literal("")),
   })
   .superRefine(({ cedexCode, zipCode, cityName, cedexName }, refinementContext) => {
-    console.log({ cedexCode, cedexName, zipCode, cityName });
-
     if ((cedexCode === undefined || cedexCode === "") && (zipCode === undefined || zipCode === "")) {
       refinementContext.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "CedexCode ou zipCode requis",
+        message: "Code cedex ou code postal requis",
         path: ["zipCode"],
       });
       return refinementContext.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "CedexCode ou zipCode requis",
+        message: "Code cedex ou code postal requis",
         path: ["cedexCode"],
+      });
+    }
+
+    if (cedexCode && cedexCode !== "" && zipCode && zipCode !== "") {
+      refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Impossible de remplir code postal et code cedex",
+        path: ["zipCode"],
+      });
+      return refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Impossible de remplir code postal et code cedex",
+        path: ["cedexCode"],
+      });
+    }
+
+    if (cedexName && cedexName !== "" && cityName && cityName !== "") {
+      refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Impossible de remplir commune et bureau distributeur",
+        path: ["cityName"],
+      });
+      return refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Impossible de remplir commune et bureau distributeur",
+        path: ["cedexName"],
       });
     }
 
@@ -69,6 +105,7 @@ export const addressSchema = z
         path: ["cedexName"],
       });
     }
+
     if (zipCode !== undefined && zipCode !== "" && (cityName === undefined || cityName === "")) {
       return refinementContext.addIssue({
         code: z.ZodIssueCode.custom,
@@ -91,6 +128,7 @@ const schema = z.object({
     .optional(),
   secondPhone: z.string().optional().or(z.literal("")),
   identificationName: z.string().optional(),
+  usualCompanyName: z.string().optional(),
   address: addressSchema,
 });
 
@@ -106,7 +144,7 @@ export const streetTypeEnum = ["rue", "avenue"]; // TODO: use real street type
 export const styles = {
   Grid: {
     display: "grid",
-    gridTemplateColumns: "1fr 1px 1fr 1fr",
+    gridTemplateColumns: "1fr 1px 1fr ",
     gap: "40px",
   },
 };
@@ -115,7 +153,7 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
   const defaultValues = contact.address?.countryName
     ? contact
     : { ...contact, address: { ...contact.address, countryName: "France" } };
-  const { register, control, errors, handleSubmit } = useForm(schema, {
+  const { register, control, errors, handleSubmit, reset } = useForm(schema, {
     defaultValues: defaultValues,
   });
 
@@ -129,10 +167,14 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
     onSave();
   });
 
+  const handleClose = () => {
+    reset(defaultValues);
+    onClose();
+  };
   console.log({ errors });
 
   return (
-    <Dialog open={open} onClose={onClose} sx={{ ".MuiPaper-root": { maxWidth: "1160px", px: 3 } }}>
+    <Dialog open={open} onClose={handleClose} sx={{ ".MuiPaper-root": { maxWidth: "1160px", px: 3 } }}>
       <form action="#" onSubmit={onSubmit}>
         <DialogTitle>Modification des coordonnées</DialogTitle>
         <DialogContent>
@@ -176,11 +218,12 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
               repetitionIndexValue={contact.address?.repetitionIndex}
               streetTypeValue={contact.address?.streetType}
               countryValue={contact.address?.countryName?.toLocaleUpperCase() ?? "FRANCE"}
+              type="contact"
             />
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose} disabled={isPending}>
+          <Button type="reset" onClick={handleClose} disabled={isPending}>
             Annuler
           </Button>
           <Button type="submit" variant="contained" disabled={isPending}>

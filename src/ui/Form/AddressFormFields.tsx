@@ -14,6 +14,7 @@ type Props = {
   repetitionIndexValue?: string;
   streetTypeValue?: string;
   countryValue: string;
+  type?: "contact" | "surveyUnit";
 };
 
 const styles = {
@@ -30,13 +31,14 @@ export const AddressFormFields = ({
   repetitionIndexValue,
   streetTypeValue,
   countryValue,
+  type = "surveyUnit",
 }: Props) => {
   const [country, setCountry] = useState(countryValue);
 
   return (
     <Box sx={styles.Grid}>
       <Stack gap={3} pt={1}>
-        <Box sx={{ width: "365px" }}>
+        <Box sx={{ width: "650px" }}>
           <Field
             defaultValue={countryValue ?? "FRANCE"}
             type="select"
@@ -49,14 +51,23 @@ export const AddressFormFields = ({
             }}
           />
         </Box>
+        {type === "surveyUnit" ? (
+          <Field
+            sx={{ width: "650px" }}
+            label="Raison sociale"
+            error={errors.identificationName?.message}
+            {...register("identificationName")}
+          />
+        ) : (
+          <Field
+            sx={{ width: "650px" }}
+            label="Raison sociale"
+            error={errors.usualCompanyName?.message}
+            {...register("usualCompanyName")}
+          />
+        )}
         <Field
-          sx={{ width: "365px" }}
-          label="Raison sociale"
-          error={errors.identificationName?.message}
-          {...register("identificationName")}
-        />
-        <Field
-          sx={{ width: "365px" }}
+          sx={{ width: "650px" }}
           label="Complément (ZI, Bat, Res ...)"
           error={errors.address?.addressSupplement?.message}
           {...register("address.addressSupplement")}
@@ -89,7 +100,7 @@ export const AddressFormFields = ({
           </Box>
           {country === "FRANCE" ? (
             <Field
-              sx={{ width: "200px" }}
+              sx={{ width: "270px" }}
               type="select"
               label="Type de voie"
               selectoptions={streetTypeEnum}
@@ -99,7 +110,7 @@ export const AddressFormFields = ({
             />
           ) : (
             <Field
-              sx={{ width: "200px" }}
+              sx={{ width: "270px" }}
               label="Type de voie"
               defaultValue={streetTypeValue ?? ""}
               error={errors.address?.streetType?.message}
@@ -108,13 +119,13 @@ export const AddressFormFields = ({
           )}
         </Row>
         <Field
-          sx={{ width: "365px" }}
+          sx={{ width: "650px" }}
           label="Libellé de voie"
           error={errors.address?.streetName?.message}
           {...register("address.streetName")}
         />
         <Field
-          sx={{ width: "370px" }}
+          sx={{ width: "650px" }}
           label="Mention spéciale (BP, TSA ...)"
           error={errors.address?.specialDistribution?.message}
           {...register("address.specialDistribution")}
