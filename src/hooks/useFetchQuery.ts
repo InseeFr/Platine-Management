@@ -80,7 +80,7 @@ export function useInfiniteFetchQuery<Path extends APIPaths, Options extends API
   return {
     ...result,
     results,
-    count: result?.data?.pages[0]?.totalElements
+    count: result?.data?.pages[0]?.totalElements,
   };
 }
 

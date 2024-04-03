@@ -89,7 +89,7 @@ export const CollectStateHistory = ({ onClose, open, questioningId, surveyName, 
                     <TableCell>{date}</TableCell>
                     <TableCell>{hour}</TableCell>
                     <TableCell>{collectStates.find(cs => cs.value === state.type)?.label}</TableCell>
-                    {state.type && ["VALPAP", "PND", "HC", "REFUSAL", "WASTE"].includes(state.type) && (
+                    {state.type && ["VALPAP", "HC", "REFUSAL", "WASTE"].includes(state.type) && (
                       <TableCell align="center">
                         <IconButton
                           aria-label="supprimer"

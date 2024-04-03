@@ -69,9 +69,9 @@ export function useSearchFilterParams<K extends Key>(name: K): State[K] {
 */
 
 export function useSearchForm<K extends Key>(key: K, initialValue: State[K]) {
-  const [value, setValue] = useState(initialValue)
+  const [value, setValue] = useState(initialValue);
   const setFilter = useSetSearchFilter();
-  
+
   const onSubmit: FormEventHandler = e => {
     e.preventDefault();
     setFilter(key, value);
@@ -84,17 +84,17 @@ export function useSearchForm<K extends Key>(key: K, initialValue: State[K]) {
   };
 
   return {
-    value, 
+    value,
     onSubmit,
     onReset,
     inputProps: (name: keyof State[K]) => ({
       id: name,
       name: name,
       value: value[name],
-      onChange: (e: any) => setValue({...value, [name]: e.target.value})
+      onChange: (e: any) => setValue({ ...value, [name]: e.target.value }),
     }),
     handler: (name: keyof State[K]) => {
-      return (e: any) => setValue({...value, [name]: e.target.value})
-  }
-  }
+      return (e: any) => setValue({ ...value, [name]: e.target.value });
+    },
+  };
 }

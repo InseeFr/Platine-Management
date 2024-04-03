@@ -412,6 +412,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           background: "#FFF",
+          color: palette.text.secondary,
         },
         sizeSmall: {
           ...typography.bodyMedium,
