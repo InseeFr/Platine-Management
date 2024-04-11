@@ -4,7 +4,7 @@ type User = ReturnType<typeof useUser>;
 type PermissionRequirement = string[] | ((user: User) => boolean);
 
 const permissions = {
-  ACCESS_SITE: ["admin", "user"],
+  ACCESS_SITE: [import.meta.env.VITE_ADMIN_LDAP_ROLE, import.meta.env.VITE_USER_LDAP_ROLE],
   EDIT_PAGE: ["admin", "user"],
   READ_PAGE: ["user"],
   DELETE_SITE: (user: User) => user.preferred_username === "admin",
