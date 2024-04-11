@@ -20,8 +20,8 @@ export const useLogout = () => {
   return useOidc({ assertUserLoggedIn: true }).logout;
 };
 
-export function useIsAuthenticated(): boolean {
-  const { login, isUserLoggedIn } = useOidc({ assertUserLoggedIn: false });
+export function useIsAuthenticated() {
+  const { login, isUserLoggedIn, oidcTokens } = useOidc({ assertUserLoggedIn: false });
 
   useEffect(() => {
     if (!login) {
@@ -32,7 +32,7 @@ export function useIsAuthenticated(): boolean {
     });
   }, [login]);
 
-  return isUserLoggedIn;
+  return { isAuthenticated: isUserLoggedIn, tokens: oidcTokens };
 }
 
 export const AuthProvider = OidcProvider;
