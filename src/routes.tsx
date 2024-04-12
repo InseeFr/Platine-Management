@@ -56,3 +56,19 @@ export const unauthorizedRoutes: RouteObject[] = [
     errorElement: <PageError />,
   },
 ];
+
+/* export const unauthenticatedRoutes: RouteObject[] = [
+  {
+    path: "/",
+    element: (
+      <Layout>
+        <Outlet />
+      </Layout>
+    ),
+    errorElement: <PageError />,
+    children: [
+      { path: "logout", element: <LogoutPage /> },
+      { path: "", element: <Home /> },
+    ],
+  },
+]; */

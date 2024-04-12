@@ -27,7 +27,6 @@ function AuthenticatedApp() {
   const canAccessSite = useHasPermission("ACCESS_APP");
 
   if (!canAccessSite) {
-    // TODO : Mettre un composant Unauthorized
     return <RouterProvider router={unauthorizedRouter} />;
   }
 

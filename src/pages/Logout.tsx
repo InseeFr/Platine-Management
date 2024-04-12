@@ -1,5 +1,7 @@
-import { Stack, Typography, Box } from "@mui/material";
+import { Stack, Typography, Box, Link } from "@mui/material";
 import { Row } from "../ui/Row";
+import { PropsWithChildren } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 export function LogoutPage() {
   return (
@@ -29,10 +31,14 @@ export function LogoutPage() {
           </Row>
           ,
         </Row>
-        <Typography variant="displaySmall" fontWeight={400} color="white">
+        <Typography variant="displaySmall" fontWeight={400} color="white" component={HomeLink}>
           {"cliquez ici"}
         </Typography>
       </Stack>
     </>
   );
 }
+
+const HomeLink = (props: PropsWithChildren) => {
+  return <Link component={RouterLink} underline="none" to="/" {...props} />;
+};
