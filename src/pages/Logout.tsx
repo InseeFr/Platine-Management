@@ -1,7 +1,7 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Stack, Typography, Box } from "@mui/material";
 import { Row } from "../ui/Row";
 
-export function UnauthorizedPage() {
+export function LogoutPage() {
   return (
     <>
       <Stack
@@ -14,9 +14,12 @@ export function UnauthorizedPage() {
         minHeight={500}
         height="calc(100vh - 230px)"
       >
+        <Typography variant="displaySmall" fontWeight={400} color="white">
+          {"Vous avez été deconnecté,"}
+        </Typography>
         <Row spacing={2}>
           <Typography variant="displaySmall" fontWeight={400} color="white">
-            {"Vous n'êtes pas autorisé à accéder à "}
+            {"pour revenir sur "}
           </Typography>
           <Row typography="headlineMedium" gap={0.25} color="red.main" component="span">
             <Box component="span" color="black.main" fontWeight={600}>
@@ -24,7 +27,11 @@ export function UnauthorizedPage() {
             </Box>
             Gestion
           </Row>
+          ,
         </Row>
+        <Typography variant="displaySmall" fontWeight={400} color="white">
+          {"cliquez ici"}
+        </Typography>
       </Stack>
     </>
   );

@@ -7,7 +7,7 @@ type TokenInfo = {
 };
 
 const guestUser: TokenInfo = {
-  inseegroupedefaut: [],
+  inseegroupedefaut: [import.meta.env.VITE_ADMIN_LDAP_ROLE],
   preferred_username: "Guest",
 };
 
