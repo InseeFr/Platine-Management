@@ -11,6 +11,28 @@ const guestUser: TokenInfo = {
   preferred_username: "Guest",
 };
 
+const dummyOidc = {
+  isUserLoggedIn: true,
+  logout: () => (window.location.href = "/"),
+  oidcTokens: {
+    decodedIdToken: guestUser,
+    accessToken: "accessToken",
+    idToken: null,
+    refreshToken: null,
+    refreshTokenExpirationTime: null,
+    // accessTokenExpirationTime: Date.now() + 60 * 60 * 1000,
+    accessTokenExpirationTime: 60 * 1000,
+  },
+  login: () => window.location.reload(),
+  getTokens: () => ({
+    accessToken: "accessToken",
+    idToken: null,
+    refreshToken: null,
+    refreshTokenExpirationTime: null,
+    accessTokenExpirationTime: Date.now() + 60 * 60 * 1000,
+  }),
+};
+
 const isOidc = import.meta.env.VITE_AUTH_TYPE === "oidc";
 
 export const createAppOidc = () => {
@@ -25,14 +47,7 @@ export const createAppOidc = () => {
 
   return {
     OidcProvider: Fragment,
-    useOidc: () => ({
-      login: () => null,
-      isUserLoggedIn: true,
-      oidcTokens: {
-        decodedIdToken: guestUser,
-        accessToken: "accessToken",
-      },
-      logout: () => (window.location.href = "/"),
-    }),
+    useOidc: () => dummyOidc,
+    prOidc: Promise.resolve(dummyOidc),
   };
 };
