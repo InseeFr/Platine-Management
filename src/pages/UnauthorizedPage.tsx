@@ -1,4 +1,5 @@
-import { Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
+import { Row } from "../ui/Row";
 
 export function UnauthorizedPage() {
   return (
@@ -13,9 +14,17 @@ export function UnauthorizedPage() {
         minHeight={500}
         height="calc(100vh - 230px)"
       >
-        <Typography variant="displaySmall" fontWeight={400} color="white">
-          Vous n'avez pas les droits nécessaires pour accéder à Platine Gestion
-        </Typography>
+        <Row spacing={2}>
+          <Typography variant="displaySmall" fontWeight={400} color="white">
+            {"Vous n'avez pas les droits nécessaires pour accéder à "}
+          </Typography>
+          <Row typography="headlineMedium" gap={0.25} color="red.main" component="span">
+            <Box component="span" color="black.main" fontWeight={600}>
+              Platine
+            </Box>
+            Gestion
+          </Row>
+        </Row>
       </Stack>
     </>
   );

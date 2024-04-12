@@ -6,10 +6,12 @@ import { Row } from "./Row.tsx";
 import { PropsWithChildren } from "react";
 import { useUser, useLogout } from "../hooks/useAuth.ts";
 import packageInfo from "../../package.json";
+import { useHasPermission } from "../hooks/usePermissions.ts";
 
 export function Header() {
   const { preferred_username } = useUser();
   const logout = useLogout();
+  const activeSettings = useHasPermission("ACCESS_SETTINGS");
 
   return (
     <Row px={4} py={1} height={74} justifyContent="space-between" bgcolor="white">
@@ -29,9 +31,11 @@ export function Header() {
       </Row>
       <Box>
         {preferred_username}
-        <IconButton component={RouterLink} to="/reglages">
-          <SettingsOutlinedIcon />
-        </IconButton>
+        {activeSettings && (
+          <IconButton component={RouterLink} to="/reglages">
+            <SettingsOutlinedIcon />
+          </IconButton>
+        )}
         <IconButton
           onClick={() =>
             logout({
