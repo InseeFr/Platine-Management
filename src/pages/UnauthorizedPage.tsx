@@ -16,7 +16,7 @@ export function UnauthorizedPage() {
       >
         <Row spacing={2}>
           <Typography variant="displaySmall" fontWeight={400} color="white">
-            {"Vous n'avez pas les droits nécessaires pour accéder à "}
+            {"Vous n'êtes pas autoisé à accéder à "}
           </Typography>
           <Row typography="headlineMedium" gap={0.25} color="red.main" component="span">
             <Box component="span" color="black.main" fontWeight={600}>
