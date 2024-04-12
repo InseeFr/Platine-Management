@@ -40,7 +40,7 @@ export function Header() {
           onClick={() =>
             logout({
               redirectTo: "specific url",
-              url: "",
+              url: "http://localhost:5173/logout",
             })
           }
         >
