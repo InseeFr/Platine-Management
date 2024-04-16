@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly VITE_IDENTITY_PROVIDER: string;
   readonly VITE_ADMIN_LDAP_ROLE: string;
   readonly VITE_USER_LDAP_ROLE: string;
+  readonly VITE_APP_URL: string;
 }
 
 interface ImportMeta {

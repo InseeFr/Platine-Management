@@ -1,7 +1,7 @@
 import { SearchPage } from "./pages/SearchPage";
 import { Home } from "./pages/Home.tsx";
 import { Outlet, redirect, RouteObject } from "react-router-dom";
-import { Layout } from "./ui/Layout";
+import { Layout, LayoutWithAuth } from "./ui/Layout";
 import { PageError } from "./ui/PageError";
 import { SurveyPage } from "./pages/SurveyPage";
 import { ContactPage } from "./pages/ContactPage";
@@ -16,11 +16,19 @@ import { LogoutPage } from "./pages/Logout.tsx";
 
 export const routes: RouteObject[] = [
   {
-    path: "/",
+    path: "logout",
     element: (
       <Layout>
-        <Outlet />
+        <LogoutPage />
       </Layout>
+    ),
+  },
+  {
+    path: "/",
+    element: (
+      <LayoutWithAuth>
+        <Outlet />
+      </LayoutWithAuth>
     ),
     errorElement: <PageError />,
     children: [
@@ -40,18 +48,25 @@ export const routes: RouteObject[] = [
       { path: "reglages", element: <Settings /> },
       { path: "contacts/createContact", element: <CreateContactPage /> },
       { path: "", element: <Home /> },
-      { path: "logout", element: <LogoutPage /> },
     ],
   },
 ];
 
 export const unauthorizedRoutes: RouteObject[] = [
   {
-    path: "/*",
+    path: "/logout",
     element: (
       <Layout>
-        <UnauthorizedPage />
+        <LogoutPage />
       </Layout>
+    ),
+  },
+  {
+    path: "/*",
+    element: (
+      <LayoutWithAuth>
+        <UnauthorizedPage />
+      </LayoutWithAuth>
     ),
     errorElement: <PageError />,
   },

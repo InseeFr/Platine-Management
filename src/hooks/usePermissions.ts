@@ -1,4 +1,4 @@
-import { useUser } from "./useAuth";
+import { useMaybeUser, useUser } from "./useAuth";
 
 type User = ReturnType<typeof useUser>;
 type PermissionRequirement = string[] | ((user: User) => boolean);
@@ -12,11 +12,11 @@ const permissions = {
 } satisfies Record<string, PermissionRequirement>;
 
 export const useHasPermission = (permissionKey: keyof typeof permissions) => {
-  const user = useUser();
+  const user = useMaybeUser();
   const permission = permissions[permissionKey];
 
   // For unknown permission, refuse access by default
-  if (!permission) {
+  if (!permission || !user) {
     return false;
   }
 

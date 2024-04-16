@@ -29,7 +29,8 @@ const dummyOidc = {
     idToken: null,
     refreshToken: null,
     refreshTokenExpirationTime: null,
-    accessTokenExpirationTime: Date.now() + 60 * 60 * 1000,
+    //accessTokenExpirationTime: Date.now() + 60 * 60 * 1000,
+    accessTokenExpirationTime: 60 * 1000,
   }),
 };
 
