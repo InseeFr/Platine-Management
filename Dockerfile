@@ -33,5 +33,5 @@ EXPOSE 8080
 USER nginx
 
 # Start Nginx server
-ENTRYPOINT bash -c "/usr/share/nginx/html/env.sh && nginx -g 'daemon off;'"
+ENTRYPOINT bash -c "/usr/share/nginx/html/vite-envs.sh && nginx -g 'daemon off;'"
 
