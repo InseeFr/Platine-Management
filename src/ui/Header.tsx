@@ -1,28 +1,58 @@
-import { Stack, Typography } from "@mui/material";
+import { Box, IconButton, Link, Stack, Typography } from "@mui/material";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import { theme } from "../theme";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { Link as RouterLink } from "react-router-dom";
+import { Row } from "./Row.tsx";
+import { PropsWithChildren } from "react";
+import { useMaybeUser, useLogout } from "../hooks/useAuth.ts";
+import packageInfo from "../../package.json";
+import { useHasPermission } from "../hooks/usePermissions.ts";
 
 export function Header() {
+  const user = useMaybeUser();
+  const logout = useLogout();
+  const activeSettings = useHasPermission("ACCESS_SETTINGS");
+
   return (
-    <Stack
-      direction="row"
-      sx={{ px: 6, py: 1, backgroundColor: "Surfaces.Secondary" }}
-      alignItems="center"
-      justifyContent="space-between"
-      spacing={5}
-    >
-      <Stack spacing={5} direction="row" alignItems="center">
-        <img src="/logoInsee.png" alt="" width={47} height={50} />
-        <Stack spacing={0.5} direction="row">
-          <Typography variant="logo" color="primary">
-            Platine
-          </Typography>
-          <Typography variant="logo" color={theme.palette.inseeRed} component="span">
-            Collecte
+    <Row px={4} py={1} height={74} justifyContent="space-between" bgcolor="white">
+      <Row gap={2.5} component={HomeLink}>
+        <img src="/logoInsee.png" alt="logo insee" width={48} height={50} />
+        <Stack>
+          <Row typography="headlineMedium" gap={0.25} color="red.main" component="span">
+            <Box component="span" color="black.main" fontWeight={600}>
+              Platine
+            </Box>
+            Gestion
+          </Row>
+          <Typography variant="bodySmall" color="black.main">
+            v{packageInfo.version}
           </Typography>
         </Stack>
-      </Stack>
-      <SettingsOutlinedIcon />
-    </Stack>
+      </Row>
+      <Box>
+        {user?.preferred_username}
+        {activeSettings && (
+          <IconButton component={RouterLink} to="/reglages">
+            <SettingsOutlinedIcon />
+          </IconButton>
+        )}
+        {logout && (
+          <IconButton
+            onClick={() =>
+              logout({
+                redirectTo: "specific url",
+                url: `${import.meta.env.VITE_APP_URL}/logout`,
+              })
+            }
+          >
+            <ExitToAppIcon />
+          </IconButton>
+        )}
+      </Box>
+    </Row>
   );
 }
+
+const HomeLink = (props: PropsWithChildren) => {
+  return <Link component={RouterLink} underline="none" to="/" {...props} />;
+};
