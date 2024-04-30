@@ -1,21 +1,22 @@
-import { useUser } from "./useAuth";
+import { useMaybeUser, useUser } from "./useAuth";
 
 type User = ReturnType<typeof useUser>;
 type PermissionRequirement = string[] | ((user: User) => boolean);
 
 const permissions = {
-  ACCESS_SITE: ["admin", "user"],
+  ACCESS_APP: [import.meta.env.VITE_ADMIN_LDAP_ROLE, import.meta.env.VITE_USER_LDAP_ROLE],
+  ACCESS_SETTINGS: [import.meta.env.VITE_ADMIN_LDAP_ROLE],
   EDIT_PAGE: ["admin", "user"],
   READ_PAGE: ["user"],
   DELETE_SITE: (user: User) => user.preferred_username === "admin",
 } satisfies Record<string, PermissionRequirement>;
 
 export const useHasPermission = (permissionKey: keyof typeof permissions) => {
-  const user = useUser();
+  const user = useMaybeUser();
   const permission = permissions[permissionKey];
 
   // For unknown permission, refuse access by default
-  if (!permission) {
+  if (!permission || !user) {
     return false;
   }
 

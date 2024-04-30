@@ -4,12 +4,14 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Link as RouterLink } from "react-router-dom";
 import { Row } from "./Row.tsx";
 import { PropsWithChildren } from "react";
-import { useUser, useLogout } from "../hooks/useAuth.ts";
+import { useMaybeUser, useLogout } from "../hooks/useAuth.ts";
 import packageInfo from "../../package.json";
+import { useHasPermission } from "../hooks/usePermissions.ts";
 
 export function Header() {
-  const { preferred_username } = useUser();
+  const user = useMaybeUser();
   const logout = useLogout();
+  const activeSettings = useHasPermission("ACCESS_SETTINGS");
 
   return (
     <Row px={4} py={1} height={74} justifyContent="space-between" bgcolor="white">
@@ -28,20 +30,24 @@ export function Header() {
         </Stack>
       </Row>
       <Box>
-        {preferred_username}
-        <IconButton component={RouterLink} to="/reglages">
-          <SettingsOutlinedIcon />
-        </IconButton>
-        <IconButton
-          onClick={() =>
-            logout({
-              redirectTo: "specific url",
-              url: "",
-            })
-          }
-        >
-          <ExitToAppIcon />
-        </IconButton>
+        {user?.preferred_username}
+        {activeSettings && (
+          <IconButton component={RouterLink} to="/reglages">
+            <SettingsOutlinedIcon />
+          </IconButton>
+        )}
+        {logout && (
+          <IconButton
+            onClick={() =>
+              logout({
+                redirectTo: "specific url",
+                url: `${import.meta.env.VITE_APP_URL}/logout`,
+              })
+            }
+          >
+            <ExitToAppIcon />
+          </IconButton>
+        )}
       </Box>
     </Row>
   );

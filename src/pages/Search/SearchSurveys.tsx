@@ -1,4 +1,4 @@
-import { Box, CardActionArea, Stack } from "@mui/material";
+import { Box, CardActionArea, CircularProgress, Stack } from "@mui/material";
 import { FilterListBySelector } from "../../ui/Search/FilterListBySelector.tsx";
 import { Row } from "../../ui/Row.tsx";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
@@ -23,6 +23,7 @@ export const SearchSurveys = () => {
     results: surveys,
     hasNextPage,
     fetchNextPage,
+    isLoading,
   } = useInfiniteFetchQuery(endpoint, {
     query: useSearchFilterParams("surveys"),
   });
@@ -40,7 +41,16 @@ export const SearchSurveys = () => {
         </ToggleButtonGroup>
         <FilterListBySelector />
       </Row>
-
+      {isLoading && (
+        <Row justifyContent={"space-around"} height={"100%"}>
+          <CircularProgress />
+        </Row>
+      )}
+      {!isLoading && surveys.length === 0 && (
+        <Row justifyContent={"space-around"} height={"100%"}>
+          <Typography variant="titleMedium">Aucun résultat</Typography>
+        </Row>
+      )}
       <CardGrid>
         {surveys.map(s => (
           <div key={s.id}>

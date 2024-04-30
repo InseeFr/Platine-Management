@@ -1,7 +1,9 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Stack, Typography, Box, Link } from "@mui/material";
 import { Row } from "../ui/Row";
+import { PropsWithChildren } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
-export function UnauthorizedPage() {
+export function LogoutPage() {
   return (
     <>
       <Stack
@@ -14,9 +16,12 @@ export function UnauthorizedPage() {
         minHeight={500}
         height="calc(100vh - 230px)"
       >
+        <Typography variant="displaySmall" fontWeight={400} color="white">
+          {"Vous avez été deconnecté,"}
+        </Typography>
         <Row spacing={2}>
           <Typography variant="displaySmall" fontWeight={400} color="white">
-            {"Vous n'êtes pas autorisé à accéder à "}
+            {"pour revenir sur "}
           </Typography>
           <Row typography="headlineMedium" gap={0.25} color="red.main" component="span">
             <Box component="span" color="black.main" fontWeight={600}>
@@ -24,8 +29,16 @@ export function UnauthorizedPage() {
             </Box>
             Gestion
           </Row>
+          ,
         </Row>
+        <Typography variant="displaySmall" fontWeight={400} color="white" component={HomeLink}>
+          {"cliquez ici"}
+        </Typography>
       </Stack>
     </>
   );
 }
+
+const HomeLink = (props: PropsWithChildren) => {
+  return <Link component={RouterLink} underline="none" to="/" {...props} />;
+};

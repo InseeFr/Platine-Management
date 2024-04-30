@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { createAppOidc } from "../functions/oidc.ts";
 
-const { OidcProvider, useOidc } = createAppOidc();
+export const { OidcProvider, prOidc, useOidc } = createAppOidc();
 
 export const useHasRole = (role: string): boolean => {
   const { oidcTokens } = useOidc({ assertUserLoggedIn: true });
@@ -16,8 +16,12 @@ export const useUser = () => {
   return useOidc({ assertUserLoggedIn: true }).oidcTokens.decodedIdToken;
 };
 
+export const useMaybeUser = () => {
+  return useOidc({ assertUserLoggedIn: false }).oidcTokens?.decodedIdToken;
+};
+
 export const useLogout = () => {
-  return useOidc({ assertUserLoggedIn: true }).logout;
+  return useOidc({ assertUserLoggedIn: false }).logout;
 };
 
 export function useIsAuthenticated() {

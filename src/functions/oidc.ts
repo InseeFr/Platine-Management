@@ -1,5 +1,5 @@
+import { createMockReactOidc } from "oidc-spa/mock/react";
 import { createReactOidc } from "oidc-spa/react";
-import { Fragment } from "react";
 
 type TokenInfo = {
   inseegroupedefaut: string[];
@@ -7,7 +7,7 @@ type TokenInfo = {
 };
 
 const guestUser: TokenInfo = {
-  inseegroupedefaut: [],
+  inseegroupedefaut: [import.meta.env.VITE_USER_LDAP_ROLE],
   preferred_username: "Guest",
 };
 
@@ -19,20 +19,16 @@ export const createAppOidc = () => {
       issuerUri: import.meta.env.VITE_OIDC_ISSUER,
       clientId: import.meta.env.VITE_OIDC_CLIENT_ID,
       publicUrl: "/",
+      autoLogoutParams: { redirectTo: "specific url", url: `${import.meta.env.VITE_APP_URL}/logout` },
       extraQueryParams: { kc_idp_hint: import.meta.env.VITE_IDENTITY_PROVIDER },
     });
   }
 
-  return {
-    OidcProvider: Fragment,
-    useOidc: () => ({
-      login: () => null,
-      isUserLoggedIn: true,
-      oidcTokens: {
-        decodedIdToken: guestUser,
-        accessToken: "accessToken",
-      },
-      logout: () => (window.location.href = "/"),
-    }),
-  };
+  return createMockReactOidc<TokenInfo>({
+    isUserInitiallyLoggedIn: true,
+    mockedTokens: {
+      decodedIdToken: guestUser,
+      accessToken: "accessToken",
+    },
+  });
 };
