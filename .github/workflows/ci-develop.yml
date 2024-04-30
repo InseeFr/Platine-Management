@@ -13,7 +13,7 @@ jobs:
       tag-already-exists: ${{ steps.checkTag.outputs.exists }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get version
         id: version
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.check-version.outputs.tag-already-exists == 'false' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
           fetch-depth: 0
@@ -64,7 +64,7 @@ jobs:
         run: echo "branch=$(echo ${GITHUB_REF#refs/heads/})" >>$GITHUB_OUTPUT
         id: extract_branch
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ steps.extract_branch.outputs.branch }}
 
@@ -86,7 +86,7 @@ jobs:
       - build-release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Download build
         id: download

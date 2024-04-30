@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !github.event.created && github.repository != 'garronej/ts-ci' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
       - uses: bahmutov/npm-install@v1
       - name: If this step fails run 'yarn lint' and 'yarn format' then commit again.
@@ -30,7 +30,7 @@ jobs:
         os: [ubuntu-latest]
     name: Test with Node v${{ matrix.node }} on ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
