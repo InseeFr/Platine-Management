@@ -83,18 +83,21 @@ export const AddRightsForm = ({ contact }: Props) => {
 
             <SelectWithOptions
               options={[]}
+              value={fieldsData.idSource}
               label={"Source"}
               name={"idSource"}
               onChange={e => setFieldsData({ ...fieldsData, idSource: e.target.value })}
             />
             <SelectWithOptions
               options={[]}
+              value={fieldsData.year}
               label={"Millésime"}
               name={"year"}
               onChange={e => setFieldsData({ ...fieldsData, year: e.target.value })}
             />
             <SelectWithOptions
               options={[]}
+              value={fieldsData.periodicity}
               label={"Période"}
               name={"periodicity"}
               onChange={e => setFieldsData({ ...fieldsData, periodicity: e.target.value })}

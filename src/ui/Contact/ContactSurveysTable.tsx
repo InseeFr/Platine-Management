@@ -43,7 +43,7 @@ export const columns: readonly Column[] = [
 
 type Props = {
   surveys?: APISchemas["AccreditationDetailDto"][];
-  onSelectState: () => void;
+  refetchState: () => void;
   isLoading: boolean;
 };
 
@@ -72,7 +72,7 @@ export const ContactSurveysTable = (props: Props) => {
               <ContactSurveysTableRow
                 survey={survey}
                 key={`survey-${survey.partition}-${survey.identificationName}-${index}`}
-                onSelectState={props.onSelectState}
+                refetchState={props.refetchState}
               />
             );
           })}

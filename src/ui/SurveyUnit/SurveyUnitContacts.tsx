@@ -1,5 +1,4 @@
 import Stack from "@mui/material/Stack";
-import { useState } from "react";
 import { Row } from "../Row";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
@@ -19,11 +18,9 @@ import { TextWithLeftIcon } from "../TextWithLeftIcon";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import EmailIcon from "@mui/icons-material/Email";
-import ContactPageOutlinedIcon from "@mui/icons-material/ContactPageOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import { useFetchQuery } from "../../hooks/useFetchQuery";
 import { APISchemas } from "../../types/api";
-import { ContactSurveysFilterSelect } from "../Contact/ContactSurveysFilterSelect";
 import SearchIcon from "@mui/icons-material/Search";
 import useToggle from "react-use/lib/useToggle";
 import { useDebouncedState } from "../../hooks/useDebouncedState";
@@ -35,7 +32,6 @@ type Props = {
 
 export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
   const [search, setSearch] = useDebouncedState("", 500);
-  const [role, setRole] = useState("tous");
   const [isFilteredOpened, toggle] = useToggle(false);
 
   const { data: contacts, isLoading } = useFetchQuery("/api/survey-units/{id}/contacts", {
@@ -55,42 +51,29 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
     );
   }
 
-  const filteredContacts = filterContacts(contacts ?? [], { search, role });
+  const filteredContacts = filterContacts(contacts ?? [], { search });
 
   return (
-    <Box>
+    <Box sx={{ height: "calc(100vh - 500px)" }}>
       <Stack spacing={4} sx={{ minHeight: 0, px: 3, py: 1 }}>
         <Row justifyContent={"space-between"}>
-          <Row spacing={3} py={2}>
-            <ContactSurveysFilterSelect
-              options={[
-                { label: "Tous", value: "tous" },
-                { label: "Principal", value: "primary" },
-                { label: "Secondaire", value: "secondary" },
-              ]}
-              defaultValue={"tous"}
-              label={"Rôle du contact"}
-              name={"role"}
-              onFilterChange={e => setRole(e.target.value)}
-            />
+          <TextField
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon fontSize="small" />
+                </InputAdornment>
+              ),
+            }}
+            name="name"
+            id="name"
+            label="Rechercher dans le tableau"
+            placeholder="Saisissez votre recherche"
+            variant="outlined"
+            size="small"
+            onChange={e => setSearch(e.target.value)}
+          />
 
-            <TextField
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon fontSize="small" />
-                  </InputAdornment>
-                ),
-              }}
-              name="name"
-              id="name"
-              label="Rechercher dans le tableau"
-              placeholder="Saisissez votre recherche"
-              variant="outlined"
-              size="small"
-              onChange={e => setSearch(e.target.value)}
-            />
-          </Row>
           <ToggleButtonGroup value={isFilteredOpened} exclusive onChange={(_, v) => toggle(v)}>
             <ToggleButton value={false} aria-label="left aligned">
               Mes contacts
@@ -117,7 +100,7 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
       </Stack>
 
       {!isLoading && filteredContacts.length === 0 && (
-        <Row justifyContent={"space-around"}>
+        <Row justifyContent={"space-around"} height={"100%"}>
           <Typography variant="titleMedium">Aucun résultat</Typography>
         </Row>
       )}
@@ -146,12 +129,12 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
 
 const SurveyUnitContactCard = ({ contact }: { contact: APISchemas["SurveyUnitContact"] }) => {
   const listSourcesId =
-    contact.listSourcesId !== undefined && contact.listSourcesId?.length > 12
-      ? `${contact.listSourcesId?.slice(0, 12).join(", ")}...`
+    contact.listSourcesId !== undefined && contact.listSourcesId?.length > 6
+      ? `${contact.listSourcesId?.slice(0, 6).join(", ")}...`
       : contact.listSourcesId?.join(", ");
 
   return (
-    <Card elevation={2}>
+    <Card elevation={2} sx={{ height: "100%" }}>
       <CardActionArea component={Link} to={`/contacts/${contact.identifier}`}>
         <Box px={3} py={2}>
           <Typography align="right" variant="titleLarge" color="text.tertiary" gutterBottom>
@@ -169,13 +152,6 @@ const SurveyUnitContactCard = ({ contact }: { contact: APISchemas["SurveyUnitCon
             <Typography color={"text.tertiary"} variant="titleSmall">
               {listSourcesId ?? ""}
             </Typography>
-            <Row gap={1}>
-              <ContactPageOutlinedIcon />
-              <Typography variant="titleSmall" fontWeight={700} color="black">
-                {/* Contact {contact.role === "primary" ? "principal" : "secondaire"} TODO */}
-                TODO Role
-              </Typography>
-            </Row>
           </Stack>
         </Box>
       </CardActionArea>
@@ -196,16 +172,8 @@ export const ContactCardTitle = ({ firstName, lastName }: { firstName?: string; 
 
 function filterContacts(
   contacts: Array<APISchemas["SurveyUnitContact"]>,
-  { search }: { search?: string; role?: string },
+  { search }: { search?: string },
 ) {
-  // TODO: wait api role data
-  // if (role !== "tous") {
-  //   contacts =
-  //     role === "primary"
-  //       ? contacts.filter(c => c.main === true)
-  //       : contacts.filter(c => c.main === false);
-  // }
-
   if (search) {
     contacts = contacts.filter(
       item =>

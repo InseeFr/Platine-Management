@@ -1,7 +1,8 @@
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
-import { Button, Menu } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, Menu } from "@mui/material";
 import { useState } from "react";
+import { useToggle } from "react-use";
 
 export const collectStates = [
   { label: "Questionnaire papier réceptionné", value: "VALPAP" },
@@ -20,12 +21,15 @@ const options = collectStates.filter(state =>
 );
 
 type Props = {
-  onSelect: (value: string) => void;
+  onValidate: (value: string) => void;
 };
 
-export const CollectStateSelect = ({ onSelect }: Props) => {
+export const CollectStateSelect = ({ onValidate }: Props) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedState, setSelectedState] = useState("");
   const open = Boolean(anchorEl);
+
+  const [openDialog, toggleDialog] = useToggle(false);
 
   const onClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -36,7 +40,14 @@ export const CollectStateSelect = ({ onSelect }: Props) => {
 
   const handleSelect = (value: string) => {
     setAnchorEl(null);
-    onSelect(value);
+    setSelectedState(value);
+    toggleDialog();
+  };
+
+  const handleValidate = () => {
+    toggleDialog();
+    onValidate(selectedState);
+    setSelectedState("");
   };
 
   return (
@@ -65,6 +76,45 @@ export const CollectStateSelect = ({ onSelect }: Props) => {
           </MenuItem>
         ))}
       </Menu>
+      {selectedState !== "" && (
+        <ValidationDialog
+          open={openDialog}
+          onClose={toggleDialog}
+          state={selectedState}
+          onValidate={handleValidate}
+        />
+      )}
     </Box>
+  );
+};
+
+type ValidationDialogProps = {
+  onClose: () => void;
+  onValidate: () => void;
+  open: boolean;
+  state: string;
+};
+
+const ValidationDialog = ({ onClose, open, state, onValidate }: ValidationDialogProps) => {
+  return (
+    <Dialog onClose={onClose} open={open}>
+      <DialogContent
+        sx={{
+          width: "350px",
+          height: "fit-content",
+          py: 4,
+        }}
+      >
+        Êtes-vous sûr de vouloir ajouter l'état "{collectStates.find(s => s.value === state)?.label}" ?
+      </DialogContent>
+      <DialogActions>
+        <Button variant="outlined" onClick={onClose}>
+          Annuler
+        </Button>
+        <Button variant="contained" onClick={onValidate}>
+          Valider
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };

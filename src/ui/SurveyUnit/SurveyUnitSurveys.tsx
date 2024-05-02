@@ -16,7 +16,8 @@ type Props = {
 export const SurveyUnitSurveys = ({ surveyUnit }: Props) => {
   const [isFilteredOpened, toggle] = useToggle(false);
   const [state, setState] = useState("");
-  const [search, setSearch] = useDebouncedState("", 500);
+  const [debouncedSearch, setDebouncedSearch] = useDebouncedState("", 500);
+  const [search, setSearch] = useState("");
 
   const { data: surveys, isLoading } = useFetchQuery("/api/survey-units/{id}/partitionings", {
     urlParams: {
@@ -27,12 +28,20 @@ export const SurveyUnitSurveys = ({ surveyUnit }: Props) => {
     },
   });
 
-  const filteredSurveys = filterSurveys(surveys ?? [], { search, state });
+  const filteredSurveys = filterSurveys(surveys ?? [], { search: debouncedSearch, state });
 
   return (
     <Card sx={{ mx: 2, px: 6, py: 3 }} elevation={2}>
       <Row justifyContent={"space-between"} py={4}>
-        <Filters onSearch={e => setSearch(e.target.value)} onSelect={e => setState(e.target.value)} />
+        <Filters
+          searchValue={search}
+          stateValue={state}
+          onSearch={e => {
+            setSearch(e.target.value);
+            setDebouncedSearch(e.target.value);
+          }}
+          onSelect={e => setState(e.target.value)}
+        />
 
         <ToggleButtonGroup value={isFilteredOpened} exclusive onChange={(_, v) => toggle(v)}>
           <ToggleButton value={false} aria-label="left aligned">
@@ -52,7 +61,7 @@ function filterSurveys(
   surveys: Array<APISchemas["SurveyUnitPartitioning"]>,
   { search, state }: { search?: string; state?: string },
 ) {
-  if (state && state !== "all") {
+  if (state && state !== "none") {
     surveys = surveys.filter(s => s.lastEvent === state);
   }
 

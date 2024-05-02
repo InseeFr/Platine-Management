@@ -29,13 +29,15 @@ export const SearchContacts = () => {
     hasNextPage,
     fetchNextPage,
     isLoading,
+    count,
   } = useInfiniteFetchQuery(endpoint, {
     query: { ...useSearchFilterParams("contacts"), pageSize: 20, sort: "identifier" },
   });
   const [tab, setTab] = useState("me");
+
   return (
     <Stack spacing={3} sx={{ minHeight: 0 }}>
-      <Row>
+      <Row justifyContent={"space-between"}>
         <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
           <ToggleButton value="me" aria-label="left aligned">
             Mes contacts
@@ -44,6 +46,7 @@ export const SearchContacts = () => {
             Tout
           </ToggleButton>
         </ToggleButtonGroup>
+        {count && <Typography variant="titleSmall">résultat: {count} contact(s)</Typography>}
       </Row>
       {isLoading && (
         <Row justifyContent={"space-around"} height={"100%"}>

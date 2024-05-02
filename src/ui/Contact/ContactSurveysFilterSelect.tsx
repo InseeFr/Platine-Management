@@ -5,7 +5,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 type Props = {
   options: { label: string; value: string }[];
-  defaultValue?: string;
+  value?: string;
   placeholderLabel?: string;
   label: string;
   name: string;
@@ -14,7 +14,7 @@ type Props = {
 
 export const ContactSurveysFilterSelect = ({
   options,
-  defaultValue,
+  value,
   label,
   placeholderLabel,
   name,
@@ -32,7 +32,7 @@ export const ContactSurveysFilterSelect = ({
         label={label}
         name={name}
         fullWidth
-        defaultValue={defaultValue ?? placeholderLabel ?? ""}
+        value={value ?? placeholderLabel ?? ""}
         onChange={onFilterChange}
         id={`select-${name}`}
         size="small"

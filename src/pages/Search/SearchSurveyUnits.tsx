@@ -1,5 +1,4 @@
 import { Box, CardActionArea, CircularProgress, Stack } from "@mui/material";
-import { FilterListBySelector } from "../../ui/Search/FilterListBySelector.tsx";
 import { Row } from "../../ui/Row";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
@@ -24,6 +23,7 @@ export const SearchSurveyUnits = () => {
     hasNextPage,
     fetchNextPage,
     isLoading,
+    count,
   } = useInfiniteFetchQuery(endpoint, {
     query: useSearchFilterParams("surveyUnits"),
   });
@@ -40,7 +40,7 @@ export const SearchSurveyUnits = () => {
             Tout
           </ToggleButton>
         </ToggleButtonGroup>
-        <FilterListBySelector />
+        {count && <Typography variant="titleSmall">résultat: {count} unité(s) enquêtée(s)</Typography>}
       </Row>
       {isLoading && (
         <Row justifyContent={"space-around"} height={"100%"}>

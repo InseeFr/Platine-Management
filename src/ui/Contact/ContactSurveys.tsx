@@ -16,6 +16,7 @@ import { useDebouncedState } from "../../hooks/useDebouncedState.ts";
 import { collectStates } from "./CollectStateSelect.tsx";
 import { useToggle } from "react-use";
 import { SelectChangeEvent } from "@mui/material/Select";
+import Button from "@mui/material/Button";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
@@ -24,7 +25,8 @@ type Props = {
 export const ContactSurveysContent = ({ contact }: Props) => {
   const [role, setRole] = useState("tous");
   const [state, setState] = useState("");
-  const [search, setSearch] = useDebouncedState("", 500);
+  const [debouncedSearch, setDebouncedSearch] = useDebouncedState("", 500);
+  const [search, setSearch] = useState("");
   const [isFilteredOpened, toggle] = useToggle(false);
 
   const {
@@ -40,16 +42,16 @@ export const ContactSurveysContent = ({ contact }: Props) => {
     },
   });
 
-  const filteredSurveys = filterSurveys(surveys ?? [], { search, role, state });
+  const filteredSurveys = filterSurveys(surveys ?? [], { search: debouncedSearch, role, state });
 
   return (
     <Card sx={{ mx: 2, px: 6, py: 3 }} elevation={2}>
       <TitleWithIconAndDivider
-        title={"Liste des interrogations du contact"}
+        title={"Liste des questionnaires du contact"}
         IconComponent={BinocularIcon}
       />
 
-      <Row justifyContent={"space-between"}>
+      <Row justifyContent={"space-between"} component={"form"}>
         <Row spacing={3} py={4}>
           <ContactSurveysFilterSelect
             options={[
@@ -57,12 +59,32 @@ export const ContactSurveysContent = ({ contact }: Props) => {
               { label: "Principal", value: "primary" },
               { label: "Secondaire", value: "secondary" },
             ]}
-            defaultValue={"tous"}
+            value={role}
             label={"Rôle du contact"}
             name={"role"}
             onFilterChange={e => setRole(e.target.value)}
           />
-          <Filters onSearch={e => setSearch(e.target.value)} onSelect={e => setState(e.target.value)} />
+          <Filters
+            searchValue={search}
+            stateValue={state}
+            onSearch={e => {
+              setSearch(e.target.value);
+              setDebouncedSearch(e.target.value);
+            }}
+            onSelect={e => setState(e.target.value)}
+          />
+          <Button
+            variant="outlined"
+            type="reset"
+            onClick={() => {
+              setSearch("");
+              setDebouncedSearch("");
+              setRole("tous");
+              setState("");
+            }}
+          >
+            Réinitialiser
+          </Button>
         </Row>
         <ToggleButtonGroup value={isFilteredOpened} exclusive onChange={(_, v) => toggle(v)}>
           <ToggleButton value={false} aria-label="left aligned">
@@ -74,7 +96,7 @@ export const ContactSurveysContent = ({ contact }: Props) => {
         </ToggleButtonGroup>
       </Row>
 
-      <ContactSurveysTable surveys={filteredSurveys} onSelectState={refetch} isLoading={isLoading} />
+      <ContactSurveysTable surveys={filteredSurveys} refetchState={refetch} isLoading={isLoading} />
     </Card>
   );
 };
@@ -104,15 +126,18 @@ function filterSurveys(
 }
 
 type FiltersProps = {
+  searchValue: string;
+  stateValue: string;
   onSelect: (e: SelectChangeEvent) => void;
   onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const Filters = ({ onSelect, onSearch }: FiltersProps) => {
+export const Filters = ({ searchValue, stateValue, onSelect, onSearch }: FiltersProps) => {
   return (
     <Row gap={3}>
       <ContactSurveysFilterSelect
         options={[...collectStates, { label: "Tous", value: "all" }]}
+        value={stateValue !== "" ? stateValue : "none"}
         placeholderLabel="Sélectionnez un état"
         label={"Etat de la collecte"}
         name={"state"}
@@ -127,6 +152,7 @@ export const Filters = ({ onSelect, onSearch }: FiltersProps) => {
             </InputAdornment>
           ),
         }}
+        value={searchValue}
         name="name"
         id="name"
         label="Rechercher dans le tableau"

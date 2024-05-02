@@ -12,9 +12,9 @@ export const SearchSurveySelect = ({ options, ...props }: Props) => {
   return (
     <FormControl fullWidth>
       <InputLabel size="small" id={labelId}>
-        Nom de l'enquête
+        {props.label}
       </InputLabel>
-      <Select size="small" labelId={labelId} id={id} label="Age" {...props}>
+      <Select size="small" labelId={labelId} id={id} label={props.label} {...props}>
         {options.map(option => (
           <MenuItem key={option} value={option}>
             {option}

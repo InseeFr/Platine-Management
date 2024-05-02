@@ -11,6 +11,7 @@ import { SelectWithOptions } from "../Form/SelectWithOptions.tsx";
 
 export const PasswordCard = () => {
   const [open, setOpen] = useState(false);
+  const [optionSelected, setOptionSelected] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -18,6 +19,7 @@ export const PasswordCard = () => {
 
   const onClose = () => {
     setOpen(false);
+    setOptionSelected("");
   };
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -28,7 +30,10 @@ export const PasswordCard = () => {
     onClose();
   };
 
-  const options = ["mail", "phone"]; // TODO: use real options
+  const options = [
+    { label: "email", value: "mail" },
+    { label: "téléphone", value: "phone" },
+  ]; // TODO: use real options
 
   const style = {
     root: {
@@ -57,6 +62,8 @@ export const PasswordCard = () => {
         >
           <Box sx={style.root} pb={1} pt={3} px={6}>
             <SelectWithOptions
+              value={optionSelected}
+              onChange={e => setOptionSelected(e.target.value)}
               options={options}
               label={"Choisissez le mode d'envoi"}
               name={"password"}

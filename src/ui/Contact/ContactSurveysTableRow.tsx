@@ -13,12 +13,14 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import IconButton from "@mui/material/IconButton";
 import { Link } from "../Link";
+import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import { Typography } from "@mui/material";
 
 type Props = {
   survey: APISchemas["AccreditationDetailDto"];
-  onSelectState: () => void;
+  refetchState: () => void;
 };
-export const ContactSurveysTableRow = ({ survey, onSelectState }: Props) => {
+export const ContactSurveysTableRow = ({ survey, refetchState }: Props) => {
   const [openCollectStateHistory, setOpenCollectStateHistory] =
     useState<APISchemas["AccreditationDetailDto"]>();
 
@@ -40,7 +42,6 @@ export const ContactSurveysTableRow = ({ survey, onSelectState }: Props) => {
         payload: { "source": "platine-gestion" },
       },
     });
-    onSelectState();
   };
 
   return (
@@ -50,15 +51,16 @@ export const ContactSurveysTableRow = ({ survey, onSelectState }: Props) => {
       key={`row-${survey.partition}-${survey.identificationName}`}
       sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}
     >
-      {columns.map(column => {
+      {columns.map((column, index) => {
         return (
           <ContactSurveysTableCell
-            key={survey["identificationCode"]}
+            key={`${survey["identificationCode"]}-${index}`}
             survey={survey}
             columnId={column.id}
             openCollectStateHistory={openCollectStateHistory}
             setOpenCollectStateHistory={setOpenCollectStateHistory}
             onSelectCollectState={onSelectCollectState}
+            refetchState={refetchState}
           />
         );
       })}
@@ -85,6 +87,7 @@ type ContactSurveysTableCellProps = {
   openCollectStateHistory: APISchemas["AccreditationDetailDto"] | undefined;
   setOpenCollectStateHistory: (survey?: APISchemas["AccreditationDetailDto"]) => void;
   onSelectCollectState: (type: string, questioningId?: string) => void;
+  refetchState: () => void;
 };
 
 const ContactSurveysTableCell = ({
@@ -93,6 +96,7 @@ const ContactSurveysTableCell = ({
   openCollectStateHistory,
   setOpenCollectStateHistory,
   onSelectCollectState,
+  refetchState,
 }: ContactSurveysTableCellProps) => {
   const value = survey[columnId as keyof typeof survey];
 
@@ -101,7 +105,7 @@ const ContactSurveysTableCell = ({
       survey.questioningId !== undefined && openCollectStateHistory === survey;
 
     return (
-      <TableCell key={`state-${survey.partition}-${survey.identificationName}`} width={"240px"}>
+      <TableCell width={"240px"}>
         <Row spacing={1}>
           <Chip
             sx={{
@@ -117,7 +121,10 @@ const ContactSurveysTableCell = ({
           />
           {isCollectStateHistoryVisible && (
             <CollectStateHistory
-              onClose={() => setOpenCollectStateHistory(undefined)}
+              onClose={() => {
+                refetchState();
+                setOpenCollectStateHistory(undefined);
+              }}
               open={true}
               questioningId={survey.questioningId!}
               surveyName={survey.partition ?? ""}
@@ -131,7 +138,7 @@ const ContactSurveysTableCell = ({
 
   if (columnId === "actions") {
     return (
-      <TableCell key={`action-${survey.partition}-${survey.identificationName}`} align="center">
+      <TableCell align="center">
         {survey.questioningUrl && (
           <IconButton color="inherit" target="_blank" component={Link} to={survey.questioningUrl}>
             <OpenInNewIcon fontSize="small" />
@@ -142,25 +149,29 @@ const ContactSurveysTableCell = ({
   }
 
   if (columnId === "main") {
-    return <TableCell key={columnId}>{value === true ? "Principal" : "Secondaire"}</TableCell>;
+    return <TableCell>{value === true ? "Principal" : "Secondaire"}</TableCell>;
   }
 
   if (columnId === "partioningClosingDate") {
-    return (
-      <TableCell key={columnId}>{new Date(Date.parse(value as string)).toLocaleDateString()}</TableCell>
-    );
+    return <TableCell>{new Date(Date.parse(value as string)).toLocaleDateString()}</TableCell>;
   }
 
   if (columnId === "surveyUnitId" || columnId === "sourceWording") {
     return (
-      <TableCell key={columnId}>
+      <TableCell>
         <Link
-          sx={{ cursor: "pointer", "&.MuiLink-root:hover": { color: "primary.main" } }}
+          sx={{
+            cursor: "pointer",
+            "&.MuiLink-root:hover": { color: "primary.main" },
+          }}
           to={columnId === "surveyUnitId" ? `/survey-units/${value}` : `/surveys/${survey.surveyId}`}
           color={"inherit"}
           underline="none"
         >
-          {value}
+          <Row spacing={0.5}>
+            <Typography variant="bodyMedium">{value}</Typography>
+            <ArrowOutwardIcon fontSize="linkIcon" />
+          </Row>
         </Link>
       </TableCell>
     );
