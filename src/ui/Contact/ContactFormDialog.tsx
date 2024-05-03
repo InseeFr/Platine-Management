@@ -1,14 +1,4 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  FormControlLabel,
-} from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { Schema, z } from "zod";
 import { useForm } from "../../hooks/useForm.ts";
 import { APISchemas } from "../../types/api.ts";
@@ -33,40 +23,45 @@ export const addressSchema = z
     repetitionIndex: z
       .string()
       .nullable()
-      .transform(val => (val === null ? "" : val))
+      .transform(val => val ?? "")
       .optional(),
     streetType: z
       .string()
       .nullable()
-      .transform(val => (val === null ? "" : val))
+      .transform(val => val ?? "")
       .optional(),
-    streetName: z.string().optional(),
+    streetName: z
+      .string()
+      .optional()
+      .transform(val => val ?? ""),
     addressSupplement: z
       .string()
       .nullable()
-      .transform(val => (val === null ? "" : val))
+      .transform(val => val ?? "")
       .optional(),
     specialDistribution: z
       .string()
       .nullable()
-      .transform(val => (val === null ? "" : val))
+      .transform(val => val ?? "")
       .optional(),
     cedexName: z
       .string()
+      .optional()
       .nullable()
-      .transform(val => (val === null ? "" : val)),
+      .transform(val => val ?? ""),
     cedexCode: z
       .string()
+      .optional()
       .nullable()
-      .transform(val => (val === null ? "" : val)),
+      .transform(val => val ?? ""),
     cityName: z
       .string()
       .nullable()
-      .transform(val => (val === null ? "" : val)),
+      .transform(val => val ?? ""),
     zipCode: z
       .string()
       .nullable()
-      .transform(val => (val === null ? "" : val)),
+      .transform(val => val ?? ""),
     countryName: z.string().optional().or(z.literal("")),
   })
   .superRefine(({ cedexCode, zipCode, cityName, cedexName }, refinementContext) => {
@@ -135,7 +130,7 @@ export const schema = z.object({
   phone: z
     .string()
     .nullable()
-    .transform(val => (val === null ? "" : val))
+    .transform(val => val ?? "")
     .optional(),
   secondPhone: z.string().optional().or(z.literal("")),
   identificationName: z.string().optional(),
@@ -143,7 +138,7 @@ export const schema = z.object({
   address: addressSchema,
 });
 
-const civilities = [
+export const civilities = [
   { label: "Madame", value: "Female" },
   { label: "Monsieur", value: "Male" },
 ];
@@ -163,7 +158,7 @@ export const styles = {
 export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => {
   const defaultValues = contact.address?.countryName
     ? contact
-    : { ...contact, address: { ...contact.address, countryName: "France" } };
+    : { ...contact, address: { ...contact.address, countryName: "FRANCE" } };
   const { register, control, errors, handleSubmit, reset } = useForm(schema, {
     defaultValues: defaultValues,
   });
@@ -190,47 +185,18 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
         <DialogTitle>Modification des coordonnées</DialogTitle>
         <DialogContent>
           <Box sx={styles.Grid}>
-            <Stack gap={3} pt={2.5}>
-              <Field
-                control={control}
-                label="Civilité"
-                name="civility"
-                type="radios"
-                error={errors?.civility?.message}
-                options={civilities}
-              />
-              <Field label="Nom" error={errors.lastName?.message} {...register("lastName")} />
-              <Field label="Prénom" error={errors.firstName?.message} {...register("firstName")} />
-              <Field label="Fonction" error={errors.function?.message} {...register("function")} />
-              <Field label="Adresse courriel" error={errors.email?.message} {...register("email")} />
-              <Row gap={3}>
-                <Field
-                  sx={{ width: "180px" }}
-                  label="Téléphone 1"
-                  error={errors.phone?.message}
-                  {...register("phone")}
-                />
-                <StarIcon fontSize="small" color="yellow" />
-              </Row>
-              <Row gap={3}>
-                <Field
-                  sx={{ width: "180px" }}
-                  label="Téléphone 2"
-                  error={errors.secondPhone?.message}
-                  {...register("secondPhone")}
-                />
-                <StarIcon fontSize="small" color="text.hint" />
-              </Row>
-            </Stack>
+            <ContactInformationForm errors={errors} register={register} control={control} />
             <Divider orientation="vertical" variant="middle" />
-            <AddressFormFields
-              errors={errors}
-              register={register}
-              repetitionIndexValue={contact.address?.repetitionIndex}
-              streetTypeValue={contact.address?.streetType}
-              countryValue={contact.address?.countryName?.toLocaleUpperCase() ?? "FRANCE"}
-              type="contact"
-            />
+            <Box component={"div"} pt={0}>
+              <AddressFormFields
+                type={"contact"}
+                errors={errors}
+                register={register}
+                repetitionIndexValue={contact?.address?.repetitionIndex ?? ""}
+                streetTypeValue={contact?.address?.streetType ?? ""}
+                countryValue={contact?.address?.countryName ?? "FRANCE"}
+              />
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions>
@@ -246,65 +212,45 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
   );
 };
 
-type FormContentProps = {
+type ContactInformationFormProps = {
   errors: any;
   register: UseFormRegister<z.TypeOf<Schema>>;
-  control?: UseFormReturn<any, any, any>["control"];
-  contact?: APISchemas["ContactFirstLoginDto"];
+  control: UseFormReturn<any, any, any>["control"];
 };
 
-export const FormContent = ({ errors, register, control, contact }: FormContentProps) => {
+export const ContactInformationForm = ({ errors, register, control }: ContactInformationFormProps) => {
   return (
-    <Box sx={styles.Grid}>
-      <Stack gap={4} pt={1}>
+    <Stack gap={3} pt={2.5}>
+      <Field
+        control={control}
+        label="Civilité"
+        name="civility"
+        type="radios"
+        error={errors?.civility?.message}
+        options={civilities}
+      />
+      <Field label="Nom" error={errors.lastName?.message} {...register("lastName")} />
+      <Field label="Prénom" error={errors.firstName?.message} {...register("firstName")} />
+      <Field label="Fonction" error={errors.function?.message} {...register("function")} />
+      <Field label="Adresse courriel" error={errors.email?.message} {...register("email")} />
+      <Row gap={3}>
         <Field
-          control={control}
-          label="Civilité"
-          name="civility"
-          type="radios"
-          error={errors?.civility?.message}
-          options={civilities}
+          sx={{ width: "180px" }}
+          label="Téléphone 1"
+          error={errors.phone?.message}
+          {...register("phone")}
         />
-        <Field label="Nom" error={errors.lastName?.message} {...register("lastName")} />
-        <Field label="Prénom" error={errors.firstName?.message} {...register("firstName")} />
-        <Field label="Fonction" error={errors.function?.message} {...register("function")} />
-        <Field label="Adresse courriel" error={errors.email?.message} {...register("email")} />
-        <Row gap={3}>
-          <Field
-            sx={{ width: "150px" }}
-            label="Téléphone 1"
-            error={errors.phone?.message}
-            {...register("phone")}
-          />
-          <StarIcon fontSize="small" color="yellow" />
-        </Row>
-        <Row gap={3}>
-          <Field
-            sx={{ width: "150px" }}
-            label="Téléphone 2"
-            error={errors.secondPhone?.message}
-            {...register("secondPhone")}
-          />
-          <StarIcon fontSize="small" color="text.hint" />
-        </Row>
-      </Stack>
-      <Divider orientation="vertical" variant="middle" />
-      <Box component={"div"} pt={contact === undefined ? 0 : 6}>
-        {contact === undefined && (
-          <FormControlLabel
-            sx={{ pb: 2, ".MuiFormControlLabel-label": { typography: "titleSmall" } }}
-            control={<Checkbox size="small" />}
-            label="L’adresse du contact est identique à l’adresse de l’unité enquêtée"
-          />
-        )}
-        <AddressFormFields
-          errors={errors}
-          register={register}
-          repetitionIndexValue={contact?.address?.repetitionIndex ?? ""}
-          streetTypeValue={contact?.address?.streetType ?? ""}
-          countryValue={contact?.address?.countryName ?? ""}
+        <StarIcon fontSize="small" color="yellow" />
+      </Row>
+      <Row gap={3}>
+        <Field
+          sx={{ width: "180px" }}
+          label="Téléphone 2"
+          error={errors.secondPhone?.message}
+          {...register("secondPhone")}
         />
-      </Box>
-    </Box>
+        <StarIcon fontSize="small" color="text.hint" />
+      </Row>
+    </Stack>
   );
 };

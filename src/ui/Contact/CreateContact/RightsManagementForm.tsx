@@ -2,9 +2,14 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Row } from "../../Row";
-import { InputLabel, TextField } from "@mui/material";
+import { Button, InputLabel, TextField } from "@mui/material";
 
-export const RightsManagementForm = () => {
+type Props = {
+  handleSubmitStep: (event: React.FormEvent<HTMLFormElement>) => void;
+  handleBack: () => void;
+};
+
+export const RightsManagementForm = ({ handleSubmitStep, handleBack }: Props) => {
   return (
     <Stack>
       <Typography sx={{ pb: 3 }} variant="titleMedium" fontSize={18}>
@@ -17,7 +22,7 @@ export const RightsManagementForm = () => {
           période est nécessaire pour l’ajout de droits
         </Typography>
       </Row>
-      <form action="#">
+      <form action="#" onSubmit={handleSubmitStep}>
         <Stack gap={2} pt={5}>
           <Row gap={3}>
             <InputLabel
@@ -65,6 +70,15 @@ export const RightsManagementForm = () => {
             <TextField sx={{ width: "300px" }} id="period" variant="outlined" size="small" />
           </Row>
         </Stack>
+        <Row pt={4} justifyContent={"flex-end"}>
+          <Button variant={"outlined"} onClick={handleBack} sx={{ mr: 1 }}>
+            Annuler
+          </Button>
+
+          <Button variant="contained" type="submit">
+            Suivant
+          </Button>
+        </Row>
       </form>
     </Stack>
   );

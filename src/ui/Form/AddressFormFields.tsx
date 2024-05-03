@@ -33,7 +33,7 @@ export const AddressFormFields = ({
   countryValue,
   type = "surveyUnit",
 }: Props) => {
-  const [country, setCountry] = useState(countryValue);
+  const [country, setCountry] = useState(countryValue ?? "FRANCE");
 
   return (
     <Box sx={styles.Grid}>

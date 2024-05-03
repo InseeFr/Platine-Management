@@ -25,6 +25,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import useToggle from "react-use/lib/useToggle";
 import { useDebouncedState } from "../../hooks/useDebouncedState";
 import { Link } from "../Link";
+import { CreateContactDialog } from "../Contact/CreateContact/CreateContactDialog";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDto"];
@@ -33,6 +34,7 @@ type Props = {
 export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
   const [search, setSearch] = useDebouncedState("", 500);
   const [isFilteredOpened, toggle] = useToggle(false);
+  const [hasDialog, toggleDialog] = useToggle(false);
 
   const { data: contacts, isLoading } = useFetchQuery("/api/survey-units/{id}/contacts", {
     urlParams: {
@@ -114,15 +116,15 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
           typography: "titleSmall",
           fontWeight: "500",
         }}
+        onClick={toggleDialog}
         size="large"
         fullWidth={false}
         variant="contained"
         endIcon={<EditIcon />}
       >
-        <Link to={"/contacts/createContact"} color="inherit" underline="none">
-          Créer un nouveau contact
-        </Link>
+        Créer un nouveau contact
       </Button>
+      <CreateContactDialog open={hasDialog} onClose={toggleDialog} surveyUnit={surveyUnit} />
     </Box>
   );
 };

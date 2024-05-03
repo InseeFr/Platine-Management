@@ -1,4 +1,4 @@
-import { CardActionArea, CircularProgress, Stack } from "@mui/material";
+import { Button, CardActionArea, CircularProgress, Stack } from "@mui/material";
 import { Row } from "../../ui/Row";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
@@ -10,6 +10,7 @@ import { type APIResponse } from "../../types/api.ts";
 import { type ItemOf } from "../../types/utils.ts";
 import Card from "@mui/material/Card";
 import { Link } from "react-router-dom";
+import { Link as CustomLink } from "../../ui/Link";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { TextWithLeftIcon } from "../../ui/TextWithLeftIcon.tsx";
@@ -19,6 +20,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import DesktopWindowsOutlinedIcon from "@mui/icons-material/DesktopWindowsOutlined";
 import { useSearchFilterParams } from "../../hooks/useSearchFilter.ts";
 import { ContactCardTitle } from "../../ui/SurveyUnit/SurveyUnitContacts.tsx";
+import EditIcon from "@mui/icons-material/Edit";
 
 const endpoint = "/api/contacts/search" as const;
 type Item = ItemOf<Required<APIResponse<typeof endpoint, "get">>["content"]>;
@@ -67,6 +69,24 @@ export const SearchContacts = () => {
         ))}
         {hasNextPage && <VisibilitySpy onVisible={fetchNextPage} />}
       </CardGrid>
+      <Button
+        sx={{
+          position: "fixed",
+          bottom: "48px",
+          right: "32px",
+          borderRadius: 24,
+          typography: "titleSmall",
+          fontWeight: "500",
+        }}
+        size="large"
+        fullWidth={false}
+        variant="contained"
+        endIcon={<EditIcon />}
+      >
+        <CustomLink to={"/contacts/createContact"} color="inherit" underline="none">
+          Créer un nouveau contact
+        </CustomLink>
+      </Button>
     </Stack>
   );
 };

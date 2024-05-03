@@ -23,7 +23,7 @@ const schema = z.object({
 export const SurveyUnitFormDialog = ({ open, onClose, surveyUnit, onSave }: Props) => {
   const defaultValues = surveyUnit.address?.countryName
     ? surveyUnit
-    : { ...surveyUnit, address: { ...surveyUnit.address, countryName: "France" } };
+    : { ...surveyUnit, address: { ...surveyUnit.address, countryName: "FRANCE" } };
   const { register, errors, handleSubmit } = useForm(schema, {
     defaultValues: defaultValues,
   });

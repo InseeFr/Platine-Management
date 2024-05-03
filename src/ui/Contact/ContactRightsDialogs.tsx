@@ -8,6 +8,8 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import { APISchemas } from "../../types/api";
+import { useToggle } from "react-use";
+import { CreateContactDialog } from "./CreateContact/CreateContactDialog";
 
 export type CommonContactRightsProps = {
   open: boolean;
@@ -218,11 +220,11 @@ export const EditSecondaryToPrimaryDialog = ({
 
 export const EditPrimaryWithoutSecondaryDialog = ({ open, onClose }: CommonContactRightsProps) => {
   const navigate = useNavigate();
+  const [hasDialog, toggleDialog] = useToggle(false);
 
   const goToCreateContactForm: FormEventHandler = e => {
     e.preventDefault();
-    onClose();
-    navigate("/contacts/createContact");
+    toggleDialog();
   };
 
   return (
@@ -237,6 +239,7 @@ export const EditPrimaryWithoutSecondaryDialog = ({ open, onClose }: CommonConta
         <Typography variant="bodyMedium">Une enquête doit avoir un contact principal.</Typography>
         <Typography variant="bodyMedium">Voulez vous créer un nouveau contact principal ?</Typography>
       </Stack>
+      <CreateContactDialog open={hasDialog} onClose={toggleDialog} />
     </FormDialog>
   );
 };
