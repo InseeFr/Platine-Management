@@ -13,9 +13,6 @@ export const PageTab = ({ label, ...props }: Props) => {
         paddingY: 3,
         typography: "titleSmall",
         letterSpacing: 0.4,
-        // todo remove backgroundColor after demo
-        backgroundColor:
-          label === "Gestion des identifiants" || label === "Gestion des droits" ? "text.hint" : "white",
       }}
       {...props}
     />

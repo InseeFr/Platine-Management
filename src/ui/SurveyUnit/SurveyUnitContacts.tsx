@@ -119,7 +119,7 @@ export const SurveyUnitContacts = ({ surveyUnit }: Props) => {
         variant="contained"
         endIcon={<EditIcon />}
       >
-        <Link to={"/contacts/createContact"} color="inherit" underline="none">
+        <Link to={"/contacts/create-contact"} state={surveyUnit.idSu} color="inherit" underline="none">
           Créer un nouveau contact
         </Link>
       </Button>

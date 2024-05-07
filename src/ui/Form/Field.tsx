@@ -15,7 +15,7 @@ import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from "@mui/material";
 
 type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required" | "sx"> &
-  Pick<SelectProps, "onChange" | "defaultValue" | "disabled"> & {
+  Pick<SelectProps, "onChange" | "defaultValue" | "disabled" | "value"> & {
     type?: "radios" | "radiostack" | "switch" | "text" | "select";
     error?: string;
     control?: UseFormReturn<any, any, any>["control"];
@@ -122,7 +122,51 @@ export function uncontrolledField(props: Props, ref: any) {
   );
 }
 
-export function controlledField({ type, name, options, error }: Props, field: any) {
+export function controlledField(
+  { type, name, options, error, label, selectoptions, value, onChange }: Props,
+  field: any,
+) {
+  if (!type || type === "text") {
+    return (
+      <TextField
+        fullWidth
+        {...field}
+        InputLabelProps={{ shrink: !!field.value }}
+        label={label}
+        error={!!error}
+        helperText={error}
+        size="small"
+      />
+    );
+  }
+  if (type === "select" && selectoptions) {
+    const labelId = `label-${name}`;
+
+    return (
+      <FormControl fullWidth>
+        <InputLabel size="small" id={labelId}>
+          {label}
+        </InputLabel>
+        <Select
+          fullWidth
+          {...field}
+          value={value}
+          labelId={labelId}
+          onChange={onChange}
+          id={`select-${name}`}
+          error={!!error}
+          size="small"
+          displayEmpty
+        >
+          {(selectoptions ?? []).map(option => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    );
+  }
   if (type === "switch") {
     return <Switch checked={field.value} color="green" {...field} />;
   }

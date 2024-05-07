@@ -13,6 +13,7 @@ import { SurveyUnitPage } from "./pages/SurveyUnitPage.tsx";
 import { CreateContactPage } from "./pages/CreateContactPage.tsx";
 import { UnauthorizedPage } from "./pages/UnauthorizedPage.tsx";
 import { LogoutPage } from "./pages/Logout.tsx";
+import { AddRightsManagement } from "./ui/Contact/AddRightsManagement.tsx";
 
 export const routes: RouteObject[] = [
   {
@@ -43,10 +44,14 @@ export const routes: RouteObject[] = [
         ],
       },
       { path: "surveys/:id", element: <SurveyPage /> },
-      { path: "contacts/:id", element: <ContactPage /> },
+      {
+        path: "contacts/:id",
+        element: <ContactPage />,
+      },
+      { path: "contacts/:id/rights-management", element: <AddRightsManagement /> },
+      { path: "contacts/create-contact", element: <CreateContactPage /> },
       { path: "survey-units/:id", element: <SurveyUnitPage /> },
       { path: "reglages", element: <Settings /> },
-      { path: "contacts/createContact", element: <CreateContactPage /> },
       { path: "", element: <Home /> },
     ],
   },
