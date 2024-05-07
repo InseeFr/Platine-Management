@@ -7,7 +7,6 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Checkbox from "@mui/material/Checkbox";
 import { useState } from "react";
-import Box from "@mui/system/Box";
 import Button from "@mui/material/Button";
 import TableFooter from "@mui/material/TableFooter";
 import { LoadingCell } from "./ContactSurveysTable";
@@ -60,60 +59,58 @@ export const AssociateSurveysTable = () => {
     console.log(selectedIds);
   };
   return (
-    <Box>
-      <TableContainer sx={{ py: 3 }}>
-        <Table>
-          <TableHeader columns={columns} />
-          <TableBody>
-            {surveysMock.map(survey => {
-              return (
-                <TableRow
-                  hover
-                  tabIndex={-1}
-                  key={`row-${survey.id}`}
-                  sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}
-                >
-                  {columns.map(column => {
-                    const value = survey[column.id as keyof typeof survey];
+    <TableContainer sx={{ pt: 3 }}>
+      <Table>
+        <TableHeader columns={columns} />
+        <TableBody>
+          {surveysMock.map(survey => {
+            return (
+              <TableRow
+                hover
+                tabIndex={-1}
+                key={`row-${survey.id}`}
+                sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}
+              >
+                {columns.map(column => {
+                  const value = survey[column.id as keyof typeof survey];
 
-                    if (column.id === "action") {
-                      return (
-                        <TableCell key={`action-${survey.id}`} align="center">
-                          <Checkbox
-                            aria-label={`checkbox-${survey.id}`}
-                            onChange={() => onChange(survey.id)}
-                          />
-                        </TableCell>
-                      );
-                    }
+                  if (column.id === "action") {
+                    return (
+                      <TableCell key={`action-${survey.id}`} align="center">
+                        <Checkbox
+                          aria-label={`checkbox-${survey.id}`}
+                          onChange={() => onChange(survey.id)}
+                        />
+                      </TableCell>
+                    );
+                  }
 
-                    if (column.id === "role") {
-                      return (
-                        <TableCell key={`role-${survey.id}`} sx={{ fontWeight: 600 }}>
-                          {value}
-                        </TableCell>
-                      );
-                    }
+                  if (column.id === "role") {
+                    return (
+                      <TableCell key={`role-${survey.id}`} sx={{ fontWeight: 600 }}>
+                        {value}
+                      </TableCell>
+                    );
+                  }
 
-                    return <TableCell key={column.id}>{value ?? "NO DATA"}</TableCell>;
-                  })}
-                </TableRow>
-              );
-            })}
-            {isLoading && <LoadingCell columnLength={columns.length} />}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TableCell align="right" colSpan={columns.length} sx={{ py: 4 }}>
-                <Button variant="contained" disabled={selectedIds.length === 0} onClick={onClick}>
-                  Associer
-                </Button>
-              </TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </TableContainer>
-    </Box>
+                  return <TableCell key={column.id}>{value ?? "NO DATA"}</TableCell>;
+                })}
+              </TableRow>
+            );
+          })}
+          {isLoading && <LoadingCell columnLength={columns.length} />}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell align="right" colSpan={columns.length} sx={{ py: 4 }}>
+              <Button variant="contained" disabled={selectedIds.length === 0} onClick={onClick}>
+                Associer
+              </Button>
+            </TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </TableContainer>
   );
 };
 
