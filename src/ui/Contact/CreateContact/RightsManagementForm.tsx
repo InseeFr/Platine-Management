@@ -3,13 +3,19 @@ import Typography from "@mui/material/Typography";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Row } from "../../Row";
 import { Button, InputLabel, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   handleSubmitStep: (event: React.FormEvent<HTMLFormElement>) => void;
   handleBack: () => void;
+  rights: { idSource?: string; year?: string; periodicity?: string };
 };
 
-export const RightsManagementForm = ({ handleSubmitStep, handleBack }: Props) => {
+export const RightsManagementForm = ({ handleSubmitStep, handleBack, rights }: Props) => {
+  const navigate = useNavigate();
+
+  const isButtonDisabled = rights.periodicity === "";
+
   return (
     <Stack>
       <Typography sx={{ pb: 3 }} variant="titleMedium" fontSize={18}>
@@ -18,30 +24,12 @@ export const RightsManagementForm = ({ handleSubmitStep, handleBack }: Props) =>
       <Row spacing={1} alignItems={"flex-start"}>
         <InfoOutlinedIcon fontSize="smallIcon" />
         <Typography variant="bodyMedium">
-          La sélection de l’identifiant de l’unité enquêtée, d’une source, d’un millésime <br /> et d’une
-          période est nécessaire pour l’ajout de droits
+          La sélection d’une source, d’un millésime et d’une période <br /> est nécessaire pour l’ajout
+          de droits
         </Typography>
       </Row>
       <form action="#" onSubmit={handleSubmitStep}>
         <Stack gap={2} pt={5}>
-          <Row gap={3}>
-            <InputLabel
-              id="id"
-              sx={{ typography: "bodyMedium", fontWeight: "700", color: "black.main" }}
-            >
-              Identifiant du compte
-            </InputLabel>
-            <TextField sx={{ width: "300px" }} id="id" variant="outlined" size="small" />
-          </Row>
-          <Row gap={3} justifyContent={"space-between"}>
-            <InputLabel
-              id="idSu"
-              sx={{ typography: "bodyMedium", fontWeight: "700", color: "black.main" }}
-            >
-              Identifiant de l’unité enquêtée
-            </InputLabel>
-            <TextField sx={{ width: "300px" }} id="idSu" variant="outlined" size="small" />
-          </Row>
           <Row gap={3} justifyContent={"space-between"}>
             <InputLabel
               id="idSource"
@@ -70,14 +58,19 @@ export const RightsManagementForm = ({ handleSubmitStep, handleBack }: Props) =>
             <TextField sx={{ width: "300px" }} id="period" variant="outlined" size="small" />
           </Row>
         </Stack>
-        <Row pt={4} justifyContent={"flex-end"}>
-          <Button variant={"outlined"} onClick={handleBack} sx={{ mr: 1 }}>
-            Annuler
+        <Row pt={4} justifyContent={"space-between"}>
+          <Button variant={"text"} onClick={handleBack} sx={{ mr: 1 }}>
+            Retour
           </Button>
+          <Row>
+            <Button variant={"outlined"} onClick={() => navigate(-1)} sx={{ mr: 1 }}>
+              Annuler
+            </Button>
 
-          <Button variant="contained" type="submit">
-            Suivant
-          </Button>
+            <Button variant="contained" type="submit" disabled={isButtonDisabled}>
+              Valider
+            </Button>
+          </Row>
         </Row>
       </form>
     </Stack>

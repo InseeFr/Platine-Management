@@ -9,6 +9,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
 import { AddressFormFields } from "../Form/AddressFormFields.tsx";
 import { UseFormRegister, UseFormReturn } from "react-hook-form";
+import { theme } from "../../theme.tsx";
 
 type Props = {
   open: boolean;
@@ -249,7 +250,7 @@ export const ContactInformationForm = ({ errors, register, control }: ContactInf
           error={errors.secondPhone?.message}
           {...register("secondPhone")}
         />
-        <StarIcon fontSize="small" color="text.hint" />
+        <StarIcon fontSize="small" style={{ color: theme.palette.text.hint }} />
       </Row>
     </Stack>
   );

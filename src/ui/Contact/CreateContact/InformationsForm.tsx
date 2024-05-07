@@ -1,25 +1,28 @@
-import { Box, Button, Divider, Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import { ContactInformationForm, schema, styles } from "../ContactFormDialog";
+import { schema } from "../ContactFormDialog";
 import { useForm } from "../../../hooks/useForm";
 import { Row } from "../../Row";
 
 import { APISchemas } from "../../../types/api";
-import { AddressFormFields } from "../../Form/AddressFormFields";
+import { FormContent } from "./CreateContactDialog";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   handleSubmitStep: (data: any) => void;
-  handleBack: () => void;
   contact?: Omit<APISchemas["ContactFirstLoginDto"], "identifier">;
+  surveyUnit?: APISchemas["SurveyUnitDto"];
 };
 
-export const InformationsForm = ({ handleSubmitStep, handleBack, contact }: Props) => {
+export const InformationsForm = ({ handleSubmitStep, contact, surveyUnit }: Props) => {
+  const navigate = useNavigate();
   const defaultValues =
     contact?.address?.countryName && contact.address.countryName !== ""
       ? contact
       : { ...contact, address: { ...contact?.address, countryName: "FRANCE" } };
 
-  const { register, control, errors, handleSubmit } = useForm(schema, {
+  const { register, control, errors, handleSubmit, setValue } = useForm(schema, {
     defaultValues: defaultValues,
   });
 
@@ -27,29 +30,46 @@ export const InformationsForm = ({ handleSubmitStep, handleBack, contact }: Prop
     handleSubmitStep(data);
   });
 
+  const [country, setCountry] = useState(defaultValues?.address?.countryName ?? "FRANCE");
+
+  const onAddressChecked = () => {
+    setValue("usualCompanyName", surveyUnit?.identificationName);
+    setValue("address", {
+      cedexCode: "",
+      cedexName: "",
+      cityName: "",
+      zipCode: "",
+      streetName: "",
+      ...surveyUnit?.address,
+    });
+
+    setCountry(surveyUnit?.address?.countryName ?? "FRANCE");
+  };
+
+  const onChangeCountry = (value: string) => {
+    setCountry(value);
+    setValue("address.countryName", value);
+  };
+
   return (
     <Stack>
       <Typography sx={{ pb: 3 }} variant="titleMedium" fontSize={18}>
         Informations du contact
       </Typography>
       <form action="#" onSubmit={onSubmit}>
-        <Box sx={styles.Grid}>
-          <ContactInformationForm errors={errors} register={register} control={control} />
-          <Divider orientation="vertical" variant="middle" />
-          <Box component={"div"} pt={0}>
-            <AddressFormFields
-              type={"contact"}
-              errors={errors}
-              register={register}
-              repetitionIndexValue={contact?.address?.repetitionIndex ?? ""}
-              streetTypeValue={contact?.address?.streetType ?? ""}
-              countryValue={contact?.address?.countryName ?? "FRANCE"}
-            />
-          </Box>
-        </Box>
+        <FormContent
+          errors={errors}
+          register={register}
+          control={control}
+          contact={defaultValues}
+          country={country}
+          onChangeCountry={onChangeCountry}
+          surveyUnitId={surveyUnit?.idSu}
+          onAddressChecked={onAddressChecked}
+        />
 
         <Row p={4} justifyContent={"flex-end"}>
-          <Button disabled={true} variant={"outlined"} onClick={handleBack} sx={{ mr: 1 }}>
+          <Button variant={"outlined"} onClick={() => navigate(-1)} sx={{ mr: 1 }}>
             Annuler
           </Button>
 

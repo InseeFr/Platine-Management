@@ -15,7 +15,7 @@ import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from "@mui/material";
 
 type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required" | "sx"> &
-  Pick<SelectProps, "onChange" | "defaultValue" | "disabled"> & {
+  Pick<SelectProps, "onChange" | "defaultValue" | "disabled" | "value"> & {
     type?: "radios" | "radiostack" | "switch" | "text" | "select";
     error?: string;
     control?: UseFormReturn<any, any, any>["control"];
@@ -123,7 +123,7 @@ export function uncontrolledField(props: Props, ref: any) {
 }
 
 export function controlledField(
-  { type, name, options, error, label, selectoptions }: Props,
+  { type, name, options, error, label, selectoptions, value, onChange }: Props,
   field: any,
 ) {
   if (!type || type === "text") {
@@ -150,7 +150,9 @@ export function controlledField(
         <Select
           fullWidth
           {...field}
+          value={value}
           labelId={labelId}
+          onChange={onChange}
           id={`select-${name}`}
           error={!!error}
           size="small"

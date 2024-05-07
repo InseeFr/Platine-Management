@@ -1,6 +1,5 @@
 import Typography from "@mui/material/Typography";
 import { FormDialog } from "./FormDialog";
-import { useNavigate } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import { FormEventHandler, useState } from "react";
 import FormControl from "@mui/material/FormControl";
@@ -57,20 +56,18 @@ export const DeleteSecondaryContactRightsDialog = ({
 };
 
 export const DeletePrimaryWithoutSecondaryDialog = ({ open, onClose }: CommonContactRightsProps) => {
-  const navigate = useNavigate();
+  const [hasDialog, toggleDialog] = useToggle(false);
 
-  const goToCreateContactForm = () => {
-    onClose();
-    navigate("/contacts/createContact");
+  const goToCreateContactForm: FormEventHandler = e => {
+    e.preventDefault();
+    toggleDialog();
   };
 
   return (
     <FormDialog
       open={open}
       onCancel={onClose}
-      onSubmit={() => {
-        goToCreateContactForm();
-      }}
+      onSubmit={goToCreateContactForm}
       title={"Suppression des droits"}
       submitButtonLabel="Créer un contact"
     >
@@ -81,6 +78,13 @@ export const DeletePrimaryWithoutSecondaryDialog = ({ open, onClose }: CommonCon
         </Typography>
         <Typography variant="bodyMedium">Voulez vous créer un nouveau contact principal ?</Typography>
       </Stack>
+      <CreateContactDialog
+        open={hasDialog}
+        onClose={() => {
+          toggleDialog();
+          onClose();
+        }}
+      />
     </FormDialog>
   );
 };
@@ -89,7 +93,6 @@ type PrimaryContactRightsProps = CommonContactRightsProps & {
   type?: string;
   contactIdentifier: string;
   secondaryContacts: APISchemas["ContactFirstLoginDto"][];
-  onChangePrimaryContact: (selectedContact: string) => void;
 };
 
 export const PrimaryContactRightsDialog = ({
@@ -97,18 +100,22 @@ export const PrimaryContactRightsDialog = ({
   secondaryContacts,
   type = "edit",
   contactIdentifier,
-  onChangePrimaryContact,
   onClose,
 }: PrimaryContactRightsProps) => {
   const [selectedContact, setSelectedContact] = useState("");
+  const [hasDialog, toggleDialog] = useToggle(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedContact(event.target.value);
   };
 
-  const onSubmit = (selectedContact: string) => {
-    onChangePrimaryContact(selectedContact);
-    onClose();
+  const onSubmit: FormEventHandler = e => {
+    e.preventDefault();
+
+    if (selectedContact === "newContact") {
+      toggleDialog();
+    }
+    // add logic for other options
   };
 
   return (
@@ -118,9 +125,7 @@ export const PrimaryContactRightsDialog = ({
         setSelectedContact("");
         onClose();
       }}
-      onSubmit={() => {
-        onSubmit(selectedContact);
-      }}
+      onSubmit={onSubmit}
       title={type === "edit" ? "Modifier en contact secondaire" : "Suppression des droits"}
       submitButtonLabel="Valider"
     >
@@ -170,6 +175,13 @@ export const PrimaryContactRightsDialog = ({
           </RadioGroup>
         </FormControl>
       </Stack>
+      <CreateContactDialog
+        open={hasDialog}
+        onClose={() => {
+          toggleDialog();
+          onClose();
+        }}
+      />
     </FormDialog>
   );
 };
@@ -211,7 +223,7 @@ export const EditSecondaryToPrimaryDialog = ({
         </Typography>
         <Typography variant="bodyMedium">
           {primaryContactIdentifier} est contact principal pour cette même unité enquêtée, il sera
-          automatiquement modifier en contact secondaire
+          automatiquement modifié en contact secondaire
         </Typography>
       </Stack>
     </FormDialog>
@@ -219,7 +231,6 @@ export const EditSecondaryToPrimaryDialog = ({
 };
 
 export const EditPrimaryWithoutSecondaryDialog = ({ open, onClose }: CommonContactRightsProps) => {
-  const navigate = useNavigate();
   const [hasDialog, toggleDialog] = useToggle(false);
 
   const goToCreateContactForm: FormEventHandler = e => {
@@ -239,7 +250,13 @@ export const EditPrimaryWithoutSecondaryDialog = ({ open, onClose }: CommonConta
         <Typography variant="bodyMedium">Une enquête doit avoir un contact principal.</Typography>
         <Typography variant="bodyMedium">Voulez vous créer un nouveau contact principal ?</Typography>
       </Stack>
-      <CreateContactDialog open={hasDialog} onClose={toggleDialog} />
+      <CreateContactDialog
+        open={hasDialog}
+        onClose={() => {
+          toggleDialog();
+          onClose();
+        }}
+      />
     </FormDialog>
   );
 };

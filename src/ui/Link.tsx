@@ -3,6 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 type Props = LinkProps & {
   to: string;
+  state?: string;
 };
 
 export const Link = (props: Props) => {

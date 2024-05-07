@@ -40,11 +40,13 @@ export const CreateContactDialog = ({ open, onClose, surveyUnit }: Props) => {
     address: { countryName: "FRANCE" },
   };
 
+  const [country, setCountry] = useState(defaultValues?.address?.countryName);
+
   const { register, control, errors, reset, handleSubmit, setValue } = useForm(schema, {
     defaultValues: defaultValues,
   });
 
-  const onAddressChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onAddressChecked = () => {
     setValue("usualCompanyName", surveyUnit?.identificationName);
     setValue("address", {
       cedexCode: "",
@@ -54,18 +56,25 @@ export const CreateContactDialog = ({ open, onClose, surveyUnit }: Props) => {
       streetName: "",
       ...surveyUnit?.address,
     });
+
+    setCountry(surveyUnit?.address?.countryName ?? "FRANCE");
   };
 
   const handleClose = () => {
     reset(defaultValues);
+    setCountry("FRANCE");
     onClose();
+  };
+
+  const onChangeCountry = (value: string) => {
+    setCountry(value);
+    setValue("address.countryName", value);
   };
 
   const onSubmit = handleSubmit(data => {
     console.log(data);
     handleClose();
   });
-
   return (
     <Dialog open={open} onClose={handleClose} sx={{ ".MuiPaper-root": { maxWidth: "1160px", px: 3 } }}>
       <form action="#" onSubmit={onSubmit}>
@@ -76,6 +85,8 @@ export const CreateContactDialog = ({ open, onClose, surveyUnit }: Props) => {
             register={register}
             control={control}
             contact={defaultValues}
+            country={country}
+            onChangeCountry={onChangeCountry}
             surveyUnitId={surveyUnit?.idSu}
             onAddressChecked={onAddressChecked}
           />
@@ -98,6 +109,8 @@ type FormContentProps = {
   register: UseFormRegister<z.TypeOf<Schema>>;
   control: UseFormReturn<any, any, any>["control"];
   contact?: Omit<APISchemas["ContactFirstLoginDto"], "identifier">;
+  country: string;
+  onChangeCountry: (value: string) => void;
   surveyUnitId?: string;
   onAddressChecked?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -107,10 +120,11 @@ export const FormContent = ({
   register,
   control,
   contact,
+  country,
+  onChangeCountry,
   surveyUnitId,
   onAddressChecked,
 }: FormContentProps) => {
-  const [country, setCountry] = useState(contact?.address?.countryName ?? "FRANCE");
   return (
     <Box sx={styles.Grid}>
       <ContactInformationForm errors={errors} register={register} control={control} />
@@ -127,16 +141,14 @@ export const FormContent = ({
           <Stack gap={3} pt={1}>
             <Box sx={{ width: "610px" }}>
               <Field
-                defaultValue={country}
+                value={country}
                 type="select"
                 label="Sélectionnez un pays"
                 selectoptions={countries}
                 error={errors.address?.countryName?.message}
                 control={control}
                 name={"address.countryName"}
-                onChange={e => {
-                  setCountry(e.target.value as string);
-                }}
+                onChange={e => onChangeCountry(e.target.value as string)}
               />
             </Box>
 

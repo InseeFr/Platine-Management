@@ -3,18 +3,46 @@ import { useState } from "react";
 import { Row } from "../ui/Row";
 import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
 import Typography from "@mui/material/Typography";
-import { Step, StepLabel, Stepper, Divider, Card } from "@mui/material";
+import { Step, StepLabel, Stepper, Divider, Card, CircularProgress } from "@mui/material";
 import { InformationsForm } from "../ui/Contact/CreateContact/InformationsForm";
 import { RightsManagementForm } from "../ui/Contact/CreateContact/RightsManagementForm";
 import { Breadcrumbs } from "../ui/Breadcrumbs";
-
+import { useLocation } from "react-router-dom";
+import { useFetchQuery } from "../hooks/useFetchQuery";
 const steps = ["Informations du contact", "Gestion des droits"];
 
 export const CreateContactPage = () => {
+  const { state: surveyUnitId } = useLocation();
   const [activeStep, setActiveStep] = useState(0);
   const [contactData, setContactData] = useState();
 
-  const [rights, setRights] = useState();
+  const [rights, setRights] = useState<{
+    idSource?: string;
+    year?: string;
+    periodicity?: string;
+  }>({
+    idSource: undefined,
+    year: undefined,
+    periodicity: undefined,
+  });
+
+  const {
+    data: surveyUnit,
+    isLoading,
+    isSuccess,
+  } = useFetchQuery("/api/survey-units/{id}", {
+    urlParams: {
+      id: surveyUnitId,
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <Row justifyContent="center" py={10}>
+        <CircularProgress />
+      </Row>
+    );
+  }
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -68,13 +96,17 @@ export const CreateContactPage = () => {
           {activeStep === 0 && (
             <InformationsForm
               handleSubmitStep={handleSubmitStep}
-              handleBack={handleBack}
               contact={contactData}
+              surveyUnit={isSuccess ? surveyUnit : undefined}
             />
           )}
 
           {activeStep === 1 && (
-            <RightsManagementForm handleSubmitStep={handleSubmitStep} handleBack={handleBack} />
+            <RightsManagementForm
+              handleSubmitStep={handleSubmitStep}
+              handleBack={handleBack}
+              rights={rights}
+            />
           )}
         </Card>
       </Stack>

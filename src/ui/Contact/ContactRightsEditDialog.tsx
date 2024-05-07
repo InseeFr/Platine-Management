@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import {
   EditPrimaryWithoutSecondaryDialog,
   EditSecondaryToPrimaryDialog,
@@ -27,15 +26,6 @@ export type DialogProps = {
 };
 
 export const ContactRightsEditDialog = ({ survey, contact, onAlert, onClose }: DialogProps) => {
-  const navigate = useNavigate();
-
-  const onEditPrimaryContact = (selectedContact: string) => {
-    // TODO: add logic
-    if (selectedContact === "newContact") {
-      navigate("/contacts/createContact");
-    }
-  };
-
   if (survey.main === false) {
     return (
       <EditSecondaryToPrimaryDialog
@@ -56,7 +46,6 @@ export const ContactRightsEditDialog = ({ survey, contact, onAlert, onClose }: D
       onClose={onClose}
       secondaryContacts={survey.secondaryContacts}
       contactIdentifier={contact.identifier}
-      onChangePrimaryContact={onEditPrimaryContact}
     />
   );
 };
