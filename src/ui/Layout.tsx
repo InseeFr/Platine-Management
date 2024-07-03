@@ -1,15 +1,17 @@
 import { type PropsWithChildren } from "react";
-import { Header } from "./Header";
 import { useIsAuthenticated } from "../hooks/useAuth";
-import { CircularProgress } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { Row } from "../ui/Row";
+import { NavigationDrawer } from "./NavigationDrawer";
 
 export function Layout({ children }: PropsWithChildren) {
   return (
-    <>
-      <Header />
-      {children}
-    </>
+    <Box sx={{ display: "flex" }}>
+      <NavigationDrawer />
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        {children}
+      </Box>
+    </Box>
   );
 }
 
@@ -25,9 +27,11 @@ export function LayoutWithAuth({ children }: PropsWithChildren) {
   }
 
   return (
-    <>
-      <Header />
-      {children}
-    </>
+    <Box sx={{ display: "flex" }}>
+      <NavigationDrawer />
+      <Box component="main" sx={{ flexGrow: 1, p: 4 }}>
+        {children}
+      </Box>
+    </Box>
   );
 }
