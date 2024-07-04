@@ -6,7 +6,7 @@ import { PageError } from "./ui/PageError";
 import { SurveyPage } from "./pages/SurveyPage";
 import { ContactPage } from "./pages/ContactPage";
 import { Settings } from "./pages/Settings";
-import { SearchContacts } from "./pages/Search/SearchContacts.tsx";
+import { SearchContacts } from "./pages/Search/SearchContact.tsx";
 import { SearchSurveys } from "./pages/Search/SearchSurveys.tsx";
 import { SearchSurveyUnits } from "./pages/Search/SearchSurveyUnits.tsx";
 import { SurveyUnitPage } from "./pages/SurveyUnitPage.tsx";
@@ -32,6 +32,10 @@ export const routes: RouteObject[] = [
     ),
     errorElement: <PageError />,
     children: [
+      {
+        path: "contacts",
+        element: <SearchContacts />,
+      },
       {
         path: "search",
         element: <SearchPage />,

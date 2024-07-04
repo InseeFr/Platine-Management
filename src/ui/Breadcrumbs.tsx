@@ -14,11 +14,10 @@ export function Breadcrumbs({ items }: Props) {
     <MuiBreadcrumbs
       aria-label="breadcrumb"
       sx={{
-        py: 2,
-        px: 4,
+        pb: 1,
         typography: "titleSmall",
         ".MuiBreadcrumbs-separator": {
-          color: "primary.main",
+          color: "text.tertiary",
         },
       }}
     >

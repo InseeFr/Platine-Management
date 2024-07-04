@@ -108,6 +108,7 @@ declare module "@mui/material/SvgIcon" {
     tabTitle: true;
     headerSinglePage: true;
     cardTitle: true;
+    navigateIcon: true;
     smallIcon: true;
     linkIcon: true;
     navIcon: true;
@@ -133,6 +134,14 @@ declare module "@mui/material/Tab" {
 declare module "@mui/material/TextField" {
   interface TextFieldPropsSizeOverrides {
     search: true;
+  }
+}
+
+declare module "@mui/material/styles" {
+  interface Palette {
+    border: {
+      default: string;
+    };
   }
 }
 
@@ -222,6 +231,9 @@ const palette = {
     default: "#F5F7FA",
     main: "#0A192E",
   },
+  border: {
+    default: "#E7E8E9",
+  },
   text: {
     primary: "#0A192E",
     secondary: "#49454F",
@@ -302,6 +314,12 @@ export const theme = createTheme({
           props: { fontSize: "headerSinglePage" },
           style: {
             fontSize: 48,
+          },
+        },
+        {
+          props: { fontSize: "navigateIcon" },
+          style: {
+            fontSize: 36,
           },
         },
         {
@@ -435,6 +453,15 @@ export const theme = createTheme({
         },
       },
     },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          "& fieldset": {
+            borderColor: palette.border.default,
+          },
+        },
+      },
+    },
     MuiDialogTitle: {
       styleOverrides: {
         root: {
@@ -504,6 +531,20 @@ export const theme = createTheme({
         standardInfo: {
           color: "#0F417A",
           backgroundColor: "#CCE5FF",
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderBottomColor: palette.border.default,
+        },
+      },
+    },
+    MuiTable: {
+      styleOverrides: {
+        root: {
+          border: `1px solid ${palette.border.default}`,
         },
       },
     },

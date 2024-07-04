@@ -54,7 +54,7 @@ const DrawerHeader = styled("div")(() => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: "16px 16px 8px 8px",
+  padding: "8px 16px 8px 8px",
 }));
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== "open" })(({ open }) => ({
@@ -109,7 +109,7 @@ export const NavigationDrawer = () => {
         </IconButton>
       </DrawerHeader>
       <Stack sx={{ justifyContent: "space-between", pb: 2, height: "100vh" }}>
-        <List sx={{ py: 3 }}>
+        <List sx={{ py: 2 }}>
           <NavigationListItem
             open={open}
             label={"Accueil"}
@@ -142,13 +142,13 @@ export const NavigationDrawer = () => {
             open={open}
             label={"Contacts"}
             IconComponent={SupervisorAccountIcon}
-            link={"/search/contacts"}
+            link={"/contacts"}
             isActive={currentPath.includes("contacts")}
           />
         </List>
         <Stack>
           <Divider style={{ background: theme.palette.text.light }} />
-          <List sx={{ pt: 3, pb: 7 }}>
+          <List sx={{ pt: 3, pb: 5 }}>
             {activeSettings && (
               <NavigationListItem
                 open={open}

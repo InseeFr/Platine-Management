@@ -11,11 +11,10 @@ import {
 import { useState } from "react";
 import { Row } from "../Row";
 import { theme } from "../../theme";
-import { Column } from "../Contact/AssociateSurveysTable";
-import { LoadingCell, NoResultCell, SurveysTableFooter } from "../Contact/ContactSurveysTable";
 import { collectStates } from "../Contact/CollectStateSelect";
 import { APISchemas } from "../../types/api";
 import { getCollectStateChipColor } from "../Contact/ContactSurveysTableRow";
+import { Column, CustomTableFooter, LoadingCell, NoResultCell } from "../TableComponents";
 
 const columns: readonly Column[] = [
   { id: "sourceWording", label: "Source", minWidth: "200px" },
@@ -101,7 +100,7 @@ export const SurveyUnitSurveysTable = (props: Props) => {
           {props.isLoading && <LoadingCell columnLength={columns.length} />}
           {!props.isLoading && surveys.length === 0 && <NoResultCell columnLength={columns.length} />}
         </TableBody>
-        <SurveysTableFooter
+        <CustomTableFooter
           count={visibleRows.length}
           rowsPerPage={rowsPerPage}
           page={page}

@@ -1,5 +1,5 @@
 import { CardActionArea, CircularProgress, Stack } from "@mui/material";
-import { Row } from "../../ui/Row";
+import { Row } from "../../ui/Row.tsx";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";

@@ -1,6 +1,5 @@
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import { theme } from "../../theme";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
@@ -10,14 +9,7 @@ import { useState } from "react";
 import Box from "@mui/system/Box";
 import Button from "@mui/material/Button";
 import TableFooter from "@mui/material/TableFooter";
-import { LoadingCell } from "./ContactSurveysTable";
-
-export interface Column {
-  id: string;
-  label: string;
-  minWidth?: string;
-  align?: "center" | "left" | "right" | "inherit" | "justify";
-}
+import { Column, LoadingCell, TableHeader } from "../TableComponents";
 
 // TODO: use real ids
 const columns: readonly Column[] = [
@@ -114,24 +106,5 @@ export const AssociateSurveysTable = () => {
         </Table>
       </TableContainer>
     </Box>
-  );
-};
-
-export const TableHeader = ({ columns }: { columns: readonly Column[] }) => {
-  return (
-    <TableHead sx={{ backgroundColor: "#EBEFF5" }}>
-      <TableRow sx={{ borderBottom: `solid 1px ${theme.palette.text.hint}` }}>
-        {columns.map(column => (
-          <TableCell
-            key={column.id}
-            style={{ minWidth: column.minWidth }}
-            sx={{ typography: "titleSmall", py: 3 }}
-            align={column.align ?? "left"}
-          >
-            {column.label}
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
   );
 };

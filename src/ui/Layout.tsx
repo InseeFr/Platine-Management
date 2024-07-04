@@ -29,7 +29,7 @@ export function LayoutWithAuth({ children }: PropsWithChildren) {
   return (
     <Box sx={{ display: "flex" }}>
       <NavigationDrawer />
-      <Box component="main" sx={{ flexGrow: 1, p: 4 }}>
+      <Box component="main" sx={{ flexGrow: 1 }}>
         {children}
       </Box>
     </Box>
