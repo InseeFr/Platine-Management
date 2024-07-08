@@ -395,6 +395,13 @@ export const theme = createTheme({
         },
       ],
     },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+        },
+      },
+    },
     MuiToggleButtonGroup: {
       styleOverrides: {
         root: {

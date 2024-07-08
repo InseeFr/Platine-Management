@@ -35,7 +35,7 @@ export const GeneralCardContent = ({
   };
 
   return (
-    <Card sx={{ px: 6, py: 3 }} elevation={2}>
+    <Card sx={{ px: 6, py: 3, flex: 1 }} elevation={2}>
       <Stack spacing={2}>
         <Stack spacing={3}>
           <CardtitleWithIcon IconComponent={TitleIconComponent} title={title} />

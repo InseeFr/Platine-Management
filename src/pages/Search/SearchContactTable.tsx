@@ -1,21 +1,13 @@
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import { useState } from "react";
-import {
-  Column,
-  CustomTableFooter,
-  LoadingCell,
-  StyledTableRow,
-  TableHeader,
-} from "../../ui/TableComponents";
+import { Column, StyledTableRow, TableHeader } from "../../ui/TableComponents";
 import { APISchemas } from "../../types/api";
 import TableCell from "@mui/material/TableCell";
 import IconButton from "@mui/material/IconButton";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
+import { Skeleton } from "@mui/material";
 
 const columns: readonly Column[] = [
   { id: "identifier", label: "ID", minWidth: "140px" },
@@ -34,24 +26,13 @@ export const SearchContactTable = (props: Props) => {
 
   const contacts = props.contacts ?? [];
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const handleChangePage = (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   return (
     <TableContainer sx={{ py: 3 }}>
       <Table aria-label="search contacts table" size="small">
         <TableHeader columns={columns} />
+        {props.isLoading && <LoadingTable />}
         <TableBody>
-          {contacts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(contact => {
+          {contacts.map(contact => {
             return (
               <StyledTableRow key={contact.identifier}>
                 <TableCell>{`#${contact.identifier}`}</TableCell>
@@ -71,27 +52,39 @@ export const SearchContactTable = (props: Props) => {
               </StyledTableRow>
             );
           })}
-          {props.isLoading && <LoadingCell columnLength={columns.length} />}
-          {!props.isLoading && contacts.length === 0 && <NoResultCell columnLength={columns.length} />}
         </TableBody>
-        <CustomTableFooter
-          count={contacts.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
       </Table>
     </TableContainer>
   );
 };
 
-const NoResultCell = ({ columnLength }: { columnLength: number }) => {
+const LoadingRow = () => {
   return (
-    <TableRow>
-      <TableCell align="center" colSpan={columnLength}>
-        <Typography variant="titleSmall">Aucun contact ne correspond à vos critères</Typography>
+    <StyledTableRow>
+      <TableCell>
+        <Skeleton />
       </TableCell>
-    </TableRow>
+      <TableCell>
+        <Skeleton />
+      </TableCell>
+      <TableCell>
+        <Skeleton />
+      </TableCell>
+      <TableCell align="right">
+        <IconButton aria-label="supprimer" color="primary">
+          <ChevronRightIcon fontSize="navigateIcon" />
+        </IconButton>
+      </TableCell>
+    </StyledTableRow>
+  );
+};
+
+const LoadingTable = () => {
+  return (
+    <TableBody>
+      <LoadingRow />
+      <LoadingRow />
+      <LoadingRow />
+    </TableBody>
   );
 };

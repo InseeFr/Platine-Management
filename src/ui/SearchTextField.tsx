@@ -1,21 +1,25 @@
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
+import IconButton from "@mui/material/IconButton";
 
 type Props = {
   searchValue: string;
-  onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearch: (e: React.MouseEvent<HTMLButtonElement>) => void;
   placeholder: string;
 };
 
-export const SearchTextField = ({ searchValue, onSearch, placeholder }: Props) => {
+export const SearchTextField = ({ searchValue, onChange, onSearch, placeholder }: Props) => {
   return (
     <TextField
       fullWidth
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <SearchIcon color="primary" />
+            <IconButton aria-label="search" onClick={onSearch} edge="end">
+              <SearchIcon color="primary" />
+            </IconButton>
           </InputAdornment>
         ),
       }}
@@ -24,7 +28,7 @@ export const SearchTextField = ({ searchValue, onSearch, placeholder }: Props) =
       id="name"
       placeholder={placeholder}
       variant="outlined"
-      onChange={onSearch}
+      onChange={onChange}
     />
   );
 };

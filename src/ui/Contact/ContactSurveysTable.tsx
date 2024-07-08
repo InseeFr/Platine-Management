@@ -52,7 +52,9 @@ export const ContactSurveysTable = (props: Props) => {
             );
           })}
           {props.isLoading && <LoadingCell columnLength={columns.length} />}
-          {!props.isLoading && surveys.length === 0 && <NoResultCell columnLength={columns.length} />}
+          {!props.isLoading && surveys.length === 0 && (
+            <NoResultCell columnLength={columns.length} text={"Aucun résultat"} />
+          )}
         </TableBody>
         <CustomTableFooter
           count={surveys.length}

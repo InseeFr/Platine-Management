@@ -101,11 +101,11 @@ export const CustomTableFooter = ({
   );
 };
 
-export const NoResultCell = ({ columnLength }: { columnLength: number }) => {
+export const NoResultCell = ({ columnLength, text }: { columnLength: number; text: string }) => {
   return (
     <TableRow>
       <TableCell align="center" colSpan={columnLength}>
-        <Typography variant="titleSmall">Aucun résultat</Typography>
+        <Typography variant="titleSmall">{text}</Typography>
       </TableCell>
     </TableRow>
   );
