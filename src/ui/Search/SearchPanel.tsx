@@ -3,7 +3,6 @@ import { Card, Tab, Tabs } from "@mui/material";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import { BinocularIcon } from "../Icon/BinocularIcon.tsx";
-import { SearchContactsForm } from "./SearchContactsForm.tsx";
 import { SearchSurveysForm } from "./SearchSurveysForm.tsx";
 import { SearchSurveyUnitsForm } from "./SearchSurveyUnitsForm.tsx";
 import Typography from "@mui/material/Typography";
@@ -74,7 +73,6 @@ export const SearchPanel = () => {
 
         <Stack spacing={3} m={3}>
           <Stack spacing={2}>
-            {currentTab === "contacts" && <SearchContactsForm />}
             {currentTab === "surveys" && <SearchSurveysForm />}
             {currentTab === "surveyUnits" && <SearchSurveyUnitsForm />}
           </Stack>

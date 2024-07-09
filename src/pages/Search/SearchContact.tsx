@@ -1,29 +1,45 @@
-import { Button, Card, Divider, Stack, Typography } from "@mui/material";
+import { Button, Card, Divider, Stack, TextField, Typography } from "@mui/material";
 import { Breadcrumbs } from "../../ui/Breadcrumbs";
 import { theme } from "../../theme";
-import { SearchTextField } from "../../ui/SearchTextField";
-import { useState } from "react";
+import { FormEventHandler, useState } from "react";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery";
 import { SearchContactTable } from "./SearchContactTable";
-import { useSearchFilterParams } from "../../hooks/useSearchFilter";
-import { VisibilitySpy } from "../../ui/VisibilitySpy";
+import { useGetSearchFilter, useSearchFilterParams, useSearchForm } from "../../hooks/useSearchFilter";
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchIcon from "@mui/icons-material/Search";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
-const endpoint = "/api/contacts/search" as const;
+const endpoint = "/api/contacts/search";
 
 export const SearchContacts = () => {
+  const [valueSubmitted, setValueSubmitted] = useState("");
+  const breadcrumbs = [{ href: "/", title: "Accueil" }, "Contacts"];
+
   const {
     results: contacts,
     hasNextPage,
     fetchNextPage,
     isLoading,
   } = useInfiniteFetchQuery(endpoint, {
-    query: { ...useSearchFilterParams("contacts"), pageSize: 20, sort: "identifier" },
+    query: { param: useSearchFilterParams("contacts").search, pageSize: 20, sort: "identifier" },
   });
 
-  //  TODO: search will be used to filter
-  // const [search, setSearch] = useState("");
-  const [searchInputValue, setSearchInputValue] = useState("");
-  const breadcrumbs = [{ href: "/", title: "Accueil" }, "Contacts"];
+  const { contacts: contactsFilter } = useGetSearchFilter();
+
+  const { onSubmit, onReset, inputProps, value } = useSearchForm("contacts", contactsFilter);
+
+  const handleSubmit: FormEventHandler = e => {
+    setValueSubmitted(value.search);
+    onSubmit(e);
+  };
+
+  const handleReset: FormEventHandler = e => {
+    setValueSubmitted("");
+    onReset(e);
+  };
+
+  const isResetButton = valueSubmitted === value.search && value.search !== "";
 
   return (
     <Stack>
@@ -33,30 +49,40 @@ export const SearchContacts = () => {
       </Stack>
       <Divider variant="fullWidth" />
       <Card sx={{ mx: 5, my: 3, p: 5 }} elevation={2}>
-        <SearchTextField
-          searchValue={searchInputValue}
-          onSearch={() => {
-            // setSearch(searchInputValue);
-          }}
-          onChange={e => {
-            setSearchInputValue(e.target.value);
-          }}
-          placeholder={"Rechercher par prénom/nom, IDEP, ou adresse email"}
-        />
-        {!isLoading && (contacts === undefined || contacts.length === 0) ? (
-          <EmptyState />
-        ) : (
-          <>
-            <SearchContactTable isLoading={isLoading} contacts={contacts} />
-            {hasNextPage && <VisibilitySpy onVisible={fetchNextPage} />}
-          </>
-        )}
+        <form onSubmit={handleSubmit} onReset={handleReset}>
+          <TextField
+            fullWidth
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton aria-label="search" type={isResetButton ? "reset" : "submit"} edge="end">
+                    {isResetButton ? <CloseIcon color="primary" /> : <SearchIcon color="primary" />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+              disableUnderline: true,
+              ...inputProps("search"),
+            }}
+            label={"Rechercher par prénom/nom, IDEP, ou adresse email"}
+            variant="filled"
+          />
+          {!isLoading && (contacts === undefined || contacts.length === 0) ? (
+            <EmptyState isFiltered={isResetButton} onReset={handleReset} />
+          ) : (
+            <SearchContactTable
+              isLoading={isLoading}
+              contacts={contacts}
+              hasNextPage={hasNextPage}
+              onVisible={fetchNextPage}
+            />
+          )}
+        </form>
       </Card>
     </Stack>
   );
 };
 
-const EmptyState = () => {
+const EmptyState = ({ isFiltered, onReset }: { isFiltered: boolean; onReset: FormEventHandler }) => {
   return (
     <Stack
       mt={3}
@@ -71,9 +97,11 @@ const EmptyState = () => {
       <Typography variant="titleSmall" color={theme.palette.text.tertiary}>
         Aucun contact trouvé.
       </Typography>
-      <Button variant="outlined" sx={{ width: "fit-content" }}>
-        Effacer les filtres
-      </Button>
+      {isFiltered && (
+        <Button variant="outlined" sx={{ width: "fit-content" }} onClick={onReset}>
+          Effacer les filtres
+        </Button>
+      )}
     </Stack>
   );
 };

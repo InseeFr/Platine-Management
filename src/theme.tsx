@@ -444,6 +444,12 @@ export const theme = createTheme({
     },
     MuiInputLabel: {
       styleOverrides: {
+        root: {
+          color: palette.text.tertiary,
+          "&.Mui-focused": {
+            color: palette.text.tertiary,
+          },
+        },
         sizeSmall: {
           ...typography.bodyMedium,
         },
@@ -457,6 +463,22 @@ export const theme = createTheme({
         },
         sizeSmall: {
           ...typography.bodyMedium,
+        },
+      },
+    },
+    MuiFilledInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: palette.Surfaces.Secondary,
+          border: `1px solid ${palette.border.default}`,
+          "&:hover ": {
+            backgroundColor: palette.Surfaces.Secondary,
+            border: `1px solid ${palette.border.default}`,
+          },
+          "&.Mui-focused": {
+            backgroundColor: palette.Surfaces.Secondary,
+            border: `1px solid ${palette.border.default}`,
+          },
         },
       },
     },

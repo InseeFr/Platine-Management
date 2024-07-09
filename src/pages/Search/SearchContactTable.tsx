@@ -8,6 +8,8 @@ import IconButton from "@mui/material/IconButton";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
+import { useEffect, useRef } from "react";
+import { useIntersection } from "react-use";
 
 const columns: readonly Column[] = [
   { id: "identifier", label: "ID", minWidth: "140px" },
@@ -19,6 +21,8 @@ const columns: readonly Column[] = [
 type Props = {
   contacts?: APISchemas["SearchContactDto"][];
   isLoading: boolean;
+  onVisible: () => void;
+  hasNextPage: boolean;
 };
 
 export const SearchContactTable = (props: Props) => {
@@ -30,7 +34,7 @@ export const SearchContactTable = (props: Props) => {
     <TableContainer sx={{ py: 3 }}>
       <Table aria-label="search contacts table" size="small">
         <TableHeader columns={columns} />
-        {props.isLoading && <LoadingTable />}
+        {props.isLoading && <LoadingTable onVisible={props.onVisible} />}
         <TableBody>
           {contacts.map(contact => {
             return (
@@ -52,6 +56,7 @@ export const SearchContactTable = (props: Props) => {
               </StyledTableRow>
             );
           })}
+          {props.hasNextPage && <LoadingTable onVisible={props.onVisible} />}
         </TableBody>
       </Table>
     </TableContainer>
@@ -60,7 +65,7 @@ export const SearchContactTable = (props: Props) => {
 
 const LoadingRow = () => {
   return (
-    <StyledTableRow>
+    <>
       <TableCell>
         <Skeleton />
       </TableCell>
@@ -75,16 +80,32 @@ const LoadingRow = () => {
           <ChevronRightIcon fontSize="navigateIcon" />
         </IconButton>
       </TableCell>
-    </StyledTableRow>
+    </>
   );
 };
 
-const LoadingTable = () => {
+const LoadingTable = ({ onVisible }: { onVisible: () => void }) => {
+  const ref = useRef(null);
+  const intersection = useIntersection(ref, {});
+  const isIntersecting = intersection?.isIntersecting;
+  const onVisibleRef = useRef(onVisible);
+  onVisibleRef.current = onVisible;
+  useEffect(() => {
+    if (isIntersecting) {
+      onVisibleRef.current();
+    }
+  }, [isIntersecting]);
   return (
-    <TableBody>
-      <LoadingRow />
-      <LoadingRow />
-      <LoadingRow />
-    </TableBody>
+    <>
+      <StyledTableRow ref={ref}>
+        <LoadingRow />
+      </StyledTableRow>
+      <StyledTableRow>
+        <LoadingRow />
+      </StyledTableRow>
+      <StyledTableRow>
+        <LoadingRow />
+      </StyledTableRow>
+    </>
   );
 };
