@@ -9,11 +9,11 @@ import { theme } from "../theme";
 import { Button, Typography } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { ContactDetailsCard } from "../ui/Contact/ContactDetailsCard";
-import { PasswordCard } from "../ui/Contact/PasswordCard";
+import { ContactCampaignsCard } from "../ui/Contact/ContactCampaignsCard";
 
 export const ContactPage = () => {
   const { id } = useParams();
-  const { data: contact } = useFetchQuery("/api/contacts/{id}", {
+  const { data: contact, refetch } = useFetchQuery("/api/contacts/{id}", {
     urlParams: {
       id: id!,
     },
@@ -46,7 +46,7 @@ export const ContactPage = () => {
           {contactTitle}
         </Typography>
         <Row justifyContent={"space-between"}>
-          <Typography variant="bodyMedium">{`ID connexion : ${contact.identifier}`}</Typography>
+          <Typography variant="bodyMedium">{`ID connexion : #${contact.identifier}`}</Typography>
           <Button variant="contained" endIcon={<OpenInNewIcon />}>
             Voir les interrogations
           </Button>
@@ -55,9 +55,8 @@ export const ContactPage = () => {
       <Divider variant="fullWidth" />
       <Stack px={5} pt={3}>
         <Row alignItems={"start"} gap={3}>
-          <ContactDetailsCard contact={contact} onSave={() => {}} />
-
-          <PasswordCard />
+          <ContactDetailsCard contact={contact} onSave={refetch} />
+          <ContactCampaignsCard />
         </Row>
       </Stack>
     </>

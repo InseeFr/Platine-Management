@@ -4,7 +4,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { theme } from "../theme";
 import { ElementType } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "./Link";
 
 type Props = {
   open: boolean;
@@ -15,7 +15,6 @@ type Props = {
 };
 
 export const NavigationListItem = ({ open, IconComponent, label, link, isActive }: Props) => {
-  const navigate = useNavigate();
   return (
     <ListItem
       disablePadding
@@ -27,7 +26,8 @@ export const NavigationListItem = ({ open, IconComponent, label, link, isActive 
           justifyContent: open ? "initial" : "center",
           px: 2.5,
         }}
-        onClick={() => navigate(link)}
+        component={Link}
+        to={link}
       >
         <ListItemIcon
           sx={{

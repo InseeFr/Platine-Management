@@ -6,10 +6,10 @@ import { APISchemas } from "../../types/api";
 import TableCell from "@mui/material/TableCell";
 import IconButton from "@mui/material/IconButton";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { useIntersection } from "react-use";
+import { Link } from "../../ui/Link";
 
 const columns: readonly Column[] = [
   { id: "identifier", label: "ID", minWidth: "140px" },
@@ -26,8 +26,6 @@ type Props = {
 };
 
 export const SearchContactTable = (props: Props) => {
-  const navigate = useNavigate();
-
   const contacts = props.contacts ?? [];
 
   return (
@@ -44,11 +42,10 @@ export const SearchContactTable = (props: Props) => {
                 <TableCell>{contact.email}</TableCell>
                 <TableCell align="right">
                   <IconButton
+                    component={Link}
                     aria-label="supprimer"
                     color="primary"
-                    onClick={() => {
-                      navigate(`/contacts/${contact.identifier}`);
-                    }}
+                    to={`/contacts/${contact.identifier}`}
                   >
                     <ChevronRightIcon fontSize="navigateIcon" />
                   </IconButton>

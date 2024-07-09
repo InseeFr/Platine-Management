@@ -10,10 +10,8 @@ type Props = {
 export const CardtitleWithIcon = ({ IconComponent, title }: Props) => {
   return (
     <Row spacing={2}>
-      <IconComponent fontSize="small" />
-      <Typography variant="titleMedium" fontSize={"20px"} fontWeight={700}>
-        {title}
-      </Typography>
+      <IconComponent />
+      <Typography variant="headlineSmall">{title}</Typography>
     </Row>
   );
 };
