@@ -152,7 +152,7 @@ export const NavigationDrawer = () => {
             {activeSettings && (
               <NavigationListItem
                 open={open}
-                label={"Profile"}
+                label={"Profil"}
                 IconComponent={PersonOutlinedIcon}
                 link={"/reglages"}
                 isActive={currentPath === "/reglages"}

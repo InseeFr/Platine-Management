@@ -13,7 +13,6 @@ import CloseIcon from "@mui/icons-material/Close";
 const endpoint = "/api/contacts/search";
 
 export const SearchContacts = () => {
-  const [valueSubmitted, setValueSubmitted] = useState("");
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Contacts"];
 
   const {
@@ -26,6 +25,7 @@ export const SearchContacts = () => {
   });
 
   const { contacts: contactsFilter } = useGetSearchFilter();
+  const [valueSubmitted, setValueSubmitted] = useState(contactsFilter.search);
 
   const { onSubmit, onReset, inputProps, value } = useSearchForm("contacts", contactsFilter);
 

@@ -1,11 +1,15 @@
 import { Button, Card, Divider, List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Link } from "../Link";
+import { APISchemas } from "../../types/api";
 
-//TODO: remove mock
-const campaigns = ["ARTI2023", "TIC2022", "ARTI2022"];
+type Props = {
+  surveys?: APISchemas["AccreditationDetailDto"][];
+};
 
-export const ContactCampaignsCard = () => {
+export const ContactCampaignsCard = (props: Props) => {
+  const surveys = props.surveys ?? [];
+  const uniqueSurveys = removeDuplicates(surveys);
   return (
     <Card sx={{ p: 3, flex: 1 }} elevation={2}>
       <Stack spacing={2}>
@@ -15,18 +19,18 @@ export const ContactCampaignsCard = () => {
             <ListItemText primary={<Typography variant="titleSmall">Campagnes</Typography>} />
           </ListItem>
 
-          {campaigns?.length > 0 ? (
-            campaigns.map(campaign => {
+          {uniqueSurveys?.length > 0 ? (
+            uniqueSurveys.map(survey => {
               return (
                 <>
                   <Divider variant="fullWidth" component="li" />
                   <ListItem
                     sx={{ pl: 0 }}
-                    key={campaign}
+                    key={survey.questioningId}
                     secondaryAction={
                       <Button
                         component={Link}
-                        to={"/"}
+                        to={`/campaigns${survey.campaignId}`}
                         sx={{ typography: "titleSmall" }}
                         endIcon={<OpenInNewIcon />}
                       >
@@ -34,7 +38,9 @@ export const ContactCampaignsCard = () => {
                       </Button>
                     }
                   >
-                    <ListItemText primary={<Typography variant="bodyMedium">{campaign}</Typography>} />
+                    <ListItemText
+                      primary={<Typography variant="bodyMedium">{survey.campaignId}</Typography>}
+                    />
                   </ListItem>
                 </>
               );
@@ -53,3 +59,15 @@ export const ContactCampaignsCard = () => {
     </Card>
   );
 };
+
+function removeDuplicates(
+  surveys: APISchemas["AccreditationDetailDto"][],
+): APISchemas["AccreditationDetailDto"][] {
+  const uniqueMap = new Map<string, APISchemas["AccreditationDetailDto"]>();
+  surveys.forEach(s => {
+    if (s.campaignId && !uniqueMap.has(s.campaignId)) {
+      uniqueMap.set(s.campaignId, s);
+    }
+  });
+  return Array.from(uniqueMap.values());
+}

@@ -925,6 +925,7 @@ export type APISchemas = {
       | "B04"
       | "B05"
       | "B06"
+    campaignId?: string
     partition?: string
     identificationCode?: string
     identificationName?: string
