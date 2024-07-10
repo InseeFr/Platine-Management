@@ -4,7 +4,6 @@ import { useForm } from "../../hooks/useForm.ts";
 import { APISchemas } from "../../types/api.ts";
 import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
 import { addressSchema } from "../Contact/ContactFormDialog.tsx";
-import { AddressFormFields } from "../Form/AddressFormFields.tsx";
 
 type Props = {
   open: boolean;
@@ -24,7 +23,7 @@ export const SurveyUnitFormDialog = ({ open, onClose, surveyUnit, onSave }: Prop
   const defaultValues = surveyUnit.address?.countryName
     ? surveyUnit
     : { ...surveyUnit, address: { ...surveyUnit.address, countryName: "France" } };
-  const { register, errors, handleSubmit } = useForm(schema, {
+  const { handleSubmit } = useForm(schema, {
     defaultValues: defaultValues,
   });
 
@@ -42,15 +41,7 @@ export const SurveyUnitFormDialog = ({ open, onClose, surveyUnit, onSave }: Prop
     <Dialog open={open} onClose={onClose} sx={{ ".MuiPaper-root": { maxWidth: "1160px", px: 3 } }}>
       <form action="#" onSubmit={onSubmit}>
         <DialogTitle>Modification des informations</DialogTitle>
-        <DialogContent>
-          <AddressFormFields
-            errors={errors}
-            register={register}
-            repetitionIndexValue={surveyUnit.address?.repetitionIndex}
-            streetTypeValue={surveyUnit.address?.streetType}
-            countryValue={surveyUnit.address?.countryName?.toLocaleUpperCase() ?? "FRANCE"}
-          />
-        </DialogContent>
+        <DialogContent>{/* TODO: add form if we can modify survey unit */}</DialogContent>
         <DialogActions>
           <Button onClick={onClose} disabled={isPending}>
             Annuler
