@@ -29,7 +29,7 @@ const civilities = [
   { label: "Monsieur", value: "Male" },
 ];
 
-export const repetitionIndexEnum = ["bis"]; //TODO: use real repetition index
+export const repetitionIndexEnum = ["BIS", "TER", "QUATER", "QUINQUIES", "A", "B", "C", "D"];
 
 export const streetTypeEnum = ["rue", "avenue"]; // TODO: use real street type
 
@@ -115,8 +115,8 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
               <Field label="Téléphone 1" error={errors.phone?.message} {...register("phone")} />
               <Field
                 label="Téléphone 2"
-                error={errors.secondPhone?.message}
-                {...register("secondPhone")}
+                error={errors.otherPhone?.message}
+                {...register("otherPhone")}
               />
             </Stack>
             <Divider orientation="vertical" variant="middle" />

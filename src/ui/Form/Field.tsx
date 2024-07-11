@@ -17,7 +17,7 @@ import { Row } from "../Row";
 
 type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required" | "sx"> &
   Pick<SelectProps, "onChange" | "defaultValue" | "disabled"> & {
-    type?: "radios" | "radiostack" | "switch" | "text" | "select";
+    type?: "radios" | "radiostack" | "switch" | "text" | "select" | "number";
     error?: string;
     control?: UseFormReturn<any, any, any>["control"];
     labelOutside?: boolean;
@@ -37,7 +37,8 @@ export const Field = forwardRef<HTMLElement, Props>((props, ref) => {
   }
 
   const labelOutside =
-    (props.type && props.type !== "text" && props.type !== "select") || props.labelOutside;
+    (props.type && props.type !== "text" && props.type !== "select" && props.type !== "number") ||
+    props.labelOutside;
 
   return (
     <Stack gap={1}>
@@ -108,6 +109,31 @@ export function uncontrolledField(props: Props, ref: any) {
           ))}
         </Select>
       </FormControl>
+    );
+  }
+
+  if (props.type === "number") {
+    return (
+      <TextField
+        fullWidth
+        {...props}
+        type="text"
+        onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+          e.target.value = e.target.value.replace(/\D/g, "");
+        }}
+        InputProps={{ disableUnderline: true }}
+        inputRef={ref}
+        error={!!props.error}
+        helperText={
+          props.error && (
+            <Row gap={1} pt={1}>
+              <WarningIcon />
+              <Typography variant="bodyLarge">{props.error}</Typography>
+            </Row>
+          )
+        }
+        variant="filled"
+      />
     );
   }
 

@@ -3,7 +3,7 @@ import { Breadcrumbs } from "../../ui/Breadcrumbs";
 import { theme } from "../../theme";
 import { FormEventHandler, useState } from "react";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery";
-import { SearchContactTable } from "./SearchContactTable";
+import { SearchContactTable } from "../../ui/Contact/SearchContactTable";
 import { useGetSearchFilter, useSearchFilterParams, useSearchForm } from "../../hooks/useSearchFilter";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";

@@ -166,6 +166,7 @@ export const AddressFormFields = ({
           <Field
             label="Code postal *"
             error={errors.address?.zipCode?.message}
+            type="number"
             {...register("address.zipCode")}
           />
           <Field
@@ -180,6 +181,7 @@ export const AddressFormFields = ({
           <Field
             label="Code cedex *"
             error={errors.address?.cedexCode?.message}
+            type="number"
             {...register("address.cedexCode")}
           />
           <Field

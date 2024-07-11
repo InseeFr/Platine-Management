@@ -449,6 +449,12 @@ export const theme = createTheme({
           "&.Mui-focused": {
             color: palette.text.tertiary,
           },
+          "&.Mui-error": {
+            color: palette.text.tertiary,
+          },
+          "&.Mui-error.Mui-focused": {
+            color: palette.red.main,
+          },
         },
         sizeSmall: {
           ...typography.bodyMedium,
@@ -483,6 +489,9 @@ export const theme = createTheme({
           ".MuiSvgIcon-root ": {
             fill: palette.primary.main,
           },
+          "&.Mui-error": {
+            border: `1px solid ${palette.red.main} `,
+          },
         },
       },
     },
@@ -491,6 +500,9 @@ export const theme = createTheme({
         root: {
           "& .Mui-focused .MuiSelect-select": {
             backgroundColor: palette.Surfaces.Secondary,
+          },
+          "& .MuiFormHelperText-root": {
+            marginLeft: 0,
           },
         },
       },
