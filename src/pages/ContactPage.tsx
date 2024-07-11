@@ -53,7 +53,12 @@ export const ContactPage = () => {
         </Typography>
         <Row justifyContent={"space-between"}>
           <Typography variant="bodyMedium">{`ID connexion : #${contact.identifier}`}</Typography>
-          <Button variant="contained" endIcon={<OpenInNewIcon />}>
+          <Button
+            variant="contained"
+            endIcon={<OpenInNewIcon />}
+            // TODO: remove disabled when get pages
+            disabled
+          >
             Voir les interrogations
           </Button>
         </Row>

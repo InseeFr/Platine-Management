@@ -319,7 +319,7 @@ export const theme = createTheme({
         {
           props: { fontSize: "navigateIcon" },
           style: {
-            fontSize: 36,
+            fontSize: 32,
           },
         },
         {
@@ -471,22 +471,26 @@ export const theme = createTheme({
         root: {
           backgroundColor: palette.Surfaces.Secondary,
           border: `1px solid ${palette.border.default}`,
-          "&:hover ": {
+          "&:hover": {
             backgroundColor: palette.Surfaces.Secondary,
             border: `1px solid ${palette.border.default}`,
           },
+
           "&.Mui-focused": {
             backgroundColor: palette.Surfaces.Secondary,
             border: `1px solid ${palette.border.default}`,
           },
+          ".MuiSvgIcon-root ": {
+            fill: palette.primary.main,
+          },
         },
       },
     },
-    MuiOutlinedInput: {
+    MuiFormControl: {
       styleOverrides: {
         root: {
-          "& fieldset": {
-            borderColor: palette.border.default,
+          "& .Mui-focused .MuiSelect-select": {
+            backgroundColor: palette.Surfaces.Secondary,
           },
         },
       },

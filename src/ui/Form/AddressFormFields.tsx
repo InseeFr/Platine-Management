@@ -63,12 +63,12 @@ export const AddressFormFields = ({
       )}
       <Row gap={2} justifyContent={"space-between"}>
         <Field
-          sx={{ width: "100px" }}
+          sx={{ width: "5vw" }}
           label="N°"
           error={errors.address?.streetNumber?.message}
           {...register("address.streetNumber")}
         />
-        <Box sx={{ width: "160px" }}>
+        <Box sx={{ width: "8vw" }}>
           {!country || country === "FRANCE" ? (
             <Field
               type="select"
@@ -89,7 +89,7 @@ export const AddressFormFields = ({
         </Box>
         {!country || country === "FRANCE" ? (
           <Field
-            sx={{ width: "350px" }}
+            sx={{ width: "18vw" }}
             type="select"
             label="Type de voie"
             selectoptions={streetTypeEnum}
@@ -99,7 +99,7 @@ export const AddressFormFields = ({
           />
         ) : (
           <Field
-            sx={{ width: "350px" }}
+            sx={{ width: "18vw" }}
             label="Type de voie"
             defaultValue={streetTypeValue ?? ""}
             error={errors.address?.streetType?.message}
@@ -125,7 +125,7 @@ export const AddressFormFields = ({
       <FormControl>
         <FormLabel
           sx={{
-            typography: "titleMedium",
+            typography: "titleSmall",
             color: "black.main",
             "&.Mui-focused": { color: "black.main" },
           }}
@@ -145,7 +145,7 @@ export const AddressFormFields = ({
           sx={{
             flexWrap: "nowrap",
             ".MuiFormControlLabel-label": {
-              typography: "bodyLarge",
+              typography: "bodyMedium",
             },
           }}
         >

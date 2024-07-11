@@ -4,7 +4,7 @@ import { Outlet, redirect, RouteObject } from "react-router-dom";
 import { Layout, LayoutWithAuth } from "./ui/Layout";
 import { PageError } from "./ui/PageError";
 import { SurveyPage } from "./pages/SurveyPage";
-import { ContactPage } from "./pages/ContactPage";
+import { ContactPage } from "./pages/ContactPage.tsx";
 import { Settings } from "./pages/Settings";
 import { SearchContacts } from "./pages/Search/SearchContact.tsx";
 import { SearchSurveys } from "./pages/Search/SearchSurveys.tsx";

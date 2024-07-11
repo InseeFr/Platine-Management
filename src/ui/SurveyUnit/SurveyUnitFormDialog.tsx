@@ -3,7 +3,7 @@ import { z } from "zod";
 import { useForm } from "../../hooks/useForm.ts";
 import { APISchemas } from "../../types/api.ts";
 import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
-import { addressSchema } from "../Contact/ContactFormDialog.tsx";
+import { addressSchema } from "../../schemas/addressSchema.ts";
 
 type Props = {
   open: boolean;

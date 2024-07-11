@@ -71,6 +71,7 @@ export const ContactDetailsCard = ({ contact, onSave }: Props) => {
           {address.length !== 0 && <Typography variant="bodyMedium">{address.join(", ")}</Typography>}
           {contact.email && <Box component={"span"}>{contact.email}</Box>}
           {contact.phone && <Box component={"span"}>{contact.phone}</Box>}
+          {contact.otherPhone && <Box component={"span"}>{contact.otherPhone}</Box>}
           {contact.function && <Box component={"span"}>{contact.function}</Box>}
         </Stack>
       </Stack>

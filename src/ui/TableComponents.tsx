@@ -5,7 +5,6 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material";
 
 export interface Column {
   id: string;
@@ -57,13 +56,6 @@ export const style = {
     },
   },
 };
-
-export const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(even)": {
-    backgroundColor: theme.palette.background.default,
-  },
-  border: `1px solid ${theme.palette.border.default}`,
-}));
 
 type SurveysTableFooterProps = {
   count: number;

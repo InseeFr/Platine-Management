@@ -33,6 +33,8 @@ export const ContactCampaignsCard = (props: Props) => {
                         to={`/campaigns${survey.campaignId}`}
                         sx={{ typography: "titleSmall" }}
                         endIcon={<OpenInNewIcon />}
+                        // TODO: remove disabled when get pages
+                        disabled={true}
                       >
                         Voir
                       </Button>

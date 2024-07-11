@@ -1,15 +1,15 @@
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import { Column, StyledTableRow, TableHeader } from "../../ui/TableComponents";
+import { Column, TableHeader } from "../../ui/TableComponents";
 import { APISchemas } from "../../types/api";
 import TableCell from "@mui/material/TableCell";
-import IconButton from "@mui/material/IconButton";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Skeleton } from "@mui/material";
+import { Skeleton, TableRow } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { useIntersection } from "react-use";
 import { Link } from "../../ui/Link";
+import { theme } from "../../theme";
 
 const columns: readonly Column[] = [
   { id: "identifier", label: "ID", minWidth: "140px" },
@@ -17,6 +17,16 @@ const columns: readonly Column[] = [
   { id: "email", label: "Email", minWidth: "95px" },
   { id: "actions", label: "", minWidth: "50px" },
 ];
+
+export const style = {
+  root: {
+    "&:nth-of-type(even)": {
+      backgroundColor: theme.palette.background.default,
+    },
+    border: `1px solid ${theme.palette.border.default}`,
+    textDecoration: "none",
+  },
+};
 
 type Props = {
   contacts?: APISchemas["SearchContactDto"][];
@@ -36,21 +46,20 @@ export const SearchContactTable = (props: Props) => {
         <TableBody>
           {contacts.map(contact => {
             return (
-              <StyledTableRow key={contact.identifier}>
+              <TableRow
+                key={contact.identifier}
+                sx={style.root}
+                hover
+                component={Link}
+                to={`/contacts/${contact.identifier}`}
+              >
                 <TableCell>{`#${contact.identifier}`}</TableCell>
                 <TableCell>{`${contact.firstName} ${contact.lastName}`}</TableCell>
                 <TableCell>{contact.email}</TableCell>
                 <TableCell align="right">
-                  <IconButton
-                    component={Link}
-                    aria-label="supprimer"
-                    color="primary"
-                    to={`/contacts/${contact.identifier}`}
-                  >
-                    <ChevronRightIcon fontSize="navigateIcon" />
-                  </IconButton>
+                  <ChevronRightIcon fontSize="navigateIcon" color="primary" />
                 </TableCell>
-              </StyledTableRow>
+              </TableRow>
             );
           })}
           {props.hasNextPage && <LoadingTable onVisible={props.onVisible} />}
@@ -73,9 +82,7 @@ const LoadingRow = () => {
         <Skeleton />
       </TableCell>
       <TableCell align="right">
-        <IconButton aria-label="supprimer" color="primary">
-          <ChevronRightIcon fontSize="navigateIcon" />
-        </IconButton>
+        <ChevronRightIcon fontSize="navigateIcon" color="primary" />
       </TableCell>
     </>
   );
@@ -94,15 +101,15 @@ const LoadingTable = ({ onVisible }: { onVisible: () => void }) => {
   }, [isIntersecting]);
   return (
     <>
-      <StyledTableRow ref={ref}>
+      <TableRow ref={ref}>
         <LoadingRow />
-      </StyledTableRow>
-      <StyledTableRow>
+      </TableRow>
+      <TableRow>
         <LoadingRow />
-      </StyledTableRow>
-      <StyledTableRow>
+      </TableRow>
+      <TableRow>
         <LoadingRow />
-      </StyledTableRow>
+      </TableRow>
     </>
   );
 };

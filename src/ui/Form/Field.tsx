@@ -120,8 +120,8 @@ export function uncontrolledField(props: Props, ref: any) {
       error={!!props.error}
       helperText={
         props.error && (
-          <Row gap={1}>
-            <WarningIcon fontSize="small" />
+          <Row gap={1} pt={1}>
+            <WarningIcon />
             <Typography variant="bodyLarge">{props.error}</Typography>
           </Row>
         )
@@ -147,11 +147,12 @@ export function controlledField({ type, name, options, error }: Props, field: an
           sx={{
             flexWrap: "nowrap",
             pl: 1,
+            pb: 1,
             ".MuiFormControlLabel-root": {
               gap: "16px",
             },
             ".MuiFormControlLabel-label": {
-              typography: "bodyLarge",
+              typography: "bodyMedium",
             },
           }}
         >
