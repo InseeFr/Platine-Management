@@ -1,4 +1,4 @@
-import { useMaybeUser, useUser } from "./useAuth";
+import { useMaybeUser, useUser } from "./useAuth.ts";
 
 type User = ReturnType<typeof useUser>;
 type PermissionRequirement = string[] | ((user: User) => boolean);

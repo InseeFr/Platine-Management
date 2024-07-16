@@ -1,5 +1,5 @@
 import { Alert, Stack, Typography } from "@mui/material";
-import { useMaybeUser } from "../hooks/useAuth";
+import { useMaybeUser } from "../hooks/useAuth.ts";
 
 export const Home = () => {
   const user = useMaybeUser();

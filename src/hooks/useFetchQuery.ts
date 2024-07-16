@@ -5,7 +5,7 @@ import {
   useQuery,
   type UseQueryOptions,
 } from "@tanstack/react-query";
-import { APIError, fetchAPI } from "../functions/api";
+import { APIError, fetchAPI } from "../functions/api.ts";
 import { APIPaths, APIRequests, APIResponse, APIRequest, APIMethods } from "../types/api.ts";
 import { useMemo } from "react";
 import { useAccessToken } from "./useAuth.ts";

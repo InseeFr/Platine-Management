@@ -1,7 +1,7 @@
 import TextField from "@mui/material/TextField";
-import { useGetSearchFilter, useSearchForm } from "../../hooks/useSearchFilter";
+import { useGetSearchFilter, useSearchForm } from "../../hooks/useSearchFilter.ts";
 import Stack from "@mui/material/Stack";
-import { SearchPanelActions } from "./SearchPanelActions";
+import { SearchPanelActions } from "./SearchPanelActions.tsx";
 
 export const SearchSurveyUnitsForm = () => {
   const { surveyUnits } = useGetSearchFilter();

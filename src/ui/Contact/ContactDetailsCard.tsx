@@ -1,6 +1,6 @@
 import { Box, Card, IconButton, Stack, Typography } from "@mui/material";
 import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
-import { Row } from "../Row";
+import { Row } from "../Row.tsx";
 import { ContactFormDialog } from "./ContactFormDialog.tsx";
 import { APISchemas } from "../../types/api.ts";
 import { useToggle } from "react-use";

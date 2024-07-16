@@ -1,7 +1,7 @@
 import { Card, IconButton, Stack, Typography } from "@mui/material";
 import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
 import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
-import { Row } from "../Row";
+import { Row } from "../Row.tsx";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 
 import { APISchemas } from "../../types/api.ts";

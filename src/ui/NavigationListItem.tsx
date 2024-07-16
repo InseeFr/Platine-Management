@@ -2,9 +2,9 @@ import ListItem from "@mui/material/ListItem/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { theme } from "../theme";
+import { theme } from "../theme.tsx";
 import { ElementType } from "react";
-import { Link } from "./Link";
+import { Link } from "./Link.tsx";
 
 type Props = {
   open: boolean;

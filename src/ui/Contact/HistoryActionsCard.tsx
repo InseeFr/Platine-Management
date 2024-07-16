@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import HistoryIcon from "@mui/icons-material/History";
-import { CardInner } from "./CardInner";
-import { GeneralCardContent } from "./GeneralCardContent";
+import { CardInner } from "./CardInner.tsx";
+import { GeneralCardContent } from "./GeneralCardContent.tsx";
 
 export const HistoryActionsCard = () => {
   return (

@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { useState, useEffect } from "react";
-import { useOidc } from "../hooks/useAuth";
+import { useOidc } from "../hooks/useAuth.ts";
 
 export function AutoLogoutCountdown() {
   const { isUserLoggedIn, subscribeToAutoLogoutCountdown } = useOidc();
@@ -14,8 +14,8 @@ export function AutoLogoutCountdown() {
 
       const { unsubscribeFromAutoLogoutCountdown } = subscribeToAutoLogoutCountdown(
         ({ secondsLeft }) => {
-          setSecondsLeft(secondsLeft === undefined || secondsLeft > 60 ? undefined : secondsLeft),
-            console.log(`seconds Left: ${secondsLeft}`);
+          setSecondsLeft(secondsLeft === undefined || secondsLeft > 60 ? undefined : secondsLeft);
+          // console.log(`seconds Left: ${secondsLeft}`);
         },
       );
 

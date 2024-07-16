@@ -1,4 +1,4 @@
-import { CommentsCard } from "../../ui/Contact/CommentsCard";
+import { CommentsCard } from "../../ui/Contact/CommentsCard.tsx";
 import { APISchemas } from "../../types/api.ts";
 import { SurveyUnitDetailsCard } from "./SurveyUnitDetailsCard.tsx";
 

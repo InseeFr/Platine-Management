@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import { Field } from "./Field";
-import { Row } from "../Row";
-import { countries } from "../../constants/countries";
-import { repetitionIndexEnum, streetTypeEnum } from "../Contact/ContactFormDialog";
+import { Field } from "./Field.tsx";
+import { Row } from "../Row.tsx";
+import { countries } from "../../constants/countries.ts";
+import { repetitionIndexEnum, streetTypeEnum } from "../Contact/ContactFormDialog.tsx";
 import { UseFormRegister } from "react-hook-form";
 import { Schema, z } from "zod";
 import { useState } from "react";

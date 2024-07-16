@@ -1,8 +1,14 @@
 import { Table, TableBody, TableContainer } from "@mui/material";
 import { useState } from "react";
-import { APISchemas } from "../../types/api";
-import { ContactSurveysTableRow } from "./ContactSurveysTableRow";
-import { Column, CustomTableFooter, LoadingCell, NoResultCell, TableHeader } from "../TableComponents";
+import { APISchemas } from "../../types/api.ts";
+import { ContactSurveysTableRow } from "./ContactSurveysTableRow.tsx";
+import {
+  Column,
+  CustomTableFooter,
+  LoadingCell,
+  NoResultCell,
+  TableHeader,
+} from "../TableComponents.tsx";
 
 export const columns: readonly Column[] = [
   { id: "lastEvent", label: "Etat de la collecte", minWidth: "240px" },

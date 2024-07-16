@@ -3,7 +3,7 @@ import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
 import { ElementType, ReactNode, useState } from "react";
 import Stack from "@mui/material/Stack";
 import { Box, Button } from "@mui/material";
-import { ExpandButton } from "../ExpandButton";
+import { ExpandButton } from "../ExpandButton.tsx";
 
 type Props = {
   TitleIconComponent: ElementType;

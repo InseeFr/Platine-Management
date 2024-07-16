@@ -1,13 +1,13 @@
 import { Card, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { SurveyUnitSurveysTable } from "./SurveyUnitSurveysTable";
+import { SurveyUnitSurveysTable } from "./SurveyUnitSurveysTable.tsx";
 
 import useToggle from "react-use/lib/useToggle";
-import { useFetchQuery } from "../../hooks/useFetchQuery";
-import { APISchemas } from "../../types/api";
+import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
+import { APISchemas } from "../../types/api.ts";
 import { useState } from "react";
-import { useDebouncedState } from "../../hooks/useDebouncedState";
-import { Row } from "../Row";
-import { Filters } from "../Contact/ContactSurveys";
+import { useDebouncedState } from "../../hooks/useDebouncedState.ts";
+import { Row } from "../Row.tsx";
+import { Filters } from "../Contact/ContactSurveys.tsx";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDto"];

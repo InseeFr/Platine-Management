@@ -1,6 +1,6 @@
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
-import { theme } from "../../theme";
+import { theme } from "../../theme.tsx";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
@@ -9,7 +9,7 @@ import { useState } from "react";
 import Box from "@mui/system/Box";
 import Button from "@mui/material/Button";
 import TableFooter from "@mui/material/TableFooter";
-import { Column, LoadingCell, TableHeader } from "../TableComponents";
+import { Column, LoadingCell, TableHeader } from "../TableComponents.tsx";
 
 // TODO: use real ids
 const columns: readonly Column[] = [

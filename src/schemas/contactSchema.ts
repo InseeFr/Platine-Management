@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { addressSchema } from "./addressSchema";
+import { addressSchema } from "./addressSchema.ts";
 
 export const contactSchema = z.object({
   civility: z.enum(["Female", "Male", "Undefined"]),

@@ -3,10 +3,10 @@ import { Box, Typography } from "@mui/material";
 import PasswordIcon from "@mui/icons-material/Password";
 
 import AddIcon from "@mui/icons-material/Add";
-import { CardInner } from "./CardInner";
-import { GeneralCardContent } from "./GeneralCardContent";
-import { FormDialog } from "./FormDialog";
-import { theme } from "../../theme";
+import { CardInner } from "./CardInner.tsx";
+import { GeneralCardContent } from "./GeneralCardContent.tsx";
+import { FormDialog } from "./FormDialog.tsx";
+import { theme } from "../../theme.tsx";
 import { SelectWithOptions } from "../Form/SelectWithOptions.tsx";
 
 export const PasswordCard = () => {

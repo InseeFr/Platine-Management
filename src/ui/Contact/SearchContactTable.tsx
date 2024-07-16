@@ -1,15 +1,15 @@
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import { Column, TableHeader } from "../TableComponents";
-import { APISchemas } from "../../types/api";
+import { Column, TableHeader } from "../TableComponents.tsx";
+import { APISchemas } from "../../types/api.ts";
 import TableCell from "@mui/material/TableCell";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Skeleton, TableRow } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { useIntersection } from "react-use";
-import { Link } from "../Link";
-import { theme } from "../../theme";
+import { Link } from "../Link.tsx";
+import { theme } from "../../theme.tsx";
 
 const columns: readonly Column[] = [
   { id: "identifier", label: "ID", minWidth: "140px" },

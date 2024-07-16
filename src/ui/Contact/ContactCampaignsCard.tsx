@@ -1,7 +1,7 @@
 import { Button, Card, Divider, List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { Link } from "../Link";
-import { APISchemas } from "../../types/api";
+import { Link } from "../Link.tsx";
+import { APISchemas } from "../../types/api.ts";
 
 type Props = {
   surveys?: APISchemas["AccreditationDetailDto"][];

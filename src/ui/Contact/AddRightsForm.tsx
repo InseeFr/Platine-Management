@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Row } from "../Row";
+import { Row } from "../Row.tsx";
 import TextField from "@mui/material/TextField";
-import { SelectWithOptions } from "../Form/SelectWithOptions";
+import { SelectWithOptions } from "../Form/SelectWithOptions.tsx";
 import Button from "@mui/material/Button";
 import { Alert, Stack, Typography } from "@mui/material";
-import { useFetchMutation } from "../../hooks/useFetchQuery";
+import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { APISchemas } from "../../types/api";
+import { APISchemas } from "../../types/api.ts";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];

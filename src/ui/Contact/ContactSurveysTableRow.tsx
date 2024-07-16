@@ -1,18 +1,18 @@
 import TableRow from "@mui/material/TableRow";
-import { columns } from "./ContactSurveysTable";
+import { columns } from "./ContactSurveysTable.tsx";
 import TableCell from "@mui/material/TableCell";
-import { Row } from "../Row";
+import { Row } from "../Row.tsx";
 import Chip from "@mui/material/Chip";
-import { collectStates } from "./CollectStateSelect";
-import { CollectStateHistory } from "./CollectStateHistory";
-import { APISchemas } from "../../types/api";
-import { theme } from "../../theme";
+import { collectStates } from "./CollectStateSelect.tsx";
+import { CollectStateHistory } from "./CollectStateHistory.tsx";
+import { APISchemas } from "../../types/api.ts";
+import { theme } from "../../theme.tsx";
 import { useState } from "react";
-import { useFetchMutation } from "../../hooks/useFetchQuery";
+import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import IconButton from "@mui/material/IconButton";
-import { Link } from "../Link";
+import { Link } from "../Link.tsx";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { Typography } from "@mui/material";
 

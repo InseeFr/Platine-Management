@@ -1,10 +1,14 @@
 import { Button, Card, Divider, Stack, TextField, Typography } from "@mui/material";
-import { Breadcrumbs } from "../../ui/Breadcrumbs";
-import { theme } from "../../theme";
+import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
+import { theme } from "../../theme.tsx";
 import { FormEventHandler, useState } from "react";
-import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery";
-import { SearchContactTable } from "../../ui/Contact/SearchContactTable";
-import { useGetSearchFilter, useSearchFilterParams, useSearchForm } from "../../hooks/useSearchFilter";
+import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
+import { SearchContactTable } from "../../ui/Contact/SearchContactTable.tsx";
+import {
+  useGetSearchFilter,
+  useSearchFilterParams,
+  useSearchForm,
+} from "../../hooks/useSearchFilter.ts";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";

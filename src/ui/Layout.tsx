@@ -1,8 +1,8 @@
 import { type PropsWithChildren } from "react";
-import { useIsAuthenticated } from "../hooks/useAuth";
+import { useIsAuthenticated } from "../hooks/useAuth.ts";
 import { Box, CircularProgress } from "@mui/material";
-import { Row } from "../ui/Row";
-import { NavigationDrawer } from "./NavigationDrawer";
+import { Row } from "../ui/Row.tsx";
+import { NavigationDrawer } from "./NavigationDrawer.tsx";
 
 export function Layout({ children }: PropsWithChildren) {
   return (

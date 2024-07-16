@@ -1,15 +1,15 @@
 import { useParams } from "react-router-dom";
-import { useFetchQuery } from "../hooks/useFetchQuery";
-import { Row } from "../ui/Row";
+import { useFetchQuery } from "../hooks/useFetchQuery.ts";
+import { Row } from "../ui/Row.tsx";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Breadcrumbs } from "../ui/Breadcrumbs";
+import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
-import { theme } from "../theme";
+import { theme } from "../theme.tsx";
 import { Button, Typography } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { ContactDetailsCard } from "../ui/Contact/ContactDetailsCard";
-import { ContactCampaignsCard } from "../ui/Contact/ContactCampaignsCard";
+import { ContactDetailsCard } from "../ui/Contact/ContactDetailsCard.tsx";
+import { ContactCampaignsCard } from "../ui/Contact/ContactCampaignsCard.tsx";
 
 export const ContactPage = () => {
   const { id } = useParams();
