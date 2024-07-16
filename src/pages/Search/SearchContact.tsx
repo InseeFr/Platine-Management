@@ -41,6 +41,8 @@ export const SearchContacts = () => {
 
   const isResetButton = valueSubmitted === value.search && value.search !== "";
 
+  const hasNoContact = !isLoading && (contacts === undefined || contacts.length === 0);
+
   return (
     <Stack>
       <Stack px={6} py={3} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
@@ -66,7 +68,7 @@ export const SearchContacts = () => {
             label={"Rechercher par prénom/nom, IDEP, ou adresse email"}
             variant="filled"
           />
-          {!isLoading && (contacts === undefined || contacts.length === 0) ? (
+          {hasNoContact ? (
             <EmptyState isFiltered={isResetButton} onReset={handleReset} />
           ) : (
             <SearchContactTable

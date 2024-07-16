@@ -1,11 +1,11 @@
-import { SearchPage } from "./pages/SearchPage";
+import { SearchPage } from "./pages/SearchPage.tsx";
 import { Home } from "./pages/Home.tsx";
 import { Outlet, redirect, RouteObject } from "react-router-dom";
-import { Layout, LayoutWithAuth } from "./ui/Layout";
-import { PageError } from "./ui/PageError";
-import { SurveyPage } from "./pages/SurveyPage";
+import { Layout, LayoutWithAuth } from "./ui/Layout.tsx";
+import { PageError } from "./ui/PageError.tsx";
+import { SurveyPage } from "./pages/SurveyPage.tsx";
 import { ContactPage } from "./pages/ContactPage.tsx";
-import { Settings } from "./pages/Settings";
+import { Settings } from "./pages/Settings.tsx";
 import { SearchContacts } from "./pages/Search/SearchContact.tsx";
 import { SearchSurveys } from "./pages/Search/SearchSurveys.tsx";
 import { SearchSurveyUnits } from "./pages/Search/SearchSurveyUnits.tsx";

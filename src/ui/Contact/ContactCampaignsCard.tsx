@@ -10,6 +10,8 @@ type Props = {
 export const ContactCampaignsCard = (props: Props) => {
   const surveys = props.surveys ?? [];
   const uniqueSurveys = removeDuplicates(surveys);
+  const hasSurveys = uniqueSurveys?.length > 0;
+
   return (
     <Card sx={{ p: 3, flex: 1 }} elevation={2}>
       <Stack spacing={2}>
@@ -19,34 +21,31 @@ export const ContactCampaignsCard = (props: Props) => {
             <ListItemText primary={<Typography variant="titleSmall">Campagnes</Typography>} />
           </ListItem>
 
-          {uniqueSurveys?.length > 0 ? (
-            uniqueSurveys.map(survey => {
-              return (
-                <>
-                  <Divider variant="fullWidth" component="li" />
-                  <ListItem
-                    sx={{ pl: 0 }}
-                    key={survey.questioningId}
-                    secondaryAction={
-                      <Button
-                        component={Link}
-                        to={`/campaigns${survey.campaignId}`}
-                        sx={{ typography: "titleSmall" }}
-                        endIcon={<OpenInNewIcon />}
-                        // TODO: remove disabled when get pages
-                        disabled={true}
-                      >
-                        Voir
-                      </Button>
-                    }
-                  >
-                    <ListItemText
-                      primary={<Typography variant="bodyMedium">{survey.campaignId}</Typography>}
-                    />
-                  </ListItem>
-                </>
-              );
-            })
+          {hasSurveys ? (
+            uniqueSurveys.map(survey => (
+              <div key={survey.questioningId}>
+                <Divider variant="fullWidth" component="li" />
+                <ListItem
+                  sx={{ pl: 0 }}
+                  secondaryAction={
+                    <Button
+                      component={Link}
+                      to={`/campaigns${survey.campaignId}`}
+                      sx={{ typography: "titleSmall" }}
+                      endIcon={<OpenInNewIcon />}
+                      // TODO: remove disabled when get pages
+                      disabled={true}
+                    >
+                      Voir
+                    </Button>
+                  }
+                >
+                  <ListItemText
+                    primary={<Typography variant="bodyMedium">{survey.campaignId}</Typography>}
+                  />
+                </ListItem>
+              </div>
+            ))
           ) : (
             <ListItem sx={{ pl: 0 }}>
               <ListItemText
