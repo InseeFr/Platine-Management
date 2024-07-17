@@ -2,45 +2,50 @@ import { z } from "zod";
 
 export const addressSchema = z
   .object({
-    streetNumber: z.string().optional(),
+    streetNumber: z
+      .string()
+      .nullish()
+      .transform(val => (val === null ? "" : val)),
     repetitionIndex: z
       .string()
-      .nullable()
-      .transform(val => (val === null ? "" : val))
-      .optional(),
+      .nullish()
+      .transform(val => (val === null ? "" : val)),
     streetType: z
       .string()
-      .nullable()
-      .transform(val => (val === null ? "" : val))
-      .optional(),
-    streetName: z.string().optional(),
+      .nullish()
+      .transform(val => (val === null ? "" : val)),
+    streetName: z
+      .string()
+      .nullish()
+      .transform(val => (val === null ? "" : val)),
     addressSupplement: z
       .string()
-      .nullable()
-      .transform(val => (val === null ? "" : val))
-      .optional(),
+      .nullish()
+      .transform(val => (val === null ? "" : val)),
     specialDistribution: z
       .string()
-      .nullable()
-      .transform(val => (val === null ? "" : val))
-      .optional(),
+      .nullish()
+      .transform(val => (val === null ? "" : val)),
     cedexName: z
       .string()
-      .nullable()
+      .nullish()
       .transform(val => (val === null ? "" : val)),
     cedexCode: z
       .string()
-      .nullable()
+      .nullish()
       .transform(val => (val === null ? "" : val)),
     cityName: z
       .string()
-      .nullable()
+      .nullish()
       .transform(val => (val === null ? "" : val)),
     zipCode: z
       .string()
-      .nullable()
+      .nullish()
       .transform(val => (val === null ? "" : val)),
-    countryName: z.string().optional().or(z.literal("")),
+    countryName: z
+      .string()
+      .nullish()
+      .transform(val => (val === null ? "" : val)),
     codeChoice: z.string(),
   })
   .superRefine(({ cedexCode, zipCode, cityName, cedexName, codeChoice }, refinementContext) => {

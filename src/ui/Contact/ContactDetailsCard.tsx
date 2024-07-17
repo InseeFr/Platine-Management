@@ -29,7 +29,7 @@ export const ContactDetailsCard = ({ contact, onSave }: Props) => {
 
   const street = [
     contact.address?.streetNumber,
-    contact.address?.repetitionIndex,
+    contact.address?.repetitionIndex?.toLowerCase(),
     contact.address?.streetType,
     contact.address?.streetName,
   ]
