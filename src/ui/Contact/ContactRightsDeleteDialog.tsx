@@ -3,8 +3,8 @@ import {
   DeletePrimaryWithoutSecondaryDialog,
   DeleteSecondaryContactRightsDialog,
   PrimaryContactRightsDialog,
-} from "./ContactRightsDialogs";
-import { DialogProps } from "./ContactRightsEditDialog";
+} from "./ContactRightsDialogs.tsx";
+import { DialogProps } from "./ContactRightsEditDialog.tsx";
 
 export const ContactRightsDeleteDialog = ({ survey, contact, onAlert, onClose }: DialogProps) => {
   const navigate = useNavigate();

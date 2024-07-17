@@ -1,5 +1,5 @@
 import { Box, Stack, Typography } from "@mui/material";
-import { Row } from "../ui/Row";
+import { Row } from "../ui/Row.tsx";
 
 export function UnauthorizedPage() {
   return (

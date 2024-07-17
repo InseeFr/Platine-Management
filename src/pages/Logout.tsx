@@ -1,5 +1,5 @@
 import { Stack, Typography, Box, Link } from "@mui/material";
-import { Row } from "../ui/Row";
+import { Row } from "../ui/Row.tsx";
 import { PropsWithChildren } from "react";
 import { Link as RouterLink } from "react-router-dom";
 

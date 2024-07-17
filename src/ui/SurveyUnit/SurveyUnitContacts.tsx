@@ -1,5 +1,5 @@
 import Stack from "@mui/material/Stack";
-import { Row } from "../Row";
+import { Row } from "../Row.tsx";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import {
@@ -14,17 +14,17 @@ import {
   Typography,
 } from "@mui/material";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import { TextWithLeftIcon } from "../TextWithLeftIcon";
+import { TextWithLeftIcon } from "../TextWithLeftIcon.tsx";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import EmailIcon from "@mui/icons-material/Email";
 import EditIcon from "@mui/icons-material/Edit";
-import { useFetchQuery } from "../../hooks/useFetchQuery";
-import { APISchemas } from "../../types/api";
+import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
+import { APISchemas } from "../../types/api.ts";
 import SearchIcon from "@mui/icons-material/Search";
 import useToggle from "react-use/lib/useToggle";
-import { useDebouncedState } from "../../hooks/useDebouncedState";
-import { Link } from "../Link";
+import { useDebouncedState } from "../../hooks/useDebouncedState.ts";
+import { Link } from "../Link.tsx";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDto"];

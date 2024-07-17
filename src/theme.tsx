@@ -31,6 +31,11 @@ declare module "@mui/material/styles" {
     secondary: string;
     tertiary: string;
     hint: string;
+    light: string;
+  }
+
+  interface TypeBackground {
+    main: string;
   }
 
   interface TypographyVariants {
@@ -103,8 +108,10 @@ declare module "@mui/material/SvgIcon" {
     tabTitle: true;
     headerSinglePage: true;
     cardTitle: true;
+    navigateIcon: true;
     smallIcon: true;
     linkIcon: true;
+    navIcon: true;
   }
   interface SvgIconPropsColorOverrides {
     yellow: true;
@@ -127,6 +134,14 @@ declare module "@mui/material/Tab" {
 declare module "@mui/material/TextField" {
   interface TextFieldPropsSizeOverrides {
     search: true;
+  }
+}
+
+declare module "@mui/material/styles" {
+  interface Palette {
+    border: {
+      default: string;
+    };
   }
 }
 
@@ -154,10 +169,12 @@ const typography = {
   headlineMedium: {
     fontSize: 28,
     lineHeight: "36px",
+    fontWeight: 600,
   },
   headlineSmall: {
     fontSize: 24,
     lineHeight: "32px",
+    fontWeight: 600,
   },
   titleLarge: {
     fontSize: 22,
@@ -212,12 +229,17 @@ const typography = {
 const palette = {
   background: {
     default: "#F5F7FA",
+    main: "#0A192E",
+  },
+  border: {
+    default: "#E7E8E9",
   },
   text: {
-    primary: "rgba(0, 0, 0, 0.87)",
+    primary: "#0A192E",
     secondary: "#49454F",
     tertiary: "#797676",
     hint: "#BCC2CC",
+    light: "#FFFFFF",
   },
   primary: {
     main: "#6750A4",
@@ -225,8 +247,8 @@ const palette = {
     dark: "rgb(72, 56, 114)",
     contrastText: "#fff",
   },
-  red: colors("#ED1443"),
-  blue: colors("#286AC7"),
+  red: colors("#E4003A"),
+  blue: colors("#0F417A"),
   yellow: colors("#F3EE67"),
   black: colors("#0A192E"),
   light: colors("#49454F"),
@@ -295,6 +317,12 @@ export const theme = createTheme({
           },
         },
         {
+          props: { fontSize: "navigateIcon" },
+          style: {
+            fontSize: 32,
+          },
+        },
+        {
           props: { fontSize: "cardTitle" },
           style: {
             fontSize: 24,
@@ -304,6 +332,12 @@ export const theme = createTheme({
           props: { fontSize: "smallIcon" },
           style: {
             fontSize: 20,
+          },
+        },
+        {
+          props: { fontSize: "navIcon" },
+          style: {
+            fontSize: 16,
           },
         },
         {
@@ -361,6 +395,13 @@ export const theme = createTheme({
         },
       ],
     },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+        },
+      },
+    },
     MuiToggleButtonGroup: {
       styleOverrides: {
         root: {
@@ -403,6 +444,18 @@ export const theme = createTheme({
     },
     MuiInputLabel: {
       styleOverrides: {
+        root: {
+          color: palette.text.tertiary,
+          "&.Mui-focused": {
+            color: palette.text.tertiary,
+          },
+          "&.Mui-error": {
+            color: palette.text.tertiary,
+          },
+          "&.Mui-error.Mui-focused": {
+            color: palette.red.main,
+          },
+        },
         sizeSmall: {
           ...typography.bodyMedium,
         },
@@ -416,6 +469,41 @@ export const theme = createTheme({
         },
         sizeSmall: {
           ...typography.bodyMedium,
+        },
+      },
+    },
+    MuiFilledInput: {
+      styleOverrides: {
+        root: {
+          backgroundColor: palette.Surfaces.Secondary,
+          border: `1px solid ${palette.border.default}`,
+          "&:hover": {
+            backgroundColor: palette.Surfaces.Secondary,
+            border: `1px solid ${palette.border.default}`,
+          },
+
+          "&.Mui-focused": {
+            backgroundColor: palette.Surfaces.Secondary,
+            border: `1px solid ${palette.border.default}`,
+          },
+          ".MuiSvgIcon-root ": {
+            fill: palette.primary.main,
+          },
+          "&.Mui-error": {
+            border: `1px solid ${palette.red.main} `,
+          },
+        },
+      },
+    },
+    MuiFormControl: {
+      styleOverrides: {
+        root: {
+          "& .Mui-focused .MuiSelect-select": {
+            backgroundColor: palette.Surfaces.Secondary,
+          },
+          "& .MuiFormHelperText-root": {
+            marginLeft: 0,
+          },
         },
       },
     },
@@ -484,6 +572,24 @@ export const theme = createTheme({
       styleOverrides: {
         standardSuccess: {
           color: "#2E7D32",
+        },
+        standardInfo: {
+          color: "#0F417A",
+          backgroundColor: "#CCE5FF",
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderBottomColor: palette.border.default,
+        },
+      },
+    },
+    MuiTable: {
+      styleOverrides: {
+        root: {
+          border: `1px solid ${palette.border.default}`,
         },
       },
     },

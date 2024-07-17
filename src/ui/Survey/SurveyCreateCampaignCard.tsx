@@ -1,14 +1,14 @@
 import { Button, Card, Divider, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
-import { APISchemas } from "../../types/api";
-import { CardtitleWithIcon } from "../CardtitleWithIcon";
+import { APISchemas } from "../../types/api.ts";
+import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
 import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
-import { Field } from "../Form/Field";
-import { Row } from "../Row";
+import { Field } from "../Form/Field.tsx";
+import { Row } from "../Row.tsx";
 import { z } from "zod";
-import { useForm } from "../../hooks/useForm";
 import AddIcon from "@mui/icons-material/Add";
-import { useFetchQuery } from "../../hooks/useFetchQuery";
+import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
+import { useForm } from "../../hooks/useForm.ts";
 
 type Props = {
   survey: APISchemas["SurveyDto"];

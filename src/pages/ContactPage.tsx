@@ -1,44 +1,31 @@
-import Divider from "@mui/material/Divider";
-import { ContactHeader } from "../ui/Contact/ContactHeader.tsx";
-import { useFetchQuery } from "../hooks/useFetchQuery.ts";
 import { useParams } from "react-router-dom";
+import { useFetchQuery } from "../hooks/useFetchQuery.ts";
 import { Row } from "../ui/Row.tsx";
-import { CircularProgress, Stack, Tabs } from "@mui/material";
-import { type SyntheticEvent, useState } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
 import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
-import { ContactInfosTab } from "./Contact/ContactInfosTab.tsx";
-import { PageTab } from "../ui/PageTab.tsx";
-import { ContactSurveysContent } from "../ui/Contact/ContactSurveys.tsx";
-import { IdsManagement } from "../ui/Contact/IdsManagement.tsx";
-import { RightsManagement } from "../ui/Contact/RightsManagement.tsx";
+import Divider from "@mui/material/Divider";
+import Stack from "@mui/material/Stack";
+import { theme } from "../theme.tsx";
+import { Button, Typography } from "@mui/material";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { ContactDetailsCard } from "../ui/Contact/ContactDetailsCard.tsx";
+import { ContactCampaignsCard } from "../ui/Contact/ContactCampaignsCard.tsx";
 
-enum Tab {
-  Infos = "Infos",
-  Surveys = "Surveys",
-  Ids = "Ids",
-  Permissions = "Permissions",
-}
-
-const TabNames = {
-  [Tab.Infos]: "Infos contact",
-  [Tab.Surveys]: "Questionnaire(s)",
-  [Tab.Ids]: "Gestion des identifiants",
-  [Tab.Permissions]: "Gestion des droits",
-};
-
-export function ContactPage() {
+export const ContactPage = () => {
   const { id } = useParams();
   const { data: contact, refetch } = useFetchQuery("/api/contacts/{id}", {
     urlParams: {
       id: id!,
     },
   });
-  const [currentTab, setCurrentTab] = useState(Tab.Infos);
-  const handleChange = (_: SyntheticEvent, newValue: Tab) => {
-    setCurrentTab(newValue);
-  };
 
-  if (!contact) {
+  const { data: surveys } = useFetchQuery("/api/contacts/{id}/accreditations", {
+    urlParams: {
+      id: id!,
+    },
+  });
+
+  if (!contact || !surveys) {
     return (
       <Row justifyContent="center" py={10}>
         <CircularProgress />
@@ -49,42 +36,40 @@ export function ContactPage() {
   const contactTitle =
     contact.firstName || contact.lastName
       ? `${contact.firstName ?? ""} ${contact.lastName ?? ""}`
-      : contact.identifier;
+      : "Prénom Nom";
 
   const breadcrumbs = [
     { href: "/", title: "Accueil" },
-    { href: "/search", title: "Recherche" },
-    {
-      href: `/contacts/${contact.identifier}`,
-      title: contactTitle,
-    },
-    TabNames[currentTab],
+    { href: "/contacts", title: "Contacts" },
+    contactTitle,
   ];
 
   return (
     <>
-      <ContactHeader contact={contact} />
-      <Divider variant="fullWidth" />
-      <Tabs
-        value={currentTab}
-        onChange={handleChange}
-        sx={{
-          px: 5,
-          backgroundColor: "white",
-        }}
-      >
-        {Object.keys(Tab).map(k => (
-          <PageTab key={k} value={k} label={TabNames[k]} />
-        ))}
-      </Tabs>
-
-      <Stack px={3} py={3}>
+      <Stack sx={{ backgroundColor: theme.palette.Surfaces.Secondary, px: 6, py: 3 }}>
         <Breadcrumbs items={breadcrumbs} />
-        {currentTab === Tab.Infos && <ContactInfosTab contact={contact} onSave={refetch} />}
-        {currentTab === Tab.Surveys && <ContactSurveysContent contact={contact} />}
-        {currentTab === Tab.Ids && <IdsManagement contact={contact} />}
-        {currentTab === Tab.Permissions && <RightsManagement contact={contact} />}
+        <Typography variant="headlineLarge" fontWeight={600}>
+          {contactTitle}
+        </Typography>
+        <Row justifyContent={"space-between"}>
+          <Typography variant="bodyMedium">{`ID connexion : #${contact.identifier}`}</Typography>
+          <Button
+            variant="contained"
+            endIcon={<OpenInNewIcon />}
+            // TODO: remove disabled when get pages
+            disabled
+          >
+            Voir les interrogations
+          </Button>
+        </Row>
+      </Stack>
+      <Divider variant="fullWidth" />
+      <Stack px={5} pt={3}>
+        <Row alignItems={"start"} gap={3}>
+          <ContactDetailsCard contact={contact} onSave={refetch} />
+          <ContactCampaignsCard surveys={surveys} />
+        </Row>
       </Stack>
     </>
   );
-}
+};

@@ -1,18 +1,18 @@
 import Stack from "@mui/material/Stack";
-import { APISchemas } from "../../types/api";
+import { APISchemas } from "../../types/api.ts";
 import Card from "@mui/material/Card";
-import { TitleWithIconAndDivider } from "../TitleWithIconAndDivider";
+import { TitleWithIconAndDivider } from "../TitleWithIconAndDivider.tsx";
 import LibraryAddOutlinedIcon from "@mui/icons-material/LibraryAddOutlined";
 import ChangeCircleOutlinedIcon from "@mui/icons-material/ChangeCircleOutlined";
-import { AddRightsForm } from "./AddRightsForm";
-import { Row } from "../Row";
+import { AddRightsForm } from "./AddRightsForm.tsx";
+import { Row } from "../Row.tsx";
 import { useState } from "react";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import Typography from "@mui/material/Typography";
-import { UpdateContactRightsTable } from "./UpdateContactRightsTable";
-import { ContactRightsEditDialog, mockedDataSurveyType } from "./ContactRightsEditDialog";
-import { ContactRightsDeleteDialog } from "./ContactRightsDeleteDialog";
-import { Alert } from "../Alert";
+import { UpdateContactRightsTable } from "./UpdateContactRightsTable.tsx";
+import { ContactRightsEditDialog, mockedDataSurveyType } from "./ContactRightsEditDialog.tsx";
+import { ContactRightsDeleteDialog } from "./ContactRightsDeleteDialog.tsx";
+import { Alert } from "../Alert.tsx";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];

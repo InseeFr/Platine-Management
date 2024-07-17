@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { routes, unauthorizedRoutes } from "./routes";
-import { useHasPermission } from "./hooks/usePermissions";
+import { routes, unauthorizedRoutes } from "./routes.tsx";
+import { useHasPermission } from "./hooks/usePermissions.ts";
 import "./App.css";
 
 const router = createBrowserRouter(routes);

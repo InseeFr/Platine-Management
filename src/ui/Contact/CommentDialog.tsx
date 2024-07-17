@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField";
 import DialogContent from "@mui/material/DialogContent";
-import { theme } from "../../theme";
+import { theme } from "../../theme.tsx";
 import { Button, Dialog, DialogActions, DialogTitle, Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 

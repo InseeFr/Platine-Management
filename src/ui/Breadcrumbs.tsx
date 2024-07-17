@@ -14,8 +14,7 @@ export function Breadcrumbs({ items }: Props) {
     <MuiBreadcrumbs
       aria-label="breadcrumb"
       sx={{
-        py: 2,
-        px: 4,
+        pb: 1,
         typography: "titleSmall",
         ".MuiBreadcrumbs-separator": {
           color: "text.tertiary",
@@ -46,7 +45,7 @@ function BreadcrumbsItem({ item }: { item: Item }) {
   }
 
   return (
-    <Link component={NavLink} underline="hover" color="text.tertiary" to={item.href}>
+    <Link component={NavLink} underline="hover" color="primary.main" to={item.href}>
       {item.title}
     </Link>
   );

@@ -1,10 +1,10 @@
 import { Typography } from "@mui/material";
-import { CardInner } from "./CardInner";
-import { GeneralCardContent } from "./GeneralCardContent";
+import { CardInner } from "./CardInner.tsx";
+import { GeneralCardContent } from "./GeneralCardContent.tsx";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
-import { CommentDialog } from "./CommentDialog";
+import { CommentDialog } from "./CommentDialog.tsx";
 
 export const CommentsCard = () => {
   const [open, setOpen] = useState(false);

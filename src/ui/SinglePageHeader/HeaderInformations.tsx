@@ -1,5 +1,5 @@
 import { ElementType } from "react";
-import { Row } from "../Row";
+import { Row } from "../Row.tsx";
 import { Stack, Typography } from "@mui/material";
 
 type HeaderInformationsType = {

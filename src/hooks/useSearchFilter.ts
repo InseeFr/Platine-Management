@@ -4,11 +4,7 @@ import { combine } from "zustand/middleware";
 
 export const base = {
   contacts: {
-    identifier: "",
-    name: "",
-    email: "",
-    city: "",
-    function: "",
+    search: "",
   },
   surveyUnits: {
     idSu: "",

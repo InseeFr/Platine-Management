@@ -1,33 +1,14 @@
-import {
-  CircularProgress,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableFooter,
-  TablePagination,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Table, TableBody, TableContainer } from "@mui/material";
 import { useState } from "react";
-import { APISchemas } from "../../types/api";
-import { Column, TableHeader } from "./AssociateSurveysTable";
-import { ContactSurveysTableRow } from "./ContactSurveysTableRow";
-
-export const style = {
-  root: {
-    ".MuiTablePagination-displayedRows": {
-      typography: "bodySmall",
-    },
-    ".MuiTablePagination-input": {
-      typography: "bodySmall",
-    },
-    ".MuiTablePagination-selectLabel": {
-      typography: "bodySmall",
-      color: "text.tertiary",
-    },
-  },
-};
+import { APISchemas } from "../../types/api.ts";
+import { ContactSurveysTableRow } from "./ContactSurveysTableRow.tsx";
+import {
+  Column,
+  CustomTableFooter,
+  LoadingCell,
+  NoResultCell,
+  TableHeader,
+} from "../TableComponents.tsx";
 
 export const columns: readonly Column[] = [
   { id: "lastEvent", label: "Etat de la collecte", minWidth: "240px" },
@@ -77,9 +58,11 @@ export const ContactSurveysTable = (props: Props) => {
             );
           })}
           {props.isLoading && <LoadingCell columnLength={columns.length} />}
-          {!props.isLoading && surveys.length === 0 && <NoResultCell columnLength={columns.length} />}
+          {!props.isLoading && surveys.length === 0 && (
+            <NoResultCell columnLength={columns.length} text={"Aucun résultat"} />
+          )}
         </TableBody>
-        <SurveysTableFooter
+        <CustomTableFooter
           count={surveys.length}
           rowsPerPage={rowsPerPage}
           page={page}
@@ -88,61 +71,5 @@ export const ContactSurveysTable = (props: Props) => {
         />
       </Table>
     </TableContainer>
-  );
-};
-
-export const LoadingCell = ({ columnLength }: { columnLength: number }) => {
-  return (
-    <TableRow>
-      <TableCell align="center" colSpan={columnLength}>
-        <CircularProgress />
-      </TableCell>
-    </TableRow>
-  );
-};
-
-type SurveysTableFooterProps = {
-  count: number;
-  rowsPerPage: number;
-  page: number;
-  onChangePage: (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
-  onChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-};
-
-export const SurveysTableFooter = ({
-  count,
-  rowsPerPage,
-  page,
-  onChangePage,
-  onChangeRowsPerPage,
-}: SurveysTableFooterProps) => {
-  return (
-    <TableFooter>
-      <TableRow>
-        <TablePagination
-          sx={style.root}
-          rowsPerPageOptions={[10, 20, 50]}
-          labelRowsPerPage={"Lignes par page :"}
-          labelDisplayedRows={page =>
-            `${page.from}-${page.to === -1 ? page.count : page.to} sur ${page.count} entités affichées`
-          }
-          count={count}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={onChangePage}
-          onRowsPerPageChange={onChangeRowsPerPage}
-        />
-      </TableRow>
-    </TableFooter>
-  );
-};
-
-export const NoResultCell = ({ columnLength }: { columnLength: number }) => {
-  return (
-    <TableRow>
-      <TableCell align="center" colSpan={columnLength}>
-        <Typography variant="titleSmall">Aucun résultat</Typography>
-      </TableCell>
-    </TableRow>
   );
 };

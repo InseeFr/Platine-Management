@@ -1,13 +1,11 @@
-import { Box, Card, Divider, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Card, IconButton, Stack, Typography } from "@mui/material";
 import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
-import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
-import { Row } from "../Row";
-import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import StarIcon from "@mui/icons-material/Star";
+import { Row } from "../Row.tsx";
 import { ContactFormDialog } from "./ContactFormDialog.tsx";
 import { APISchemas } from "../../types/api.ts";
 import { useToggle } from "react-use";
-import { AddressInformations } from "../AddressInformations.tsx";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];
@@ -28,31 +26,54 @@ export const ContactDetailsCard = ({ contact, onSave }: Props) => {
         ? "Madame"
         : "Monsieur"
       : "";
+
+  const street = [
+    contact.address?.streetNumber,
+    contact.address?.repetitionIndex,
+    contact.address?.streetType,
+    contact.address?.streetName,
+  ]
+    .filter(element => element !== "" && element !== undefined && element !== null)
+    .join(" ");
+
+  const city = [
+    contact.address?.cedexCode,
+    contact.address?.cedexName,
+    contact.address?.zipCode,
+    contact.address?.cityName,
+  ]
+    .filter(element => element !== "" && element !== undefined && element !== null)
+    .join(" ");
+
+  const address = [
+    contact.address?.specialDistribution,
+    contact.address?.addressSupplement,
+    street,
+    city,
+    contact.address?.countryName,
+  ].filter(element => element !== "" && element !== undefined && element !== null);
+
   return (
-    <Card sx={{ px: 6, py: 3 }} elevation={2}>
-      <Stack spacing={4}>
+    <Card sx={{ p: 3, flex: 1 }} elevation={2}>
+      <Stack spacing={2}>
         <Row justifyContent={"space-between"}>
-          <CardtitleWithIcon IconComponent={AssignmentIndOutlinedIcon} title={"Coordonnées"} />
-          <IconButton onClick={toggleDialog} color="inherit">
-            <BorderColorOutlinedIcon fontSize="small" />
+          <CardtitleWithIcon IconComponent={PersonOutlineOutlinedIcon} title={"Coordonnées"} />
+          <IconButton onClick={toggleDialog} color="primary">
+            <ModeEditOutlineOutlinedIcon />
           </IconButton>
         </Row>
-        <Row spacing={8} alignItems={"flex-start"}>
-          <Stack spacing={1} typography={"bodyMedium"}>
+        <Stack spacing={1} typography={"bodyMedium"}>
+          {(contact.firstName || contact.lastName || civility) && (
             <Typography variant="titleSmall">
               {civility} {contact.firstName} {contact.lastName?.toUpperCase()}
             </Typography>
-            {contact.function && <Box component={"span"}>{contact.function}</Box>}
-            <Box component={"span"}>{contact.email}</Box>
-            <Row spacing={2}>
-              <Box component={"span"}>{contact.phone}</Box>
-              {contact.phone && <StarIcon fontSize="small" color="yellow" />}
-            </Row>
-            <Box component={"span"}>{contact.phone}</Box>
-          </Stack>
-          <Divider orientation="vertical" variant="middle" sx={{ height: "130px" }} />
-          <AddressInformations identificationName={contact.usualCompanyName} address={contact.address} />
-        </Row>
+          )}
+          {address.length !== 0 && <Typography variant="bodyMedium">{address.join(", ")}</Typography>}
+          {contact.email && <Box component={"span"}>{contact.email}</Box>}
+          {contact.phone && <Box component={"span"}>{contact.phone}</Box>}
+          {contact.otherPhone && <Box component={"span"}>{contact.otherPhone}</Box>}
+          {contact.function && <Box component={"span"}>{contact.function}</Box>}
+        </Stack>
       </Stack>
       <ContactFormDialog open={hasDialog} onClose={toggleDialog} onSave={handleSave} contact={contact} />
     </Card>

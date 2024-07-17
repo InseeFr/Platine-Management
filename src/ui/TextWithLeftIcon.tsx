@@ -1,5 +1,5 @@
 import { ElementType } from "react";
-import { Row } from "./Row";
+import { Row } from "./Row.tsx";
 import Typography from "@mui/material/Typography/Typography";
 
 type TextWithLeftIconProps = {

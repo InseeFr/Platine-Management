@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import { FormDialog } from "./FormDialog";
+import { FormDialog } from "./FormDialog.tsx";
 import { useNavigate } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import { FormEventHandler, useState } from "react";
@@ -7,7 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
-import { APISchemas } from "../../types/api";
+import { APISchemas } from "../../types/api.ts";
 
 export type CommonContactRightsProps = {
   open: boolean;

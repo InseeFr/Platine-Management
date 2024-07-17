@@ -1,7 +1,7 @@
-import { ContactDetailsCard } from "../../ui/Contact/ContactDetailsCard";
-import { PasswordCard } from "../../ui/Contact/PasswordCard";
-import { HistoryActionsCard } from "../../ui/Contact/HistoryActionsCard";
-import { CommentsCard } from "../../ui/Contact/CommentsCard";
+import { ContactDetailsCard } from "../../ui/Contact/ContactDetailsCard.tsx";
+import { PasswordCard } from "../../ui/Contact/PasswordCard.tsx";
+import { HistoryActionsCard } from "../../ui/Contact/HistoryActionsCard.tsx";
+import { CommentsCard } from "../../ui/Contact/CommentsCard.tsx";
 import { APISchemas } from "../../types/api.ts";
 import Grid from "@mui/material/Grid";
 

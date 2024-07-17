@@ -1,8 +1,8 @@
 import TextField from "@mui/material/TextField";
-import { APISchemas } from "../../types/api";
-import { Row } from "../Row";
+import { APISchemas } from "../../types/api.ts";
+import { Row } from "../Row.tsx";
 import { useState } from "react";
-import { useFetchMutation, useFetchQuery } from "../../hooks/useFetchQuery";
+import { useFetchMutation, useFetchQuery } from "../../hooks/useFetchQuery.ts";
 import Button from "@mui/material/Button";
 import { Alert, Stack, Typography } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";

@@ -790,6 +790,7 @@ export type APISchemas = {
     function?: string
     email?: string
     phone?: string
+    otherPhone?: string
     usualCompanyName?: string
     firstConnect?: boolean
     address?: APISchemas["AddressDto"]
@@ -925,6 +926,7 @@ export type APISchemas = {
       | "B04"
       | "B05"
       | "B06"
+    campaignId?: string
     partition?: string
     identificationCode?: string
     identificationName?: string

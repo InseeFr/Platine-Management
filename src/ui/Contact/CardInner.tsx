@@ -1,8 +1,8 @@
 import { Box, Card, IconButton, Tooltip, Typography } from "@mui/material";
 import { ReactNode, useState } from "react";
-import { Row } from "../Row";
+import { Row } from "../Row.tsx";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { FormDialog } from "./FormDialog";
+import { FormDialog } from "./FormDialog.tsx";
 
 type Props = {
   content: ReactNode;

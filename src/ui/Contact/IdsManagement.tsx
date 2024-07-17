@@ -1,14 +1,14 @@
 import Card from "@mui/material/Card";
-import { TitleWithIconAndDivider } from "../TitleWithIconAndDivider";
-import { BinocularIcon } from "../Icon/BinocularIcon";
-import { APISchemas } from "../../types/api";
-import { Row } from "../Row";
+import { TitleWithIconAndDivider } from "../TitleWithIconAndDivider.tsx";
+import { BinocularIcon } from "../Icon/BinocularIcon.tsx";
+import { APISchemas } from "../../types/api.ts";
+import { Row } from "../Row.tsx";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
-import { AssociateSurveysTable } from "./AssociateSurveysTable";
-import { AssociateAnotherAccount } from "./AssociateAnotherAccount";
+import { AssociateSurveysTable } from "./AssociateSurveysTable.tsx";
+import { AssociateAnotherAccount } from "./AssociateAnotherAccount.tsx";
 
 type Props = {
   contact: APISchemas["ContactFirstLoginDto"];

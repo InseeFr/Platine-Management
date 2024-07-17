@@ -5,9 +5,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TableContainer from "@mui/material/TableContainer";
-import { CollectStateSelect, collectStates } from "./CollectStateSelect";
-import { useFetchMutation, useFetchQuery } from "../../hooks/useFetchQuery";
-import { Row } from "../Row";
+import { CollectStateSelect, collectStates } from "./CollectStateSelect.tsx";
+import { useFetchMutation, useFetchQuery } from "../../hooks/useFetchQuery.ts";
+import { Row } from "../Row.tsx";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useState } from "react";
 

@@ -1,15 +1,15 @@
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
-import { theme } from "../../theme";
+import { theme } from "../../theme.ts";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import Box from "@mui/system/Box";
-import { Column, TableHeader } from "./AssociateSurveysTable";
 import IconButton from "@mui/material/IconButton";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import { mockedDataSurveyType } from "./ContactRightsEditDialog";
+import { mockedDataSurveyType } from "./ContactRightsEditDialog.tsx";
+import { Column, TableHeader } from "../TableComponents.tsx";
 
 // TODO: use real ids
 const columns: readonly Column[] = [

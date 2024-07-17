@@ -3,8 +3,8 @@ import {
   EditPrimaryWithoutSecondaryDialog,
   EditSecondaryToPrimaryDialog,
   PrimaryContactRightsDialog,
-} from "./ContactRightsDialogs";
-import { APISchemas } from "../../types/api";
+} from "./ContactRightsDialogs.tsx";
+import { APISchemas } from "../../types/api.ts";
 
 // TODO REMOVE
 export type mockedDataSurveyType = {

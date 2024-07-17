@@ -9,13 +9,12 @@ import {
   TableSortLabel,
 } from "@mui/material";
 import { useState } from "react";
-import { Row } from "../Row";
-import { theme } from "../../theme";
-import { Column } from "../Contact/AssociateSurveysTable";
-import { LoadingCell, NoResultCell, SurveysTableFooter } from "../Contact/ContactSurveysTable";
-import { collectStates } from "../Contact/CollectStateSelect";
-import { APISchemas } from "../../types/api";
-import { getCollectStateChipColor } from "../Contact/ContactSurveysTableRow";
+import { Row } from "../Row.tsx";
+import { theme } from "../../theme.tsx";
+import { collectStates } from "../Contact/CollectStateSelect.tsx";
+import { APISchemas } from "../../types/api.ts";
+import { getCollectStateChipColor } from "../Contact/ContactSurveysTableRow.tsx";
+import { Column, CustomTableFooter, LoadingCell, NoResultCell } from "../TableComponents.tsx";
 
 const columns: readonly Column[] = [
   { id: "sourceWording", label: "Source", minWidth: "200px" },
@@ -99,9 +98,11 @@ export const SurveyUnitSurveysTable = (props: Props) => {
             );
           })}
           {props.isLoading && <LoadingCell columnLength={columns.length} />}
-          {!props.isLoading && surveys.length === 0 && <NoResultCell columnLength={columns.length} />}
+          {!props.isLoading && surveys.length === 0 && (
+            <NoResultCell columnLength={columns.length} text={"Aucun résultat"} />
+          )}
         </TableBody>
-        <SurveysTableFooter
+        <CustomTableFooter
           count={visibleRows.length}
           rowsPerPage={rowsPerPage}
           page={page}
