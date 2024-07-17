@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import { APISchemas } from "../types/api.ts";
 
 type Props = {
@@ -16,9 +15,7 @@ export const AddressInformations = ({ identificationName, address }: Props) => {
 
   return (
     <Stack spacing={1} typography={"bodyMedium"}>
-      {identificationName && (
-        <Typography variant="titleSmall">{identificationName.toUpperCase()}</Typography>
-      )}
+      {identificationName && <Box component={"span"}>{identificationName}</Box>}
       {address?.addressSupplement && <Box component={"span"}>{address?.addressSupplement}</Box>}
       {isStreetBoxDisplayed && (
         <Box component={"span"}>

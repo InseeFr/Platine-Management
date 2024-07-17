@@ -55,6 +55,7 @@ export const ContactPage = () => {
           <Typography variant="bodyMedium">{`ID connexion : #${contact.identifier}`}</Typography>
           <Button
             variant="contained"
+            size="large"
             endIcon={<OpenInNewIcon />}
             // TODO: remove disabled when get pages
             disabled

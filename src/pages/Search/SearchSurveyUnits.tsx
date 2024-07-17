@@ -4,7 +4,6 @@ import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import { FormEventHandler, useState } from "react";
-import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { useGetSearchFilter, useSearchForm } from "../../hooks/useSearchFilter.ts";
 import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
@@ -58,21 +57,21 @@ export const SearchSurveyUnits = () => {
         </Stack>
         <Row justifyContent={"space-between"}>
           <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
-            <ToggleButton value="me" aria-label="left aligned">
+            <ToggleButton value="me" aria-label="left aligned" size="large">
               Mes unités enquêtées
             </ToggleButton>
-            <ToggleButton value="all" aria-label="left aligned">
+            <ToggleButton value="all" aria-label="left aligned" size="large">
               Toutes les unités enquêtées
             </ToggleButton>
           </ToggleButtonGroup>
         </Row>
       </Row>
       <Divider variant="fullWidth" />
-      <Card sx={{ mx: 5, my: 3, p: 5 }} elevation={2}>
-        <form onSubmit={handleSubmit} onReset={handleReset}>
+      <form onSubmit={handleSubmit} onReset={handleReset}>
+        <Stack sx={{ my: 3, px: 5 }} gap={3}>
           <SearchTextField
             isResetButton={isResetButton}
-            label={"Rechercher par id technique, id métier ou raison sociale"}
+            label={"Rechercher par id technique, id métier, raison sociale ou contact"}
             inputProps={inputProps}
           />
           {!isLoading && (surveyUnits === undefined || surveyUnits.length === 0) ? (
@@ -89,8 +88,8 @@ export const SearchSurveyUnits = () => {
               onVisible={fetchNextPage}
             />
           )}
-        </form>
-      </Card>
+        </Stack>
+      </form>
     </Stack>
   );
 };

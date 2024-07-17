@@ -24,10 +24,15 @@ export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
       </Typography>
       <Row justifyContent={"space-between"} pt={1}>
         <Typography component={"span"} variant="bodyMedium">
-          {`ID métier : ${surveyUnit.identificationCode} | ID technique : ${surveyUnit.idSu}`}
+          {`ID métier : ${surveyUnit.identificationCode}`}
+          <Typography component={"span"} variant="bodyMedium" sx={{ px: 1 }}>
+            |
+          </Typography>
+          {`ID technique : ${surveyUnit.idSu}`}
         </Typography>
         <Button
           variant="contained"
+          size="large"
           endIcon={<OpenInNewIcon />}
           // TODO: remove disabled when get pages
           disabled

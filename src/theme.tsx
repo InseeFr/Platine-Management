@@ -405,7 +405,7 @@ export const theme = createTheme({
     MuiToggleButtonGroup: {
       styleOverrides: {
         root: {
-          borderRadius: 24,
+          borderRadius: 4,
           boxShadow: shadows[2],
           ".MuiToggleButtonGroup-grouped": {
             color: palette.primary.main,
@@ -433,13 +433,13 @@ export const theme = createTheme({
     MuiToggleButton: {
       styleOverrides: {
         root: {
-          borderRadius: 24,
+          borderRadius: 4,
           paddingInline: 24,
           border: "none",
-          ...typography.bodyMedium,
+          ...typography.bodyLarge,
           textTransform: "none",
           "&.Mui-selected, &.Mui-selected:hover": {
-            borderRadius: "24px!important",
+            borderRadius: "4px!important",
             background: palette.primary.main,
             color: "white",
           },

@@ -5,14 +5,14 @@ import { Column, TableHeader } from "../TableComponents.tsx";
 import { APISchemas } from "../../types/api.ts";
 import TableCell from "@mui/material/TableCell";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { TableRow } from "@mui/material";
+import { Paper, TableRow } from "@mui/material";
 import { Link } from "../Link.tsx";
 import { LoadingTable, style } from "../Contact/SearchContactTable.tsx";
 
 const columns: readonly Column[] = [
-  { id: "identificationCode", label: "ID métier", minWidth: "95px" },
-  { id: "idSu", label: "ID technique", minWidth: "95px" },
-  { id: "identificationName", label: "Raison sociale", minWidth: "140px" },
+  { id: "identificationCode", label: "ID métier", minWidth: "150px" },
+  { id: "idSu", label: "ID technique", minWidth: "150px" },
+  { id: "identificationName", label: "Raison sociale", minWidth: "150px" },
   { id: "actions", label: "", minWidth: "50px" },
 ];
 
@@ -27,8 +27,8 @@ export const SearchSurveyUnitTable = (props: Props) => {
   const surveyUnits = props.surveyUnits ?? [];
 
   return (
-    <TableContainer sx={{ py: 3 }}>
-      <Table aria-label="search survey units table" size="small">
+    <TableContainer component={Paper} elevation={2}>
+      <Table aria-label="search survey units table">
         <TableHeader columns={columns} />
         {props.isLoading && <LoadingTable onVisible={props.onVisible} />}
         <TableBody>

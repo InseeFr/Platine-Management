@@ -1,28 +1,17 @@
 import { CommentsCard } from "../../ui/Contact/CommentsCard.tsx";
 import { APISchemas } from "../../types/api.ts";
 import { SurveyUnitDetailsCard } from "./SurveyUnitDetailsCard.tsx";
-
-import Grid from "@mui/material/Grid";
+import { Stack } from "@mui/system";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDto"];
-  onSave: () => void;
 };
 
-export const SurveyUnitInfos = ({ surveyUnit, onSave }: Props) => {
+export const SurveyUnitInfos = ({ surveyUnit }: Props) => {
   return (
-    <Grid
-      px={3}
-      container
-      sx={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        columnGap: 4,
-        rowGap: 3,
-      }}
-    >
-      <SurveyUnitDetailsCard surveyUnit={surveyUnit} onSave={onSave} />
+    <Stack px={3} gap={3}>
+      <SurveyUnitDetailsCard surveyUnit={surveyUnit} />
       <CommentsCard />
-    </Grid>
+    </Stack>
   );
 };
