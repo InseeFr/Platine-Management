@@ -1,10 +1,14 @@
 import CircularProgress from "@mui/material/CircularProgress";
+import Stack from "@mui/material/Stack";
 import TableCell from "@mui/material/TableCell/TableCell";
 import TableFooter from "@mui/material/TableFooter";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
+import { FormEventHandler } from "react";
+import { theme } from "../theme.tsx";
+import Button from "@mui/material/Button";
 
 export interface Column {
   id: string;
@@ -100,5 +104,37 @@ export const NoResultCell = ({ columnLength, text }: { columnLength: number; tex
         <Typography variant="titleSmall">{text}</Typography>
       </TableCell>
     </TableRow>
+  );
+};
+
+export const EmptyState = ({
+  isFiltered,
+  onReset,
+  text,
+}: {
+  isFiltered: boolean;
+  onReset: FormEventHandler;
+  text: string;
+}) => {
+  return (
+    <Stack
+      mt={3}
+      sx={{
+        border: `1px solid ${theme.palette.border.default}`,
+        height: "30vh",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 2,
+      }}
+    >
+      <Typography variant="titleSmall" color={theme.palette.text.tertiary}>
+        {text}
+      </Typography>
+      {isFiltered && (
+        <Button variant="outlined" sx={{ width: "fit-content" }} onClick={onReset}>
+          Effacer les filtres
+        </Button>
+      )}
+    </Stack>
   );
 };

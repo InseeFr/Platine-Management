@@ -69,7 +69,7 @@ export const SearchContactTable = (props: Props) => {
   );
 };
 
-const LoadingRow = () => {
+export const LoadingRow = () => {
   return (
     <>
       <TableCell>
@@ -88,7 +88,7 @@ const LoadingRow = () => {
   );
 };
 
-const LoadingTable = ({ onVisible }: { onVisible: () => void }) => {
+export const LoadingTable = ({ onVisible }: { onVisible: () => void }) => {
   const ref = useRef(null);
   const intersection = useIntersection(ref, {});
   const isIntersecting = intersection?.isIntersecting;

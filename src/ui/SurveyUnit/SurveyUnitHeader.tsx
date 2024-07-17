@@ -1,32 +1,40 @@
 import { Row } from "../Row.tsx";
 import { APISchemas } from "../../types/api.ts";
-import { IconButton, Stack, Typography } from "@mui/material";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { useNavigate } from "react-router-dom";
-import CorporateFareIcon from "@mui/icons-material/CorporateFare";
+import { Button, Stack, Typography } from "@mui/material";
+import { Breadcrumbs } from "../Breadcrumbs.tsx";
+import { theme } from "../../theme.tsx";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 type Props = {
-  surveyUnit: Pick<APISchemas["SurveyUnitDto"], "identificationName" | "idSu">;
+  surveyUnit: APISchemas["SurveyUnitDto"];
 };
 
 export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
-  const navigate = useNavigate();
+  const breadcrumbs = [
+    { href: "/", title: "Accueil" },
+    { href: "/survey-units", title: "Unités enquêtées" },
+    `${surveyUnit.identificationName ?? ""}`,
+  ];
+
   return (
-    <Row spacing={5} px={6} py={2} bgcolor={"white"}>
-      <IconButton sx={{ bgcolor: "background.default" }} onClick={() => navigate(-1)}>
-        <ArrowBackIosNewIcon sx={{ color: "black.main" }} />
-      </IconButton>
-      <Row spacing={2}>
-        <CorporateFareIcon fontSize="headerSinglePage" />
-        <Stack>
-          <Typography component={"span"} fontWeight={700} fontSize={"20px"} color={"text.primary"}>
-            {surveyUnit.identificationName}
-          </Typography>
-          <Typography component={"span"} fontSize={"20px"} fontWeight={600} color={"text.tertiary"}>
-            {surveyUnit.idSu}
-          </Typography>
-        </Stack>
+    <Stack px={6} py={3} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
+      <Breadcrumbs items={breadcrumbs} />
+      <Typography component={"span"} variant="headlineLarge" fontWeight={600}>
+        {surveyUnit.identificationName}
+      </Typography>
+      <Row justifyContent={"space-between"} pt={1}>
+        <Typography component={"span"} variant="bodyMedium">
+          {`ID métier : ${surveyUnit.identificationCode} | ID technique : ${surveyUnit.idSu}`}
+        </Typography>
+        <Button
+          variant="contained"
+          endIcon={<OpenInNewIcon />}
+          // TODO: remove disabled when get pages
+          disabled
+        >
+          Voir ses interrogations
+        </Button>
       </Row>
-    </Row>
+    </Stack>
   );
 };

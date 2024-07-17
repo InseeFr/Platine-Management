@@ -7,9 +7,7 @@ export const base = {
     search: "",
   },
   surveyUnits: {
-    idSu: "",
-    identificationCode: "",
-    identificationName: "",
+    search: "",
   },
   surveys: {
     idSource: "",

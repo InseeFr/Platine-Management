@@ -135,7 +135,7 @@ export const NavigationDrawer = () => {
             open={open}
             label={"Unités enquêtées"}
             IconComponent={ApartmentOutlinedIcon}
-            link={"/search/survey-units"}
+            link={"/survey-units"}
             isActive={currentPath.includes("survey-units")}
           />
           <NavigationListItem

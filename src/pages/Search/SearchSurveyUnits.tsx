@@ -1,90 +1,108 @@
-import { Box, CardActionArea, CircularProgress, Stack } from "@mui/material";
+import { Divider, IconButton, InputAdornment, Stack, TextField } from "@mui/material";
 import { Row } from "../../ui/Row.tsx";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
-import { useState } from "react";
-import { VisibilitySpy } from "../../ui/VisibilitySpy.tsx";
-import { CardGrid } from "../../ui/Layout/CardGrid.tsx";
-import { type APIResponse } from "../../types/api.ts";
-import { type ItemOf } from "../../types/utils.ts";
+import { FormEventHandler, useState } from "react";
 import Card from "@mui/material/Card";
-import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import { useSearchFilterParams } from "../../hooks/useSearchFilter.ts";
-import CorporateFareIcon from "@mui/icons-material/CorporateFare";
+import { useGetSearchFilter, useSearchForm } from "../../hooks/useSearchFilter.ts";
+import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
+import { theme } from "../../theme.tsx";
+import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
+import { EmptyState } from "../../ui/TableComponents.tsx";
+import { SearchSurveyUnitTable } from "../../ui/SurveyUnit/SearchSurveyUnitTable.tsx";
 
-const endpoint = "/api/survey-units/search" as const;
-type Item = ItemOf<Required<APIResponse<typeof endpoint, "get">>["content"]>;
+const endpoint = "/api/survey-units/search";
 
 export const SearchSurveyUnits = () => {
+  const breadcrumbs = [{ href: "/", title: "Accueil" }, "Unités enquêtées"];
+
   const {
     results: surveyUnits,
     hasNextPage,
     fetchNextPage,
     isLoading,
-    count,
-  } = useInfiniteFetchQuery(endpoint, {
-    query: useSearchFilterParams("surveyUnits"),
-  });
+  } = useInfiniteFetchQuery(endpoint);
 
   const [tab, setTab] = useState("me");
+
+  const { surveyUnits: surveyUnitsFilter } = useGetSearchFilter();
+  const [valueSubmitted, setValueSubmitted] = useState(surveyUnitsFilter.search);
+
+  const { onSubmit, onReset, inputProps, value } = useSearchForm("surveyUnits", surveyUnitsFilter);
+
+  const handleSubmit: FormEventHandler = e => {
+    setValueSubmitted(value.search);
+    onSubmit(e);
+  };
+
+  const handleReset: FormEventHandler = e => {
+    setValueSubmitted("");
+    onReset(e);
+  };
+
+  const isResetButton = valueSubmitted === value.search && value.search !== "";
+
   return (
-    <Stack spacing={3} sx={{ minHeight: 0 }}>
-      <Row justifyContent={"space-between"}>
-        <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
-          <ToggleButton value="me" aria-label="left aligned">
-            Mes unités enquêtées
-          </ToggleButton>
-          <ToggleButton value="all" aria-label="left aligned">
-            Tout
-          </ToggleButton>
-        </ToggleButtonGroup>
-        {count && <Typography variant="titleSmall">résultat: {count} unité(s) enquêtée(s)</Typography>}
+    <Stack>
+      <Row
+        justifyContent={"space-between"}
+        px={6}
+        py={3}
+        sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}
+      >
+        <Stack>
+          <Breadcrumbs items={breadcrumbs} />
+          <Typography variant="headlineLarge">Unités enquêtées</Typography>
+        </Stack>
+        <Row justifyContent={"space-between"}>
+          <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
+            <ToggleButton value="me" aria-label="left aligned">
+              Mes unités enquêtées
+            </ToggleButton>
+            <ToggleButton value="all" aria-label="left aligned">
+              Toutes les unités enquêtées
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Row>
       </Row>
-      {isLoading && (
-        <Row justifyContent={"space-around"} height={"100%"}>
-          <CircularProgress />
-        </Row>
-      )}
-      {!isLoading && surveyUnits.length === 0 && (
-        <Row justifyContent={"space-around"} height={"100%"}>
-          <Typography variant="titleMedium">Aucun résultat</Typography>
-        </Row>
-      )}
-      <CardGrid>
-        {surveyUnits.map(su => (
-          <div key={su.idSu}>
-            {/* This div prevent card from behing resized by the grid */}
-            <ItemCard surveyUnit={su} />
-          </div>
-        ))}
-        {hasNextPage && <VisibilitySpy onVisible={fetchNextPage} />}
-      </CardGrid>
+      <Divider variant="fullWidth" />
+      <Card sx={{ mx: 5, my: 3, p: 5 }} elevation={2}>
+        <form onSubmit={handleSubmit} onReset={handleReset}>
+          <TextField
+            fullWidth
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton aria-label="search" type={isResetButton ? "reset" : "submit"} edge="end">
+                    {isResetButton ? <CloseIcon color="primary" /> : <SearchIcon color="primary" />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+              disableUnderline: true,
+              ...inputProps("search"),
+            }}
+            label={"Rechercher par id technique, id métier ou raison sociale"}
+            variant="filled"
+          />
+          {!isLoading && (surveyUnits === undefined || surveyUnits.length === 0) ? (
+            <EmptyState
+              isFiltered={isResetButton}
+              onReset={handleReset}
+              text={"Aucune unité enquêtée trouvée."}
+            />
+          ) : (
+            <SearchSurveyUnitTable
+              surveyUnits={surveyUnits}
+              isLoading={isLoading}
+              hasNextPage={hasNextPage}
+              onVisible={fetchNextPage}
+            />
+          )}
+        </form>
+      </Card>
     </Stack>
   );
 };
-
-export function ItemCard({ surveyUnit }: { surveyUnit: Item }) {
-  const isDisabled = false; // TODO : calculated this value
-  return (
-    <Card elevation={2} variant={isDisabled ? "disabled" : undefined}>
-      <CardActionArea component={Link} to={`/survey-units/${surveyUnit.idSu}`}>
-        <Box px={3} py={2.5}>
-          <Row gap={1} mb={5}>
-            <CorporateFareIcon />
-            <Typography variant="titleLarge" fontWeight={600} color="text.primary">
-              {surveyUnit.identificationName}
-            </Typography>
-          </Row>
-          <Box mb={2} typography="bodyMedium" fontWeight={600} color="text.secondary">
-            ID unité enquêtée : {surveyUnit.idSu}
-          </Box>
-          <Box typography="bodyMedium" fontWeight={600} color="text.secondary">
-            SIREN : {surveyUnit.identificationCode}
-          </Box>
-        </Box>
-      </CardActionArea>
-    </Card>
-  );
-}

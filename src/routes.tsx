@@ -37,6 +37,10 @@ export const routes: RouteObject[] = [
         element: <SearchContacts />,
       },
       {
+        path: "survey-units",
+        element: <SearchSurveyUnits />,
+      },
+      {
         path: "search",
         element: <SearchPage />,
         children: [

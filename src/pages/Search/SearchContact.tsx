@@ -1,4 +1,4 @@
-import { Button, Card, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Card, Divider, Stack, TextField, Typography } from "@mui/material";
 import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
 import { theme } from "../../theme.tsx";
 import { FormEventHandler, useState } from "react";
@@ -13,6 +13,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { EmptyState } from "../../ui/TableComponents.tsx";
 
 const endpoint = "/api/contacts/search";
 
@@ -73,7 +74,11 @@ export const SearchContacts = () => {
             variant="filled"
           />
           {hasNoContact ? (
-            <EmptyState isFiltered={isResetButton} onReset={handleReset} />
+            <EmptyState
+              isFiltered={isResetButton}
+              onReset={handleReset}
+              text={"Aucun contact trouvé."}
+            />
           ) : (
             <SearchContactTable
               isLoading={isLoading}
@@ -84,30 +89,6 @@ export const SearchContacts = () => {
           )}
         </form>
       </Card>
-    </Stack>
-  );
-};
-
-const EmptyState = ({ isFiltered, onReset }: { isFiltered: boolean; onReset: FormEventHandler }) => {
-  return (
-    <Stack
-      mt={3}
-      sx={{
-        border: `1px solid ${theme.palette.border.default}`,
-        height: "30vh",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 2,
-      }}
-    >
-      <Typography variant="titleSmall" color={theme.palette.text.tertiary}>
-        Aucun contact trouvé.
-      </Typography>
-      {isFiltered && (
-        <Button variant="outlined" sx={{ width: "fit-content" }} onClick={onReset}>
-          Effacer les filtres
-        </Button>
-      )}
     </Stack>
   );
 };

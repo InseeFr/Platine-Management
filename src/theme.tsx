@@ -406,10 +406,14 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 24,
-          boxShadow: `inset 0 0 0 1px ${palette.text.tertiary}`,
+          boxShadow: shadows[2],
+          ".MuiToggleButtonGroup-grouped": {
+            color: palette.primary.main,
+          },
           ".MuiToggleButtonGroup-grouped.Mui-selected": {
             position: "relative",
             zIndex: 2,
+            color: palette.text.light,
           },
           ".MuiToggleButtonGroup-grouped:not(:first-of-type)": {
             marginLeft: -12,
