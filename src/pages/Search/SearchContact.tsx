@@ -1,4 +1,4 @@
-import { Card, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Card, Divider, Stack, Typography } from "@mui/material";
 import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
 import { theme } from "../../theme.tsx";
 import { FormEventHandler, useState } from "react";
@@ -9,11 +9,8 @@ import {
   useSearchFilterParams,
   useSearchForm,
 } from "../../hooks/useSearchFilter.ts";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchIcon from "@mui/icons-material/Search";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 import { EmptyState } from "../../ui/TableComponents.tsx";
+import { SearchTextField } from "../../ui/SearchTextField.tsx";
 
 const endpoint = "/api/contacts/search";
 
@@ -57,21 +54,10 @@ export const SearchContacts = () => {
       <Divider variant="fullWidth" />
       <Card sx={{ mx: 5, my: 3, p: 5 }} elevation={2}>
         <form onSubmit={handleSubmit} onReset={handleReset}>
-          <TextField
-            fullWidth
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton aria-label="search" type={isResetButton ? "reset" : "submit"} edge="end">
-                    {isResetButton ? <CloseIcon color="primary" /> : <SearchIcon color="primary" />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-              disableUnderline: true,
-              ...inputProps("search"),
-            }}
+          <SearchTextField
+            isResetButton={isResetButton}
             label={"Rechercher par prénom/nom, IDEP, ou adresse email"}
-            variant="filled"
+            inputProps={inputProps}
           />
           {hasNoContact ? (
             <EmptyState

@@ -1,4 +1,4 @@
-import { Divider, IconButton, InputAdornment, Stack, TextField } from "@mui/material";
+import { Divider, Stack } from "@mui/material";
 import { Row } from "../../ui/Row.tsx";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
@@ -9,10 +9,9 @@ import Typography from "@mui/material/Typography";
 import { useGetSearchFilter, useSearchForm } from "../../hooks/useSearchFilter.ts";
 import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
 import { theme } from "../../theme.tsx";
-import SearchIcon from "@mui/icons-material/Search";
-import CloseIcon from "@mui/icons-material/Close";
 import { EmptyState } from "../../ui/TableComponents.tsx";
 import { SearchSurveyUnitTable } from "../../ui/SurveyUnit/SearchSurveyUnitTable.tsx";
+import { SearchTextField } from "../../ui/SearchTextField.tsx";
 
 const endpoint = "/api/survey-units/search";
 
@@ -71,21 +70,10 @@ export const SearchSurveyUnits = () => {
       <Divider variant="fullWidth" />
       <Card sx={{ mx: 5, my: 3, p: 5 }} elevation={2}>
         <form onSubmit={handleSubmit} onReset={handleReset}>
-          <TextField
-            fullWidth
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton aria-label="search" type={isResetButton ? "reset" : "submit"} edge="end">
-                    {isResetButton ? <CloseIcon color="primary" /> : <SearchIcon color="primary" />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-              disableUnderline: true,
-              ...inputProps("search"),
-            }}
+          <SearchTextField
+            isResetButton={isResetButton}
             label={"Rechercher par id technique, id métier ou raison sociale"}
-            variant="filled"
+            inputProps={inputProps}
           />
           {!isLoading && (surveyUnits === undefined || surveyUnits.length === 0) ? (
             <EmptyState
