@@ -5,7 +5,7 @@ import { Column, TableHeader } from "../TableComponents.tsx";
 import { APISchemas } from "../../types/api.ts";
 import TableCell from "@mui/material/TableCell";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { Skeleton, TableRow } from "@mui/material";
+import { Paper, Skeleton, TableRow } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { useIntersection } from "react-use";
 import { Link } from "../Link.tsx";
@@ -39,8 +39,8 @@ export const SearchContactTable = (props: Props) => {
   const contacts = props.contacts ?? [];
 
   return (
-    <TableContainer sx={{ py: 3 }}>
-      <Table aria-label="search contacts table" size="small">
+    <TableContainer component={Paper} elevation={2}>
+      <Table aria-label="search contacts table">
         <TableHeader columns={columns} />
         {props.isLoading && <LoadingTable onVisible={props.onVisible} />}
         <TableBody>

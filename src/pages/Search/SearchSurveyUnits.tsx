@@ -43,6 +43,8 @@ export const SearchSurveyUnits = () => {
 
   const isResetButton = valueSubmitted === value.search && value.search !== "";
 
+  const hasNoSurveyUnits = !isLoading && (surveyUnits === undefined || surveyUnits.length === 0);
+
   return (
     <Stack>
       <Row
@@ -74,7 +76,7 @@ export const SearchSurveyUnits = () => {
             label={"Rechercher par id technique, id métier, raison sociale ou contact"}
             inputProps={inputProps}
           />
-          {!isLoading && (surveyUnits === undefined || surveyUnits.length === 0) ? (
+          {hasNoSurveyUnits ? (
             <EmptyState
               isFiltered={isResetButton}
               onReset={handleReset}

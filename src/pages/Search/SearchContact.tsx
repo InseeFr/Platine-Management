@@ -1,4 +1,4 @@
-import { Card, Divider, Stack, Typography } from "@mui/material";
+import { Divider, Stack, Typography } from "@mui/material";
 import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
 import { theme } from "../../theme.tsx";
 import { FormEventHandler, useState } from "react";
@@ -52,8 +52,8 @@ export const SearchContacts = () => {
         <Typography variant="headlineLarge">Contacts</Typography>
       </Stack>
       <Divider variant="fullWidth" />
-      <Card sx={{ mx: 5, my: 3, p: 5 }} elevation={2}>
-        <form onSubmit={handleSubmit} onReset={handleReset}>
+      <form onSubmit={handleSubmit} onReset={handleReset}>
+        <Stack sx={{ my: 3, px: 5 }} gap={3}>
           <SearchTextField
             isResetButton={isResetButton}
             label={"Rechercher par prénom/nom, IDEP, ou adresse email"}
@@ -73,8 +73,8 @@ export const SearchContacts = () => {
               onVisible={fetchNextPage}
             />
           )}
-        </form>
-      </Card>
+        </Stack>
+      </form>
     </Stack>
   );
 };

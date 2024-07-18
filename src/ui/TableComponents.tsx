@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import { FormEventHandler } from "react";
 import { theme } from "../theme.tsx";
 import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
 
 export interface Column {
   id: string;
@@ -113,28 +114,26 @@ export const EmptyState = ({
   text,
 }: {
   isFiltered: boolean;
-  onReset: FormEventHandler;
+  onReset?: FormEventHandler;
   text: string;
 }) => {
   return (
-    <Stack
-      mt={3}
+    <Card
+      elevation={2}
       sx={{
-        border: `1px solid ${theme.palette.border.default}`,
-        height: "30vh",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 2,
+        mt: 3,
       }}
     >
-      <Typography variant="titleSmall" color={theme.palette.text.tertiary}>
-        {text}
-      </Typography>
-      {isFiltered && (
-        <Button variant="outlined" sx={{ width: "fit-content" }} onClick={onReset}>
-          Effacer les filtres
-        </Button>
-      )}
-    </Stack>
+      <Stack sx={{ justifyContent: "center", alignItems: "center", gap: 2, height: "30vh" }}>
+        <Typography variant="titleSmall" color={theme.palette.text.tertiary}>
+          {text}
+        </Typography>
+        {isFiltered && (
+          <Button variant="outlined" sx={{ width: "fit-content" }} onClick={onReset}>
+            Effacer les filtres
+          </Button>
+        )}
+      </Stack>
+    </Card>
   );
 };
