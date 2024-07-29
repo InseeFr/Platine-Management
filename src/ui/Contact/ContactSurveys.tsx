@@ -2,7 +2,6 @@ import Card from "@mui/material/Card";
 import { Row } from "../Row.tsx";
 import { TitleWithIconAndDivider } from "../TitleWithIconAndDivider.tsx";
 import { BinocularIcon } from "../Icon/BinocularIcon.tsx";
-import { ContactSurveysFilterSelect } from "./ContactSurveysFilterSelect.tsx";
 import { useState } from "react";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
@@ -13,7 +12,6 @@ import { ContactSurveysTable } from "./ContactSurveysTable.tsx";
 import { APISchemas } from "../../types/api.ts";
 import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
 import { useDebouncedState } from "../../hooks/useDebouncedState.ts";
-import { collectStates } from "./CollectStateSelect.tsx";
 import { useToggle } from "react-use";
 import { SelectChangeEvent } from "@mui/material/Select";
 import Button from "@mui/material/Button";
@@ -53,17 +51,6 @@ export const ContactSurveysContent = ({ contact }: Props) => {
 
       <Row justifyContent={"space-between"} component={"form"}>
         <Row spacing={3} py={4}>
-          <ContactSurveysFilterSelect
-            options={[
-              { label: "Tous", value: "tous" },
-              { label: "Principal", value: "primary" },
-              { label: "Secondaire", value: "secondary" },
-            ]}
-            value={role}
-            label={"Rôle du contact"}
-            name={"role"}
-            onFilterChange={e => setRole(e.target.value)}
-          />
           <Filters
             searchValue={search}
             stateValue={state}
@@ -132,18 +119,9 @@ type FiltersProps = {
   onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const Filters = ({ searchValue, stateValue, onSelect, onSearch }: FiltersProps) => {
+export const Filters = ({ searchValue, onSearch }: FiltersProps) => {
   return (
     <Row gap={3}>
-      <ContactSurveysFilterSelect
-        options={[...collectStates, { label: "Tous", value: "all" }]}
-        value={stateValue !== "" ? stateValue : "none"}
-        placeholderLabel="Sélectionnez un état"
-        label={"Etat de la collecte"}
-        name={"state"}
-        onFilterChange={onSelect}
-      />
-
       <TextField
         InputProps={{
           startAdornment: (

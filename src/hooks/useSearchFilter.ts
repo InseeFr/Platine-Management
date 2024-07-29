@@ -9,6 +9,9 @@ export const base = {
   surveyUnits: {
     search: "",
   },
+  questionings: {
+    search: "",
+  },
   surveys: {
     idSource: "",
     year: undefined as undefined | number,
@@ -16,7 +19,7 @@ export const base = {
   },
 };
 
-type Key = "contacts" | "surveyUnits" | "surveys";
+type Key = "contacts" | "surveyUnits" | "surveys" | "questionings";
 type State = typeof base;
 
 const useSearchFilter = create(

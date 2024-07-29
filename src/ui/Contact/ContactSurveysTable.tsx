@@ -65,6 +65,7 @@ export const ContactSurveysTable = (props: Props) => {
         <CustomTableFooter
           count={surveys.length}
           rowsPerPage={rowsPerPage}
+          labelDisplayedRows="entitées affichées"
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}

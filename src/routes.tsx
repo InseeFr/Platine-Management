@@ -13,6 +13,7 @@ import { SurveyUnitPage } from "./pages/SurveyUnitPage.tsx";
 import { CreateContactPage } from "./pages/CreateContactPage.tsx";
 import { UnauthorizedPage } from "./pages/UnauthorizedPage.tsx";
 import { LogoutPage } from "./pages/Logout.tsx";
+import { SearchQuestionings } from "./pages/Search/SearchQuestionings.tsx";
 
 export const routes: RouteObject[] = [
   {
@@ -41,12 +42,14 @@ export const routes: RouteObject[] = [
         element: <SearchSurveyUnits />,
       },
       {
+        path: "questionings",
+        element: <SearchQuestionings />,
+      },
+      {
         path: "search",
         element: <SearchPage />,
         children: [
-          { path: "", element: <SearchContacts />, loader: () => redirect("/search/contacts") },
-          { path: "contacts", element: <SearchContacts /> },
-          { path: "survey-units", element: <SearchSurveyUnits /> },
+          { path: "", element: <SearchContacts />, loader: () => redirect("/search/surveys") },
           { path: "surveys", element: <SearchSurveys /> },
         ],
       },

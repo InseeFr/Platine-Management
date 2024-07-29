@@ -416,7 +416,6 @@ export const theme = createTheme({
             color: palette.text.light,
           },
           ".MuiToggleButtonGroup-grouped:not(:first-of-type)": {
-            marginLeft: -12,
             zIndex: 1,
             paddingLeft: 24,
           },
@@ -434,9 +433,9 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 4,
-          paddingInline: 24,
           border: "none",
           ...typography.bodyLarge,
+          background: palette.Surfaces.Secondary,
           textTransform: "none",
           "&.Mui-selected, &.Mui-selected:hover": {
             borderRadius: "4px!important",

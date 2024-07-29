@@ -10,6 +10,9 @@ import { FormEventHandler } from "react";
 import { theme } from "../theme.tsx";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
+import Select from "@mui/material/Select";
+import { FormControl, InputLabel, MenuItem } from "@mui/material";
+import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 
 export interface Column {
   id: string;
@@ -49,23 +52,46 @@ export const LoadingCell = ({ columnLength }: { columnLength: number }) => {
 
 export const style = {
   root: {
+    padding: "8px 0 !important",
     ".MuiTablePagination-displayedRows": {
       typography: "bodySmall",
     },
-    ".MuiTablePagination-input": {
-      typography: "bodySmall",
+    ".MuiIconButton-root": {
+      color: theme.palette.primary.main,
     },
-    ".MuiTablePagination-selectLabel": {
-      typography: "bodySmall",
-      color: "text.tertiary",
+    ".Mui-disabled": {
+      color: theme.palette.action.disabled,
     },
   },
 };
 
-type SurveysTableFooterProps = {
+const CustomPageSizeSelector = ({ value, onChange }: any) => {
+  return (
+    <FormControl sx={{ width: "160px" }} variant="filled">
+      <InputLabel id={"selectPaginationLabel"}>{"Lignes par page"}</InputLabel>
+      <Select
+        variant="filled"
+        value={value}
+        onChange={onChange}
+        fullWidth
+        disableUnderline
+        IconComponent={props => <ExpandMoreOutlinedIcon {...props} sx={{ color: "text.primary" }} />}
+      >
+        {[10, 20, 30, 40, 50].map(pageSize => (
+          <MenuItem key={pageSize} value={pageSize}>
+            {pageSize}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+};
+
+type CustomTableFooterProps = {
   count: number;
   rowsPerPage: number;
   page: number;
+  labelDisplayedRows: string;
   onChangePage: (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
   onChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 };
@@ -74,22 +100,37 @@ export const CustomTableFooter = ({
   count,
   rowsPerPage,
   page,
+  labelDisplayedRows,
   onChangePage,
   onChangeRowsPerPage,
-}: SurveysTableFooterProps) => {
+}: CustomTableFooterProps) => {
   return (
-    <TableFooter>
+    <TableFooter sx={{ backgroundColor: "#EBEFF5" }}>
       <TableRow>
         <TablePagination
           sx={style.root}
-          rowsPerPageOptions={[10, 20, 50]}
-          labelRowsPerPage={"Lignes par page :"}
-          labelDisplayedRows={page =>
-            `${page.from}-${page.to === -1 ? page.count : page.to} sur ${page.count} entités affichées`
-          }
           count={count}
           rowsPerPage={rowsPerPage}
+          labelRowsPerPage=""
+          labelDisplayedRows={page =>
+            `${page.from}-${page.to === -1 ? page.count : page.to} sur ${
+              page.count
+            } ${labelDisplayedRows} `
+          }
           page={page}
+          slotProps={{
+            select: {
+              inputComponent: CustomPageSizeSelector,
+            },
+            actions: {
+              nextButtonIcon: {
+                fontSize: "navigateIcon",
+              },
+              previousButtonIcon: {
+                fontSize: "navigateIcon",
+              },
+            },
+          }}
           onPageChange={onChangePage}
           onRowsPerPageChange={onChangeRowsPerPage}
         />

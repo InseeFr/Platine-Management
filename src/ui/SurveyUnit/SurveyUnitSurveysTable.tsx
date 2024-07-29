@@ -105,6 +105,7 @@ export const SurveyUnitSurveysTable = (props: Props) => {
         <CustomTableFooter
           count={visibleRows.length}
           rowsPerPage={rowsPerPage}
+          labelDisplayedRows="entitées affichées"
           page={page}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
