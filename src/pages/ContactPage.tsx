@@ -7,7 +7,6 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import { theme } from "../theme.tsx";
 import { Button, Typography } from "@mui/material";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { ContactDetailsCard } from "../ui/Contact/ContactDetailsCard.tsx";
 import { ContactCampaignsCard } from "../ui/Contact/ContactCampaignsCard.tsx";
 
@@ -56,7 +55,6 @@ export const ContactPage = () => {
           <Button
             variant="contained"
             size="large"
-            endIcon={<OpenInNewIcon />}
             // TODO: remove disabled when get pages
             disabled
           >

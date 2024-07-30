@@ -3,7 +3,6 @@ import { APISchemas } from "../../types/api.ts";
 import { Button, Stack, Typography } from "@mui/material";
 import { Breadcrumbs } from "../Breadcrumbs.tsx";
 import { theme } from "../../theme.tsx";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDto"];
@@ -33,7 +32,6 @@ export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
         <Button
           variant="contained"
           size="large"
-          endIcon={<OpenInNewIcon />}
           // TODO: remove disabled when get pages
           disabled
         >

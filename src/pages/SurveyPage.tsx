@@ -11,7 +11,6 @@ import { APISchemas } from "../types/api.ts";
 import Grid from "@mui/material/Grid";
 import { SurveyDetailsCard } from "../ui/Survey/SurveyDetailsCard.tsx";
 import { HistoryActionsCard } from "../ui/Contact/HistoryActionsCard.tsx";
-import { CommentsCard } from "../ui/Contact/CommentsCard.tsx";
 import { SurveyCalendarCard } from "../ui/Survey/SurveyCalendarCard.tsx";
 import { SurveyCreateCampaignCard } from "../ui/Survey/SurveyCreateCampaignCard.tsx";
 
@@ -116,9 +115,6 @@ function SurveyUnitTab({
         </Grid>
         <Grid item xs={6}>
           <HistoryActionsCard />
-        </Grid>
-        <Grid item xs={6}>
-          <CommentsCard />
         </Grid>
       </Grid>
     );
