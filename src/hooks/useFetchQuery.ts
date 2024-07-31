@@ -46,6 +46,7 @@ export function useFetchQuery<Path extends APIPaths, Options extends APIRequests
 export function useInfiniteFetchQuery<Path extends APIPaths, Options extends APIRequests<Path>>(
   path: Path,
   options?: Options & { headers?: Record<string, string> },
+  enabled: boolean = true,
 ) {
   const key = [path, options];
   const token = useAccessToken();
@@ -73,6 +74,7 @@ export function useInfiniteFetchQuery<Path extends APIPaths, Options extends API
     getNextPageParam: (data, pages) => {
       return pages.length - 1 < data.totalPages ? pages.length : undefined;
     },
+    enabled: enabled,
   });
   const results = useMemo(() => {
     return result?.data?.pages.map(v => v.content).flat() ?? [];

@@ -1,4 +1,4 @@
-import { Divider, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
 import { theme } from "../../theme.tsx";
 import { FormEventHandler, useState } from "react";
@@ -9,72 +9,114 @@ import {
   useSearchFilterParams,
   useSearchForm,
 } from "../../hooks/useSearchFilter.ts";
-import { EmptyState } from "../../ui/TableComponents.tsx";
-import { SearchTextField } from "../../ui/SearchTextField.tsx";
+import { useNavigate } from "react-router-dom";
+import { SearchContactFilter } from "../../ui/Contact/SearchContactFilter.tsx";
+import { EmptyState } from "../../ui/Contact/EmptyState.tsx";
 
 const endpoint = "/api/contacts/search";
 
 export const SearchContacts = () => {
+  const navigate = useNavigate();
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Contacts"];
+
+  const { contacts: contactsFilter } = useGetSearchFilter();
+  const [submittedValue, setSubmittedValue] = useState(contactsFilter.search);
+  const [submittedType, setSubmittedType] = useState(contactsFilter.searchType);
+  const [isSearching, setIsSearching] = useState(false);
 
   const {
     results: contacts,
     hasNextPage,
     fetchNextPage,
     isLoading,
-  } = useInfiniteFetchQuery(endpoint, {
-    query: { param: useSearchFilterParams("contacts").search, pageSize: 20, sort: "identifier" },
-  });
+    isSuccess,
+  } = useInfiniteFetchQuery(
+    endpoint,
+    {
+      query: { ...useSearchFilterParams("contacts"), pageSize: 20, sort: "identifier" },
+    },
+    !!contactsFilter.search,
+  );
 
-  const { contacts: contactsFilter } = useGetSearchFilter();
-  const [valueSubmitted, setValueSubmitted] = useState(contactsFilter.search);
-
-  const { onSubmit, onReset, inputProps, value } = useSearchForm("contacts", contactsFilter);
+  const { onSubmit, onReset, inputProps, value, onChangeSearchType } = useSearchForm(
+    "contacts",
+    contactsFilter,
+  );
 
   const handleSubmit: FormEventHandler = e => {
-    setValueSubmitted(value.search);
+    setSubmittedValue(value.search);
+    setSubmittedType(value.searchType);
+    setIsSearching(true);
     onSubmit(e);
   };
 
   const handleReset: FormEventHandler = e => {
-    setValueSubmitted("");
+    setSubmittedValue("");
+    setSubmittedType("");
     onReset(e);
   };
 
-  const isResetButton = valueSubmitted === value.search && value.search !== "";
+  const isResetButton =
+    submittedValue === value.search && value.search !== "" && submittedType === value.searchType;
 
-  const hasNoContact = !isLoading && (contacts === undefined || contacts.length === 0);
+  const hasNoContact =
+    !isLoading && contactsFilter.search && (contacts === undefined || contacts.length === 0);
 
-  return (
-    <Stack>
-      <Stack px={6} py={3} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
-        <Breadcrumbs items={breadcrumbs} />
-        <Typography variant="headlineLarge">Contacts</Typography>
-      </Stack>
-      <Divider variant="fullWidth" />
+  if ((!contacts || contacts.length === 0) && !isSuccess && !isLoading) {
+    return (
       <form onSubmit={handleSubmit} onReset={handleReset}>
-        <Stack sx={{ my: 3, px: 5 }} gap={3}>
-          <SearchTextField
+        <Stack px={6} py={3} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
+          <Breadcrumbs items={breadcrumbs} />
+          <Typography variant="headlineLarge">
+            Rechercher un contact par Idep, Prénom/Nom ou email
+          </Typography>
+        </Stack>
+
+        <Stack sx={{ my: 3, px: 5 }} gap={3} alignItems={"center"}>
+          <SearchContactFilter
             isResetButton={isResetButton}
-            label={"Rechercher par prénom/nom, IDEP, ou adresse email"}
             inputProps={inputProps}
+            sx={{ width: "50vw", height: "50vh", minWidth: "700px" }}
           />
-          {hasNoContact ? (
-            <EmptyState
-              isFiltered={isResetButton}
-              onReset={handleReset}
-              text={"Aucun contact trouvé."}
-            />
-          ) : (
-            <SearchContactTable
-              isLoading={isLoading}
-              contacts={contacts}
-              hasNextPage={hasNextPage}
-              onVisible={fetchNextPage}
-            />
-          )}
         </Stack>
       </form>
-    </Stack>
+    );
+  }
+
+  if (contacts.length === 1 && isSearching) {
+    navigate(`/contacts/${contacts[0].identifier}`);
+    setIsSearching(false);
+  }
+
+  return (
+    <form onSubmit={handleSubmit} onReset={handleReset}>
+      <Stack px={6} py={3} gap={2} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
+        <Stack>
+          <Breadcrumbs items={breadcrumbs} />
+          <Typography variant="headlineLarge">
+            Rechercher un contact par Idep, Prénom/Nom ou email
+          </Typography>
+        </Stack>
+        <SearchContactFilter isResetButton={isResetButton} inputProps={inputProps} />
+      </Stack>
+
+      <Stack sx={{ my: 3, px: 5 }} gap={3}>
+        {submittedValue && hasNoContact && (
+          <EmptyState
+            onChangeSearchType={onChangeSearchType}
+            searchType={contactsFilter.searchType}
+            search={contactsFilter.search}
+          />
+        )}
+        {submittedValue && !hasNoContact && (
+          <SearchContactTable
+            isLoading={isLoading}
+            contacts={contacts}
+            hasNextPage={hasNextPage}
+            onVisible={fetchNextPage}
+          />
+        )}
+      </Stack>
+    </form>
   );
 };

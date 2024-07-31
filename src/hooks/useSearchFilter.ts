@@ -5,6 +5,7 @@ import { combine } from "zustand/middleware";
 export const base = {
   contacts: {
     search: "",
+    searchType: "identifier",
   },
   surveyUnits: {
     search: "",
@@ -92,6 +93,9 @@ export function useSearchForm<K extends Key>(key: K, initialValue: State[K]) {
     }),
     handler: (name: keyof State[K]) => {
       return (e: any) => setValue({ ...value, [name]: e.target.value });
+    },
+    onChangeSearchType: (type: string) => {
+      return setValue({ ...value, searchType: type });
     },
   };
 }

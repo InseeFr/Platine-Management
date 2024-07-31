@@ -165,6 +165,7 @@ const typography = {
   headlineLarge: {
     fontSize: 32,
     lineHeight: "40px",
+    fontWeight: 600,
   },
   headlineMedium: {
     fontSize: 28,
@@ -401,6 +402,14 @@ export const theme = createTheme({
           textTransform: "none",
         },
       },
+      variants: [
+        {
+          props: { variant: "text" },
+          style: {
+            padding: 0,
+          },
+        },
+      ],
     },
     MuiToggleButtonGroup: {
       styleOverrides: {
@@ -506,6 +515,15 @@ export const theme = createTheme({
           },
           "& .MuiFormHelperText-root": {
             marginLeft: 0,
+          },
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          "&.Mui-selected": {
+            backgroundColor: "white !important",
           },
         },
       },
