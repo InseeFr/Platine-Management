@@ -17,15 +17,11 @@ type Props = Pick<TextFieldProps, "sx"> & {
     value: string;
     onChange: (e: any) => void;
   };
+  options: { label: string; value: string }[];
+  textFieldLabel: string;
 };
 
-const options = [
-  { label: "Idep", value: "identifier" },
-  { label: "Prénom et/ou Nom", value: "name" },
-  { label: "Email", value: "email" },
-];
-
-export const SearchContactFilter = ({ isResetButton, inputProps, sx }: Props) => {
+export const SearchFilters = ({ isResetButton, inputProps, options, textFieldLabel, sx }: Props) => {
   return (
     <Row gap={2} sx={sx}>
       <FormControl sx={{ minWidth: 200 }} variant="filled">
@@ -52,11 +48,7 @@ export const SearchContactFilter = ({ isResetButton, inputProps, sx }: Props) =>
           ))}
         </Select>
       </FormControl>
-      <SearchTextField
-        isResetButton={isResetButton}
-        label={"Rechercher un contact par Idep, Prénom/Nom ou email"}
-        inputProps={inputProps}
-      />
+      <SearchTextField isResetButton={isResetButton} label={textFieldLabel} inputProps={inputProps} />
     </Row>
   );
 };

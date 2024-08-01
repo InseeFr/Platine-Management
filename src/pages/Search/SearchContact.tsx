@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Divider, Stack, Typography } from "@mui/material";
 import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
 import { theme } from "../../theme.tsx";
 import { FormEventHandler, useState } from "react";
@@ -10,19 +10,25 @@ import {
   useSearchForm,
 } from "../../hooks/useSearchFilter.ts";
 import { useNavigate } from "react-router-dom";
-import { SearchContactFilter } from "../../ui/Contact/SearchContactFilter.tsx";
-import { EmptyState } from "../../ui/Contact/EmptyState.tsx";
+import { SearchFilters } from "../../ui/Search/SearchFilters.tsx";
+import { SearchContactEmptyState } from "../../ui/Search/SearchContactEmptyState.tsx";
 
 const endpoint = "/api/contacts/search";
+
+const options = [
+  { label: "Idep", value: "identifier" },
+  { label: "Prénom et/ou Nom", value: "name" },
+  { label: "Email", value: "email" },
+];
 
 export const SearchContacts = () => {
   const navigate = useNavigate();
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Contacts"];
 
   const { contacts: contactsFilter } = useGetSearchFilter();
-  const [submittedValue, setSubmittedValue] = useState(contactsFilter.search);
+  const [submittedValue, setSubmittedValue] = useState(contactsFilter.searchValue);
   const [submittedType, setSubmittedType] = useState(contactsFilter.searchType);
-  const [isSearching, setIsSearching] = useState(false);
+  const [isAlreadyRedirected, setIsAlreadyRedirected] = useState(false);
 
   const {
     results: contacts,
@@ -35,7 +41,7 @@ export const SearchContacts = () => {
     {
       query: { ...useSearchFilterParams("contacts"), pageSize: 20, sort: "identifier" },
     },
-    !!contactsFilter.search,
+    !!contactsFilter.searchValue,
   );
 
   const { onSubmit, onReset, inputProps, value, onChangeSearchType } = useSearchForm(
@@ -44,9 +50,9 @@ export const SearchContacts = () => {
   );
 
   const handleSubmit: FormEventHandler = e => {
-    setSubmittedValue(value.search);
+    setSubmittedValue(value.searchValue);
     setSubmittedType(value.searchType);
-    setIsSearching(true);
+    setIsAlreadyRedirected(true);
     onSubmit(e);
   };
 
@@ -57,10 +63,12 @@ export const SearchContacts = () => {
   };
 
   const isResetButton =
-    submittedValue === value.search && value.search !== "" && submittedType === value.searchType;
+    submittedValue === value.searchValue &&
+    value.searchValue !== "" &&
+    submittedType === value.searchType;
 
   const hasNoContact =
-    !isLoading && contactsFilter.search && (contacts === undefined || contacts.length === 0);
+    !isLoading && contactsFilter.searchValue && (contacts === undefined || contacts.length === 0);
 
   if ((!contacts || contacts.length === 0) && !isSuccess && !isLoading) {
     return (
@@ -71,11 +79,14 @@ export const SearchContacts = () => {
             Rechercher un contact par Idep, Prénom/Nom ou email
           </Typography>
         </Stack>
+        <Divider variant="fullWidth" />
 
         <Stack sx={{ my: 3, px: 5 }} gap={3} alignItems={"center"}>
-          <SearchContactFilter
+          <SearchFilters
             isResetButton={isResetButton}
             inputProps={inputProps}
+            options={options}
+            textFieldLabel="Rechercher un contact par Idep, Prénom/Nom ou email"
             sx={{ width: "50vw", height: "50vh", minWidth: "700px" }}
           />
         </Stack>
@@ -83,9 +94,9 @@ export const SearchContacts = () => {
     );
   }
 
-  if (contacts.length === 1 && isSearching) {
+  if (contacts.length === 1 && isAlreadyRedirected) {
     navigate(`/contacts/${contacts[0].identifier}`);
-    setIsSearching(false);
+    setIsAlreadyRedirected(false);
   }
 
   return (
@@ -97,15 +108,21 @@ export const SearchContacts = () => {
             Rechercher un contact par Idep, Prénom/Nom ou email
           </Typography>
         </Stack>
-        <SearchContactFilter isResetButton={isResetButton} inputProps={inputProps} />
+        <SearchFilters
+          isResetButton={isResetButton}
+          inputProps={inputProps}
+          options={options}
+          textFieldLabel="Rechercher un contact par Idep, Prénom/Nom ou email"
+        />
       </Stack>
+      <Divider variant="fullWidth" />
 
       <Stack sx={{ my: 3, px: 5 }} gap={3}>
         {submittedValue && hasNoContact && (
-          <EmptyState
+          <SearchContactEmptyState
             onChangeSearchType={onChangeSearchType}
             searchType={contactsFilter.searchType}
-            search={contactsFilter.search}
+            searchValue={contactsFilter.searchValue}
           />
         )}
         {submittedValue && !hasNoContact && (

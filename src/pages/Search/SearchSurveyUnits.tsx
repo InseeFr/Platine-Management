@@ -1,97 +1,127 @@
 import { Divider, Stack } from "@mui/material";
-import { Row } from "../../ui/Row.tsx";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import ToggleButton from "@mui/material/ToggleButton";
 import { FormEventHandler, useState } from "react";
-import Typography from "@mui/material/Typography";
 import { useGetSearchFilter, useSearchForm } from "../../hooks/useSearchFilter.ts";
-import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
 import { theme } from "../../theme.tsx";
-import { EmptyState } from "../../ui/TableComponents.tsx";
 import { SearchSurveyUnitTable } from "../../ui/SurveyUnit/SearchSurveyUnitTable.tsx";
-import { SearchTextField } from "../../ui/SearchTextField.tsx";
+import { useNavigate } from "react-router-dom";
+import { SearchFilters } from "../../ui/Search/SearchFilters.tsx";
+import { SearchSurveyUnitsHeader } from "../../ui/Search/SearchSurveyUnitsHeader.tsx";
+import { SearchSurveyUnitsEmptyState } from "../../ui/Search/SearchSurveyUnitsEmptyState.tsx";
 
 const endpoint = "/api/survey-units/search";
 
+const options = [
+  { label: "ID métier", value: "identificationCode" },
+  { label: "Raison sociale", value: "identificationName" },
+];
 export const SearchSurveyUnits = () => {
-  const breadcrumbs = [{ href: "/", title: "Accueil" }, "Unités enquêtées"];
+  const navigate = useNavigate();
+
+  const { surveyUnits: surveyUnitsFilter } = useGetSearchFilter();
+  const [submittedValue, setSubmittedValue] = useState(surveyUnitsFilter.searchValue);
+  const [submittedType, setSubmittedType] = useState(surveyUnitsFilter.searchType);
+  const [isAlreadyRedirected, setIsAlreadyRedirected] = useState(false);
 
   const {
     results: surveyUnits,
     hasNextPage,
     fetchNextPage,
     isLoading,
-  } = useInfiniteFetchQuery(endpoint);
+    isSuccess,
+  } = useInfiniteFetchQuery(
+    endpoint,
+    // {
+    //   query: useSearchFilterParams("surveyUnits"),
+    // },
+    // !!surveyUnitsFilter.search,
+  );
 
   const [tab, setTab] = useState("me");
 
-  const { surveyUnits: surveyUnitsFilter } = useGetSearchFilter();
-  const [valueSubmitted, setValueSubmitted] = useState(surveyUnitsFilter.search);
-
-  const { onSubmit, onReset, inputProps, value } = useSearchForm("surveyUnits", surveyUnitsFilter);
+  const { onSubmit, onReset, inputProps, value, onChangeSearchType } = useSearchForm(
+    "surveyUnits",
+    surveyUnitsFilter,
+  );
 
   const handleSubmit: FormEventHandler = e => {
-    setValueSubmitted(value.search);
+    setSubmittedValue(value.searchValue);
+    setSubmittedType(value.searchType);
+    setIsAlreadyRedirected(true);
     onSubmit(e);
   };
 
   const handleReset: FormEventHandler = e => {
-    setValueSubmitted("");
+    setSubmittedValue("");
+    setSubmittedType("");
     onReset(e);
   };
 
-  const isResetButton = valueSubmitted === value.search && value.search !== "";
+  const isResetButton =
+    submittedValue === value.searchValue &&
+    value.searchValue !== "" &&
+    submittedType === value.searchType;
 
-  const hasNoSurveyUnits = !isLoading && (surveyUnits === undefined || surveyUnits.length === 0);
+  const hasNoSurveyUnits =
+    !isLoading &&
+    surveyUnitsFilter.searchValue &&
+    (surveyUnits === undefined || surveyUnits.length === 0);
 
-  return (
-    <Stack>
-      <Row
-        justifyContent={"space-between"}
-        px={6}
-        py={3}
-        sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}
-      >
-        <Stack>
-          <Breadcrumbs items={breadcrumbs} />
-          <Typography variant="headlineLarge">Unités enquêtées</Typography>
-        </Stack>
-        <Row justifyContent={"space-between"}>
-          <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
-            <ToggleButton value="me" aria-label="left aligned" size="large">
-              Mes unités enquêtées
-            </ToggleButton>
-            <ToggleButton value="all" aria-label="left aligned" size="large">
-              Toutes les unités enquêtées
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </Row>
-      </Row>
-      <Divider variant="fullWidth" />
+  if ((!surveyUnits || surveyUnits.length === 0) && !isSuccess && !isLoading) {
+    return (
       <form onSubmit={handleSubmit} onReset={handleReset}>
-        <Stack sx={{ my: 3, px: 5 }} gap={3}>
-          <SearchTextField
+        <SearchSurveyUnitsHeader tab={tab} onChangeTab={(_, v) => setTab(v)} />
+        <Divider variant="fullWidth" />
+
+        <Stack sx={{ my: 3, px: 5 }} gap={3} alignItems={"center"}>
+          <SearchFilters
             isResetButton={isResetButton}
-            label={"Rechercher par id technique, id métier, raison sociale ou contact"}
             inputProps={inputProps}
+            textFieldLabel="Rechercher une unité enquêtée par id métier ou raison sociale"
+            options={options}
+            sx={{ width: "50vw", height: "50vh", minWidth: "700px" }}
           />
-          {hasNoSurveyUnits ? (
-            <EmptyState
-              isFiltered={isResetButton}
-              onReset={handleReset}
-              text={"Aucune unité enquêtée trouvée."}
-            />
-          ) : (
-            <SearchSurveyUnitTable
-              surveyUnits={surveyUnits}
-              isLoading={isLoading}
-              hasNextPage={hasNextPage}
-              onVisible={fetchNextPage}
-            />
-          )}
         </Stack>
       </form>
-    </Stack>
+    );
+  }
+
+  if (surveyUnits.length === 1 && isAlreadyRedirected) {
+    navigate(`/survey-units/${surveyUnits[0].idSu}`);
+    setIsAlreadyRedirected(false);
+  }
+
+  return (
+    <form onSubmit={handleSubmit} onReset={handleReset}>
+      <Stack>
+        <SearchSurveyUnitsHeader tab={tab} onChangeTab={(_, v) => setTab(v)} />
+        <SearchFilters
+          isResetButton={isResetButton}
+          inputProps={inputProps}
+          textFieldLabel="Rechercher une unité enquêtée par id métier ou raison sociale"
+          options={options}
+          sx={{ backgroundColor: theme.palette.Surfaces.Secondary, px: 6, pb: 3 }}
+        />
+      </Stack>
+      <Divider variant="fullWidth" />
+
+      <Stack sx={{ my: 3, px: 5 }} gap={3}>
+        {submittedValue && hasNoSurveyUnits && (
+          <SearchSurveyUnitsEmptyState
+            onChangeSearchType={onChangeSearchType}
+            searchType={surveyUnitsFilter.searchType}
+            search={surveyUnitsFilter.searchValue}
+          />
+        )}
+        {submittedValue && !hasNoSurveyUnits && (
+          <SearchSurveyUnitTable
+            surveyUnits={surveyUnits}
+            isLoading={isLoading}
+            hasNextPage={hasNextPage}
+            onVisible={fetchNextPage}
+          />
+        )}
+      </Stack>
+    </form>
   );
 };

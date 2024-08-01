@@ -15,12 +15,12 @@ export const SearchQuestionings = () => {
   const [stateFilter, setStateFilter] = useState("all");
 
   const { questionings: questioningFilter } = useGetSearchFilter();
-  const [valueSubmitted, setValueSubmitted] = useState(questioningFilter.search);
+  const [valueSubmitted, setValueSubmitted] = useState(questioningFilter.searchValue);
 
   const { onSubmit, onReset, inputProps, value } = useSearchForm("questionings", questioningFilter);
 
   const handleSubmit: FormEventHandler = e => {
-    setValueSubmitted(value.search);
+    setValueSubmitted(value.searchValue);
     onSubmit(e);
   };
 
@@ -29,7 +29,7 @@ export const SearchQuestionings = () => {
     onReset(e);
   };
 
-  const isResetButton = valueSubmitted === value.search && value.search !== "";
+  const isResetButton = valueSubmitted === value.searchValue && value.searchValue !== "";
 
   return (
     <Stack>

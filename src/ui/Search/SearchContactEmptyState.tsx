@@ -6,11 +6,11 @@ import { Row } from "../Row.tsx";
 
 type Props = {
   searchType: string;
-  search: string;
+  searchValue: string;
   onChangeSearchType: (type: string) => void;
 };
 
-export const EmptyState = ({ searchType, search, onChangeSearchType }: Props) => {
+export const SearchContactEmptyState = ({ searchType, searchValue, onChangeSearchType }: Props) => {
   return (
     <Card
       elevation={2}
@@ -19,7 +19,7 @@ export const EmptyState = ({ searchType, search, onChangeSearchType }: Props) =>
       }}
     >
       <Stack gap={2}>
-        <Typography variant="titleSmall">{`${getTitle(searchType)} "${search}"`}</Typography>
+        <Typography variant="titleSmall">{`${getTitle(searchType)} "${searchValue}"`}</Typography>
         <Row gap={2}>
           {searchType === "identifier" ? (
             <Button variant="text" type="submit" onClick={() => onChangeSearchType("name")}>

@@ -5,9 +5,9 @@ import CloseIcon from "@mui/icons-material/Close";
 type Props = {
   isResetButton: boolean;
   label: string;
-  inputProps: (name: "search") => {
-    id: "search";
-    name: "search";
+  inputProps: (name: "searchValue") => {
+    id: "searchValue";
+    name: "searchValue";
     value: string;
     onChange: (e: any) => void;
   };
@@ -26,7 +26,7 @@ export const SearchTextField = ({ isResetButton, label, inputProps }: Props) => 
           </InputAdornment>
         ),
         disableUnderline: true,
-        ...inputProps("search"),
+        ...inputProps("searchValue"),
       }}
       label={label}
       variant="filled"

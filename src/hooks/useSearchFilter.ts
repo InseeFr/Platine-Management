@@ -4,14 +4,15 @@ import { combine } from "zustand/middleware";
 
 export const base = {
   contacts: {
-    search: "",
+    searchValue: "",
     searchType: "identifier",
   },
   surveyUnits: {
-    search: "",
+    searchValue: "",
+    searchType: "identificationCode",
   },
   questionings: {
-    search: "",
+    searchValue: "",
   },
   surveys: {
     idSource: "",
