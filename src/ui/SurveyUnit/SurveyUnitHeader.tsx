@@ -3,17 +3,23 @@ import { APISchemas } from "../../types/api.ts";
 import { Button, Stack, Typography } from "@mui/material";
 import { Breadcrumbs } from "../Breadcrumbs.tsx";
 import { theme } from "../../theme.tsx";
+import { Link } from "../Link.tsx";
+import { useSetSearchFilter } from "../../hooks/useSearchFilter.ts";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDto"];
 };
 
 export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
+  const setFilter = useSetSearchFilter();
+
   const breadcrumbs = [
     { href: "/", title: "Accueil" },
     { href: "/survey-units", title: "Unités enquêtées" },
     `${surveyUnit.identificationName ?? ""}`,
   ];
+
+  const searchValue = surveyUnit.identificationName ?? surveyUnit.identificationCode ?? "";
 
   return (
     <Stack px={6} py={3} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
@@ -32,8 +38,11 @@ export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
         <Button
           variant="contained"
           size="large"
-          // TODO: remove disabled when get pages
-          disabled
+          component={Link}
+          to={`/questionings`}
+          onClick={() => {
+            return setFilter("questionings", { searchValue: searchValue });
+          }}
         >
           Voir ses interrogations
         </Button>

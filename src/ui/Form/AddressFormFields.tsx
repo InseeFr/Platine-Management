@@ -185,7 +185,7 @@ export const AddressFormFields = ({
             {...register("address.cedexCode")}
           />
           <Field
-            label="Bureau distributeur *"
+            label="Libellé Cedex * (exemple : Paris CEDEX 14) "
             error={errors.address?.cedexName?.message}
             {...register("address.cedexName")}
           />

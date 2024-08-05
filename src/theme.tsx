@@ -426,7 +426,6 @@ export const theme = createTheme({
           },
           ".MuiToggleButtonGroup-grouped:not(:first-of-type)": {
             zIndex: 1,
-            paddingLeft: 24,
           },
         },
       },
@@ -566,9 +565,6 @@ export const theme = createTheme({
           ".MuiChip-deleteIcon": {
             color: "#C71A01",
           },
-          "&:hover": {
-            backgroundColor: "#F9C3AF",
-          },
         },
         colorSuccess: {
           backgroundColor: "#D0E6D4",
@@ -576,11 +572,9 @@ export const theme = createTheme({
           ".MuiChip-deleteIcon": {
             color: "#057345",
           },
-          "&:hover": {
-            backgroundColor: "#A9C6AF",
-          },
         },
         root: {
+          borderRadius: "4px",
           ".MuiChip-deleteIcon": {
             color: palette.text.primary,
           },

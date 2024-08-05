@@ -53,6 +53,9 @@ export const LoadingCell = ({ columnLength }: { columnLength: number }) => {
 export const style = {
   root: {
     padding: "8px 0 !important",
+    ".MuiTablePagination-input": {
+      borderRadius: "16px",
+    },
     ".MuiTablePagination-displayedRows": {
       typography: "bodySmall",
     },
@@ -159,12 +162,7 @@ export const EmptyState = ({
   text: string;
 }) => {
   return (
-    <Card
-      elevation={2}
-      sx={{
-        mt: 3,
-      }}
-    >
+    <Card elevation={2}>
       <Stack sx={{ justifyContent: "center", alignItems: "center", gap: 2, height: "30vh" }}>
         <Typography variant="titleSmall" color={theme.palette.text.tertiary}>
           {text}

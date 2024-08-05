@@ -1,16 +1,18 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
+import { Chip, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
 import { Column, CustomTableFooter, TableHeader } from "../TableComponents.tsx";
 import { style } from "../Contact/SearchContactTable.tsx";
 import { Link } from "../Link.tsx";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useState } from "react";
+import { collectStates } from "../Contact/CollectStateSelect.tsx";
+import { getCollectStateChipColor } from "../Contact/ContactSurveysTableRow.tsx";
 
 const questioningsMock = [
   {
     campaign: "ARTI",
     identificationCode: "SIRET/ID",
     contacts: ["John Doe", "Juliette Doe"],
-    status: "A expertiser",
+    status: "HC",
     lastCommunication: "PND",
     collectDate: "2024-07-19T07:23:20.156Z",
   },
@@ -18,8 +20,8 @@ const questioningsMock = [
     campaign: "ARTI",
     identificationCode: "SIRET/ID",
     contacts: ["Juliette Doe"],
-    status: "Validée",
-    lastCommunication: "VALINT",
+    status: "VALPAP",
+    lastCommunication: "PARTIELINT",
     collectDate: undefined,
   },
 ];
@@ -66,8 +68,34 @@ export const SearchQuestioningTable = () => {
                   <TableCell>{questioning.campaign}</TableCell>
                   <TableCell>{questioning.identificationCode}</TableCell>
                   <TableCell>{questioning.contacts.join(", ")}</TableCell>
-                  <TableCell>{questioning.status}</TableCell>
-                  <TableCell>{questioning.lastCommunication}</TableCell>
+                  <TableCell>
+                    <Chip
+                      sx={{
+                        typography: "titleSmall",
+                        maxWidth: "14vw",
+                        textOverflow: "ellipsis",
+                      }}
+                      label={
+                        collectStates.find(state => state.value === questioning.status)?.label ??
+                        "Aucun état"
+                      }
+                      color={getCollectStateChipColor(questioning.status)}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Chip
+                      sx={{
+                        typography: "titleSmall",
+                        maxWidth: "14vw",
+                        textOverflow: "ellipsis",
+                      }}
+                      label={
+                        collectStates.find(state => state.value === questioning.lastCommunication)
+                          ?.label ?? "Aucun état"
+                      }
+                      color={getCollectStateChipColor(questioning.status)}
+                    />
+                  </TableCell>
                   <TableCell>
                     {questioning.collectDate
                       ? new Date(Date.parse(questioning.collectDate)).toLocaleDateString()
@@ -81,14 +109,16 @@ export const SearchQuestioningTable = () => {
             })}
         </TableBody>
 
-        <CustomTableFooter
-          count={questioningsMock.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          labelDisplayedRows="interrogations affichées"
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={onChangeRowsPerPage}
-        />
+        {questioningsMock.length > rowsPerPage && (
+          <CustomTableFooter
+            count={questioningsMock.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            labelDisplayedRows="interrogations affichées"
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={onChangeRowsPerPage}
+          />
+        )}
       </Table>
     </TableContainer>
   );

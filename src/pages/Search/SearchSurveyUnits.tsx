@@ -31,6 +31,7 @@ export const SearchSurveyUnits = () => {
     isSuccess,
   } = useInfiniteFetchQuery(
     endpoint,
+    // TODO: remove comment when backend is updated
     // {
     //   query: useSearchFilterParams("surveyUnits"),
     // },

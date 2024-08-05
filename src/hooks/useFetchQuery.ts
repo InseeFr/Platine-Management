@@ -83,6 +83,9 @@ export function useInfiniteFetchQuery<Path extends APIPaths, Options extends API
     ...result,
     results,
     count: result?.data?.pages[0]?.totalElements,
+    hasNextPage: result.data?.pages.length
+      ? result.data?.pages.length < result.data?.pages[0].totalPages
+      : false,
   };
 }
 

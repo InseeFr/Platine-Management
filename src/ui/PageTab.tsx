@@ -13,7 +13,6 @@ export const PageTab = ({ label, ...props }: Props) => {
         paddingY: 2,
         typography: "titleSmall",
         textTransform: "none",
-        letterSpacing: 0.4,
       }}
       {...props}
     />

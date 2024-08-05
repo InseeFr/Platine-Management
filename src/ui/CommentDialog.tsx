@@ -1,6 +1,7 @@
 import TextField from "@mui/material/TextField";
 import DialogContent from "@mui/material/DialogContent";
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
+import { useState } from "react";
 
 type Props = {
   open: boolean;
@@ -9,10 +10,16 @@ type Props = {
 };
 
 export const CommentDialog = ({ open, onSubmit, onCancel }: Props) => {
+  const [comment, setComment] = useState("");
+
+  const handleCancel = () => {
+    setComment("");
+    onCancel();
+  };
   return (
     <Dialog
       open={open}
-      onClose={onCancel}
+      onClose={handleCancel}
       PaperProps={{
         component: "form",
         onSubmit: onSubmit,
@@ -35,14 +42,21 @@ export const CommentDialog = ({ open, onSubmit, onCancel }: Props) => {
           InputProps={{
             disableUnderline: true,
           }}
+          onChange={e => setComment(e.target.value)}
           variant="filled"
         />
       </DialogContent>
       <DialogActions sx={{ pb: 3, pr: 3, gap: 1 }}>
-        <Button variant="outlined" onClick={onCancel} size="large">
+        <Button variant="outlined" onClick={handleCancel} size="large">
           Annuler
         </Button>
-        <Button type="submit" variant="contained" size="large">
+        <Button
+          type="submit"
+          variant="contained"
+          size="large"
+          disabled={comment.length === 0}
+          onClick={() => setComment("")}
+        >
           Valider
         </Button>
       </DialogActions>

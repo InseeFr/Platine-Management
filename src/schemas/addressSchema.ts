@@ -73,7 +73,7 @@ export const addressSchema = z
     if (codeChoice === "cedexCode" && (cedexName === undefined || cedexName === "")) {
       refinementContext.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Veuillez saisir un bureau distributeur.",
+        message: "Veuillez saisir un libellé Cedex.",
         path: ["cedexName"],
       });
     }

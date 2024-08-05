@@ -7,6 +7,7 @@ import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
 import { SearchTextField } from "../../ui/SearchTextField.tsx";
 import { Divider, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { SearchQuestioningTable } from "../../ui/Questioning/SearchQuestioningTable.tsx";
+import { EmptyState } from "../../ui/TableComponents.tsx";
 
 export const SearchQuestionings = () => {
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Interrogations"];
@@ -15,21 +16,21 @@ export const SearchQuestionings = () => {
   const [stateFilter, setStateFilter] = useState("all");
 
   const { questionings: questioningFilter } = useGetSearchFilter();
-  const [valueSubmitted, setValueSubmitted] = useState(questioningFilter.searchValue);
+  const [submittedValue, setSubmittedValue] = useState(questioningFilter.searchValue);
 
   const { onSubmit, onReset, inputProps, value } = useSearchForm("questionings", questioningFilter);
 
   const handleSubmit: FormEventHandler = e => {
-    setValueSubmitted(value.searchValue);
+    setSubmittedValue(value.searchValue);
     onSubmit(e);
   };
 
   const handleReset: FormEventHandler = e => {
-    setValueSubmitted("");
+    setSubmittedValue("");
     onReset(e);
   };
 
-  const isResetButton = valueSubmitted === value.searchValue && value.searchValue !== "";
+  const isResetButton = submittedValue === value.searchValue && value.searchValue !== "";
 
   return (
     <Stack>
@@ -110,7 +111,11 @@ export const SearchQuestionings = () => {
               name={"lastCommunication"}
             />
           </Row> */}
-          <SearchQuestioningTable />
+          {/* TODO: rework condition when get data */}
+          {submittedValue && (
+            <EmptyState isFiltered={isResetButton} text={"Aucune interrogation trouvée."} />
+          )}
+          {!submittedValue && <SearchQuestioningTable />}
         </Stack>
       </form>
     </Stack>

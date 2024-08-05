@@ -17,7 +17,6 @@ export const SearchSurveyUnitsHeader = ({ tab, onChangeTab }: Props) => {
       px={6}
       py={3}
       sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}
-      gap={2}
     >
       <Stack>
         <Breadcrumbs items={breadcrumbs} />

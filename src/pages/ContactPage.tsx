@@ -9,8 +9,12 @@ import { theme } from "../theme.tsx";
 import { Button, Typography } from "@mui/material";
 import { ContactDetailsCard } from "../ui/Contact/ContactDetailsCard.tsx";
 import { ContactCampaignsCard } from "../ui/Contact/ContactCampaignsCard.tsx";
+import { Link } from "../ui/Link.tsx";
+import { useSetSearchFilter } from "../hooks/useSearchFilter.ts";
 
 export const ContactPage = () => {
+  const setFilter = useSetSearchFilter();
+
   const { id } = useParams();
   const { data: contact, refetch } = useFetchQuery("/api/contacts/{id}", {
     urlParams: {
@@ -32,7 +36,7 @@ export const ContactPage = () => {
     );
   }
 
-  const contactTitle =
+  const contactName =
     contact.firstName || contact.lastName
       ? `${contact.firstName ?? ""} ${contact.lastName ?? ""}`
       : "Prénom Nom";
@@ -40,21 +44,24 @@ export const ContactPage = () => {
   const breadcrumbs = [
     { href: "/", title: "Accueil" },
     { href: "/contacts", title: "Contacts" },
-    contactTitle,
+    contactName,
   ];
 
   return (
     <>
       <Stack sx={{ backgroundColor: theme.palette.Surfaces.Secondary, px: 6, py: 3 }}>
         <Breadcrumbs items={breadcrumbs} />
-        <Typography variant="headlineLarge">{contactTitle}</Typography>
+        <Typography variant="headlineLarge">{contactName}</Typography>
         <Row justifyContent={"space-between"}>
           <Typography variant="bodyMedium">{`ID connexion : #${contact.identifier}`}</Typography>
           <Button
             variant="contained"
             size="large"
-            // TODO: remove disabled when get pages
-            disabled
+            component={Link}
+            to={`/questionings`}
+            onClick={() => {
+              return setFilter("questionings", { searchValue: contactName });
+            }}
           >
             Voir les interrogations
           </Button>
