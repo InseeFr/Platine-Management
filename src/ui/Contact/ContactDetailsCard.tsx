@@ -8,7 +8,7 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
 type Props = {
-  contact: APISchemas["ContactFirstLoginDto"];
+  contact: APISchemas["ContactDetailsDto"];
   onSave: () => void;
 };
 

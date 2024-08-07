@@ -8,6 +8,8 @@ import { SearchTextField } from "../../ui/SearchTextField.tsx";
 import { Divider, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { SearchQuestioningTable } from "../../ui/Questioning/SearchQuestioningTable.tsx";
 import { EmptyState } from "../../ui/TableComponents.tsx";
+import { FilterSelect } from "../../ui/FilterSelect.tsx";
+import { collectStates } from "../../ui/Contact/CollectStateSelect.tsx";
 
 export const SearchQuestionings = () => {
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Interrogations"];
@@ -93,24 +95,11 @@ export const SearchQuestionings = () => {
             label={"Rechercher par identifiant métier ou contact ou unité enquêtée"}
             inputProps={inputProps}
           />
-          {/* TODO: add filters when get specs 
-           <Row gap={3}>
-            <FilterSelect
-              options={[]}
-              label={"Campagne"}
-              name={"campaign"}
-            />
-            <FilterSelect
-              options={[]}
-              label={"Statut"}
-              name={"status"}
-            />
-            <FilterSelect
-              options={[]}
-              label={"Dernière communication"}
-              name={"lastCommunication"}
-            />
-          </Row> */}
+          <Row gap={3}>
+            <FilterSelect options={[]} label={"Campagne"} name={"campaign"} />
+            <FilterSelect options={collectStates} label={"Statut"} name={"status"} />
+            <FilterSelect options={[]} label={"Dernière communication"} name={"lastCommunication"} />
+          </Row>
           {/* TODO: rework condition when get data */}
           {submittedValue && (
             <EmptyState isFiltered={isResetButton} text={"Aucune interrogation trouvée."} />

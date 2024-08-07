@@ -7,7 +7,17 @@ export type APISchemas = {
     /* Format: date-time */
     timestamp?: string
   }
-  UserDto: { identifier: string; role?: string }
+  UserDto: {
+    identifier: string
+    role?: string
+    name?: string
+    firstName?: string
+    organization?: string
+    accreditedSources?: Array<string>
+    /* Format: date-time */
+    creationDate?: string
+    creationAuthor?: string
+  }
   SurveyDto: {
     id: string
     sourceId: string
@@ -57,12 +67,17 @@ export type APISchemas = {
     city?: string
     zipCode?: string
   }
-  SourceCompleteDto: {
+  SourceOnlineStatusDto: {
     id: string
     longWording?: string
     shortWording?: string
     periodicity?: "X" | "A" | "S" | "T" | "B" | "M"
+    /* Indicates whether or not you need to use the my surveys portal */
     mandatoryMySurveys?: boolean
+    /* Indicates if the source should be force closed */
+    forceClose?: boolean
+    messageInfoSurveyOffline?: string
+    messageSurveyOffline?: string
     ownerId?: string
     supportId?: string
   }
@@ -93,8 +108,8 @@ export type APISchemas = {
     main?: boolean
   }
   QuestioningWebclientDto: {
-    idPartitioning?: string
-    modelName?: string
+    idPartitioning: string
+    modelName: string
     surveyUnit?: APISchemas["SurveyUnitDto"]
     contacts?: Array<APISchemas["ContactAccreditationDto"]>
   }
@@ -274,12 +289,12 @@ export type APISchemas = {
     firstName?: string
     function?: string
     email?: string
-    city?: string
     phone?: string
+    otherPhone?: string
+    usualCompanyName?: string
     address?: APISchemas["AddressDto"]
-    listSurveyUnitNames?: string[]
-    listSourcesId? : string[]
   }
+  ParamsDto: { paramId?: string; paramValue?: string }
   JsonNode: {}
   UserEventDto: {
     /* Format: int64 */
@@ -343,17 +358,23 @@ export type APISchemas = {
   }
   OnGoingDto: { ongoing?: boolean }
   PageableObject: {
-    /* Format: int64 */
-    offset?: number
-    sort?: APISchemas["SortObject"]
+    paged?: boolean
     /* Format: int32 */
     pageNumber?: number
     /* Format: int32 */
     pageSize?: number
+    /* Format: int64 */
+    offset?: number
+    sort?: Array<APISchemas["SortObject"]>
     unpaged?: boolean
-    paged?: boolean
   }
-  SortObject: { empty?: boolean; sorted?: boolean; unsorted?: boolean }
+  SortObject: {
+    direction?: string
+    nullHandling?: string
+    ascending?: boolean
+    property?: string
+    ignoreCase?: boolean
+  }
   UserPage: {
     content?: Array<APISchemas["UserDto"]>
     pageable?: APISchemas["PageableObject"]
@@ -367,7 +388,7 @@ export type APISchemas = {
     size?: number
     /* Format: int32 */
     number?: number
-    sort?: APISchemas["SortObject"]
+    sort?: Array<APISchemas["SortObject"]>
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
@@ -417,7 +438,7 @@ export type APISchemas = {
     size?: number
     /* Format: int32 */
     number?: number
-    sort?: APISchemas["SortObject"]
+    sort?: Array<APISchemas["SortObject"]>
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
@@ -569,234 +590,12 @@ export type APISchemas = {
     size?: number
     /* Format: int32 */
     number?: number
-    sort?: APISchemas["SortObject"]
+    sort?: Array<APISchemas["SortObject"]>
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
   }
-  SupportPage: {
-    content?: Array<APISchemas["SupportDto"]>
-    pageable?: APISchemas["PageableObject"]
-    last?: boolean
-    /* Format: int64 */
-    totalElements?: number
-    /* Format: int32 */
-    totalPages?: number
-    first?: boolean
-    /* Format: int32 */
-    size?: number
-    /* Format: int32 */
-    number?: number
-    sort?: APISchemas["SortObject"]
-    /* Format: int32 */
-    numberOfElements?: number
-    empty?: boolean
-  }
-  SourcePage: {
-    content?: Array<APISchemas["SourceCompleteDto"]>
-    pageable?: APISchemas["PageableObject"]
-    last?: boolean
-    /* Format: int64 */
-    totalElements?: number
-    /* Format: int32 */
-    totalPages?: number
-    first?: boolean
-    /* Format: int32 */
-    size?: number
-    /* Format: int32 */
-    number?: number
-    sort?: APISchemas["SortObject"]
-    /* Format: int32 */
-    numberOfElements?: number
-    empty?: boolean
-  }
-  PeriodDto: { value?: string; label?: string; period?: string }
-  PeriodicityDto: { value: string; label: string }
-  EligibleDto: { eligible?: string }
-  OwnerPage: {
-    content?: Array<APISchemas["OwnerDto"]>
-    pageable?: APISchemas["PageableObject"]
-    last?: boolean
-    /* Format: int64 */
-    totalElements?: number
-    /* Format: int32 */
-    totalPages?: number
-    first?: boolean
-    /* Format: int32 */
-    size?: number
-    /* Format: int32 */
-    number?: number
-    sort?: APISchemas["SortObject"]
-    /* Format: int32 */
-    numberOfElements?: number
-    empty?: boolean
-  }
-  JSONCollectionWrapperCampaignMoogDto: {
-    datas?: Array<APISchemas["CampaignMoogDto"]>
-  }
-  JSONCollectionWrapperUpload: { datas?: Array<APISchemas["Upload"]> }
-  Questioning: {
-    /* Format: int64 */
-    id?: number
-    modelName?: string
-    idPartitioning?: string
-    questioningAccreditations?: Array<APISchemas["QuestioningAccreditation"]>
-    questioningEvents?: Array<APISchemas["QuestioningEvent"]>
-    surveyUnit?: APISchemas["SurveyUnit"]
-  }
-  QuestioningAccreditation: {
-    /* Format: int64 */
-    id?: number
-    /* Format: date-time */
-    creationDate?: string
-    creationAuthor?: string
-    idContact?: string
-    questioning?: APISchemas["Questioning"]
-    main?: boolean
-  }
-  QuestioningEvent: {
-    /* Format: int64 */
-    id?: number
-    /* Format: date-time */
-    date?: string
-    type?:
-      | "INITLA"
-      | "FOLLOWUP"
-      | "PND"
-      | "WASTE"
-      | "PARTIELINT"
-      | "HC"
-      | "VALPAP"
-      | "VALINT"
-      | "REFUSAL"
-    questioning?: APISchemas["Questioning"]
-    upload?: APISchemas["Upload"]
-    payload?: APISchemas["JsonNode"]
-  }
-  SurveyUnit: {
-    idSu?: string
-    questionings?: Array<APISchemas["Questioning"]>
-    identificationCode?: string
-    identificationName?: string
-    surveyUnitAddress?: APISchemas["SurveyUnitAddress"]
-  }
-  SurveyUnitAddress: {
-    /* Format: int64 */
-    id?: number
-    streetNumber?: string
-    repetitionIndex?: string
-    streetType?: string
-    streetName?: string
-    addressSupplement?: string
-    cityName?: string
-    zipCode?: string
-    cedexCode?: string
-    cedexName?: string
-    specialDistribution?: string
-    countryCode?: string
-    countryName?: string
-  }
-  Upload: {
-    /* Format: int64 */
-    id?: number
-    /* Format: int64 */
-    date?: number
-    questioningEvents?: Array<APISchemas["QuestioningEvent"]>
-  }
-  JSONCollectionWrapperMoogExtractionRowDto: {
-    datas?: Array<APISchemas["MoogExtractionRowDto"]>
-  }
-  MoogExtractionRowDto: {
-    status?: string
-    dateInfo?: string
-    idSu?: string
-    idContact?: string
-    lastname?: string
-    firstname?: string
-    address?: string
-    batchNumber?: string
-    /* Format: int32 */
-    pnd?: number
-  }
-  MoogCampaign: {
-    id?: string
-    label?: string
-    /* Format: int64 */
-    collectionStartDate?: number
-    /* Format: int64 */
-    collectionEndDate?: number
-  }
-  MoogQuestioningEventDto: {
-    idManagementMonitoringInfo?: string
-    surveyUnit?: APISchemas["MoogSearchDto"]
-    status?: string
-    upload?: string
-    /* Format: int64 */
-    dateInfo?: number
-  }
-  MoogSearchDto: {
-    idContact?: string
-    idSu?: string
-    address?: string
-    campaign?: APISchemas["MoogCampaign"]
-    firstName?: string
-    lastname?: string
-    batchNumber?: string
-    source?: string
-  }
-  PageMoogSearchDto: {
-    /* Format: int64 */
-    totalElements?: number
-    /* Format: int32 */
-    totalPages?: number
-    first?: boolean
-    last?: boolean
-    /* Format: int32 */
-    size?: number
-    content?: Array<APISchemas["MoogSearchDto"]>
-    /* Format: int32 */
-    number?: number
-    sort?: APISchemas["SortObject"]
-    /* Format: int32 */
-    numberOfElements?: number
-    pageable?: APISchemas["PageableObject"]
-    empty?: boolean
-  }
-  HealthcheckDto: { status?: string }
-  ContactPage: {
-    content?: Array<APISchemas["ContactDto"]>
-    pageable?: APISchemas["PageableObject"]
-    last?: boolean
-    /* Format: int64 */
-    totalElements?: number
-    /* Format: int32 */
-    totalPages?: number
-    first?: boolean
-    /* Format: int32 */
-    size?: number
-    /* Format: int32 */
-    number?: number
-    sort?: APISchemas["SortObject"]
-    /* Format: int32 */
-    numberOfElements?: number
-    empty?: boolean
-  }
-  ContactFirstLoginDto: {
-    identifier: string
-    externalId?: string
-    civility?: "Female" | "Male" | "Undefined"
-    lastName?: string
-    firstName?: string
-    function?: string
-    email?: string
-    phone?: string
-    otherPhone?: string
-    usualCompanyName?: string
-    firstConnect?: boolean
-    address?: APISchemas["AddressDto"]
-  }
-  AccreditationDetailDto: {
-    sourceId?: string
+  SurveyUnitPartitioningDto: {
     sourceWording?: string
     /* Format: int32 */
     year?: number
@@ -926,23 +725,274 @@ export type APISchemas = {
       | "B04"
       | "B05"
       | "B06"
-    campaignId?: string
-    partition?: string
-    identificationCode?: string
-    identificationName?: string
+    campaignWording?: string
+    /* Format: date-time */
     partioningClosingDate?: string
-    surveyUnitId?: string
-    lastEvent?: string
-    questioningId?: string
-    main?: boolean
-    surveyId?: string
-    questioningUrl?: string
+    lastEvent?:
+      | "INITLA"
+      | "FOLLOWUP"
+      | "PND"
+      | "WASTE"
+      | "PARTIELINT"
+      | "HC"
+      | "VALPAP"
+      | "VALINT"
+      | "REFUSAL"
   }
-  SearchContactDto: {
+  SearchSurveyUnitContactDto: {
     identifier?: string
     firstName?: string
     lastName?: string
     email?: string
+    city?: string
+    phoneNumber?: string
+    function?: string
+  }
+  SearchSurveyUnitDto: {
+    idSu?: string
+    identificationCode?: string
+    identificationName?: string
+  }
+  SupportPage: {
+    content?: Array<APISchemas["SupportDto"]>
+    pageable?: APISchemas["PageableObject"]
+    last?: boolean
+    /* Format: int64 */
+    totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
+    first?: boolean
+    /* Format: int32 */
+    size?: number
+    /* Format: int32 */
+    number?: number
+    sort?: Array<APISchemas["SortObject"]>
+    /* Format: int32 */
+    numberOfElements?: number
+    empty?: boolean
+  }
+  SourcePage: {
+    content?: Array<APISchemas["SourceDto"]>
+    pageable?: APISchemas["PageableObject"]
+    last?: boolean
+    /* Format: int64 */
+    totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
+    first?: boolean
+    /* Format: int32 */
+    size?: number
+    /* Format: int32 */
+    number?: number
+    sort?: Array<APISchemas["SortObject"]>
+    /* Format: int32 */
+    numberOfElements?: number
+    empty?: boolean
+  }
+  OpenDto: {
+    opened?: boolean
+    forceClose?: boolean
+    messageSurveyOffline?: string
+    messageInfoSurveyOffline?: string
+  }
+  AssistanceDto: { mailAssistance?: string; surveyUnitId?: string }
+  Address: {
+    StreetNumber?: string
+    RepetitionIndex?: string
+    StreetType?: string
+    StreetName?: string
+    AddressSupplement?: string
+    CityName?: string
+    ZipCode?: string
+    CedexCode?: string
+    CedexName?: string
+    SpecialDistribution?: string
+    CountryCode?: string
+    CountryName?: string
+  }
+  Contact: {
+    Identity?: string
+    Email?: string
+    PhoneNumber?: string
+    UsualCompanyName?: string
+    Address?: APISchemas["Address"]
+  }
+  QuestioningInformations: {
+    ReturnDate?: string
+    Logo?: string
+    UrlLogout?: string
+    UrlAssistance?: string
+    Contact?: APISchemas["Contact"]
+    SurveyUnit?: APISchemas["SurveyUnit"]
+  }
+  SurveyUnit: { Label?: string; IdSu?: string; IdentificationName?: string }
+  PeriodDto: { value?: string; label?: string; period?: string }
+  PeriodicityDto: { value: string; label: string }
+  EligibleDto: { eligible?: string }
+  OwnerPage: {
+    content?: Array<APISchemas["OwnerDto"]>
+    pageable?: APISchemas["PageableObject"]
+    last?: boolean
+    /* Format: int64 */
+    totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
+    first?: boolean
+    /* Format: int32 */
+    size?: number
+    /* Format: int32 */
+    number?: number
+    sort?: Array<APISchemas["SortObject"]>
+    /* Format: int32 */
+    numberOfElements?: number
+    empty?: boolean
+  }
+  JSONCollectionWrapperCampaignMoogDto: {
+    datas?: Array<APISchemas["CampaignMoogDto"]>
+  }
+  JSONCollectionWrapperUpload: { datas?: Array<APISchemas["Upload"]> }
+  Questioning: {
+    /* Format: int64 */
+    id?: number
+    modelName?: string
+    idPartitioning?: string
+    questioningAccreditations?: Array<APISchemas["QuestioningAccreditation"]>
+    questioningEvents?: Array<APISchemas["QuestioningEvent"]>
+    surveyUnit?: APISchemas["SurveyUnit"]
+  }
+  QuestioningAccreditation: {
+    /* Format: int64 */
+    id?: number
+    /* Format: date-time */
+    creationDate?: string
+    creationAuthor?: string
+    idContact?: string
+    questioning?: APISchemas["Questioning"]
+    main?: boolean
+  }
+  QuestioningEvent: {
+    /* Format: int64 */
+    id?: number
+    /* Format: date-time */
+    date?: string
+    type?:
+      | "INITLA"
+      | "FOLLOWUP"
+      | "PND"
+      | "WASTE"
+      | "PARTIELINT"
+      | "HC"
+      | "VALPAP"
+      | "VALINT"
+      | "REFUSAL"
+    questioning?: APISchemas["Questioning"]
+    upload?: APISchemas["Upload"]
+    payload?: APISchemas["JsonNode"]
+  }
+  Upload: {
+    /* Format: int64 */
+    id?: number
+    /* Format: int64 */
+    date?: number
+    questioningEvents?: Array<APISchemas["QuestioningEvent"]>
+  }
+  JSONCollectionWrapperMoogExtractionRowDto: {
+    datas?: Array<APISchemas["MoogExtractionRowDto"]>
+  }
+  MoogExtractionRowDto: {
+    status?: string
+    dateInfo?: string
+    idSu?: string
+    idContact?: string
+    lastname?: string
+    firstname?: string
+    address?: string
+    batchNumber?: string
+    /* Format: int32 */
+    pnd?: number
+  }
+  MoogCampaign: {
+    id?: string
+    label?: string
+    /* Format: int64 */
+    collectionStartDate?: number
+    /* Format: int64 */
+    collectionEndDate?: number
+  }
+  MoogQuestioningEventDto: {
+    idManagementMonitoringInfo?: string
+    surveyUnit?: APISchemas["MoogSearchDto"]
+    status?: string
+    upload?: string
+    /* Format: int64 */
+    dateInfo?: number
+  }
+  MoogSearchDto: {
+    idContact?: string
+    idSu?: string
+    address?: string
+    campaign?: APISchemas["MoogCampaign"]
+    firstName?: string
+    lastname?: string
+    batchNumber?: string
+    source?: string
+  }
+  PageMoogSearchDto: {
+    /* Format: int64 */
+    totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
+    first?: boolean
+    last?: boolean
+    pageable?: APISchemas["PageableObject"]
+    /* Format: int32 */
+    size?: number
+    content?: Array<APISchemas["MoogSearchDto"]>
+    /* Format: int32 */
+    number?: number
+    sort?: Array<APISchemas["SortObject"]>
+    /* Format: int32 */
+    numberOfElements?: number
+    empty?: boolean
+  }
+  HealthcheckDto: { status?: string }
+  ContactPage: {
+    content?: Array<APISchemas["ContactDto"]>
+    pageable?: APISchemas["PageableObject"]
+    last?: boolean
+    /* Format: int64 */
+    totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
+    first?: boolean
+    /* Format: int32 */
+    size?: number
+    /* Format: int32 */
+    number?: number
+    sort?: Array<APISchemas["SortObject"]>
+    /* Format: int32 */
+    numberOfElements?: number
+    empty?: boolean
+  }
+  ContactDetailsDto: {
+    identifier: string
+    externalId?: string
+    civility?: "Female" | "Male" | "Undefined"
+    lastName?: string
+    firstName?: string
+    function?: string
+    email?: string
+    phone?: string
+    otherPhone?: string
+    usualCompanyName?: string
+    address?: APISchemas["AddressDto"]
+    listCampaigns?: Array<string>
+  }
+  SearchContactDto: {
+    firstName?: string
+    lastName?: string
+    email?: string
+    identifier?: string
   }
   MyQuestioningDto: {
     identificationCode?: string
@@ -974,27 +1024,10 @@ export type APISchemas = {
     size?: number
     /* Format: int32 */
     number?: number
-    sort?: APISchemas["SortObject"]
+    sort?: Array<APISchemas["SortObject"]>
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
-  }
-  SurveyUnitContact: {
-    identifier: string,
-    firstName?:string,
-    lastName?: string,
-    city?:string,
-    email?: string,
-    listSourcesId?: string[],
-    phoneNumber?: string
-  }
-  SurveyUnitPartitioning: {
-    sourceWording?: string,
-    year?: number,
-    period?: string,
-    campaignWording?: string,
-    partitioningClosingDate?: string,
-    lastEvent?: string,
   }
 }
 
@@ -1033,7 +1066,7 @@ export type APIEndpoints = {
     responses: {
       get: APISchemas["SurveyUnitDto"]
       put: APISchemas["SurveyUnitDto"]
-      delete: {}
+      delete: null
     }
     requests:
       | { method?: "get"; urlParams: { id: string } }
@@ -1056,8 +1089,8 @@ export type APIEndpoints = {
   }
   "/api/sources/{id}": {
     responses: {
-      get: APISchemas["SourceCompleteDto"]
-      put: APISchemas["SourceCompleteDto"]
+      get: APISchemas["SourceOnlineStatusDto"]
+      put: APISchemas["SourceOnlineStatusDto"]
       delete: null
     }
     requests:
@@ -1065,7 +1098,7 @@ export type APIEndpoints = {
       | {
           method: "put"
           urlParams: { id: string }
-          body: APISchemas["SourceCompleteDto"]
+          body: APISchemas["SourceOnlineStatusDto"]
         }
       | { method: "delete"; urlParams: { id: string } }
   }
@@ -1136,7 +1169,7 @@ export type APIEndpoints = {
         }
   }
   "/api/contacts/{id}": {
-    responses: { get: APISchemas["ContactFirstLoginDto"]; put: APISchemas["ContactDto"]; delete: null }
+    responses: { get: APISchemas["ContactDetailsDto"]; put: APISchemas["ContactDto"]; delete: null }
     requests:
       | { method?: "get"; urlParams: { id: string } }
       | {
@@ -1170,6 +1203,16 @@ export type APIEndpoints = {
           body: APISchemas["CampaignDto"]
         }
       | { method: "delete"; urlParams: { id: string } }
+  }
+  "/api/campaigns/{id}/params": {
+    responses: { get: Array<APISchemas["ParamsDto"]>; put: null }
+    requests:
+      | { method?: "get"; urlParams: { id: string } }
+      | {
+          method: "put"
+          urlParams: { id: string }
+          body: APISchemas["ParamsDto"]
+        }
   }
   "/api/users/contact-events": {
     responses: { post: APISchemas["UserEventDto"] }
@@ -1269,6 +1312,10 @@ export type APIEndpoints = {
     responses: { get: null }
     requests: { method?: "get"; urlParams: { id: string } }
   }
+  "/api/users/v2": {
+    responses: { get: Array<APISchemas["UserDto"]> }
+    requests: { method?: "get" }
+  }
   "/api/temp/moog/campaigns/{idCampaign}/monitoring/progress": {
     responses: { get: APISchemas["JSONCollectionWrapperMoogProgressDto"] }
     requests: { method?: "get"; urlParams: { idCampaign: string } }
@@ -1328,15 +1375,28 @@ export type APIEndpoints = {
       }
     }
   }
+  "/api/survey-units/{id}/questionings": {
+    responses: { get: Array<APISchemas["QuestioningDto"]> }
+    requests: { method?: "get"; urlParams: { id: string } }
+  }
+  "/api/survey-units/{id}/partitionings": {
+    responses: { get: Array<APISchemas["SurveyUnitPartitioningDto"]> }
+    requests: {
+      method?: "get"
+      query?: { isFilterOpened?: boolean }
+      urlParams: { id: string }
+    }
+  }
+  "/api/survey-units/{id}/contacts": {
+    responses: { get: Array<APISchemas["SearchSurveyUnitContactDto"]> }
+    requests: { method?: "get"; urlParams: { id: string } }
+  }
   "/api/survey-units/search": {
     responses: { get: APISchemas["SurveyUnitPage"] }
     requests: {
       method?: "get"
       query?: {
-        idSu?: string
-        /* Format: int32 */
-        identificationCode?: string
-        identificationName?: string
+        param?: string
         /* Format: int32 */
         page?: number
         /* Format: int32 */
@@ -1344,18 +1404,6 @@ export type APIEndpoints = {
         sort?: string
       }
     }
-  }
-  "/api/survey-units/{id}/questionings": {
-    responses: { get: Array<APISchemas["QuestioningDto"]> }
-    requests: { method?: "get"; urlParams: { id: string } }
-  }
-  "/api/survey-units/{id}/contacts": {
-    responses: {get: Array<APISchemas["SurveyUnitContact"]>}
-    requests: { method?: "get"; urlParams: { id: string } }
-  }
-  "/api/survey-units/{id}/partitionings": {
-    responses: {get: Array<APISchemas["SurveyUnitPartitioning"]>}
-    requests: { method?: "get"; urlParams: { id: string } }
   }
   "/api/supports": {
     responses: { get: APISchemas["SupportPage"] }
@@ -1387,6 +1435,10 @@ export type APIEndpoints = {
     responses: { get: Array<APISchemas["SurveyDto"]> }
     requests: { method?: "get"; urlParams: { id: string } }
   }
+  "/api/source/{id}/is-opened": {
+    responses: { get: APISchemas["OpenDto"] }
+    requests: { method?: "get"; urlParams: { id: string } }
+  }
   "/api/questionings/{id}": {
     responses: { get: APISchemas["QuestioningDto"] }
     requests: {
@@ -1407,6 +1459,24 @@ export type APIEndpoints = {
       }
     }
   }
+  "/api/questioning/{id}/assistance": {
+    responses: { get: APISchemas["AssistanceDto"] }
+    requests: {
+      method?: "get"
+      urlParams: {
+        /* Format: int64 */
+        id: number
+      }
+    }
+  }
+  "/api/questioning/informations/{idCampaign}/{idUE}": {
+    responses: { get: null }
+    requests: {
+      method?: "get"
+      query?: { role?: string }
+      urlParams: { idCampaign: string; idUE: string }
+    }
+  }
   "/api/periods": {
     responses: { get: Array<APISchemas["PeriodDto"]> }
     requests: { method?: "get" }
@@ -1417,7 +1487,7 @@ export type APIEndpoints = {
   }
   "/api/periodicities/{periodicity}/periods": {
     responses: { get: Array<APISchemas["PeriodDto"]> }
-    requests: { method?: "get"; query: { periodicity: string } }
+    requests: { method?: "get"; urlParams: { periodicity: string } }
   }
   "/api/partitionings/{idPartitioning}/survey-units/{idSu}/state": {
     responses: { get: APISchemas["StateDto"] }
@@ -1447,7 +1517,7 @@ export type APIEndpoints = {
     }
   }
   "/api/owners/{id}/sources": {
-    responses: { get: {} }
+    responses: { get: Array<APISchemas["SourceDto"]> }
     requests: { method?: "get"; urlParams: { id: string } }
   }
   "/api/moog/readonly/campaigns/{idCampaign}/survey-unit/{surveyUnitId}": {
@@ -1500,7 +1570,7 @@ export type APIEndpoints = {
     }
   }
   "/api/main-contact": {
-    responses: { get: {} }
+    responses: { get: APISchemas["ContactDto"] }
     requests: {
       method?: "get"
       query: { partitioning: string; "survey-unit": string }
@@ -1527,27 +1597,12 @@ export type APIEndpoints = {
     responses: { get: Array<APISchemas["ContactEventDto"]> }
     requests: { method?: "get"; urlParams: { id: string } }
   }
-  "/api/contacts/{id}/accreditations": {
-    responses: { get: Array<APISchemas["AccreditationDetailDto"]> }
-    requests: { method?: "get"; urlParams: { id: string } }
-  }
   "/api/contacts/search": {
     responses: { get: APISchemas["ContactPage"] }
     requests: {
       method?: "get"
       query?: {
-        identifier?: string
-        lastName?: string
-        firstName?: string
-        email?: string
-        city?: string
-        function?: string
-        idSu?: string
-        identificationCode?: string
-        identificationName?: string
-        source?: string
-        year?: string
-        period?: string
+        param?: string
         /* Format: int32 */
         page?: number
         /* Format: int32 */
@@ -1558,7 +1613,7 @@ export type APIEndpoints = {
   }
   "/api/contacts/questionings": {
     responses: { get: null }
-    requests: { method?: "get" }
+    requests: { method?: "get"; query: { idec: string } }
   }
   "/api/check-habilitation": {
     responses: { get: APISchemas["HabilitationDto"] }

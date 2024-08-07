@@ -86,7 +86,7 @@ export const DeletePrimaryWithoutSecondaryDialog = ({ open, onClose }: CommonCon
 type PrimaryContactRightsProps = CommonContactRightsProps & {
   type?: string;
   contactIdentifier: string;
-  secondaryContacts: APISchemas["ContactFirstLoginDto"][];
+  secondaryContacts: APISchemas["ContactDetailsDto"][];
   onChangePrimaryContact: (selectedContact: string) => void;
 };
 

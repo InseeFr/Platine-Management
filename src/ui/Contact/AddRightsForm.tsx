@@ -10,7 +10,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { APISchemas } from "../../types/api.ts";
 
 type Props = {
-  contact: APISchemas["ContactFirstLoginDto"];
+  contact: APISchemas["ContactDetailsDto"];
 };
 
 export const AddRightsForm = ({ contact }: Props) => {

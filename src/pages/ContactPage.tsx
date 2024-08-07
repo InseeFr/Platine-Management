@@ -22,13 +22,7 @@ export const ContactPage = () => {
     },
   });
 
-  const { data: surveys } = useFetchQuery("/api/contacts/{id}/accreditations", {
-    urlParams: {
-      id: id!,
-    },
-  });
-
-  if (!contact || !surveys) {
+  if (!contact) {
     return (
       <Row justifyContent="center" py={10}>
         <CircularProgress />
@@ -71,7 +65,7 @@ export const ContactPage = () => {
       <Stack px={5} pt={3}>
         <Row alignItems={"start"} gap={3}>
           <ContactDetailsCard contact={contact} onSave={refetch} />
-          <ContactCampaignsCard surveys={surveys} />
+          <ContactCampaignsCard campaigns={contact.listCampaigns} />
         </Row>
       </Stack>
     </>

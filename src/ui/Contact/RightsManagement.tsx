@@ -15,7 +15,7 @@ import { ContactRightsDeleteDialog } from "./ContactRightsDeleteDialog.tsx";
 import { Alert } from "../Alert.tsx";
 
 type Props = {
-  contact: APISchemas["ContactFirstLoginDto"];
+  contact: APISchemas["ContactDetailsDto"];
 };
 
 export const RightsManagement = ({ contact }: Props) => {

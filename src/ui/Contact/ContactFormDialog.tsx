@@ -20,7 +20,7 @@ import { contactSchema } from "../../schemas/contactSchema.ts";
 type Props = {
   open: boolean;
   onClose: () => void;
-  contact: APISchemas["ContactFirstLoginDto"];
+  contact: APISchemas["ContactDetailsDto"];
   onSave: () => void;
 };
 

@@ -11,7 +11,7 @@ import { AssociateSurveysTable } from "./AssociateSurveysTable.tsx";
 import { AssociateAnotherAccount } from "./AssociateAnotherAccount.tsx";
 
 type Props = {
-  contact: APISchemas["ContactFirstLoginDto"];
+  contact: APISchemas["ContactDetailsDto"];
 };
 
 export const IdsManagement = ({ contact }: Props) => {

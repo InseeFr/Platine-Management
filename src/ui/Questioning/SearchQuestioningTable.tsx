@@ -5,26 +5,43 @@ import { Link } from "../Link.tsx";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useState } from "react";
 import { collectStates } from "../Contact/CollectStateSelect.tsx";
-import { getCollectStateChipColor } from "../Contact/ContactSurveysTableRow.tsx";
 
 const questioningsMock = [
   {
+    id: 1,
     campaign: "ARTI",
     identificationCode: "SIRET/ID",
-    contacts: ["John Doe", "Juliette Doe"],
+    contacts: [
+      { id: 1, firstName: "John", lastName: "Doe" },
+      { id: 2, firstName: "Juliette", lastName: "Doe" },
+    ],
     status: "HC",
     lastCommunication: "PND",
     collectDate: "2024-07-19T07:23:20.156Z",
   },
   {
+    id: 2,
     campaign: "ARTI",
     identificationCode: "SIRET/ID",
-    contacts: ["Juliette Doe"],
+    contacts: [{ id: 2, firstName: "Juliette", lastName: "Doe" }],
     status: "VALPAP",
     lastCommunication: "PARTIELINT",
     collectDate: undefined,
   },
 ];
+
+export const getCollectStateChipColor = (state?: string) => {
+  switch (state) {
+    case "PND":
+    case "PARTIELINT":
+      return "error";
+    case "VALINT":
+    case "VALPAP":
+      return "success";
+    default:
+      return "default";
+  }
+};
 
 const columns: readonly Column[] = [
   { id: "campaign", label: "Campagne", minWidth: "95px" },
@@ -63,11 +80,22 @@ export const SearchQuestioningTable = () => {
                   sx={style.root}
                   hover
                   component={Link}
-                  to={`/questionings/`}
+                  to={`/questionings/${questioning.id}`}
                 >
                   <TableCell>{questioning.campaign}</TableCell>
                   <TableCell>{questioning.identificationCode}</TableCell>
-                  <TableCell>{questioning.contacts.join(", ")}</TableCell>
+                  <TableCell
+                    sx={{
+                      maxWidth: "10vw",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {questioning.contacts
+                      .map(contact => `${contact.firstName} ${contact.lastName}`)
+                      .join(", ")}
+                  </TableCell>
                   <TableCell>
                     <Chip
                       sx={{

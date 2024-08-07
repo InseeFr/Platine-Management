@@ -20,7 +20,7 @@ const columns: readonly Column[] = [
 ];
 
 type Props = {
-  contacts?: APISchemas["SurveyUnitContact"][];
+  contacts?: APISchemas["SearchSurveyUnitContactDto"][];
   isLoading: boolean;
 };
 
@@ -61,7 +61,9 @@ export const SurveyUnitContactTable = (props: Props) => {
                   {contact.phoneNumber && contact.phoneNumber !== "" ? contact.phoneNumber : "/"}
                 </TableCell>
                 <TableCell>{contact.email && contact.email !== "" ? contact.email : "/"}</TableCell>
-                <TableCell>TODO DATA</TableCell>
+                <TableCell>
+                  {contact.function && contact.function !== "" ? contact.function : "/"}
+                </TableCell>
                 <TableCell align="right">
                   <ChevronRightIcon fontSize="navigateIcon" color="primary" />
                 </TableCell>

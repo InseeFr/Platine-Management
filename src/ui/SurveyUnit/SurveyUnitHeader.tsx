@@ -24,7 +24,7 @@ export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
   return (
     <Stack px={6} py={3} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
       <Breadcrumbs items={breadcrumbs} />
-      <Typography component={"span"} variant="headlineLarge" fontWeight={600}>
+      <Typography component={"span"} variant="headlineLarge">
         {surveyUnit.identificationName}
       </Typography>
       <Row justifyContent={"space-between"} pt={1}>

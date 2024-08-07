@@ -4,13 +4,13 @@ import { Link } from "../Link.tsx";
 import { APISchemas } from "../../types/api.ts";
 
 type Props = {
-  surveys?: APISchemas["AccreditationDetailDto"][];
+  campaigns?: APISchemas["ContactDetailsDto"]["listCampaigns"];
 };
 
 export const ContactCampaignsCard = (props: Props) => {
-  const surveys = props.surveys ?? [];
-  const uniqueSurveys = removeDuplicates(surveys);
-  const hasSurveys = uniqueSurveys?.length > 0;
+  const campaigns = props.campaigns ?? [];
+
+  const hasCampaigns = campaigns?.length > 0;
 
   return (
     <Card sx={{ p: 3, flex: 1 }} elevation={2}>
@@ -21,16 +21,16 @@ export const ContactCampaignsCard = (props: Props) => {
             <ListItemText primary={<Typography variant="titleSmall">Campagnes</Typography>} />
           </ListItem>
 
-          {hasSurveys ? (
-            uniqueSurveys.map(survey => (
-              <div key={survey.questioningId}>
+          {hasCampaigns ? (
+            campaigns.map(campaign => (
+              <div key={campaign}>
                 <Divider variant="fullWidth" component="li" />
                 <ListItem
                   sx={{ pl: 0 }}
                   secondaryAction={
                     <Button
                       component={Link}
-                      to={`/campaigns${survey.campaignId}`}
+                      to={`/campaigns/${campaign}`}
                       sx={{ typography: "titleSmall" }}
                       endIcon={<OpenInNewIcon />}
                       // TODO: remove disabled when get pages
@@ -40,9 +40,7 @@ export const ContactCampaignsCard = (props: Props) => {
                     </Button>
                   }
                 >
-                  <ListItemText
-                    primary={<Typography variant="bodyMedium">{survey.campaignId}</Typography>}
-                  />
+                  <ListItemText primary={<Typography variant="bodyMedium">{campaign}</Typography>} />
                 </ListItem>
               </div>
             ))
@@ -60,15 +58,3 @@ export const ContactCampaignsCard = (props: Props) => {
     </Card>
   );
 };
-
-function removeDuplicates(
-  surveys: APISchemas["AccreditationDetailDto"][],
-): APISchemas["AccreditationDetailDto"][] {
-  const uniqueMap = new Map<string, APISchemas["AccreditationDetailDto"]>();
-  surveys.forEach(s => {
-    if (s.campaignId && !uniqueMap.has(s.campaignId)) {
-      uniqueMap.set(s.campaignId, s);
-    }
-  });
-  return Array.from(uniqueMap.values());
-}

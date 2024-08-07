@@ -8,7 +8,7 @@ import { Alert, Stack, Typography } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 type Props = {
-  contact: APISchemas["ContactFirstLoginDto"];
+  contact: APISchemas["ContactDetailsDto"];
 };
 
 export const AssociateAnotherAccount = ({ contact }: Props) => {
