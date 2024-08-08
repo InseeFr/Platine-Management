@@ -1,7 +1,11 @@
 import { Divider, Stack } from "@mui/material";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
 import { FormEventHandler, useState } from "react";
-import { useGetSearchFilter, useSearchForm } from "../../hooks/useSearchFilter.ts";
+import {
+  useGetSearchFilter,
+  useSearchFilterParams,
+  useSearchForm,
+} from "../../hooks/useSearchFilter.ts";
 import { theme } from "../../theme.tsx";
 import { SearchSurveyUnitTable } from "../../ui/SurveyUnit/SearchSurveyUnitTable.tsx";
 import { useNavigate } from "react-router-dom";
@@ -31,11 +35,10 @@ export const SearchSurveyUnits = () => {
     isSuccess,
   } = useInfiniteFetchQuery(
     endpoint,
-    // TODO: remove comment when backend is updated
-    // {
-    //   query: useSearchFilterParams("surveyUnits"),
-    // },
-    // !!surveyUnitsFilter.search,
+    {
+      query: { param: useSearchFilterParams("surveyUnits").searchValue },
+    },
+    !!surveyUnitsFilter.searchValue,
   );
 
   const [tab, setTab] = useState("me");

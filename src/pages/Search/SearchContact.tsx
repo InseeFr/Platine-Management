@@ -28,7 +28,7 @@ export const SearchContacts = () => {
   const { contacts: contactsFilter } = useGetSearchFilter();
   const [submittedValue, setSubmittedValue] = useState(contactsFilter.searchValue);
   const [submittedType, setSubmittedType] = useState(contactsFilter.searchType);
-  const [isAlreadyRedirected, setIsAlreadyRedirected] = useState(false);
+  const [isRedirected, setIsRedirected] = useState(false);
 
   const {
     results: contacts,
@@ -52,7 +52,7 @@ export const SearchContacts = () => {
   const handleSubmit: FormEventHandler = e => {
     setSubmittedValue(value.searchValue);
     setSubmittedType(value.searchType);
-    setIsAlreadyRedirected(true);
+    setIsRedirected(true);
     onSubmit(e);
   };
 
@@ -94,9 +94,9 @@ export const SearchContacts = () => {
     );
   }
 
-  if (contacts.length === 1 && isAlreadyRedirected) {
+  if (contacts.length === 1 && isRedirected) {
     navigate(`/contacts/${contacts[0].identifier}`);
-    setIsAlreadyRedirected(false);
+    setIsRedirected(false);
   }
 
   return (

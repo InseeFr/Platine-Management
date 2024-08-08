@@ -9,7 +9,7 @@ import { Divider, ToggleButton, ToggleButtonGroup, Typography } from "@mui/mater
 import { SearchQuestioningTable } from "../../ui/Questioning/SearchQuestioningTable.tsx";
 import { EmptyState } from "../../ui/TableComponents.tsx";
 import { FilterSelect } from "../../ui/FilterSelect.tsx";
-import { collectStates } from "../../ui/Contact/CollectStateSelect.tsx";
+import { collectStatus } from "../../constants/collectStatus.ts";
 
 export const SearchQuestionings = () => {
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Interrogations"];
@@ -97,7 +97,7 @@ export const SearchQuestionings = () => {
           />
           <Row gap={3}>
             <FilterSelect options={[]} label={"Campagne"} name={"campaign"} />
-            <FilterSelect options={collectStates} label={"Statut"} name={"status"} />
+            <FilterSelect options={collectStatus} label={"Statut"} name={"status"} />
             <FilterSelect options={[]} label={"Dernière communication"} name={"lastCommunication"} />
           </Row>
           {/* TODO: rework condition when get data */}

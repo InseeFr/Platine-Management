@@ -1,10 +1,7 @@
-import { Chip, Paper, Table, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
+import { Paper, Table, TableBody, TableContainer } from "@mui/material";
 import { Column, CustomTableFooter, TableHeader } from "../TableComponents.tsx";
-import { style } from "../Contact/SearchContactTable.tsx";
-import { Link } from "../Link.tsx";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useState } from "react";
-import { collectStates } from "../Contact/CollectStateSelect.tsx";
+import { SearchQuestioningTableRow } from "./SearchQuestioningTableRow.tsx";
 
 const questioningsMock = [
   {
@@ -14,6 +11,9 @@ const questioningsMock = [
     contacts: [
       { id: 1, firstName: "John", lastName: "Doe" },
       { id: 2, firstName: "Juliette", lastName: "Doe" },
+      { id: 3, firstName: "Walter", lastName: "Doe" },
+      { id: 4, firstName: "Jack", lastName: "Doe" },
+      { id: 5, firstName: "Jane", lastName: "Doe" },
     ],
     status: "HC",
     lastCommunication: "PND",
@@ -73,70 +73,10 @@ export const SearchQuestioningTable = () => {
         <TableBody>
           {questioningsMock
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map(questioning => {
-              return (
-                <TableRow
-                  key={questioning.identificationCode}
-                  sx={style.root}
-                  hover
-                  component={Link}
-                  to={`/questionings/${questioning.id}`}
-                >
-                  <TableCell>{questioning.campaign}</TableCell>
-                  <TableCell>{questioning.identificationCode}</TableCell>
-                  <TableCell
-                    sx={{
-                      maxWidth: "10vw",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                    }}
-                  >
-                    {questioning.contacts
-                      .map(contact => `${contact.firstName} ${contact.lastName}`)
-                      .join(", ")}
-                  </TableCell>
-                  <TableCell>
-                    <Chip
-                      sx={{
-                        typography: "titleSmall",
-                        maxWidth: "14vw",
-                        textOverflow: "ellipsis",
-                      }}
-                      label={
-                        collectStates.find(state => state.value === questioning.status)?.label ??
-                        "Aucun état"
-                      }
-                      color={getCollectStateChipColor(questioning.status)}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Chip
-                      sx={{
-                        typography: "titleSmall",
-                        maxWidth: "14vw",
-                        textOverflow: "ellipsis",
-                      }}
-                      label={
-                        collectStates.find(state => state.value === questioning.lastCommunication)
-                          ?.label ?? "Aucun état"
-                      }
-                      color={getCollectStateChipColor(questioning.status)}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    {questioning.collectDate
-                      ? new Date(Date.parse(questioning.collectDate)).toLocaleDateString()
-                      : "N/A"}
-                  </TableCell>
-                  <TableCell align="right">
-                    <ChevronRightIcon fontSize="navigateIcon" color="primary" />
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            .map(questioning => (
+              <SearchQuestioningTableRow key={questioning.id} questioning={questioning} />
+            ))}
         </TableBody>
-
         {questioningsMock.length > rowsPerPage && (
           <CustomTableFooter
             count={questioningsMock.length}

@@ -28,13 +28,21 @@ export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
         {surveyUnit.identificationName}
       </Typography>
       <Row justifyContent={"space-between"} pt={1}>
-        <Typography component={"span"} variant="bodyMedium">
-          {`ID métier : ${surveyUnit.identificationCode}`}
-          <Typography component={"span"} variant="bodyMedium" sx={{ px: 1 }}>
-            |
+        {surveyUnit.identificationCode ? (
+          <Typography component={"span"} variant="bodyMedium">
+            {`ID métier : ${surveyUnit.identificationCode}`}
+            <Typography component={"span"} variant="bodyMedium" sx={{ px: 1 }}>
+              |
+            </Typography>
+            {`ID technique : ${surveyUnit.idSu}`}
           </Typography>
-          {`ID technique : ${surveyUnit.idSu}`}
-        </Typography>
+        ) : (
+          surveyUnit.idSu && (
+            <Typography component={"span"} variant="bodyMedium">
+              {`ID technique : ${surveyUnit.idSu}`}
+            </Typography>
+          )
+        )}
         <Button
           variant="contained"
           size="large"
