@@ -11,7 +11,7 @@ export const SurveyUnitInfos = ({ surveyUnit }: Props) => {
   return (
     <Stack px={3} gap={3}>
       <SurveyUnitDetailsCard surveyUnit={surveyUnit} />
-      <SurveyUnitCommentsCard />
+      <SurveyUnitCommentsCard surveyUnit={surveyUnit} />
     </Stack>
   );
 };

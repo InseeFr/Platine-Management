@@ -7,7 +7,7 @@ import { Link } from "../Link.tsx";
 import { useSetSearchFilter } from "../../hooks/useSearchFilter.ts";
 
 type Props = {
-  surveyUnit: APISchemas["SurveyUnitDto"];
+  surveyUnit: APISchemas["SurveyUnitDetailsDto"];
 };
 
 export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
@@ -51,6 +51,7 @@ export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
           onClick={() => {
             return setFilter("questionings", { searchValue: searchValue });
           }}
+          disabled={!surveyUnit.hasQuestionings}
         >
           Voir ses interrogations
         </Button>

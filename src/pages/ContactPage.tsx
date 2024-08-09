@@ -56,6 +56,7 @@ export const ContactPage = () => {
             onClick={() => {
               return setFilter("questionings", { searchValue: contactName });
             }}
+            disabled={contact.listCampaigns?.length === 0}
           >
             Voir les interrogations
           </Button>

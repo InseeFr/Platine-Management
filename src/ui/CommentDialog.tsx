@@ -7,9 +7,10 @@ type Props = {
   open: boolean;
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   onCancel: () => void;
+  isPending: boolean;
 };
 
-export const CommentDialog = ({ open, onSubmit, onCancel }: Props) => {
+export const CommentDialog = ({ open, onSubmit, onCancel, isPending }: Props) => {
   const [comment, setComment] = useState("");
 
   const handleCancel = () => {
@@ -54,7 +55,7 @@ export const CommentDialog = ({ open, onSubmit, onCancel }: Props) => {
           type="submit"
           variant="contained"
           size="large"
-          disabled={comment.length === 0}
+          disabled={comment.length === 0 || isPending}
           onClick={() => setComment("")}
         >
           Valider

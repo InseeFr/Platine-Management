@@ -305,6 +305,7 @@ export type APISchemas = {
     type?: string
     payload?: APISchemas["JsonNode"]
   }
+  SurveyUnitCommentInputDto: { comment?: string; author?: string }
   SourceAccreditationDto: {
     /* Format: date-time */
     creationDate?: string
@@ -594,6 +595,20 @@ export type APISchemas = {
     /* Format: int32 */
     numberOfElements?: number
     empty?: boolean
+  }
+  SurveyUnitCommentOutputDto: {
+    comment?: string
+    author?: string
+    /* Format: date-time */
+    commentDate?: string
+  }
+  SurveyUnitDetailsDto: {
+    idSu: string
+    identificationCode?: string
+    identificationName?: string
+    address?: APISchemas["SurveyUnitAddressDto"]
+    hasQuestionings?: boolean
+    comments?: Array<APISchemas["SurveyUnitCommentOutputDto"]>
   }
   SurveyUnitPartitioningDto: {
     sourceWording?: string
@@ -989,10 +1004,10 @@ export type APISchemas = {
     listCampaigns?: Array<string>
   }
   SearchContactDto: {
+    identifier?: string
+    email?: string
     firstName?: string
     lastName?: string
-    email?: string
-    identifier?: string
   }
   MyQuestioningDto: {
     identificationCode?: string
@@ -1064,7 +1079,7 @@ export type APIEndpoints = {
   }
   "/api/survey-units/{id}": {
     responses: {
-      get: APISchemas["SurveyUnitDto"]
+      get: APISchemas["SurveyUnitDetailsDto"]
       put: APISchemas["SurveyUnitDto"]
       delete: null
     }
@@ -1217,6 +1232,14 @@ export type APIEndpoints = {
   "/api/users/contact-events": {
     responses: { post: APISchemas["UserEventDto"] }
     requests: { method: "post"; body: APISchemas["UserEventDto"] }
+  }
+  "/api/survey-units/{id}/comment": {
+    responses: { post: APISchemas["SurveyUnitCommentInputDto"] }
+    requests: {
+      method: "post"
+      urlParams: { id: string }
+      body: APISchemas["SurveyUnitCommentInputDto"]
+    }
   }
   "/api/source/{id}/source-accreditations": {
     responses: {

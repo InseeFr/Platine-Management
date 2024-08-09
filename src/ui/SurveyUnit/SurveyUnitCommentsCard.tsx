@@ -5,29 +5,57 @@ import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
 import { Row } from "../Row.tsx";
 import IconButton from "@mui/material/IconButton";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
-import { CardInner } from "../Contact/CardInner.tsx";
 import Typography from "@mui/material/Typography";
 import { theme } from "../../theme.tsx";
 import { List } from "@mui/material";
 import { useToggle } from "react-use";
 import { CommentDialog } from "../CommentDialog.tsx";
+import { useMaybeUser } from "../../hooks/useAuth.ts";
+import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
+import { useQueryClient } from "@tanstack/react-query";
+import { APISchemas } from "../../types/api.ts";
 
-const commentsMock = ["Comment 1", "Comment 2", "Comment 3", "Comment 4", "Comment 5"];
+type Props = {
+  surveyUnit: APISchemas["SurveyUnitDetailsDto"];
+};
 
-export const SurveyUnitCommentsCard = () => {
+export const SurveyUnitCommentsCard = ({ surveyUnit }: Props) => {
+  const user = useMaybeUser();
+  const queryClient = useQueryClient();
+
+  const { mutateAsync, isPending } = useFetchMutation("/api/survey-units/{id}/comment", "post");
+
   const [hasDialog, toggleDialog] = useToggle(false);
 
-  const handleSave = (event: React.FormEvent<HTMLFormElement>) => {
+  const comments = surveyUnit.comments
+    ? surveyUnit.comments.sort((a, b) => b.commentDate!.localeCompare(a.commentDate!))
+    : [];
+
+  const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const comment = formData.get("comment");
-    console.log(comment);
+    const comment = formData.get("comment")?.toString();
+
+    if (!comment) {
+      return;
+    }
+
+    await mutateAsync({
+      body: {
+        comment,
+        author: user?.preferred_username,
+      },
+      urlParams: { id: surveyUnit.idSu },
+    });
+
+    queryClient.invalidateQueries({ queryKey: ["/api/survey-units/{id}"] });
+
     toggleDialog();
   };
 
   return (
     <Card sx={{ p: 3, pt: 4, width: "50%", minWidth: "fit-content" }} elevation={2}>
-      <Stack>
+      <Stack gap={2}>
         <Row gap={2} justifyContent={"space-between"}>
           <CardtitleWithIcon
             IconComponent={ModeCommentOutlinedIcon}
@@ -37,10 +65,9 @@ export const SurveyUnitCommentsCard = () => {
             <AddCommentOutlinedIcon color="primary" fontSize="navigateIcon" />
           </IconButton>
         </Row>
-        {commentsMock.length > 0 && (
+        {comments.length > 0 && (
           <List
             sx={{
-              mt: 2,
               minHeight: "fit-content",
               maxHeight: "30vh",
               overflowY: "scroll",
@@ -48,15 +75,34 @@ export const SurveyUnitCommentsCard = () => {
             }}
           >
             <Stack gap={1} pr={3}>
-              {/* Todo add real comments */}
-              {commentsMock.map(comment => (
-                <CardInner key={comment} content={<Typography>{comment}</Typography>} />
+              {comments.map(c => (
+                <Card
+                  sx={{ px: 2, py: 2, backgroundColor: "#EBEFF5" }}
+                  elevation={0}
+                  key={c.commentDate}
+                >
+                  <Stack gap={1}>
+                    <Typography variant="titleSmall">{c.comment}</Typography>
+                    {c.commentDate ? (
+                      <Typography variant="itemSmall">
+                        {`${c.author} - ${new Date(Date.parse(c.commentDate)).toLocaleDateString()} `}
+                      </Typography>
+                    ) : (
+                      <Typography variant="itemSmall">{c.author}</Typography>
+                    )}
+                  </Stack>
+                </Card>
               ))}
             </Stack>
           </List>
         )}
       </Stack>
-      <CommentDialog open={hasDialog} onCancel={toggleDialog} onSubmit={handleSave} />
+      <CommentDialog
+        open={hasDialog}
+        isPending={isPending}
+        onCancel={toggleDialog}
+        onSubmit={handleSave}
+      />
     </Card>
   );
 };
