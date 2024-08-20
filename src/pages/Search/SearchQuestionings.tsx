@@ -104,7 +104,7 @@ export const SearchQuestionings = () => {
           {submittedValue && (
             <EmptyState isFiltered={isResetButton} text={"Aucune interrogation trouvée."} />
           )}
-          {!submittedValue && <SearchQuestioningTable />}
+          {!submittedValue && <SearchQuestioningTable stateFilter={stateFilter} />}
         </Stack>
       </form>
     </Stack>

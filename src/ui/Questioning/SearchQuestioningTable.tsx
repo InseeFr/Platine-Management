@@ -1,4 +1,12 @@
-import { Paper, Table, TableBody, TableContainer } from "@mui/material";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableSortLabel,
+} from "@mui/material";
 import { Column, CustomTableFooter, TableHeader } from "../TableComponents.tsx";
 import { useState } from "react";
 import { SearchQuestioningTableRow } from "./SearchQuestioningTableRow.tsx";
@@ -18,6 +26,7 @@ const questioningsMock = [
     status: "HC",
     lastCommunication: "PND",
     collectDate: "2024-07-19T07:23:20.156Z",
+    quality: "5",
   },
   {
     id: 2,
@@ -27,6 +36,17 @@ const questioningsMock = [
     status: "VALPAP",
     lastCommunication: "PARTIELINT",
     collectDate: undefined,
+    quality: "8",
+  },
+  {
+    id: 3,
+    campaign: "ARTI",
+    identificationCode: "SIRET/ID",
+    contacts: [{ id: 2, firstName: "Juliette", lastName: "Doe" }],
+    status: "VALPAP",
+    lastCommunication: "PARTIELINT",
+    collectDate: undefined,
+    quality: "2",
   },
 ];
 
@@ -53,9 +73,25 @@ const columns: readonly Column[] = [
   { id: "actions", label: "", minWidth: "50px" },
 ];
 
-export const SearchQuestioningTable = () => {
+const columnsWithQuality: readonly Column[] = [
+  { id: "campaign", label: "Campagne", minWidth: "95px" },
+  { id: "identificationCode", label: "ID métier", minWidth: "100px" },
+  { id: "contacts", label: "Contacts", minWidth: "95px" },
+  { id: "status", label: "Statut", minWidth: "150px" },
+  { id: "lastCommunication", label: "Dernière communication", minWidth: "150px" },
+  { id: "collectDate", label: "Date de collecte", minWidth: "150px" },
+  { id: "quality", label: "Qualité", minWidth: "50px" },
+  { id: "actions", label: "", minWidth: "50px" },
+];
+
+type Props = {
+  stateFilter: string;
+};
+
+export const SearchQuestioningTable = ({ stateFilter }: Props) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [order, setOrder] = useState<"asc" | "desc">();
 
   const handleChangePage = (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
@@ -66,20 +102,56 @@ export const SearchQuestioningTable = () => {
     setPage(0);
   };
 
+  const sortedQuestioning = order
+    ? questioningsMock.sort((a, b) =>
+        order === "asc" ? a.quality.localeCompare(b.quality) : b.quality.localeCompare(a.quality),
+      )
+    : questioningsMock;
+
   return (
     <TableContainer component={Paper} elevation={2}>
       <Table aria-label="search questionings table">
-        <TableHeader columns={columns} />
+        {stateFilter === "recovery" ? (
+          <TableHead sx={{ backgroundColor: "#EBEFF5" }}>
+            {columnsWithQuality.map(column => (
+              <TableCell
+                key={column.id}
+                style={{ minWidth: column.minWidth }}
+                sx={{ typography: "titleSmall", py: 2 }}
+                align={column.align ?? "left"}
+                sortDirection={column.id === "quality" ? order : false}
+              >
+                {column.id === "quality" ? (
+                  <TableSortLabel
+                    active
+                    direction={order}
+                    onClick={() => (order === "asc" ? setOrder("desc") : setOrder("asc"))}
+                  >
+                    {column.label}
+                  </TableSortLabel>
+                ) : (
+                  <>{column.label} </>
+                )}
+              </TableCell>
+            ))}
+          </TableHead>
+        ) : (
+          <TableHeader columns={columns} />
+        )}
         <TableBody>
-          {questioningsMock
+          {sortedQuestioning
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map(questioning => (
-              <SearchQuestioningTableRow key={questioning.id} questioning={questioning} />
+              <SearchQuestioningTableRow
+                key={questioning.id}
+                questioning={questioning}
+                stateFilter={stateFilter}
+              />
             ))}
         </TableBody>
-        {questioningsMock.length > rowsPerPage && (
+        {sortedQuestioning.length > rowsPerPage && (
           <CustomTableFooter
-            count={questioningsMock.length}
+            count={sortedQuestioning.length}
             rowsPerPage={rowsPerPage}
             page={page}
             labelDisplayedRows="interrogations affichées"

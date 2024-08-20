@@ -18,10 +18,12 @@ type Props = {
     status: string;
     lastCommunication: string;
     collectDate?: string;
+    quality: string;
   };
+  stateFilter: string;
 };
 
-export const SearchQuestioningTableRow = ({ questioning }: Props) => {
+export const SearchQuestioningTableRow = ({ questioning, stateFilter }: Props) => {
   return (
     <TableRow
       key={questioning.identificationCode}
@@ -39,6 +41,7 @@ export const SearchQuestioningTableRow = ({ questioning }: Props) => {
             .slice(2)
             .map(contact => `${contact.firstName} ${contact.lastName}`)
             .join(", ")}
+          sx={{ maxWidth: "30vw" }}
         >
           <TableCell sx={{ wordBreak: "break-word" }}>
             {`${questioning.contacts[0].firstName} ${questioning.contacts[0].lastName}, ${questioning.contacts[1].firstName} ${questioning.contacts[1].lastName}...`}
@@ -54,7 +57,7 @@ export const SearchQuestioningTableRow = ({ questioning }: Props) => {
         <Chip
           sx={{
             typography: "titleSmall",
-            maxWidth: "14vw",
+            maxWidth: stateFilter === "recovery" ? "11vw" : "14vw",
             textOverflow: "ellipsis",
           }}
           label={collectStatus.find(state => state.value === questioning.status)?.label ?? "Aucun état"}
@@ -65,7 +68,7 @@ export const SearchQuestioningTableRow = ({ questioning }: Props) => {
         <Chip
           sx={{
             typography: "titleSmall",
-            maxWidth: "14vw",
+            maxWidth: stateFilter === "recovery" ? "11vw" : "14vw",
             textOverflow: "ellipsis",
           }}
           label={
@@ -80,6 +83,7 @@ export const SearchQuestioningTableRow = ({ questioning }: Props) => {
           ? new Date(Date.parse(questioning.collectDate)).toLocaleDateString()
           : "N/A"}
       </TableCell>
+      {stateFilter === "recovery" && <TableCell>{questioning.quality}</TableCell>}
       <TableCell align="right">
         <ChevronRightIcon fontSize="navigateIcon" color="primary" />
       </TableCell>
