@@ -6,7 +6,7 @@ export const Home = () => {
 
   return (
     <Stack gap={4} p={4}>
-      <Typography variant="headlineLarge">{`Bonjour ${user?.preferred_username} !`}</Typography>
+      <Typography variant="headlineLarge">{`Bonjour ${user?.given_name} ${user?.family_name} !`}</Typography>
       <Alert severity="info">
         MAINTENANCE : le CEI va tester la pose automatique de page de maintenance mardi 21 janvier et
         mercredi 1er février.

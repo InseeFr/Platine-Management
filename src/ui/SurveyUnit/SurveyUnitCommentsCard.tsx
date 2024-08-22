@@ -43,7 +43,7 @@ export const SurveyUnitCommentsCard = ({ surveyUnit }: Props) => {
     await mutateAsync({
       body: {
         comment,
-        author: user?.preferred_username,
+        author: `${user?.given_name} ${user?.family_name}`,
       },
       urlParams: { id: surveyUnit.idSu },
     });
