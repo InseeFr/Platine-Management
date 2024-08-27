@@ -31,8 +31,6 @@ const civilities = [
 
 export const repetitionIndexEnum = ["BIS", "TER", "QUATER", "QUINQUIES", "A", "B", "C", "D"];
 
-export const streetTypeEnum = ["rue", "avenue"]; // TODO: use real street type
-
 export const styles = {
   Grid: {
     display: "grid",
