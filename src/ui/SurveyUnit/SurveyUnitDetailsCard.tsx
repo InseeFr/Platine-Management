@@ -22,11 +22,7 @@ export const SurveyUnitDetailsCard = ({ surveyUnit }: Props) => {
           />
           <Divider orientation="vertical" variant="fullWidth" />
           <Stack spacing={1}>
-            <TitleAndInformation title={"Siren"} value={"NO DATA"} />
-            <TitleAndInformation title={"Groupe"} value={"NO DATA"} />
-            <TitleAndInformation title={"Niveau de gestion"} value={"NO DATA"} />
-            <TitleAndInformation title={"Qualité"} value={"NO DATA"} />
-            <TitleAndInformation title={"Taille"} value={"NO DATA"} />
+            <TitleAndInformation title={"Siren"} value={surveyUnit.identificationCode} />
           </Stack>
         </Box>
       </Stack>
@@ -34,14 +30,14 @@ export const SurveyUnitDetailsCard = ({ surveyUnit }: Props) => {
   );
 };
 
-const TitleAndInformation = ({ title, value }: { title: string; value: string }) => {
+const TitleAndInformation = ({ title, value }: { title: string; value?: string }) => {
   return (
     <Row justifyContent={"space-between"}>
       <Typography component={"span"} variant="bodyMedium">
         {title}
       </Typography>
       <Typography component={"span"} variant="titleSmall">
-        {value}
+        {value ?? "-"}
       </Typography>
     </Row>
   );

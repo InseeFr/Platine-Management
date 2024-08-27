@@ -6,7 +6,6 @@ import {
   useSearchFilterParams,
   useSearchForm,
 } from "../../hooks/useSearchFilter.ts";
-import { theme } from "../../theme.tsx";
 import { SearchSurveyUnitTable } from "../../ui/SurveyUnit/SearchSurveyUnitTable.tsx";
 import { useNavigate } from "react-router-dom";
 import { SearchFilters } from "../../ui/Search/SearchFilters.tsx";
@@ -25,7 +24,7 @@ export const SearchSurveyUnits = () => {
   const { surveyUnits: surveyUnitsFilter } = useGetSearchFilter();
   const [submittedValue, setSubmittedValue] = useState(surveyUnitsFilter.searchValue);
   const [submittedType, setSubmittedType] = useState(surveyUnitsFilter.searchType);
-  const [isAlreadyRedirected, setIsAlreadyRedirected] = useState(false);
+  const [isRedirected, setIsRedirected] = useState(false);
 
   const {
     results: surveyUnits,
@@ -36,7 +35,7 @@ export const SearchSurveyUnits = () => {
   } = useInfiniteFetchQuery(
     endpoint,
     {
-      query: { param: useSearchFilterParams("surveyUnits").searchValue },
+      query: { ...useSearchFilterParams("surveyUnits"), pageSize: 20, sort: "idSu" },
     },
     !!surveyUnitsFilter.searchValue,
   );
@@ -51,7 +50,7 @@ export const SearchSurveyUnits = () => {
   const handleSubmit: FormEventHandler = e => {
     setSubmittedValue(value.searchValue);
     setSubmittedType(value.searchType);
-    setIsAlreadyRedirected(true);
+    setIsRedirected(true);
     onSubmit(e);
   };
 
@@ -90,9 +89,9 @@ export const SearchSurveyUnits = () => {
     );
   }
 
-  if (surveyUnits.length === 1 && isAlreadyRedirected) {
+  if (surveyUnits.length === 1 && isRedirected) {
     navigate(`/survey-units/${surveyUnits[0].idSu}`);
-    setIsAlreadyRedirected(false);
+    setIsRedirected(false);
   }
 
   return (
@@ -104,7 +103,6 @@ export const SearchSurveyUnits = () => {
           inputProps={inputProps}
           textFieldLabel="Rechercher une unité enquêtée par id métier ou raison sociale"
           options={options}
-          sx={{ backgroundColor: theme.palette.Surfaces.Secondary, px: 6, pb: 3 }}
         />
       </Stack>
       <Divider variant="fullWidth" />

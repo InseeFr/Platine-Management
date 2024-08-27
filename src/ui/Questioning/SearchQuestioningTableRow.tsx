@@ -75,7 +75,6 @@ export const SearchQuestioningTableRow = ({ questioning, stateFilter }: Props) =
             collectStatus.find(state => state.value === questioning.lastCommunication)?.label ??
             "Aucun état"
           }
-          color={getCollectStateChipColor(questioning.status)}
         />
       </TableCell>
       <TableCell>
