@@ -11,7 +11,7 @@ type Props = {
 
 export const SearchSurveyUnitsEmptyState = ({ searchType, search, onChangeSearchType }: Props) => {
   const title =
-    searchType === "identificationCode"
+    searchType === "code"
       ? "Aucune unité enquêtée trouvée pour l’ID métier"
       : "Aucune unité enquêtée trouvée pour la raison sociale";
 
@@ -24,12 +24,12 @@ export const SearchSurveyUnitsEmptyState = ({ searchType, search, onChangeSearch
     >
       <Stack gap={2} alignItems={"flex-start"}>
         <Typography variant="titleSmall">{`${title} "${search}"`}</Typography>
-        {searchType === "identificationCode" ? (
-          <Button variant="text" type="submit" onClick={() => onChangeSearchType("identificationName")}>
+        {searchType === "code" ? (
+          <Button variant="text" type="submit" onClick={() => onChangeSearchType("name")}>
             Rechercher l’unité enquêtée par raison sociale
           </Button>
         ) : (
-          <Button variant="text" type="submit" onClick={() => onChangeSearchType("identificationCode")}>
+          <Button variant="text" type="submit" onClick={() => onChangeSearchType("code")}>
             Rechercher l’unité enquêtée par ID métier
           </Button>
         )}

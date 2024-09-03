@@ -24,7 +24,7 @@ type Props = Pick<TextFieldProps, "sx"> & {
 export const SearchFilters = ({ isResetButton, inputProps, options, textFieldLabel, sx }: Props) => {
   return (
     <Row gap={2} sx={sx}>
-      <FormControl sx={{ minWidth: 200 }} variant="filled">
+      <FormControl sx={{ minWidth: 240 }} variant="filled">
         <InputLabel id="select-filter-type-label">Mode de recherche</InputLabel>
         <Select
           IconComponent={props => <ExpandMoreOutlinedIcon {...props} sx={{ color: "text.primary" }} />}

@@ -1,5 +1,6 @@
 import {
   Paper,
+  SelectChangeEvent,
   Table,
   TableBody,
   TableCell,
@@ -102,6 +103,11 @@ export const SearchQuestioningTable = ({ stateFilter }: Props) => {
     setPage(0);
   };
 
+  const onChangeSelectedRowsPerPage = (event: SelectChangeEvent<string>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   const sortedQuestioning = order
     ? questioningsMock.sort((a, b) =>
         order === "asc" ? a.quality.localeCompare(b.quality) : b.quality.localeCompare(a.quality),
@@ -157,6 +163,7 @@ export const SearchQuestioningTable = ({ stateFilter }: Props) => {
             labelDisplayedRows="interrogations affichées"
             onChangePage={handleChangePage}
             onChangeRowsPerPage={onChangeRowsPerPage}
+            onChangeSelectedRowsPerPage={onChangeSelectedRowsPerPage}
           />
         )}
       </Table>

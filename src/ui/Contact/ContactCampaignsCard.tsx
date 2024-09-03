@@ -21,30 +21,30 @@ export const ContactCampaignsCard = (props: Props) => {
             <ListItemText primary={<Typography variant="titleSmall">Campagnes</Typography>} />
           </ListItem>
 
-          {hasCampaigns ? (
-            campaigns.map(campaign => (
-              <div key={campaign}>
-                <Divider variant="fullWidth" component="li" />
-                <ListItem
-                  sx={{ pl: 0 }}
-                  secondaryAction={
-                    <Button
-                      component={Link}
-                      to={`/campaigns/${campaign}`}
-                      sx={{ typography: "titleSmall" }}
-                      endIcon={<OpenInNewIcon />}
-                      // TODO: remove disabled when get pages
-                      disabled={true}
-                    >
-                      Voir
-                    </Button>
-                  }
-                >
-                  <ListItemText primary={<Typography variant="bodyMedium">{campaign}</Typography>} />
-                </ListItem>
-              </div>
-            ))
-          ) : (
+          {campaigns.map(campaign => (
+            <div key={campaign}>
+              <Divider variant="fullWidth" component="li" />
+              <ListItem
+                sx={{ pl: 0 }}
+                secondaryAction={
+                  <Button
+                    component={Link}
+                    to={`/campaigns/${campaign}`}
+                    sx={{ typography: "titleSmall" }}
+                    endIcon={<OpenInNewIcon />}
+                    // TODO: remove disabled when get pages
+                    disabled={true}
+                  >
+                    Voir
+                  </Button>
+                }
+              >
+                <ListItemText primary={<Typography variant="bodyMedium">{campaign}</Typography>} />
+              </ListItem>
+            </div>
+          ))}
+
+          {!hasCampaigns && (
             <ListItem sx={{ pl: 0 }}>
               <ListItemText
                 primary={

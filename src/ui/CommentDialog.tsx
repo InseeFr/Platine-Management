@@ -17,13 +17,19 @@ export const CommentDialog = ({ open, onSubmit, onCancel, isPending }: Props) =>
     setComment("");
     onCancel();
   };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    onSubmit(event);
+    setComment("");
+  };
+
   return (
     <Dialog
       open={open}
       onClose={handleCancel}
       PaperProps={{
         component: "form",
-        onSubmit: onSubmit,
+        onSubmit: handleSubmit,
       }}
     >
       <DialogTitle sx={{ pt: 3, pb: "20px" }}>Ajouter un commentaire</DialogTitle>
@@ -56,7 +62,6 @@ export const CommentDialog = ({ open, onSubmit, onCancel, isPending }: Props) =>
           variant="contained"
           size="large"
           disabled={comment.length === 0 || isPending}
-          onClick={() => setComment("")}
         >
           Valider
         </Button>

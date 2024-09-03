@@ -10,7 +10,7 @@ import { FormEventHandler } from "react";
 import { theme } from "../theme.tsx";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import Select from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { FormControl, InputLabel, MenuItem } from "@mui/material";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 
@@ -68,13 +68,17 @@ export const style = {
   },
 };
 
-const CustomPageSizeSelector = ({ value, onChange }: any) => {
+const CustomPageSizeSelector = ({
+  onChange,
+}: {
+  onChange: (event: SelectChangeEvent<string>) => void;
+}) => {
   return (
-    <FormControl sx={{ width: "160px" }} variant="filled">
+    <FormControl sx={{ width: "160px", mr: 2 }} variant="filled">
       <InputLabel id={"selectPaginationLabel"}>{"Lignes par page"}</InputLabel>
       <Select
         variant="filled"
-        value={value}
+        defaultValue="10"
         onChange={onChange}
         fullWidth
         disableUnderline
@@ -97,6 +101,7 @@ type CustomTableFooterProps = {
   labelDisplayedRows: string;
   onChangePage: (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
   onChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChangeSelectedRowsPerPage: (event: SelectChangeEvent<string>) => void;
 };
 
 export const CustomTableFooter = ({
@@ -106,6 +111,7 @@ export const CustomTableFooter = ({
   labelDisplayedRows,
   onChangePage,
   onChangeRowsPerPage,
+  onChangeSelectedRowsPerPage,
 }: CustomTableFooterProps) => {
   return (
     <TableFooter sx={{ backgroundColor: "#EBEFF5" }}>
@@ -114,7 +120,7 @@ export const CustomTableFooter = ({
           sx={style.root}
           count={count}
           rowsPerPage={rowsPerPage}
-          labelRowsPerPage=""
+          labelRowsPerPage={<CustomPageSizeSelector onChange={onChangeSelectedRowsPerPage} />}
           labelDisplayedRows={page =>
             `${page.from}-${page.to === -1 ? page.count : page.to} sur ${
               page.count
@@ -123,7 +129,9 @@ export const CustomTableFooter = ({
           page={page}
           slotProps={{
             select: {
-              inputComponent: CustomPageSizeSelector,
+              sx: {
+                display: "none",
+              },
             },
             actions: {
               nextButtonIcon: {

@@ -11,19 +11,21 @@ import { useNavigate } from "react-router-dom";
 import { SearchFilters } from "../../ui/Search/SearchFilters.tsx";
 import { SearchSurveyUnitsHeader } from "../../ui/Search/SearchSurveyUnitsHeader.tsx";
 import { SearchSurveyUnitsEmptyState } from "../../ui/Search/SearchSurveyUnitsEmptyState.tsx";
+import { theme } from "../../theme.tsx";
 
 const endpoint = "/api/survey-units/search";
 
 const options = [
-  { label: "ID métier", value: "identificationCode" },
-  { label: "Raison sociale", value: "identificationName" },
+  { label: "ID métier", value: "code" },
+  { label: "Raison sociale", value: "name" },
 ];
 export const SearchSurveyUnits = () => {
   const navigate = useNavigate();
 
   const { surveyUnits: surveyUnitsFilter } = useGetSearchFilter();
-  const [submittedValue, setSubmittedValue] = useState(surveyUnitsFilter.searchValue);
-  const [submittedType, setSubmittedType] = useState(surveyUnitsFilter.searchType);
+  const [submittedValue, setSubmittedValue] = useState(surveyUnitsFilter);
+
+  // isRedirected determines whether or not to redirect when there is only one result
   const [isRedirected, setIsRedirected] = useState(false);
 
   const {
@@ -35,9 +37,9 @@ export const SearchSurveyUnits = () => {
   } = useInfiniteFetchQuery(
     endpoint,
     {
-      query: { ...useSearchFilterParams("surveyUnits"), pageSize: 20, sort: "idSu" },
+      query: { ...useSearchFilterParams("surveyUnits"), pageSize: 20, sort: "id_su" },
     },
-    !!surveyUnitsFilter.searchValue,
+    !!surveyUnitsFilter.searchParam,
   );
 
   const [tab, setTab] = useState("me");
@@ -48,26 +50,24 @@ export const SearchSurveyUnits = () => {
   );
 
   const handleSubmit: FormEventHandler = e => {
-    setSubmittedValue(value.searchValue);
-    setSubmittedType(value.searchType);
+    setSubmittedValue(value);
     setIsRedirected(true);
     onSubmit(e);
   };
 
   const handleReset: FormEventHandler = e => {
-    setSubmittedValue("");
-    setSubmittedType("");
+    setSubmittedValue({ searchParam: "", searchType: "" });
     onReset(e);
   };
 
   const isResetButton =
-    submittedValue === value.searchValue &&
-    value.searchValue !== "" &&
-    submittedType === value.searchType;
+    submittedValue.searchParam === value.searchParam &&
+    value.searchParam !== "" &&
+    submittedValue.searchType === value.searchType;
 
   const hasNoSurveyUnits =
     !isLoading &&
-    surveyUnitsFilter.searchValue &&
+    surveyUnitsFilter.searchParam &&
     (surveyUnits === undefined || surveyUnits.length === 0);
 
   if ((!surveyUnits || surveyUnits.length === 0) && !isSuccess && !isLoading) {
@@ -103,6 +103,7 @@ export const SearchSurveyUnits = () => {
           inputProps={inputProps}
           textFieldLabel="Rechercher une unité enquêtée par id métier ou raison sociale"
           options={options}
+          sx={{ px: 6, pb: 3, backgroundColor: theme.palette.Surfaces.Secondary }}
         />
       </Stack>
       <Divider variant="fullWidth" />
@@ -112,7 +113,7 @@ export const SearchSurveyUnits = () => {
           <SearchSurveyUnitsEmptyState
             onChangeSearchType={onChangeSearchType}
             searchType={surveyUnitsFilter.searchType}
-            search={surveyUnitsFilter.searchValue}
+            search={surveyUnitsFilter.searchParam}
           />
         )}
         {submittedValue && !hasNoSurveyUnits && (

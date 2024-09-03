@@ -16,7 +16,7 @@ import { SearchContactEmptyState } from "../../ui/Search/SearchContactEmptyState
 const endpoint = "/api/contacts/search";
 
 const options = [
-  { label: "Idep", value: "identifier" },
+  { label: "Identifiant de connexion", value: "identifier" },
   { label: "Prénom et/ou Nom", value: "name" },
   { label: "Email", value: "email" },
 ];
@@ -26,8 +26,9 @@ export const SearchContacts = () => {
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Contacts"];
 
   const { contacts: contactsFilter } = useGetSearchFilter();
-  const [submittedValue, setSubmittedValue] = useState(contactsFilter.searchValue);
-  const [submittedType, setSubmittedType] = useState(contactsFilter.searchType);
+  const [submittedValue, setSubmittedValue] = useState(contactsFilter);
+
+  // isRedirected determines whether or not to redirect when there is only one result
   const [isRedirected, setIsRedirected] = useState(false);
 
   const {
@@ -41,7 +42,7 @@ export const SearchContacts = () => {
     {
       query: { ...useSearchFilterParams("contacts"), pageSize: 20, sort: "identifier" },
     },
-    !!contactsFilter.searchValue,
+    !!contactsFilter.searchParam,
   );
 
   const { onSubmit, onReset, inputProps, value, onChangeSearchType } = useSearchForm(
@@ -50,25 +51,25 @@ export const SearchContacts = () => {
   );
 
   const handleSubmit: FormEventHandler = e => {
-    setSubmittedValue(value.searchValue);
-    setSubmittedType(value.searchType);
+    setSubmittedValue(value);
     setIsRedirected(true);
     onSubmit(e);
   };
 
   const handleReset: FormEventHandler = e => {
-    setSubmittedValue("");
-    setSubmittedType("");
+    setSubmittedValue({ searchType: "", searchParam: "" });
     onReset(e);
   };
 
   const isResetButton =
-    submittedValue === value.searchValue &&
-    value.searchValue !== "" &&
-    submittedType === value.searchType;
+    submittedValue.searchParam === value.searchParam &&
+    value.searchParam !== "" &&
+    submittedValue.searchType === value.searchType;
 
   const hasNoContact =
-    !isLoading && contactsFilter.searchValue && (contacts === undefined || contacts.length === 0);
+    !isLoading && contactsFilter.searchParam && (contacts === undefined || contacts.length === 0);
+
+  const textFieldLabel = getTextFieldLabel(value.searchType);
 
   if ((!contacts || contacts.length === 0) && !isSuccess && !isLoading) {
     return (
@@ -76,7 +77,7 @@ export const SearchContacts = () => {
         <Stack px={6} py={3} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
           <Breadcrumbs items={breadcrumbs} />
           <Typography variant="headlineLarge">
-            Rechercher un contact par Idep, Prénom/Nom ou email
+            Rechercher un contact par identifiant de connexion, Prénom/Nom ou email
           </Typography>
         </Stack>
         <Divider variant="fullWidth" />
@@ -86,7 +87,7 @@ export const SearchContacts = () => {
             isResetButton={isResetButton}
             inputProps={inputProps}
             options={options}
-            textFieldLabel="Rechercher un contact par Idep, Prénom/Nom ou email"
+            textFieldLabel={textFieldLabel}
             sx={{ width: "50vw", height: "50vh", minWidth: "700px" }}
           />
         </Stack>
@@ -112,7 +113,7 @@ export const SearchContacts = () => {
           isResetButton={isResetButton}
           inputProps={inputProps}
           options={options}
-          textFieldLabel="Rechercher un contact par Idep, Prénom/Nom ou email"
+          textFieldLabel={textFieldLabel}
         />
       </Stack>
       <Divider variant="fullWidth" />
@@ -122,7 +123,7 @@ export const SearchContacts = () => {
           <SearchContactEmptyState
             onChangeSearchType={onChangeSearchType}
             searchType={contactsFilter.searchType}
-            searchValue={contactsFilter.searchValue}
+            searchValue={contactsFilter.searchParam}
           />
         )}
         {submittedValue && !hasNoContact && (
@@ -136,4 +137,18 @@ export const SearchContacts = () => {
       </Stack>
     </form>
   );
+};
+
+const getTextFieldLabel = (searchType: string) => {
+  switch (searchType) {
+    case "identifier":
+      return "Rechercher un contact par Identifiant de connexion";
+    case "name":
+      return "Rechercher un contact par Prénom et/ou Nom";
+    case "email":
+      return "Rechercher un contact par email";
+
+    default:
+      return "Rechercher un contact";
+  }
 };
