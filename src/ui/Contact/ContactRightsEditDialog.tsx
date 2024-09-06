@@ -15,12 +15,12 @@ export type mockedDataSurveyType = {
   surveyUnit: string;
   identificationName: string;
   main: boolean;
-  secondaryContacts: APISchemas["ContactFirstLoginDto"][];
-  primaryContact?: APISchemas["ContactFirstLoginDto"];
+  secondaryContacts: APISchemas["ContactDetailsDto"][];
+  primaryContact?: APISchemas["ContactDetailsDto"];
 };
 
 export type DialogProps = {
-  contact: APISchemas["ContactFirstLoginDto"];
+  contact: APISchemas["ContactDetailsDto"];
   survey: mockedDataSurveyType;
   onAlert: (message: { type: "error" | "success"; content: string }) => void;
   onClose: () => void;

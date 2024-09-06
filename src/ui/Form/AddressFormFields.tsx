@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import { Field } from "./Field.tsx";
 import { Row } from "../Row.tsx";
 import { countries } from "../../constants/countries.ts";
-import { repetitionIndexEnum, streetTypeEnum } from "../Contact/ContactFormDialog.tsx";
+import { repetitionIndexEnum } from "../Contact/ContactFormDialog.tsx";
 import { UseFormRegister } from "react-hook-form";
 import { Schema, z } from "zod";
 import { useState } from "react";
@@ -13,6 +13,7 @@ import FormLabel from "@mui/material/FormLabel";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Radio } from "@mui/material";
+import { streetTypes } from "../../constants/streetTypes.ts";
 
 type Props = {
   errors: any;
@@ -92,7 +93,7 @@ export const AddressFormFields = ({
             sx={{ width: "18vw" }}
             type="select"
             label="Type de voie"
-            selectoptions={streetTypeEnum}
+            selectoptions={streetTypes}
             defaultValue={streetTypeValue}
             error={errors.address?.streetType?.message}
             {...register("address.streetType")}
@@ -185,7 +186,7 @@ export const AddressFormFields = ({
             {...register("address.cedexCode")}
           />
           <Field
-            label="Bureau distributeur *"
+            label="Libellé Cedex * (exemple : Paris CEDEX 14) "
             error={errors.address?.cedexName?.message}
             {...register("address.cedexName")}
           />

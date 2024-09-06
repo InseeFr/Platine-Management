@@ -1,4 +1,4 @@
-import { Button, Card, Divider, Stack, TextField, Typography } from "@mui/material";
+import { Divider, Stack, Typography } from "@mui/material";
 import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
 import { theme } from "../../theme.tsx";
 import { FormEventHandler, useState } from "react";
@@ -9,105 +9,146 @@ import {
   useSearchFilterParams,
   useSearchForm,
 } from "../../hooks/useSearchFilter.ts";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchIcon from "@mui/icons-material/Search";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import { useNavigate } from "react-router-dom";
+import { SearchFilters } from "../../ui/Search/SearchFilters.tsx";
+import { SearchContactEmptyState } from "../../ui/Search/SearchContactEmptyState.tsx";
 
 const endpoint = "/api/contacts/search";
 
+const options = [
+  { label: "Identifiant de connexion", value: "identifier" },
+  { label: "Prénom et/ou Nom", value: "name" },
+  { label: "Email", value: "email" },
+];
+
 export const SearchContacts = () => {
+  const navigate = useNavigate();
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Contacts"];
+
+  const { contacts: contactsFilter } = useGetSearchFilter();
+  const [submittedValue, setSubmittedValue] = useState(contactsFilter);
+
+  // isRedirected determines whether or not to redirect when there is only one result
+  const [isRedirected, setIsRedirected] = useState(false);
 
   const {
     results: contacts,
     hasNextPage,
     fetchNextPage,
     isLoading,
-  } = useInfiniteFetchQuery(endpoint, {
-    query: { param: useSearchFilterParams("contacts").search, pageSize: 20, sort: "identifier" },
-  });
+    isSuccess,
+  } = useInfiniteFetchQuery(
+    endpoint,
+    {
+      query: { ...useSearchFilterParams("contacts"), pageSize: 20, sort: "identifier" },
+    },
+    !!contactsFilter.searchParam,
+  );
 
-  const { contacts: contactsFilter } = useGetSearchFilter();
-  const [valueSubmitted, setValueSubmitted] = useState(contactsFilter.search);
-
-  const { onSubmit, onReset, inputProps, value } = useSearchForm("contacts", contactsFilter);
+  const { onSubmit, onReset, inputProps, value, onChangeSearchType } = useSearchForm(
+    "contacts",
+    contactsFilter,
+  );
 
   const handleSubmit: FormEventHandler = e => {
-    setValueSubmitted(value.search);
+    setSubmittedValue(value);
+    setIsRedirected(true);
     onSubmit(e);
   };
 
   const handleReset: FormEventHandler = e => {
-    setValueSubmitted("");
+    setSubmittedValue({ searchType: "", searchParam: "" });
     onReset(e);
   };
 
-  const isResetButton = valueSubmitted === value.search && value.search !== "";
+  const isResetButton =
+    submittedValue.searchParam === value.searchParam &&
+    value.searchParam !== "" &&
+    submittedValue.searchType === value.searchType;
 
-  const hasNoContact = !isLoading && (contacts === undefined || contacts.length === 0);
+  const hasNoContact =
+    !isLoading && contactsFilter.searchParam && (contacts === undefined || contacts.length === 0);
+
+  const textFieldLabel = getTextFieldLabel(value.searchType);
+
+  if ((!contacts || contacts.length === 0) && !isSuccess && !isLoading) {
+    return (
+      <form onSubmit={handleSubmit} onReset={handleReset}>
+        <Stack px={6} py={3} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
+          <Breadcrumbs items={breadcrumbs} />
+          <Typography variant="headlineLarge">
+            Rechercher un contact par identifiant de connexion, Prénom/Nom ou email
+          </Typography>
+        </Stack>
+        <Divider variant="fullWidth" />
+
+        <Stack sx={{ my: 3, px: 5 }} gap={3} alignItems={"center"}>
+          <SearchFilters
+            isResetButton={isResetButton}
+            inputProps={inputProps}
+            options={options}
+            textFieldLabel={textFieldLabel}
+            sx={{ width: "50vw", height: "50vh", minWidth: "700px" }}
+          />
+        </Stack>
+      </form>
+    );
+  }
+
+  if (contacts.length === 1 && isRedirected) {
+    navigate(`/contacts/${contacts[0].identifier}`);
+    setIsRedirected(false);
+  }
 
   return (
-    <Stack>
-      <Stack px={6} py={3} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
-        <Breadcrumbs items={breadcrumbs} />
-        <Typography variant="headlineLarge">Contacts</Typography>
+    <form onSubmit={handleSubmit} onReset={handleReset}>
+      <Stack px={6} py={3} gap={2} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
+        <Stack>
+          <Breadcrumbs items={breadcrumbs} />
+          <Typography variant="headlineLarge">
+            Rechercher un contact par Idep, Prénom/Nom ou email
+          </Typography>
+        </Stack>
+        <SearchFilters
+          isResetButton={isResetButton}
+          inputProps={inputProps}
+          options={options}
+          textFieldLabel={textFieldLabel}
+        />
       </Stack>
       <Divider variant="fullWidth" />
-      <Card sx={{ mx: 5, my: 3, p: 5 }} elevation={2}>
-        <form onSubmit={handleSubmit} onReset={handleReset}>
-          <TextField
-            fullWidth
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton aria-label="search" type={isResetButton ? "reset" : "submit"} edge="end">
-                    {isResetButton ? <CloseIcon color="primary" /> : <SearchIcon color="primary" />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-              disableUnderline: true,
-              ...inputProps("search"),
-            }}
-            label={"Rechercher par prénom/nom, IDEP, ou adresse email"}
-            variant="filled"
+
+      <Stack sx={{ my: 3, px: 5 }} gap={3}>
+        {submittedValue && hasNoContact && (
+          <SearchContactEmptyState
+            onChangeSearchType={onChangeSearchType}
+            searchType={contactsFilter.searchType}
+            searchValue={contactsFilter.searchParam}
           />
-          {hasNoContact ? (
-            <EmptyState isFiltered={isResetButton} onReset={handleReset} />
-          ) : (
-            <SearchContactTable
-              isLoading={isLoading}
-              contacts={contacts}
-              hasNextPage={hasNextPage}
-              onVisible={fetchNextPage}
-            />
-          )}
-        </form>
-      </Card>
-    </Stack>
+        )}
+        {submittedValue && !hasNoContact && (
+          <SearchContactTable
+            isLoading={isLoading}
+            contacts={contacts}
+            hasNextPage={hasNextPage}
+            onVisible={fetchNextPage}
+          />
+        )}
+      </Stack>
+    </form>
   );
 };
 
-const EmptyState = ({ isFiltered, onReset }: { isFiltered: boolean; onReset: FormEventHandler }) => {
-  return (
-    <Stack
-      mt={3}
-      sx={{
-        border: `1px solid ${theme.palette.border.default}`,
-        height: "30vh",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: 2,
-      }}
-    >
-      <Typography variant="titleSmall" color={theme.palette.text.tertiary}>
-        Aucun contact trouvé.
-      </Typography>
-      {isFiltered && (
-        <Button variant="outlined" sx={{ width: "fit-content" }} onClick={onReset}>
-          Effacer les filtres
-        </Button>
-      )}
-    </Stack>
-  );
+const getTextFieldLabel = (searchType: string) => {
+  switch (searchType) {
+    case "identifier":
+      return "Rechercher un contact par Identifiant de connexion";
+    case "name":
+      return "Rechercher un contact par Prénom et/ou Nom";
+    case "email":
+      return "Rechercher un contact par email";
+
+    default:
+      return "Rechercher un contact";
+  }
 };

@@ -20,7 +20,7 @@ import { contactSchema } from "../../schemas/contactSchema.ts";
 type Props = {
   open: boolean;
   onClose: () => void;
-  contact: APISchemas["ContactFirstLoginDto"];
+  contact: APISchemas["ContactDetailsDto"];
   onSave: () => void;
 };
 
@@ -30,8 +30,6 @@ const civilities = [
 ];
 
 export const repetitionIndexEnum = ["BIS", "TER", "QUATER", "QUINQUIES", "A", "B", "C", "D"];
-
-export const streetTypeEnum = ["rue", "avenue"]; // TODO: use real street type
 
 export const styles = {
   Grid: {

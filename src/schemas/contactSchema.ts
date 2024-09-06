@@ -25,11 +25,6 @@ export const contactSchema = z.object({
     .string()
     .nullish()
     .transform(val => (val === null ? "" : val)),
-
-  secondPhone: z
-    .string()
-    .nullish()
-    .transform(val => (val === null ? "" : val)),
   otherPhone: z
     .string()
     .nullish()

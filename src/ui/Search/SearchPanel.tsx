@@ -4,7 +4,6 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import { BinocularIcon } from "../Icon/BinocularIcon.tsx";
 import { SearchSurveysForm } from "./SearchSurveysForm.tsx";
-import { SearchSurveyUnitsForm } from "./SearchSurveyUnitsForm.tsx";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import { theme } from "../../theme.tsx";
@@ -72,10 +71,7 @@ export const SearchPanel = () => {
         </Typography>
 
         <Stack spacing={3} m={3}>
-          <Stack spacing={2}>
-            {currentTab === "surveys" && <SearchSurveysForm />}
-            {currentTab === "surveyUnits" && <SearchSurveyUnitsForm />}
-          </Stack>
+          <Stack spacing={2}>{currentTab === "surveys" && <SearchSurveysForm />}</Stack>
         </Stack>
       </Card>
     </div>

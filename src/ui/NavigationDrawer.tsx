@@ -128,14 +128,14 @@ export const NavigationDrawer = () => {
             open={open}
             label={"Interrogations"}
             IconComponent={FileCopyOutlinedIcon}
-            link={"/search/surveys"}
-            isActive={currentPath.includes("surveys")}
+            link={"/questionings"}
+            isActive={currentPath.includes("questionings")}
           />
           <NavigationListItem
             open={open}
             label={"Unités enquêtées"}
             IconComponent={ApartmentOutlinedIcon}
-            link={"/search/survey-units"}
+            link={"/survey-units"}
             isActive={currentPath.includes("survey-units")}
           />
           <NavigationListItem

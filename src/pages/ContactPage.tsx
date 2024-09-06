@@ -7,11 +7,14 @@ import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import { theme } from "../theme.tsx";
 import { Button, Typography } from "@mui/material";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { ContactDetailsCard } from "../ui/Contact/ContactDetailsCard.tsx";
 import { ContactCampaignsCard } from "../ui/Contact/ContactCampaignsCard.tsx";
+import { Link } from "../ui/Link.tsx";
+import { useSetSearchFilter } from "../hooks/useSearchFilter.ts";
 
 export const ContactPage = () => {
+  const setFilter = useSetSearchFilter();
+
   const { id } = useParams();
   const { data: contact, refetch } = useFetchQuery("/api/contacts/{id}", {
     urlParams: {
@@ -19,13 +22,7 @@ export const ContactPage = () => {
     },
   });
 
-  const { data: surveys } = useFetchQuery("/api/contacts/{id}/accreditations", {
-    urlParams: {
-      id: id!,
-    },
-  });
-
-  if (!contact || !surveys) {
+  if (!contact) {
     return (
       <Row justifyContent="center" py={10}>
         <CircularProgress />
@@ -33,7 +30,7 @@ export const ContactPage = () => {
     );
   }
 
-  const contactTitle =
+  const contactName =
     contact.firstName || contact.lastName
       ? `${contact.firstName ?? ""} ${contact.lastName ?? ""}`
       : "Prénom Nom";
@@ -41,23 +38,25 @@ export const ContactPage = () => {
   const breadcrumbs = [
     { href: "/", title: "Accueil" },
     { href: "/contacts", title: "Contacts" },
-    contactTitle,
+    contactName,
   ];
 
   return (
     <>
       <Stack sx={{ backgroundColor: theme.palette.Surfaces.Secondary, px: 6, py: 3 }}>
         <Breadcrumbs items={breadcrumbs} />
-        <Typography variant="headlineLarge" fontWeight={600}>
-          {contactTitle}
-        </Typography>
+        <Typography variant="headlineLarge">{contactName}</Typography>
         <Row justifyContent={"space-between"}>
           <Typography variant="bodyMedium">{`ID connexion : #${contact.identifier}`}</Typography>
           <Button
             variant="contained"
-            endIcon={<OpenInNewIcon />}
-            // TODO: remove disabled when get pages
-            disabled
+            size="large"
+            component={Link}
+            to={`/questionings`}
+            onClick={() => {
+              return setFilter("questionings", { searchParam: contactName });
+            }}
+            disabled={contact.listCampaigns?.length === 0}
           >
             Voir les interrogations
           </Button>
@@ -67,7 +66,7 @@ export const ContactPage = () => {
       <Stack px={5} pt={3}>
         <Row alignItems={"start"} gap={3}>
           <ContactDetailsCard contact={contact} onSave={refetch} />
-          <ContactCampaignsCard surveys={surveys} />
+          <ContactCampaignsCard campaigns={contact.listCampaigns} />
         </Row>
       </Stack>
     </>

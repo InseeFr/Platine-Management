@@ -1,68 +1,43 @@
-import { Card, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Card, Divider, Stack, Typography } from "@mui/material";
 import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
-import AssignmentIndOutlinedIcon from "@mui/icons-material/AssignmentIndOutlined";
 import { Row } from "../Row.tsx";
-import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-
 import { APISchemas } from "../../types/api.ts";
-import { useToggle } from "react-use";
-import { SurveyUnitFormDialog } from "./SurveyUnitFormDialog.tsx";
 import { AddressInformations } from "../AddressInformations.tsx";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { styles } from "../Contact/ContactFormDialog.tsx";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDto"];
-  onSave: () => void;
 };
 
-export const SurveyUnitDetailsCard = ({ surveyUnit, onSave }: Props) => {
-  const [hasDialog, toggleDialog] = useToggle(false);
-
-  const handleSave = () => {
-    toggleDialog();
-    onSave();
-  };
-
+export const SurveyUnitDetailsCard = ({ surveyUnit }: Props) => {
   return (
-    <Card sx={{ px: 6, py: 3 }} elevation={2}>
-      <Stack spacing={4}>
-        <Row justifyContent={"space-between"}>
-          <CardtitleWithIcon IconComponent={AssignmentIndOutlinedIcon} title={"Informations"} />
-          <IconButton onClick={toggleDialog} color="inherit">
-            <BorderColorOutlinedIcon fontSize="small" />
-          </IconButton>
-        </Row>
-        <Row spacing={5} alignItems={"flex-start"} justifyContent={"space-between"} pr={2}>
+    <Card sx={{ p: 3, pt: 4 }} elevation={2}>
+      <Stack gap={2}>
+        <CardtitleWithIcon IconComponent={InfoOutlinedIcon} title={"Informations"} />
+        <Box sx={styles.Grid}>
           <AddressInformations
             identificationName={surveyUnit.identificationName}
             address={surveyUnit.address}
           />
+          <Divider orientation="vertical" variant="fullWidth" />
           <Stack spacing={1}>
-            <TitleAndInformation title={"Siren"} value={"NO DATA"} />
-            <TitleAndInformation title={"Groupe"} value={"NO DATA"} />
-            <TitleAndInformation title={"Niveau de gestion"} value={"NO DATA"} />
-            <TitleAndInformation title={"Qualité"} value={"NO DATA"} />
-            <TitleAndInformation title={"Taille"} value={"NO DATA"} />
+            <TitleAndInformation title={"Siren"} value={surveyUnit.identificationCode} />
           </Stack>
-        </Row>
+        </Box>
       </Stack>
-      <SurveyUnitFormDialog
-        open={hasDialog}
-        onClose={toggleDialog}
-        onSave={handleSave}
-        surveyUnit={surveyUnit}
-      />
     </Card>
   );
 };
 
-const TitleAndInformation = ({ title, value }: { title: string; value: string }) => {
+const TitleAndInformation = ({ title, value }: { title: string; value?: string }) => {
   return (
-    <Row spacing={4}>
-      <Typography component={"span"} width={"60px"} variant="itemSmall" color={"text.secondary"}>
+    <Row justifyContent={"space-between"}>
+      <Typography component={"span"} variant="bodyMedium">
         {title}
       </Typography>
       <Typography component={"span"} variant="titleSmall">
-        {value}
+        {value ?? "-"}
       </Typography>
     </Row>
   );

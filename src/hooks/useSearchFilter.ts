@@ -4,12 +4,15 @@ import { combine } from "zustand/middleware";
 
 export const base = {
   contacts: {
-    search: "",
+    searchParam: "",
+    searchType: "identifier",
   },
   surveyUnits: {
-    idSu: "",
-    identificationCode: "",
-    identificationName: "",
+    searchParam: "",
+    searchType: "code",
+  },
+  questionings: {
+    searchParam: "",
   },
   surveys: {
     idSource: "",
@@ -18,7 +21,7 @@ export const base = {
   },
 };
 
-type Key = "contacts" | "surveyUnits" | "surveys";
+type Key = "contacts" | "surveyUnits" | "surveys" | "questionings";
 type State = typeof base;
 
 const useSearchFilter = create(
@@ -91,6 +94,9 @@ export function useSearchForm<K extends Key>(key: K, initialValue: State[K]) {
     }),
     handler: (name: keyof State[K]) => {
       return (e: any) => setValue({ ...value, [name]: e.target.value });
+    },
+    onChangeSearchType: (type: string) => {
+      return setValue({ ...value, searchType: type });
     },
   };
 }

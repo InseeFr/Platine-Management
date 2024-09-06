@@ -1,90 +1,130 @@
-import { Box, CardActionArea, CircularProgress, Stack } from "@mui/material";
-import { Row } from "../../ui/Row.tsx";
+import { Divider, Stack } from "@mui/material";
 import { useInfiniteFetchQuery } from "../../hooks/useFetchQuery.ts";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import ToggleButton from "@mui/material/ToggleButton";
-import { useState } from "react";
-import { VisibilitySpy } from "../../ui/VisibilitySpy.tsx";
-import { CardGrid } from "../../ui/Layout/CardGrid.tsx";
-import { type APIResponse } from "../../types/api.ts";
-import { type ItemOf } from "../../types/utils.ts";
-import Card from "@mui/material/Card";
-import { Link } from "react-router-dom";
-import Typography from "@mui/material/Typography";
-import { useSearchFilterParams } from "../../hooks/useSearchFilter.ts";
-import CorporateFareIcon from "@mui/icons-material/CorporateFare";
+import { FormEventHandler, useState } from "react";
+import {
+  useGetSearchFilter,
+  useSearchFilterParams,
+  useSearchForm,
+} from "../../hooks/useSearchFilter.ts";
+import { SearchSurveyUnitTable } from "../../ui/SurveyUnit/SearchSurveyUnitTable.tsx";
+import { useNavigate } from "react-router-dom";
+import { SearchFilters } from "../../ui/Search/SearchFilters.tsx";
+import { SearchSurveyUnitsHeader } from "../../ui/Search/SearchSurveyUnitsHeader.tsx";
+import { SearchSurveyUnitsEmptyState } from "../../ui/Search/SearchSurveyUnitsEmptyState.tsx";
+import { theme } from "../../theme.tsx";
 
-const endpoint = "/api/survey-units/search" as const;
-type Item = ItemOf<Required<APIResponse<typeof endpoint, "get">>["content"]>;
+const endpoint = "/api/survey-units/search";
 
+const options = [
+  { label: "ID métier", value: "code" },
+  { label: "Raison sociale", value: "name" },
+];
 export const SearchSurveyUnits = () => {
+  const navigate = useNavigate();
+
+  const { surveyUnits: surveyUnitsFilter } = useGetSearchFilter();
+  const [submittedValue, setSubmittedValue] = useState(surveyUnitsFilter);
+
+  // isRedirected determines whether or not to redirect when there is only one result
+  const [isRedirected, setIsRedirected] = useState(false);
+
   const {
     results: surveyUnits,
     hasNextPage,
     fetchNextPage,
     isLoading,
-    count,
-  } = useInfiniteFetchQuery(endpoint, {
-    query: useSearchFilterParams("surveyUnits"),
-  });
+    isSuccess,
+  } = useInfiniteFetchQuery(
+    endpoint,
+    {
+      query: { ...useSearchFilterParams("surveyUnits"), pageSize: 20, sort: "id_su" },
+    },
+    !!surveyUnitsFilter.searchParam,
+  );
 
   const [tab, setTab] = useState("me");
+
+  const { onSubmit, onReset, inputProps, value, onChangeSearchType } = useSearchForm(
+    "surveyUnits",
+    surveyUnitsFilter,
+  );
+
+  const handleSubmit: FormEventHandler = e => {
+    setSubmittedValue(value);
+    setIsRedirected(true);
+    onSubmit(e);
+  };
+
+  const handleReset: FormEventHandler = e => {
+    setSubmittedValue({ searchParam: "", searchType: "" });
+    onReset(e);
+  };
+
+  const isResetButton =
+    submittedValue.searchParam === value.searchParam &&
+    value.searchParam !== "" &&
+    submittedValue.searchType === value.searchType;
+
+  const hasNoSurveyUnits =
+    !isLoading &&
+    surveyUnitsFilter.searchParam &&
+    (surveyUnits === undefined || surveyUnits.length === 0);
+
+  if ((!surveyUnits || surveyUnits.length === 0) && !isSuccess && !isLoading) {
+    return (
+      <form onSubmit={handleSubmit} onReset={handleReset}>
+        <SearchSurveyUnitsHeader tab={tab} onChangeTab={(_, v) => setTab(v)} />
+        <Divider variant="fullWidth" />
+
+        <Stack sx={{ my: 3, px: 5 }} gap={3} alignItems={"center"}>
+          <SearchFilters
+            isResetButton={isResetButton}
+            inputProps={inputProps}
+            textFieldLabel="Rechercher une unité enquêtée par id métier ou raison sociale"
+            options={options}
+            sx={{ width: "50vw", height: "50vh", minWidth: "700px" }}
+          />
+        </Stack>
+      </form>
+    );
+  }
+
+  if (surveyUnits.length === 1 && isRedirected) {
+    navigate(`/survey-units/${surveyUnits[0].idSu}`);
+    setIsRedirected(false);
+  }
+
   return (
-    <Stack spacing={3} sx={{ minHeight: 0 }}>
-      <Row justifyContent={"space-between"}>
-        <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
-          <ToggleButton value="me" aria-label="left aligned">
-            Mes unités enquêtées
-          </ToggleButton>
-          <ToggleButton value="all" aria-label="left aligned">
-            Tout
-          </ToggleButton>
-        </ToggleButtonGroup>
-        {count && <Typography variant="titleSmall">résultat: {count} unité(s) enquêtée(s)</Typography>}
-      </Row>
-      {isLoading && (
-        <Row justifyContent={"space-around"} height={"100%"}>
-          <CircularProgress />
-        </Row>
-      )}
-      {!isLoading && surveyUnits.length === 0 && (
-        <Row justifyContent={"space-around"} height={"100%"}>
-          <Typography variant="titleMedium">Aucun résultat</Typography>
-        </Row>
-      )}
-      <CardGrid>
-        {surveyUnits.map(su => (
-          <div key={su.idSu}>
-            {/* This div prevent card from behing resized by the grid */}
-            <ItemCard surveyUnit={su} />
-          </div>
-        ))}
-        {hasNextPage && <VisibilitySpy onVisible={fetchNextPage} />}
-      </CardGrid>
-    </Stack>
+    <form onSubmit={handleSubmit} onReset={handleReset}>
+      <Stack>
+        <SearchSurveyUnitsHeader tab={tab} onChangeTab={(_, v) => setTab(v)} />
+        <SearchFilters
+          isResetButton={isResetButton}
+          inputProps={inputProps}
+          textFieldLabel="Rechercher une unité enquêtée par id métier ou raison sociale"
+          options={options}
+          sx={{ px: 6, pb: 3, backgroundColor: theme.palette.Surfaces.Secondary }}
+        />
+      </Stack>
+      <Divider variant="fullWidth" />
+
+      <Stack sx={{ my: 3, px: 5 }} gap={3}>
+        {submittedValue && hasNoSurveyUnits && (
+          <SearchSurveyUnitsEmptyState
+            onChangeSearchType={onChangeSearchType}
+            searchType={surveyUnitsFilter.searchType}
+            search={surveyUnitsFilter.searchParam}
+          />
+        )}
+        {submittedValue && !hasNoSurveyUnits && (
+          <SearchSurveyUnitTable
+            surveyUnits={surveyUnits}
+            isLoading={isLoading}
+            hasNextPage={hasNextPage}
+            onVisible={fetchNextPage}
+          />
+        )}
+      </Stack>
+    </form>
   );
 };
-
-export function ItemCard({ surveyUnit }: { surveyUnit: Item }) {
-  const isDisabled = false; // TODO : calculated this value
-  return (
-    <Card elevation={2} variant={isDisabled ? "disabled" : undefined}>
-      <CardActionArea component={Link} to={`/survey-units/${surveyUnit.idSu}`}>
-        <Box px={3} py={2.5}>
-          <Row gap={1} mb={5}>
-            <CorporateFareIcon />
-            <Typography variant="titleLarge" fontWeight={600} color="text.primary">
-              {surveyUnit.identificationName}
-            </Typography>
-          </Row>
-          <Box mb={2} typography="bodyMedium" fontWeight={600} color="text.secondary">
-            ID unité enquêtée : {surveyUnit.idSu}
-          </Box>
-          <Box typography="bodyMedium" fontWeight={600} color="text.secondary">
-            SIREN : {surveyUnit.identificationCode}
-          </Box>
-        </Box>
-      </CardActionArea>
-    </Card>
-  );
-}

@@ -4,11 +4,15 @@ import { createReactOidc } from "oidc-spa/react";
 type TokenInfo = {
   inseegroupedefaut: string[];
   preferred_username: string;
+  given_name: string;
+  family_name: string;
 };
 
 const guestUser: TokenInfo = {
   inseegroupedefaut: [import.meta.env.VITE_USER_LDAP_ROLE],
   preferred_username: "Guest",
+  given_name: "Guest",
+  family_name: "",
 };
 
 const isOidc = import.meta.env.VITE_AUTH_TYPE === "oidc";

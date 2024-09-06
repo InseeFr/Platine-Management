@@ -1,10 +1,18 @@
 import CircularProgress from "@mui/material/CircularProgress";
+import Stack from "@mui/material/Stack";
 import TableCell from "@mui/material/TableCell/TableCell";
 import TableFooter from "@mui/material/TableFooter";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
+import { FormEventHandler } from "react";
+import { theme } from "../theme.tsx";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { FormControl, InputLabel, MenuItem } from "@mui/material";
+import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 
 export interface Column {
   id: string;
@@ -44,47 +52,96 @@ export const LoadingCell = ({ columnLength }: { columnLength: number }) => {
 
 export const style = {
   root: {
+    padding: "8px 0 !important",
+    ".MuiTablePagination-input": {
+      borderRadius: "16px",
+    },
     ".MuiTablePagination-displayedRows": {
       typography: "bodySmall",
     },
-    ".MuiTablePagination-input": {
-      typography: "bodySmall",
+    ".MuiIconButton-root": {
+      color: theme.palette.primary.main,
     },
-    ".MuiTablePagination-selectLabel": {
-      typography: "bodySmall",
-      color: "text.tertiary",
+    ".Mui-disabled": {
+      color: theme.palette.action.disabled,
     },
   },
 };
 
-type SurveysTableFooterProps = {
+const CustomPageSizeSelector = ({
+  onChange,
+}: {
+  onChange: (event: SelectChangeEvent<string>) => void;
+}) => {
+  return (
+    <FormControl sx={{ width: "160px", mr: 2 }} variant="filled">
+      <InputLabel id={"selectPaginationLabel"}>{"Lignes par page"}</InputLabel>
+      <Select
+        variant="filled"
+        defaultValue="10"
+        onChange={onChange}
+        fullWidth
+        disableUnderline
+        IconComponent={props => <ExpandMoreOutlinedIcon {...props} sx={{ color: "text.primary" }} />}
+      >
+        {[10, 20, 30, 40, 50].map(pageSize => (
+          <MenuItem key={pageSize} value={pageSize}>
+            {pageSize}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+};
+
+type CustomTableFooterProps = {
   count: number;
   rowsPerPage: number;
   page: number;
+  labelDisplayedRows: string;
   onChangePage: (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => void;
   onChangeRowsPerPage: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChangeSelectedRowsPerPage: (event: SelectChangeEvent<string>) => void;
 };
 
 export const CustomTableFooter = ({
   count,
   rowsPerPage,
   page,
+  labelDisplayedRows,
   onChangePage,
   onChangeRowsPerPage,
-}: SurveysTableFooterProps) => {
+  onChangeSelectedRowsPerPage,
+}: CustomTableFooterProps) => {
   return (
-    <TableFooter>
+    <TableFooter sx={{ backgroundColor: "#EBEFF5" }}>
       <TableRow>
         <TablePagination
           sx={style.root}
-          rowsPerPageOptions={[10, 20, 50]}
-          labelRowsPerPage={"Lignes par page :"}
-          labelDisplayedRows={page =>
-            `${page.from}-${page.to === -1 ? page.count : page.to} sur ${page.count} entités affichées`
-          }
           count={count}
           rowsPerPage={rowsPerPage}
+          labelRowsPerPage={<CustomPageSizeSelector onChange={onChangeSelectedRowsPerPage} />}
+          labelDisplayedRows={page =>
+            `${page.from}-${page.to === -1 ? page.count : page.to} sur ${
+              page.count
+            } ${labelDisplayedRows} `
+          }
           page={page}
+          slotProps={{
+            select: {
+              sx: {
+                display: "none",
+              },
+            },
+            actions: {
+              nextButtonIcon: {
+                fontSize: "navigateIcon",
+              },
+              previousButtonIcon: {
+                fontSize: "navigateIcon",
+              },
+            },
+          }}
           onPageChange={onChangePage}
           onRowsPerPageChange={onChangeRowsPerPage}
         />
@@ -100,5 +157,30 @@ export const NoResultCell = ({ columnLength, text }: { columnLength: number; tex
         <Typography variant="titleSmall">{text}</Typography>
       </TableCell>
     </TableRow>
+  );
+};
+
+export const EmptyState = ({
+  isFiltered,
+  onReset,
+  text,
+}: {
+  isFiltered: boolean;
+  onReset?: FormEventHandler;
+  text: string;
+}) => {
+  return (
+    <Card elevation={2}>
+      <Stack sx={{ justifyContent: "center", alignItems: "center", gap: 2, height: "30vh" }}>
+        <Typography variant="titleSmall" color={theme.palette.text.tertiary}>
+          {text}
+        </Typography>
+        {isFiltered && (
+          <Button variant="outlined" sx={{ width: "fit-content" }} onClick={onReset}>
+            Effacer les filtres
+          </Button>
+        )}
+      </Stack>
+    </Card>
   );
 };

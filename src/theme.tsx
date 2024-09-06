@@ -165,6 +165,7 @@ const typography = {
   headlineLarge: {
     fontSize: 32,
     lineHeight: "40px",
+    fontWeight: 600,
   },
   headlineMedium: {
     fontSize: 28,
@@ -401,20 +402,30 @@ export const theme = createTheme({
           textTransform: "none",
         },
       },
+      variants: [
+        {
+          props: { variant: "text" },
+          style: {
+            padding: 0,
+          },
+        },
+      ],
     },
     MuiToggleButtonGroup: {
       styleOverrides: {
         root: {
-          borderRadius: 24,
-          boxShadow: `inset 0 0 0 1px ${palette.text.tertiary}`,
+          borderRadius: 4,
+          boxShadow: shadows[2],
+          ".MuiToggleButtonGroup-grouped": {
+            color: palette.primary.main,
+          },
           ".MuiToggleButtonGroup-grouped.Mui-selected": {
             position: "relative",
             zIndex: 2,
+            color: palette.text.light,
           },
           ".MuiToggleButtonGroup-grouped:not(:first-of-type)": {
-            marginLeft: -12,
             zIndex: 1,
-            paddingLeft: 24,
           },
         },
       },
@@ -429,13 +440,13 @@ export const theme = createTheme({
     MuiToggleButton: {
       styleOverrides: {
         root: {
-          borderRadius: 24,
-          paddingInline: 24,
+          borderRadius: 4,
           border: "none",
-          ...typography.bodyMedium,
+          ...typography.bodyLarge,
+          background: palette.Surfaces.Secondary,
           textTransform: "none",
           "&.Mui-selected, &.Mui-selected:hover": {
-            borderRadius: "24px!important",
+            borderRadius: "4px!important",
             background: palette.primary.main,
             color: "white",
           },
@@ -507,12 +518,19 @@ export const theme = createTheme({
         },
       },
     },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          "&.Mui-selected": {
+            backgroundColor: "white !important",
+          },
+        },
+      },
+    },
     MuiDialogTitle: {
       styleOverrides: {
         root: {
-          ...typography.titleMedium,
-          fontSize: "20px",
-          lineHeight: "32px",
+          ...typography.headlineSmall,
         },
       },
     },
@@ -547,9 +565,6 @@ export const theme = createTheme({
           ".MuiChip-deleteIcon": {
             color: "#C71A01",
           },
-          "&:hover": {
-            backgroundColor: "#F9C3AF",
-          },
         },
         colorSuccess: {
           backgroundColor: "#D0E6D4",
@@ -557,11 +572,9 @@ export const theme = createTheme({
           ".MuiChip-deleteIcon": {
             color: "#057345",
           },
-          "&:hover": {
-            backgroundColor: "#A9C6AF",
-          },
         },
         root: {
+          borderRadius: "4px",
           ".MuiChip-deleteIcon": {
             color: palette.text.primary,
           },
