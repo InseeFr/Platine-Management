@@ -137,6 +137,12 @@ declare module "@mui/material/TextField" {
   }
 }
 
+declare module "@mui/material/IconButton" {
+  interface IconButtonOwnProps {
+    variant?: "outlined";
+  }
+}
+
 declare module "@mui/material/styles" {
   interface Palette {
     border: {
@@ -406,6 +412,19 @@ export const theme = createTheme({
         {
           props: { variant: "text" },
           style: {
+            padding: 0,
+          },
+        },
+      ],
+    },
+    MuiIconButton: {
+      variants: [
+        {
+          props: { variant: "outlined" },
+          style: {
+            color: palette.primary.main,
+            border: `2px solid ${palette.primary.main}`,
+            borderRadius: 4,
             padding: 0,
           },
         },

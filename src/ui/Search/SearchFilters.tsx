@@ -30,6 +30,7 @@ export const SearchFilters = ({ isResetButton, inputProps, options, textFieldLab
           IconComponent={props => <ExpandMoreOutlinedIcon {...props} sx={{ color: "text.primary" }} />}
           labelId="select-filter-type-label"
           id="select-filter-type"
+          aria-label="select mode de recherche"
           variant="filled"
           disableUnderline
           inputProps={{
