@@ -22,46 +22,44 @@ const TabNames = {
 
 const questioningMock = {
   id: 2590569,
-  label: "Interrogation 10",
-  campaign: "ARTI",
+  label: "TODO LABEL",
+  campaign: "TODO COLLECTE LABEL",
   identificationCode: "SIRET/ID",
   idSu: "000005808",
-  contacts: [
-    { id: "1", firstName: "John", lastName: "Doe" },
-    { id: "2", firstName: "Juliette", lastName: "Doe" },
-  ],
-  status: "HC",
-  lastCommunication: "PND",
-  collectDate: "2024-07-19T07:23:20.156Z",
+  contacts: [],
+  status: "TODO",
+  lastCommunication: "TODO",
+  collectDate: undefined,
+  // collectDate: "2024-07-19T07:23:20.156Z",
   questioningUrl: "/",
   questioningComments: [
-    {
-      comment: "commentaire 1 interro",
-      author: "auteur",
-      commentDate: "2024-08-08T13:10:51.414+00:00",
-    },
-    {
-      comment: "commentaire 2 interro",
-      author: "auteur",
-      commentDate: "2024-08-09T05:25:25.756+00:00",
-    },
-    {
-      comment: "commentaire 3 interro",
-      author: "auteur",
-      commentDate: "2024-09-09T05:25:25.756+00:00",
-    },
+    // {
+    //   comment: "commentaire 1 interro",
+    //   author: "auteur",
+    //   commentDate: "2024-08-08T13:10:51.414+00:00",
+    // },
+    // {
+    //   comment: "commentaire 2 interro",
+    //   author: "auteur",
+    //   commentDate: "2024-08-09T05:25:25.756+00:00",
+    // },
+    // {
+    //   comment: "commentaire 3 interro",
+    //   author: "auteur",
+    //   commentDate: "2024-09-09T05:25:25.756+00:00",
+    // },
   ],
   surveyUnitComments: [
-    {
-      comment: "commentaire 1 UE",
-      author: "auteur",
-      commentDate: "2024-08-08T13:10:51.414+00:00",
-    },
-    {
-      comment: "commentaire 2 UE",
-      author: "auteur",
-      commentDate: "2024-07-09T05:25:25.756+00:00",
-    },
+    // {
+    //   comment: "commentaire 1 UE",
+    //   author: "auteur",
+    //   commentDate: "2024-08-08T13:10:51.414+00:00",
+    // },
+    // {
+    //   comment: "commentaire 2 UE",
+    //   author: "auteur",
+    //   commentDate: "2024-07-09T05:25:25.756+00:00",
+    // },
   ],
 };
 
@@ -103,6 +101,8 @@ export const QuestioningPage = () => {
           </Row>
           <Button
             variant="contained"
+            // remove disabled
+            disabled={true}
             size="large"
             component={Link}
             to={questioningMock.questioningUrl}

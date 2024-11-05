@@ -1,4 +1,4 @@
-import { Button, Card, Divider, List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
+import { Button, Card, Stack, Typography } from "@mui/material";
 import { Row } from "../Row.tsx";
 import { Link } from "../Link.tsx";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
@@ -16,7 +16,8 @@ export const QuestioningInfos = ({ questioning }: Props) => {
         <Stack gap={2}>
           <Typography variant={"headlineSmall"}>Informations</Typography>
 
-          <List dense>
+          {/* TODO: use this List when get data */}
+          {/* <List dense>
             <ListItem sx={{ px: 0 }}>
               <ListItemText primary={<Typography variant="titleSmall">Répondants</Typography>} />
             </ListItem>
@@ -46,12 +47,14 @@ export const QuestioningInfos = ({ questioning }: Props) => {
                 </ListItem>
               </div>
             ))}
-          </List>
+          </List> */}
           <Stack gap={1} sx={{ pr: 2 }}>
             <Typography variant="titleSmall">Unité enquêtée</Typography>
             <Row justifyContent={"space-between"}>
               <Typography variant="bodyMedium">{questioning.identificationCode}</Typography>
               <Button
+                // todo remove disabled
+                disabled={true}
                 component={Link}
                 to={`/survey-units/${questioning.idSu}`}
                 sx={{ typography: "titleSmall" }}
@@ -67,6 +70,8 @@ export const QuestioningInfos = ({ questioning }: Props) => {
             <Row justifyContent={"space-between"}>
               <Typography variant="bodyMedium">{questioning.campaign}</Typography>
               <Button
+                // todo remove disabled
+                disabled={true}
                 component={Link}
                 to={`/campaigns/${questioning.campaign}`}
                 sx={{ typography: "titleSmall" }}

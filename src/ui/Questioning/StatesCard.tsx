@@ -104,7 +104,8 @@ export const StatesCard = ({ questioning }: Props) => {
               variant="text"
               sx={{ typography: "titleSmall" }}
               onClick={() => toggleDialog("lastCommunicationHistory")}
-              disabled={!questioning.lastCommunication}
+              // disabled={!questioning.lastCommunication}
+              disabled={true}
             >
               Voir l'historique
             </Button>
