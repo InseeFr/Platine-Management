@@ -25,6 +25,10 @@ export const style = {
     },
     border: `1px solid ${theme.palette.border.default}`,
     textDecoration: "none",
+    "&:focus-visible": {
+      outline: `1px solid ${theme.palette.common.black} !important`,
+      outlineOffset: "-1px",
+    },
   },
 };
 

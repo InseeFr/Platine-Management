@@ -16,11 +16,22 @@ type Props = {
 export const SearchTextField = ({ isResetButton, label, inputProps }: Props) => {
   return (
     <TextField
+      id="search-field"
       fullWidth
+      InputLabelProps={{
+        htmlFor: "searchParam",
+      }}
+      inputProps={{
+        "aria-labelledby": "search-field-label",
+      }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton aria-label="search" type={isResetButton ? "reset" : "submit"} edge="end">
+            <IconButton
+              aria-label={isResetButton ? "Réinitialiser la recherche" : "Lancer la recherche"}
+              type={isResetButton ? "reset" : "submit"}
+              edge="end"
+            >
               {isResetButton ? <CloseIcon color="primary" /> : <SearchIcon color="primary" />}
             </IconButton>
           </InputAdornment>

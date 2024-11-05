@@ -11,7 +11,9 @@ export const CardtitleWithIcon = ({ IconComponent, title }: Props) => {
   return (
     <Row spacing={2}>
       <IconComponent />
-      <Typography variant="headlineSmall">{title}</Typography>
+      <Typography variant="headlineSmall" component="h2">
+        {title}
+      </Typography>
     </Row>
   );
 };

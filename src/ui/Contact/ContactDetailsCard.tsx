@@ -58,7 +58,7 @@ export const ContactDetailsCard = ({ contact, onSave }: Props) => {
       <Stack spacing={2}>
         <Row justifyContent={"space-between"}>
           <CardtitleWithIcon IconComponent={PersonOutlineOutlinedIcon} title={"Coordonnées"} />
-          <IconButton onClick={toggleDialog} color="primary">
+          <IconButton onClick={toggleDialog} color="primary" aria-label="edit">
             <ModeEditOutlineOutlinedIcon />
           </IconButton>
         </Row>

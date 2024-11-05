@@ -20,16 +20,16 @@ export const SearchSurveyUnitsHeader = ({ tab, onChangeTab }: Props) => {
     >
       <Stack>
         <Breadcrumbs items={breadcrumbs} />
-        <Typography variant="headlineLarge">
+        <Typography variant="headlineLarge" component="h1">
           Rechercher une unité enquêtée par ID métier ou raison sociale
         </Typography>
       </Stack>
       <Row justifyContent={"space-between"} minWidth={"fit-content"}>
         <ToggleButtonGroup value={tab} exclusive onChange={onChangeTab}>
-          <ToggleButton value="me" aria-label="left aligned" size="large">
+          <ToggleButton value="me" size="large">
             Mes unités enquêtées
           </ToggleButton>
-          <ToggleButton value="all" aria-label="left aligned" size="large">
+          <ToggleButton value="all" size="large">
             Toutes les unités enquêtées
           </ToggleButton>
         </ToggleButtonGroup>

@@ -76,7 +76,7 @@ export const SearchContacts = () => {
       <form onSubmit={handleSubmit} onReset={handleReset}>
         <Stack px={6} py={3} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
           <Breadcrumbs items={breadcrumbs} />
-          <Typography variant="headlineLarge">
+          <Typography variant="headlineLarge" component="h1">
             Rechercher un contact par identifiant de connexion, Prénom/Nom ou email
           </Typography>
         </Stack>

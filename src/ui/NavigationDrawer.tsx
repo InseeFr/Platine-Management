@@ -100,7 +100,15 @@ export const NavigationDrawer = () => {
             </Box>
           </Typography>
         )}
-        <IconButton onClick={handleDrawer}>
+        <IconButton
+          onClick={handleDrawer}
+          sx={{
+            "&:focus-visible": {
+              backgroundColor: "blue.main",
+            },
+          }}
+          aria-label={open ? "réduire le menu" : "ouvrir le menu"}
+        >
           {open ? (
             <ChevronLeftIcon fontSize="large" sx={{ color: theme.palette.text.light }} />
           ) : (
@@ -165,6 +173,9 @@ export const NavigationDrawer = () => {
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
+                    "&:focus-visible": {
+                      border: "3px solid white",
+                    },
                   }}
                   onClick={() =>
                     logout({
