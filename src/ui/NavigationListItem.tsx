@@ -25,6 +25,9 @@ export const NavigationListItem = ({ open, IconComponent, label, link, isActive 
           minHeight: 48,
           justifyContent: open ? "initial" : "center",
           px: 2.5,
+          "&:focus-visible": {
+            border: "3px solid white",
+          },
         }}
         component={Link}
         to={link}

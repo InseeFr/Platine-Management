@@ -32,7 +32,10 @@ export const SearchFilters = ({ isResetButton, inputProps, options, textFieldLab
           id="select-filter-type"
           variant="filled"
           disableUnderline
-          inputProps={inputProps("searchType")}
+          inputProps={{
+            ...inputProps("searchType"),
+            "aria-labelledby": "select-filter-type-label",
+          }}
           renderValue={(selected: string) => {
             if (!selected) {
               return <>Mode de recherche</>;

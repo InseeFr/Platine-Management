@@ -45,7 +45,9 @@ export const ContactPage = () => {
     <>
       <Stack sx={{ backgroundColor: theme.palette.Surfaces.Secondary, px: 6, py: 3 }}>
         <Breadcrumbs items={breadcrumbs} />
-        <Typography variant="headlineLarge">{contactName}</Typography>
+        <Typography variant="headlineLarge" component="h1">
+          {contactName}
+        </Typography>
         <Row justifyContent={"space-between"}>
           <Typography variant="bodyMedium">{`ID connexion : #${contact.identifier}`}</Typography>
           <Button

@@ -61,7 +61,7 @@ export const SurveyUnitCommentsCard = ({ surveyUnit }: Props) => {
             IconComponent={ModeCommentOutlinedIcon}
             title={"Commentaires sur l’unité enquêtée"}
           />
-          <IconButton onClick={toggleDialog}>
+          <IconButton onClick={toggleDialog} aria-label="add-comment">
             <AddCommentOutlinedIcon color="primary" fontSize="navigateIcon" />
           </IconButton>
         </Row>
@@ -96,22 +96,24 @@ export const CommentsList = ({ comments, sx }: CommentType) => {
           scrollbarColor: `${theme.palette.primary.main} ${theme.palette.border.default}`,
         }}
       >
-        <Stack gap={1} sx={sx}>
-          {comments.map(c => (
-            <Card sx={{ pl: 2, py: 2, backgroundColor: "#EBEFF5" }} elevation={0} key={c.commentDate}>
-              <Stack gap={1}>
-                <Typography variant="titleSmall">{c.comment}</Typography>
-                {c.commentDate ? (
-                  <Typography variant="itemSmall">
-                    {`${c.author} - ${new Date(Date.parse(c.commentDate)).toLocaleDateString()} `}
-                  </Typography>
-                ) : (
-                  <Typography variant="itemSmall">{c.author}</Typography>
-                )}
-              </Stack>
-            </Card>
-          ))}
-        </Stack>
+        <li>
+          <Stack gap={1} sx={sx}>
+            {comments.map(c => (
+              <Card sx={{ pl: 2, py: 2, backgroundColor: "#EBEFF5" }} elevation={0} key={c.commentDate}>
+                <Stack gap={1}>
+                  <Typography variant="titleSmall">{c.comment}</Typography>
+                  {c.commentDate ? (
+                    <Typography variant="itemSmall">
+                      {`${c.author} - ${new Date(Date.parse(c.commentDate)).toLocaleDateString()} `}
+                    </Typography>
+                  ) : (
+                    <Typography variant="itemSmall">{c.author}</Typography>
+                  )}
+                </Stack>
+              </Card>
+            ))}
+          </Stack>
+        </li>
       </List>
     )
   );

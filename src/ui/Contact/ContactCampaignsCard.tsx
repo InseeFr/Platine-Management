@@ -8,21 +8,23 @@ type Props = {
 };
 
 export const ContactCampaignsCard = (props: Props) => {
-  const campaigns = props.campaigns ?? [];
+  const campaigns = props.campaigns?.filter(c => c !== null) ?? [];
 
   const hasCampaigns = campaigns?.length > 0;
 
   return (
     <Card sx={{ p: 3, flex: 1 }} elevation={2}>
       <Stack spacing={2}>
-        <Typography variant="headlineSmall">Informations</Typography>
+        <Typography variant="headlineSmall" component="h2">
+          Informations
+        </Typography>
         <List dense>
           <ListItem sx={{ pl: 0 }}>
             <ListItemText primary={<Typography variant="titleSmall">Campagnes</Typography>} />
           </ListItem>
 
           {campaigns.map(campaign => (
-            <div key={campaign}>
+            <li key={campaign}>
               <Divider variant="fullWidth" component="li" />
               <ListItem
                 sx={{ pl: 0 }}
@@ -41,7 +43,7 @@ export const ContactCampaignsCard = (props: Props) => {
               >
                 <ListItemText primary={<Typography variant="bodyMedium">{campaign}</Typography>} />
               </ListItem>
-            </div>
+            </li>
           ))}
 
           {!hasCampaigns && (

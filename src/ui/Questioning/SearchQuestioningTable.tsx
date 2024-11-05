@@ -11,6 +11,7 @@ import {
 import { Column, CustomTableFooter, TableHeader } from "../TableComponents.tsx";
 import { useState } from "react";
 import { SearchQuestioningTableRow } from "./SearchQuestioningTableRow.tsx";
+import { theme } from "../../theme.tsx";
 
 const questioningsMock = [
   {
@@ -123,7 +124,14 @@ export const SearchQuestioningTable = ({ stateFilter }: Props) => {
               <TableCell
                 key={column.id}
                 style={{ minWidth: column.minWidth }}
-                sx={{ typography: "titleSmall", py: 2 }}
+                sx={{
+                  typography: "titleSmall",
+                  py: 2,
+                  "&:focus": {
+                    outline: `1px solid ${theme.palette.common.black} !important`,
+                    outlineOffset: "-1px",
+                  },
+                }}
                 align={column.align ?? "left"}
                 sortDirection={column.id === "quality" ? order : false}
               >

@@ -458,7 +458,7 @@ export const theme = createTheme({
         root: {
           color: palette.text.tertiary,
           "&.Mui-focused": {
-            color: palette.text.tertiary,
+            color: palette.text.primary,
           },
           "&.Mui-error": {
             color: palette.text.tertiary,
@@ -490,12 +490,12 @@ export const theme = createTheme({
           border: `1px solid ${palette.border.default}`,
           "&:hover": {
             backgroundColor: palette.Surfaces.Secondary,
-            border: `1px solid ${palette.border.default}`,
+            border: `1px solid ${palette.black.main}`,
+            color: palette.black.main,
           },
-
           "&.Mui-focused": {
             backgroundColor: palette.Surfaces.Secondary,
-            border: `1px solid ${palette.border.default}`,
+            border: `1px solid ${palette.primary.main}`,
           },
           ".MuiSvgIcon-root ": {
             fill: palette.primary.main,

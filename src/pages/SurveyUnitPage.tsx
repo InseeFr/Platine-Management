@@ -53,7 +53,7 @@ export function SurveyUnitPage() {
         }}
       >
         {Object.keys(Tab).map(k => (
-          <PageTab key={k} value={k} label={TabNames[k]} />
+          <PageTab key={k} value={k} label={TabNames[k]} aria-label={TabNames[k]} />
         ))}
       </Tabs>
 
