@@ -14,7 +14,9 @@ export const QuestioningInfos = ({ questioning }: Props) => {
     <Row gap={3} alignItems={"start"}>
       <Card sx={{ p: 3, flex: 1 }} elevation={2}>
         <Stack gap={2}>
-          <Typography variant={"headlineSmall"}>Informations</Typography>
+          <Typography variant={"headlineSmall"} component="h2">
+            Informations
+          </Typography>
 
           {/* TODO: use this List when get data */}
           {/* <List dense>
@@ -49,7 +51,9 @@ export const QuestioningInfos = ({ questioning }: Props) => {
             ))}
           </List> */}
           <Stack gap={1} sx={{ pr: 2 }}>
-            <Typography variant="titleSmall">Unité enquêtée</Typography>
+            <Typography variant="titleSmall" component="h3">
+              Unité enquêtée
+            </Typography>
             <Row justifyContent={"space-between"}>
               <Typography variant="bodyMedium">{questioning.identificationCode}</Typography>
               <Button
@@ -66,7 +70,9 @@ export const QuestioningInfos = ({ questioning }: Props) => {
             </Row>
           </Stack>
           <Stack gap={1} sx={{ pr: 2 }}>
-            <Typography variant="titleSmall">Campagne</Typography>
+            <Typography variant="titleSmall" component="h3">
+              Collecte
+            </Typography>
             <Row justifyContent={"space-between"}>
               <Typography variant="bodyMedium">{questioning.campaign}</Typography>
               <Button

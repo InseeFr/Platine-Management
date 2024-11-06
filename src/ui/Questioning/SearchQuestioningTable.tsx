@@ -66,7 +66,7 @@ export const getCollectStateChipColor = (state?: string) => {
 };
 
 const columns: readonly Column[] = [
-  { id: "campaign", label: "Campagne", minWidth: "95px" },
+  { id: "campaign", label: "Collecte", minWidth: "95px" },
   { id: "identificationCode", label: "ID métier", minWidth: "95px" },
   { id: "contacts", label: "Contacts", minWidth: "95px" },
   { id: "status", label: "Statut", minWidth: "150px" },
@@ -76,7 +76,7 @@ const columns: readonly Column[] = [
 ];
 
 const columnsWithQuality: readonly Column[] = [
-  { id: "campaign", label: "Campagne", minWidth: "95px" },
+  { id: "campaign", label: "Collecte", minWidth: "95px" },
   { id: "identificationCode", label: "ID métier", minWidth: "100px" },
   { id: "contacts", label: "Contacts", minWidth: "95px" },
   { id: "status", label: "Statut", minWidth: "150px" },

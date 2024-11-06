@@ -44,14 +44,16 @@ export const SearchQuestionings = () => {
       >
         <Stack>
           <Breadcrumbs items={breadcrumbs} />
-          <Typography variant="headlineLarge">Interrogations</Typography>
+          <Typography variant="headlineLarge" component="h1">
+            Interrogations
+          </Typography>
         </Stack>
         <Row justifyContent={"space-between"}>
           <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
-            <ToggleButton value="me" aria-label="left aligned" size="large">
+            <ToggleButton value="me" size="large">
               Mon portefeuille
             </ToggleButton>
-            <ToggleButton value="all" aria-label="left aligned" size="large">
+            <ToggleButton value="all" size="large">
               Tous les portefeuilles
             </ToggleButton>
           </ToggleButtonGroup>
@@ -96,7 +98,7 @@ export const SearchQuestionings = () => {
             inputProps={inputProps}
           />
           <Row gap={3}>
-            <FilterSelect options={[]} label={"Campagne"} name={"campaign"} />
+            <FilterSelect options={[]} label={"Collecte"} name={"campaign"} />
             <FilterSelect options={collectStatus} label={"Statut"} name={"status"} />
             <FilterSelect options={[]} label={"Dernière communication"} name={"lastCommunication"} />
           </Row>

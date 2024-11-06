@@ -73,7 +73,7 @@ export const QuestioningCommentsCard = ({ questioning }: Props) => {
     <Card sx={{ p: 3 }} elevation={2}>
       <Row gap={2} justifyContent={"space-between"}>
         <CardtitleWithIcon IconComponent={ModeCommentOutlinedIcon} title={"Commentaires"} />
-        <IconButton onClick={toggleDialog}>
+        <IconButton onClick={toggleDialog} aria-label="add-comment">
           <AddCommentOutlinedIcon color="primary" fontSize="navigateIcon" />
         </IconButton>
       </Row>

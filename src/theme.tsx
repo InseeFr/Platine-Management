@@ -475,7 +475,7 @@ export const theme = createTheme({
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: palette.text.tertiary,
+          color: palette.text.secondary,
           "&.Mui-focused": {
             color: palette.text.primary,
           },
@@ -530,6 +530,11 @@ export const theme = createTheme({
         root: {
           "& .Mui-focused .MuiSelect-select": {
             backgroundColor: palette.Surfaces.Secondary,
+          },
+          ":hover": {
+            "& .MuiInputLabel-root": {
+              color: palette.text.secondary,
+            },
           },
           "& .MuiFormHelperText-root": {
             marginLeft: 0,

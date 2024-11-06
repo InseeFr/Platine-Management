@@ -79,7 +79,7 @@ export const QuestioningPage = () => {
     <>
       <Stack px={6} py={3} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
         <Breadcrumbs items={breadcrumbs} />
-        <Typography component={"span"} variant="headlineLarge">
+        <Typography component="h1" variant="headlineLarge">
           {questioningMock.label}
         </Typography>
         <Row justifyContent={"space-between"} pt={1}>

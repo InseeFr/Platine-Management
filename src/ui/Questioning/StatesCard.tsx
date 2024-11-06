@@ -56,10 +56,14 @@ export const StatesCard = ({ questioning }: Props) => {
   return (
     <Card sx={{ p: 3 }} elevation={2}>
       <Stack gap={3}>
-        <Typography variant={"headlineSmall"}>États</Typography>
+        <Typography variant={"headlineSmall"} component="h2">
+          États
+        </Typography>
         <Stack gap={2}>
           <Row justifyContent={"space-between"}>
-            <Typography variant="titleSmall">Dernier statut</Typography>
+            <Typography variant="titleSmall" component="h3">
+              Dernier statut
+            </Typography>
             <Button
               variant="text"
               sx={{ typography: "titleSmall" }}
@@ -99,7 +103,9 @@ export const StatesCard = ({ questioning }: Props) => {
         </Stack>
         <Stack gap={2}>
           <Row justifyContent={"space-between"}>
-            <Typography variant="titleSmall">Dernière communication</Typography>
+            <Typography variant="titleSmall" component="h3">
+              Dernière communication
+            </Typography>
             <Button
               variant="text"
               sx={{ typography: "titleSmall" }}
