@@ -16,6 +16,7 @@ import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
 import { AddressFormFields } from "../Form/AddressFormFields.tsx";
 import { useState } from "react";
 import { contactSchema } from "../../schemas/contactSchema.ts";
+import { z } from "zod";
 
 type Props = {
   open: boolean;
@@ -44,7 +45,7 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
   const code = contact.address?.zipCode && contact.address.zipCode !== "" ? "zipCode" : "cedexCode";
 
   const defaultValues = { ...contact, address: { ...contact.address, codeChoice: code } };
-  const { register, control, errors, handleSubmit, reset, setValue } = useForm(contactSchema, {
+  const { register, control, errors, handleSubmit, reset, setValue, watch } = useForm(contactSchema, {
     defaultValues: defaultValues,
   });
 
@@ -86,6 +87,10 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
     onClose();
   };
 
+  const onResetField = (name: keyof z.infer<typeof contactSchema>) => {
+    setValue(name, "");
+  };
+
   return (
     <Dialog open={open} onClose={handleClose} sx={{ ".MuiPaper-root": { maxWidth: "80vw", p: 2 } }}>
       <form action="#" onSubmit={onSubmit}>
@@ -106,15 +111,47 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 error={errors?.civility?.message}
                 options={civilities}
               />
-              <Field label="Nom" error={errors.lastName?.message} {...register("lastName")} />
-              <Field label="Prénom" error={errors.firstName?.message} {...register("firstName")} />
-              <Field label="Fonction" error={errors.function?.message} {...register("function")} />
-              <Field label="Adresse mail" error={errors.email?.message} {...register("email")} />
-              <Field label="Téléphone 1" error={errors.phone?.message} {...register("phone")} />
+              <Field
+                label="Nom"
+                error={errors.lastName?.message}
+                {...register("lastName")}
+                onResetField={() => onResetField("lastName")}
+                isEmpty={watch("lastName") === ""}
+              />
+              <Field
+                label="Prénom"
+                error={errors.firstName?.message}
+                {...register("firstName")}
+                onResetField={() => onResetField("firstName")}
+                isEmpty={watch("firstName") === ""}
+              />
+              <Field
+                label="Fonction"
+                error={errors.function?.message}
+                {...register("function")}
+                onResetField={() => onResetField("function")}
+                isEmpty={watch("function") === ""}
+              />
+              <Field
+                label="Adresse mail"
+                error={errors.email?.message}
+                {...register("email")}
+                onResetField={() => onResetField("email")}
+                isEmpty={watch("email") === ""}
+              />
+              <Field
+                label="Téléphone 1"
+                error={errors.phone?.message}
+                {...register("phone")}
+                onResetField={() => onResetField("phone")}
+                isEmpty={watch("phone") === ""}
+              />
               <Field
                 label="Téléphone 2"
                 error={errors.otherPhone?.message}
                 {...register("otherPhone")}
+                onResetField={() => onResetField("otherPhone")}
+                isEmpty={watch("otherPhone") === ""}
               />
             </Stack>
             <Divider orientation="vertical" variant="middle" />
@@ -129,6 +166,8 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 setCodeType(e.target.value);
                 setValue("address.codeChoice", e.target.value);
               }}
+              watch={watch}
+              onResetField={onResetField}
               type="contact"
             />
           </Box>

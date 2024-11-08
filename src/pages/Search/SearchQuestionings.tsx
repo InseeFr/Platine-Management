@@ -4,12 +4,12 @@ import Stack from "@mui/material/Stack";
 import { Row } from "../../ui/Row.tsx";
 import { theme } from "../../theme.tsx";
 import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
-import { SearchTextField } from "../../ui/SearchTextField.tsx";
 import { Divider, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { SearchQuestioningTable } from "../../ui/Questioning/SearchQuestioningTable.tsx";
 import { EmptyState } from "../../ui/TableComponents.tsx";
 import { FilterSelect } from "../../ui/FilterSelect.tsx";
 import { collectStatus } from "../../constants/collectStatus.ts";
+import { SearchTextFieldQuestioning } from "../../ui/Questioning/SearchTextFieldQuestioning.tsx";
 
 export const SearchQuestionings = () => {
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Interrogations"];
@@ -92,7 +92,7 @@ export const SearchQuestionings = () => {
               </ToggleButton>
             </ToggleButtonGroup>
           </Row>
-          <SearchTextField
+          <SearchTextFieldQuestioning
             isResetButton={isResetButton}
             label={"Rechercher par identifiant métier ou contact ou unité enquêtée"}
             inputProps={inputProps}

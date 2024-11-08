@@ -12,8 +12,17 @@ import { Controller, type UseFormReturn } from "react-hook-form";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import WarningIcon from "@mui/icons-material/Warning";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
-import { FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectProps,
+} from "@mui/material";
 import { Row } from "../Row.tsx";
+import CloseIcon from "@mui/icons-material/Close";
 
 type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required" | "sx"> &
   Pick<SelectProps, "onChange" | "defaultValue" | "disabled"> & {
@@ -23,6 +32,8 @@ type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "re
     labelOutside?: boolean;
     options?: { label: string; value: string }[];
     selectoptions?: string[];
+    onResetField?: () => void;
+    isEmpty?: boolean;
   };
 
 export const Field = forwardRef<HTMLElement, Props>((props, ref) => {
@@ -92,6 +103,13 @@ export function uncontrolledField(props: Props, ref: any) {
           IconComponent={props => <ExpandMoreOutlinedIcon {...props} sx={{ color: "text.primary" }} />}
           disabled={props.disabled}
           fullWidth
+          endAdornment={
+            props.isEmpty === false ? (
+              <IconButton sx={{ mr: 2 }} size="small" onClick={props.onResetField}>
+                <CloseIcon />
+              </IconButton>
+            ) : undefined
+          }
           {...props}
           labelId={labelId}
           defaultValue={props.defaultValue}
@@ -121,7 +139,14 @@ export function uncontrolledField(props: Props, ref: any) {
         onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
           e.target.value = e.target.value.replace(/\D/g, "");
         }}
-        InputProps={{ disableUnderline: true }}
+        InputProps={{
+          disableUnderline: true,
+          endAdornment: !props.isEmpty ? (
+            <IconButton size="small" onClick={props.onResetField}>
+              <CloseIcon />
+            </IconButton>
+          ) : undefined,
+        }}
         inputRef={ref}
         error={!!props.error}
         helperText={
@@ -141,7 +166,14 @@ export function uncontrolledField(props: Props, ref: any) {
     <TextField
       fullWidth
       {...props}
-      InputProps={{ disableUnderline: true }}
+      InputProps={{
+        disableUnderline: true,
+        endAdornment: !props.isEmpty ? (
+          <IconButton size="small" onClick={props.onResetField}>
+            <CloseIcon />
+          </IconButton>
+        ) : undefined,
+      }}
       inputRef={ref}
       error={!!props.error}
       helperText={

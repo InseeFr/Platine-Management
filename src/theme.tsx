@@ -139,7 +139,7 @@ declare module "@mui/material/TextField" {
 
 declare module "@mui/material/IconButton" {
   interface IconButtonOwnProps {
-    variant?: "outlined";
+    variant?: "outlined" | "contained";
   }
 }
 
@@ -426,6 +426,18 @@ export const theme = createTheme({
             border: `2px solid ${palette.primary.main}`,
             borderRadius: 4,
             padding: 0,
+          },
+        },
+        {
+          props: { variant: "contained" },
+          style: {
+            ".MuiSvgIcon-root": {
+              fill: "white",
+            },
+            backgroundColor: palette.primary.main,
+            ":hover": {
+              backgroundColor: palette.primary.main,
+            },
           },
         },
       ],

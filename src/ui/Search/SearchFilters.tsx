@@ -10,7 +10,7 @@ import { ListItemText } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 
 type Props = Pick<TextFieldProps, "sx"> & {
-  isResetButton: boolean;
+  hasResetButton: boolean;
   inputProps: (name: any) => {
     id: any;
     name: any;
@@ -21,7 +21,7 @@ type Props = Pick<TextFieldProps, "sx"> & {
   textFieldLabel: string;
 };
 
-export const SearchFilters = ({ isResetButton, inputProps, options, textFieldLabel, sx }: Props) => {
+export const SearchFilters = ({ hasResetButton, inputProps, options, textFieldLabel, sx }: Props) => {
   return (
     <Row gap={2} sx={sx}>
       <FormControl sx={{ minWidth: 240 }} variant="filled">
@@ -52,7 +52,7 @@ export const SearchFilters = ({ isResetButton, inputProps, options, textFieldLab
           ))}
         </Select>
       </FormControl>
-      <SearchTextField isResetButton={isResetButton} label={textFieldLabel} inputProps={inputProps} />
+      <SearchTextField hasResetButton={hasResetButton} label={textFieldLabel} inputProps={inputProps} />
     </Row>
   );
 };

@@ -26,7 +26,6 @@ export const SearchContacts = () => {
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Contacts"];
 
   const { contacts: contactsFilter } = useGetSearchFilter();
-  const [submittedValue, setSubmittedValue] = useState(contactsFilter);
 
   // isRedirected determines whether or not to redirect when there is only one result
   const [isRedirected, setIsRedirected] = useState(false);
@@ -51,20 +50,15 @@ export const SearchContacts = () => {
   );
 
   const handleSubmit: FormEventHandler = e => {
-    setSubmittedValue(value);
     setIsRedirected(true);
     onSubmit(e);
   };
 
   const handleReset: FormEventHandler = e => {
-    setSubmittedValue({ searchType: "", searchParam: "" });
     onReset(e);
   };
 
-  const isResetButton =
-    submittedValue.searchParam === value.searchParam &&
-    value.searchParam !== "" &&
-    submittedValue.searchType === value.searchType;
+  const hasResetButton = value.searchParam !== "";
 
   const hasNoContact =
     !isLoading && contactsFilter.searchParam && (contacts === undefined || contacts.length === 0);
@@ -84,11 +78,11 @@ export const SearchContacts = () => {
 
         <Stack sx={{ my: 3, px: 5 }} gap={3} alignItems={"center"}>
           <SearchFilters
-            isResetButton={isResetButton}
+            hasResetButton={hasResetButton}
             inputProps={inputProps}
             options={options}
             textFieldLabel={textFieldLabel}
-            sx={{ width: "50vw", height: "50vh", minWidth: "700px" }}
+            sx={{ width: "50vw", height: "50vh", minWidth: "800px" }}
           />
         </Stack>
       </form>
@@ -110,7 +104,7 @@ export const SearchContacts = () => {
           </Typography>
         </Stack>
         <SearchFilters
-          isResetButton={isResetButton}
+          hasResetButton={hasResetButton}
           inputProps={inputProps}
           options={options}
           textFieldLabel={textFieldLabel}
@@ -119,14 +113,14 @@ export const SearchContacts = () => {
       <Divider variant="fullWidth" />
 
       <Stack sx={{ my: 3, px: 5 }} gap={3}>
-        {submittedValue && hasNoContact && (
+        {hasNoContact && (
           <SearchContactEmptyState
             onChangeSearchType={onChangeSearchType}
             searchType={contactsFilter.searchType}
             searchValue={contactsFilter.searchParam}
           />
         )}
-        {submittedValue && !hasNoContact && (
+        {!hasNoContact && (
           <SearchContactTable
             isLoading={isLoading}
             contacts={contacts}
