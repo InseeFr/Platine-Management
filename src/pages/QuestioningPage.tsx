@@ -21,46 +21,17 @@ const TabNames = {
 };
 
 const questioningMock = {
-  id: 2590569,
+  questioningId: 2590569,
   label: "TODO LABEL",
-  campaign: "TODO COLLECTE LABEL",
-  identificationCode: "SIRET/ID",
-  idSu: "000005808",
-  contacts: [],
-  status: "TODO",
-  lastCommunication: "TODO",
-  collectDate: undefined,
-  // collectDate: "2024-07-19T07:23:20.156Z",
+  campaignId: "TODO COLLECTE LABEL",
+  surveyUnitIdentificationCode: "SIRET/ID",
+  surveyUnitId: "000005808",
+  listContactIdentifiers: [],
+  lastEvent: "TODO",
+  lastCommunication: null,
+  validationDate: undefined,
+  // validationDate: "2024-07-19T07:23:20.156Z",
   questioningUrl: "/",
-  questioningComments: [
-    // {
-    //   comment: "commentaire 1 interro",
-    //   author: "auteur",
-    //   commentDate: "2024-08-08T13:10:51.414+00:00",
-    // },
-    // {
-    //   comment: "commentaire 2 interro",
-    //   author: "auteur",
-    //   commentDate: "2024-08-09T05:25:25.756+00:00",
-    // },
-    // {
-    //   comment: "commentaire 3 interro",
-    //   author: "auteur",
-    //   commentDate: "2024-09-09T05:25:25.756+00:00",
-    // },
-  ],
-  surveyUnitComments: [
-    // {
-    //   comment: "commentaire 1 UE",
-    //   author: "auteur",
-    //   commentDate: "2024-08-08T13:10:51.414+00:00",
-    // },
-    // {
-    //   comment: "commentaire 2 UE",
-    //   author: "auteur",
-    //   commentDate: "2024-07-09T05:25:25.756+00:00",
-    // },
-  ],
 };
 
 export const QuestioningPage = () => {
@@ -89,14 +60,16 @@ export const QuestioningPage = () => {
                 typography: "titleSmall",
               }}
               label={
-                collectStatus.find(state => state.value === questioningMock.status)?.label ??
+                collectStatus.find(state => state.value === questioningMock.lastEvent)?.label ??
                 "Aucun état"
               }
-              color={getCollectStateChipColor(questioningMock.status)}
+              color={getCollectStateChipColor(questioningMock.lastEvent)}
             />
             <Typography component={"span"} variant="bodyMedium">
-              {questioningMock.collectDate &&
-                `Collectée le ${new Date(Date.parse(questioningMock.collectDate)).toLocaleDateString()}`}
+              {questioningMock.validationDate &&
+                `Collectée le ${new Date(
+                  Date.parse(questioningMock.validationDate),
+                ).toLocaleDateString()}`}
             </Typography>
           </Row>
           <Button

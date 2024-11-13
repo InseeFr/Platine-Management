@@ -87,7 +87,7 @@ type CommentType = {
 
 export const CommentsList = ({ comments, sx }: CommentType) => {
   return (
-    comments.length > 0 && (
+    comments?.length > 0 && (
       <List
         sx={{
           minHeight: "fit-content",

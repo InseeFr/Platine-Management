@@ -15,48 +15,44 @@ import { theme } from "../../theme.tsx";
 
 const questioningsMock = [
   {
-    id: 1,
-    campaign: "ARTI",
-    identificationCode: "SIRET/ID",
-    contacts: [
-      { id: 1, firstName: "John", lastName: "Doe" },
-      { id: 2, firstName: "Juliette", lastName: "Doe" },
-      { id: 3, firstName: "Walter", lastName: "Doe" },
-      { id: 4, firstName: "Jack", lastName: "Doe" },
-      { id: 5, firstName: "Jane", lastName: "Doe" },
-    ],
-    status: "HC",
-    lastCommunication: "PND",
-    collectDate: "2024-07-19T07:23:20.156Z",
+    questioningId: 1,
+    campaignId: "ARTI",
+    listContactIdentifiers: ["IDEC123", "IDEC223", "IDEC323", "IDEC423"],
+    surveyUnitIdentificationCode: "SIREN001",
+    surveyUnitId: "BBB001",
+    lastEvent: "HC",
+    lastCommunication: "COURRIER_RELANCE",
+    validationDate: "2024-07-19T07:23:20.156Z",
     quality: "5",
   },
   {
-    id: 2,
-    campaign: "ARTI",
-    identificationCode: "SIRET/ID",
-    contacts: [{ id: 2, firstName: "Juliette", lastName: "Doe" }],
-    status: "VALPAP",
-    lastCommunication: "PARTIELINT",
-    collectDate: undefined,
+    questioningId: 2,
+    campaignId: "ARTI",
+    listContactIdentifiers: ["IDEC123"],
+    surveyUnitIdentificationCode: "SIRET/ID",
+    surveyUnitId: "BBB001",
+    lastEvent: "REFUSAL",
+    lastCommunication: "MAIL_OUVERTURE",
+    validationDate: undefined,
     quality: "8",
   },
   {
-    id: 3,
-    campaign: "ARTI",
-    identificationCode: "SIRET/ID",
-    contacts: [{ id: 2, firstName: "Juliette", lastName: "Doe" }],
-    status: "VALPAP",
-    lastCommunication: "PARTIELINT",
-    collectDate: undefined,
+    questioningId: 3,
+    campaignId: "ARTI",
+    listContactIdentifiers: undefined,
+    surveyUnitId: "BBB001",
+    lastEvent: "PARTIELINT",
+    lastCommunication: "COURRIER_MED",
+    validationDate: undefined,
     quality: "2",
   },
 ];
 
 export const getCollectStateChipColor = (state?: string) => {
   switch (state) {
-    case "PND":
-    case "PARTIELINT":
+    case "REFUSAL":
       return "error";
+    case "PARTIELINT":
     case "VALINT":
     case "VALPAP":
       return "success";
@@ -66,22 +62,22 @@ export const getCollectStateChipColor = (state?: string) => {
 };
 
 const columns: readonly Column[] = [
-  { id: "campaign", label: "Collecte", minWidth: "95px" },
-  { id: "identificationCode", label: "ID métier", minWidth: "95px" },
-  { id: "contacts", label: "Contacts", minWidth: "95px" },
-  { id: "status", label: "Statut", minWidth: "150px" },
+  { id: "campaignId", label: "Collecte", minWidth: "95px" },
+  { id: "listContactIdentifiers", label: "ID connexion", minWidth: "95px" },
+  { id: "surveyUnitIdentificationCode", label: "ID métier", minWidth: "100px" },
+  { id: "lastEvent", label: "Statut", minWidth: "150px" },
   { id: "lastCommunication", label: "Dernière communication", minWidth: "150px" },
-  { id: "collectDate", label: "Date de collecte", minWidth: "150px" },
+  { id: "validationDate", label: "Date de collecte", minWidth: "150px" },
   { id: "actions", label: "", minWidth: "50px" },
 ];
 
 const columnsWithQuality: readonly Column[] = [
-  { id: "campaign", label: "Collecte", minWidth: "95px" },
-  { id: "identificationCode", label: "ID métier", minWidth: "100px" },
-  { id: "contacts", label: "Contacts", minWidth: "95px" },
-  { id: "status", label: "Statut", minWidth: "150px" },
+  { id: "campaignId", label: "Collecte", minWidth: "95px" },
+  { id: "listContactIdentifiers", label: "ID connexion", minWidth: "95px" },
+  { id: "surveyUnitIdentificationCode", label: "ID métier", minWidth: "100px" },
+  { id: "lastEvent", label: "Statut", minWidth: "150px" },
   { id: "lastCommunication", label: "Dernière communication", minWidth: "150px" },
-  { id: "collectDate", label: "Date de collecte", minWidth: "150px" },
+  { id: "validationDate", label: "Date de collecte", minWidth: "150px" },
   { id: "quality", label: "Qualité", minWidth: "50px" },
   { id: "actions", label: "", minWidth: "50px" },
 ];
@@ -157,7 +153,7 @@ export const SearchQuestioningTable = ({ stateFilter }: Props) => {
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map(questioning => (
               <SearchQuestioningTableRow
-                key={questioning.id}
+                key={questioning.questioningId}
                 questioning={questioning}
                 stateFilter={stateFilter}
               />

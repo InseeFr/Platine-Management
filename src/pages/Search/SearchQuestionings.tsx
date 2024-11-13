@@ -8,8 +8,8 @@ import { Divider, ToggleButton, ToggleButtonGroup, Typography } from "@mui/mater
 import { SearchQuestioningTable } from "../../ui/Questioning/SearchQuestioningTable.tsx";
 import { EmptyState } from "../../ui/TableComponents.tsx";
 import { FilterSelect } from "../../ui/FilterSelect.tsx";
-import { collectStatus } from "../../constants/collectStatus.ts";
-import { SearchTextFieldQuestioning } from "../../ui/Questioning/SearchTextFieldQuestioning.tsx";
+import { SearchSelectStatus } from "../../ui/Questioning/SearchSelectStatus.tsx";
+import { SearchTextField } from "../../ui/SearchTextField.tsx";
 
 export const SearchQuestionings = () => {
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Interrogations"];
@@ -18,21 +18,21 @@ export const SearchQuestionings = () => {
   const [stateFilter, setStateFilter] = useState("all");
 
   const { questionings: questioningFilter } = useGetSearchFilter();
-  const [submittedValue, setSubmittedValue] = useState(questioningFilter.searchParam);
 
   const { onSubmit, onReset, inputProps, value } = useSearchForm("questionings", questioningFilter);
 
   const handleSubmit: FormEventHandler = e => {
-    setSubmittedValue(value.searchParam);
     onSubmit(e);
   };
 
   const handleReset: FormEventHandler = e => {
-    setSubmittedValue("");
     onReset(e);
   };
 
-  const isResetButton = submittedValue === value.searchParam && value.searchParam !== "";
+  const hasResetButton = value.searchParam !== "";
+
+  // TODO use real condition
+  const hasNoQuestioning = false;
 
   return (
     <Stack>
@@ -92,21 +92,20 @@ export const SearchQuestionings = () => {
               </ToggleButton>
             </ToggleButtonGroup>
           </Row>
-          <SearchTextFieldQuestioning
-            isResetButton={isResetButton}
-            label={"Rechercher par identifiant métier ou contact ou unité enquêtée"}
+          <SearchTextField
+            hasResetButton={hasResetButton}
+            label={"Rechercher par unité enquêtée ou identifiant de connexion"}
             inputProps={inputProps}
           />
           <Row gap={3}>
-            <FilterSelect options={[]} label={"Collecte"} name={"campaign"} />
-            <FilterSelect options={collectStatus} label={"Statut"} name={"status"} />
+            <FilterSelect options={[]} label={"Collecte"} name={"campaignId"} />
+            <SearchSelectStatus />
             <FilterSelect options={[]} label={"Dernière communication"} name={"lastCommunication"} />
           </Row>
-          {/* TODO: rework condition when get data */}
-          {submittedValue && (
-            <EmptyState isFiltered={isResetButton} text={"Aucune interrogation trouvée."} />
+          {hasNoQuestioning && (
+            <EmptyState isFiltered={hasResetButton} text={"Aucune interrogation trouvée."} />
           )}
-          {!submittedValue && <SearchQuestioningTable stateFilter={stateFilter} />}
+          {!hasNoQuestioning && <SearchQuestioningTable stateFilter={stateFilter} />}
         </Stack>
       </form>
     </Stack>

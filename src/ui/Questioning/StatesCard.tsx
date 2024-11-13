@@ -62,20 +62,19 @@ export const StatesCard = ({ questioning }: Props) => {
         <Stack gap={2}>
           <Row justifyContent={"space-between"}>
             <Typography variant="titleSmall" component="h3">
-              Dernier statut
+              Statut
             </Typography>
             <Button
               variant="text"
               sx={{ typography: "titleSmall" }}
               onClick={() => toggleDialog("statusHistory")}
-              disabled={!questioning.status}
             >
               Voir l'historique
             </Button>
           </Row>
           <Row justifyContent={"space-between"}>
             <Row gap={2}>
-              {questioning.status && (
+              {questioning.lastEvent && (
                 <Chip
                   sx={{
                     typography: "titleSmall",
@@ -83,10 +82,10 @@ export const StatesCard = ({ questioning }: Props) => {
                     textOverflow: "ellipsis",
                   }}
                   label={
-                    collectStatus.find(state => state.value === questioning.status)?.label ??
+                    collectStatus.find(state => state.value === questioning.lastEvent)?.label ??
                     "Aucun état"
                   }
-                  color={getCollectStateChipColor(questioning.status)}
+                  color={getCollectStateChipColor(questioning.lastEvent)}
                 />
               )}
               <IconButton
@@ -101,22 +100,21 @@ export const StatesCard = ({ questioning }: Props) => {
             <Typography variant="bodyMedium">TODO DATA</Typography>
           </Row>
         </Stack>
-        <Stack gap={2}>
-          <Row justifyContent={"space-between"}>
-            <Typography variant="titleSmall" component="h3">
-              Dernière communication
-            </Typography>
-            <Button
-              variant="text"
-              sx={{ typography: "titleSmall" }}
-              onClick={() => toggleDialog("lastCommunicationHistory")}
-              // disabled={!questioning.lastCommunication}
-              disabled={true}
-            >
-              Voir l'historique
-            </Button>
-          </Row>
-          {questioning.lastCommunication && (
+        {questioning.lastCommunication && (
+          <Stack gap={2}>
+            <Row justifyContent={"space-between"}>
+              <Typography variant="titleSmall" component="h3">
+                Dernière communication
+              </Typography>
+              <Button
+                variant="text"
+                sx={{ typography: "titleSmall" }}
+                onClick={() => toggleDialog("lastCommunicationHistory")}
+              >
+                Voir l'historique
+              </Button>
+            </Row>
+
             <Row justifyContent={"space-between"}>
               <Chip
                 sx={{
@@ -133,13 +131,13 @@ export const StatesCard = ({ questioning }: Props) => {
 
               <Typography variant="bodyMedium">TODO DATA</Typography>
             </Row>
-          )}
-        </Stack>
+          </Stack>
+        )}
       </Stack>
       <StatusHistory
         onClose={onClose}
         open={openedDialog === "statusHistory"}
-        questioningId={questioning.id}
+        questioningId={questioning.questioningId}
       />
       <AddStatusDialog onClose={onClose} open={openedDialog === "addStatus"} onSubmit={onSelectStatus} />
       <LastCommunicationHistory onClose={onClose} open={openedDialog === "lastCommunicationHistory"} />

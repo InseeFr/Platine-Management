@@ -55,12 +55,10 @@ export const QuestioningInfos = ({ questioning }: Props) => {
               Unité enquêtée
             </Typography>
             <Row justifyContent={"space-between"}>
-              <Typography variant="bodyMedium">{questioning.identificationCode}</Typography>
+              <Typography variant="bodyMedium">{questioning.surveyUnitIdentificationCode}</Typography>
               <Button
-                // todo remove disabled
-                disabled={true}
                 component={Link}
-                to={`/survey-units/${questioning.idSu}`}
+                to={`/survey-units/${questioning.surveyUnitId}`}
                 sx={{ typography: "titleSmall" }}
                 size="large"
                 endIcon={<OpenInNewIcon />}
@@ -74,12 +72,10 @@ export const QuestioningInfos = ({ questioning }: Props) => {
               Collecte
             </Typography>
             <Row justifyContent={"space-between"}>
-              <Typography variant="bodyMedium">{questioning.campaign}</Typography>
+              <Typography variant="bodyMedium">{questioning.campaignId}</Typography>
               <Button
-                // todo remove disabled
-                disabled={true}
                 component={Link}
-                to={`/campaigns/${questioning.campaign}`}
+                to={`/campaigns/${questioning.campaignId}`}
                 sx={{ typography: "titleSmall" }}
                 endIcon={<OpenInNewIcon />}
                 size="large"
