@@ -810,6 +810,36 @@ export type APISchemas = {
     messageSurveyOffline?: string
     messageInfoSurveyOffline?: string
   }
+  PageSearchQuestioningDto: {
+    /* Format: int64 */
+    totalElements?: number
+    /* Format: int32 */
+    totalPages?: number
+    first?: boolean
+    last?: boolean
+    pageable?: APISchemas["PageableObject"]
+    /* Format: int32 */
+    size?: number
+    content?: Array<APISchemas["SearchQuestioningDto"]>
+    /* Format: int32 */
+    number?: number
+    sort?: Array<APISchemas["SortObject"]>
+    /* Format: int32 */
+    numberOfElements?: number
+    empty?: boolean
+  }
+  SearchQuestioningDto: {
+    campaignId?: string
+    /* Format: int64 */
+    questioningId?: number
+    surveyUnitId?: string
+    surveyUnitIdentificationCode?: string
+    listContactIdentifiers?: Array<string>
+    lastEvent?: string
+    lastCommunication?: string
+    /* Format: date-time */
+    validationDate?: string
+  }
   AssistanceDto: { mailAssistance?: string; surveyUnitId?: string }
   Address: {
     StreetNumber?: string
@@ -873,6 +903,7 @@ export type APISchemas = {
     idPartitioning?: string
     questioningAccreditations?: Array<APISchemas["QuestioningAccreditation"]>
     questioningEvents?: Array<APISchemas["QuestioningEvent"]>
+    questioningCommunications?: Array<APISchemas["QuestioningCommunication"]>
     surveyUnit?: APISchemas["SurveyUnit"]
   }
   QuestioningAccreditation: {
@@ -884,6 +915,21 @@ export type APISchemas = {
     idContact?: string
     questioning?: APISchemas["Questioning"]
     main?: boolean
+  }
+  QuestioningCommunication: {
+    /* Format: int64 */
+    id?: number
+    /* Format: date-time */
+    date?: string
+    type?:
+      | "COURRIER_OUVERTURE"
+      | "MAIL_OUVERTURE"
+      | "COURRIER_RELANCE"
+      | "MAIL_RELANCE"
+      | "COURRIER_MED"
+      | "COURRIER_CNR"
+    questioning?: APISchemas["Questioning"]
+    status?: "AUTOMATIC" | "MANUAL"
   }
   QuestioningEvent: {
     /* Format: int64 */
@@ -1004,10 +1050,10 @@ export type APISchemas = {
     listCampaigns?: Array<string>
   }
   SearchContactDto: {
-    identifier?: string
-    email?: string
     firstName?: string
     lastName?: string
+    email?: string
+    identifier?: string
   }
   MyQuestioningDto: {
     identificationCode?: string
@@ -1418,12 +1464,14 @@ export type APIEndpoints = {
     responses: { get: APISchemas["SurveyUnitPage"] }
     requests: {
       method?: "get"
-      query?: {
-        param?: string
+      query: {
+        searchParam: string
+        /* id or code or name */
+        searchType: string
         /* Format: int32 */
         page?: number
         /* Format: int32 */
-        size?: number
+        pageSize?: number
         sort?: string
       }
     }
@@ -1479,6 +1527,29 @@ export type APIEndpoints = {
       urlParams: {
         /* Format: int64 */
         id: number
+      }
+    }
+  }
+  "/api/questionings/{id}/questioning-communications": {
+    responses: { get: {} }
+    requests: {
+      method?: "get"
+      urlParams: {
+        /* Format: int64 */
+        id: number
+      }
+    }
+  }
+  "/api/questionings/search": {
+    responses: { get: APISchemas["PageSearchQuestioningDto"] }
+    requests: {
+      method?: "get"
+      query?: {
+        searchParam?: string
+        /* Format: int32 */
+        page?: number
+        /* Format: int32 */
+        pageSize?: number
       }
     }
   }
@@ -1624,8 +1695,9 @@ export type APIEndpoints = {
     responses: { get: APISchemas["ContactPage"] }
     requests: {
       method?: "get"
-      query?: {
-        param?: string
+      query: {
+        searchParam: string
+        searchType?: string
         /* Format: int32 */
         page?: number
         /* Format: int32 */

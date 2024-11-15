@@ -5,19 +5,10 @@ import { collectStatus } from "../../constants/collectStatus.ts";
 import { getCollectStateChipColor } from "./SearchQuestioningTable.tsx";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { communicationsList } from "../../constants/communications.ts";
+import { APISchemas } from "../../types/api.ts";
 
 type Props = {
-  questioning: {
-    questioningId: number;
-    campaignId: string;
-    surveyUnitIdentificationCode?: string;
-    surveyUnitId?: string;
-    listContactIdentifiers?: string[];
-    lastEvent: string;
-    lastCommunication?: string;
-    validationDate?: string;
-    quality: string;
-  };
+  questioning: APISchemas["SearchQuestioningDto"];
   stateFilter: string;
 };
 
@@ -49,7 +40,11 @@ export const SearchQuestioningTableRow = ({ questioning, stateFilter }: Props) =
           {questioning.listContactIdentifiers?.map(contact => `#${contact}`).join(", ")}
         </TableCell>
       )}
-      <TableCell>{questioning.surveyUnitIdentificationCode ?? questioning.surveyUnitId}</TableCell>
+      <TableCell>
+        {questioning.surveyUnitIdentificationCode !== ""
+          ? questioning.surveyUnitIdentificationCode
+          : questioning.surveyUnitId}
+      </TableCell>
       <TableCell>
         {questioning.lastEvent && (
           <Chip
@@ -84,7 +79,8 @@ export const SearchQuestioningTableRow = ({ questioning, stateFilter }: Props) =
           ? new Date(Date.parse(questioning.validationDate)).toLocaleDateString()
           : "N/A"}
       </TableCell>
-      {stateFilter === "recovery" && <TableCell>{questioning.quality}</TableCell>}
+      {/* TODO use it when get quality data */}
+      {/* {stateFilter === "recovery" && <TableCell>{questioning.quality}</TableCell>} */}
       <TableCell align="right">
         <ChevronRightIcon fontSize="navigateIcon" color="primary" />
       </TableCell>

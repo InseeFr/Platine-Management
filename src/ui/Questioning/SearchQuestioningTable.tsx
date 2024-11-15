@@ -1,52 +1,21 @@
 import {
   Paper,
   SelectChangeEvent,
+  Skeleton,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
+  TableRow,
   TableSortLabel,
 } from "@mui/material";
 import { Column, CustomTableFooter, TableHeader } from "../TableComponents.tsx";
 import { useState } from "react";
 import { SearchQuestioningTableRow } from "./SearchQuestioningTableRow.tsx";
 import { theme } from "../../theme.tsx";
-
-const questioningsMock = [
-  {
-    questioningId: 1,
-    campaignId: "ARTI",
-    listContactIdentifiers: ["IDEC123", "IDEC223", "IDEC323", "IDEC423"],
-    surveyUnitIdentificationCode: "SIREN001",
-    surveyUnitId: "BBB001",
-    lastEvent: "HC",
-    lastCommunication: "COURRIER_RELANCE",
-    validationDate: "2024-07-19T07:23:20.156Z",
-    quality: "5",
-  },
-  {
-    questioningId: 2,
-    campaignId: "ARTI",
-    listContactIdentifiers: ["IDEC123"],
-    surveyUnitIdentificationCode: "SIRET/ID",
-    surveyUnitId: "BBB001",
-    lastEvent: "REFUSAL",
-    lastCommunication: "MAIL_OUVERTURE",
-    validationDate: undefined,
-    quality: "8",
-  },
-  {
-    questioningId: 3,
-    campaignId: "ARTI",
-    listContactIdentifiers: undefined,
-    surveyUnitId: "BBB001",
-    lastEvent: "PARTIELINT",
-    lastCommunication: "COURRIER_MED",
-    validationDate: undefined,
-    quality: "2",
-  },
-];
+import { APISchemas } from "../../types/api.ts";
+import { LoadingRow } from "../Contact/SearchContactTable.tsx";
 
 export const getCollectStateChipColor = (state?: string) => {
   switch (state) {
@@ -83,12 +52,26 @@ const columnsWithQuality: readonly Column[] = [
 ];
 
 type Props = {
+  questionings: APISchemas["SearchQuestioningDto"][];
   stateFilter: string;
+  isLoading: boolean;
+  totalCount: number;
+  setPage: (page: number) => void;
+  setRowsPerPage: (page: number) => void;
+  page: number;
+  rowsPerPage: number;
 };
 
-export const SearchQuestioningTable = ({ stateFilter }: Props) => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+export const SearchQuestioningTable = ({
+  questionings,
+  stateFilter,
+  isLoading,
+  totalCount,
+  setPage,
+  setRowsPerPage,
+  rowsPerPage,
+  page,
+}: Props) => {
   const [order, setOrder] = useState<"asc" | "desc">();
 
   const handleChangePage = (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
@@ -105,11 +88,12 @@ export const SearchQuestioningTable = ({ stateFilter }: Props) => {
     setPage(0);
   };
 
-  const sortedQuestioning = order
-    ? questioningsMock.sort((a, b) =>
-        order === "asc" ? a.quality.localeCompare(b.quality) : b.quality.localeCompare(a.quality),
-      )
-    : questioningsMock;
+  // TODO use it when get quality data
+  // const sortedQuestioning = order
+  //   ? questionings.sort((a, b) =>
+  //       order === "asc" ? a.quality.localeCompare(b.quality) : b.quality.localeCompare(a.quality),
+  //     )
+  //   : questionings;
 
   return (
     <TableContainer component={Paper} elevation={2}>
@@ -148,20 +132,32 @@ export const SearchQuestioningTable = ({ stateFilter }: Props) => {
         ) : (
           <TableHeader columns={columns} />
         )}
+        {isLoading && (
+          <TableRow>
+            <TableCell>
+              <Skeleton />
+            </TableCell>
+            <TableCell>
+              <Skeleton />
+            </TableCell>
+            <TableCell>
+              <Skeleton />
+            </TableCell>
+            <LoadingRow />
+          </TableRow>
+        )}
         <TableBody>
-          {sortedQuestioning
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map(questioning => (
-              <SearchQuestioningTableRow
-                key={questioning.questioningId}
-                questioning={questioning}
-                stateFilter={stateFilter}
-              />
-            ))}
+          {questionings.map(questioning => (
+            <SearchQuestioningTableRow
+              key={questioning.questioningId}
+              questioning={questioning}
+              stateFilter={stateFilter}
+            />
+          ))}
         </TableBody>
-        {sortedQuestioning.length > rowsPerPage && (
+        {totalCount > rowsPerPage * (page + 1) && (
           <CustomTableFooter
-            count={sortedQuestioning.length}
+            count={totalCount}
             rowsPerPage={rowsPerPage}
             page={page}
             labelDisplayedRows="interrogations affichées"

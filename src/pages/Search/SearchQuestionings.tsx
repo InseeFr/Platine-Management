@@ -1,5 +1,9 @@
 import { FormEventHandler, useState } from "react";
-import { useGetSearchFilter, useSearchForm } from "../../hooks/useSearchFilter.ts";
+import {
+  useGetSearchFilter,
+  useSearchFilterParams,
+  useSearchForm,
+} from "../../hooks/useSearchFilter.ts";
 import Stack from "@mui/material/Stack";
 import { Row } from "../../ui/Row.tsx";
 import { theme } from "../../theme.tsx";
@@ -10,14 +14,29 @@ import { EmptyState } from "../../ui/TableComponents.tsx";
 import { FilterSelect } from "../../ui/FilterSelect.tsx";
 import { SearchSelectStatus } from "../../ui/Questioning/SearchSelectStatus.tsx";
 import { SearchTextField } from "../../ui/SearchTextField.tsx";
+import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
+
+const endpoint = "/api/questionings/search";
 
 export const SearchQuestionings = () => {
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Interrogations"];
 
   const [tab, setTab] = useState("me");
   const [stateFilter, setStateFilter] = useState("all");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const { questionings: questioningFilter } = useGetSearchFilter();
+
+  const { data, isLoading } = useFetchQuery(endpoint, {
+    query: {
+      ...useSearchFilterParams("questionings"),
+      page: page,
+      pageSize: rowsPerPage,
+    },
+  });
+
+  const questionings = data?.content ?? [];
 
   const { onSubmit, onReset, inputProps, value } = useSearchForm("questionings", questioningFilter);
 
@@ -31,8 +50,7 @@ export const SearchQuestionings = () => {
 
   const hasResetButton = value.searchParam !== "";
 
-  // TODO use real condition
-  const hasNoQuestioning = false;
+  const hasNoQuestioning = !isLoading && questionings.length === 0;
 
   return (
     <Stack>
@@ -103,9 +121,24 @@ export const SearchQuestionings = () => {
             <FilterSelect options={[]} label={"Dernière communication"} name={"lastCommunication"} />
           </Row>
           {hasNoQuestioning && (
-            <EmptyState isFiltered={hasResetButton} text={"Aucune interrogation trouvée."} />
+            <EmptyState
+              isFiltered={hasResetButton}
+              text={"Aucune interrogation trouvée."}
+              onReset={onReset}
+            />
           )}
-          {!hasNoQuestioning && <SearchQuestioningTable stateFilter={stateFilter} />}
+          {!hasNoQuestioning && (
+            <SearchQuestioningTable
+              questionings={questionings}
+              stateFilter={stateFilter}
+              isLoading={isLoading}
+              totalCount={data?.totalElements ?? 0}
+              page={page}
+              setPage={setPage}
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
+            />
+          )}
         </Stack>
       </form>
     </Stack>
