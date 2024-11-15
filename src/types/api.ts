@@ -810,6 +810,31 @@ export type APISchemas = {
     messageSurveyOffline?: string
     messageInfoSurveyOffline?: string
   }
+  QuestioningCommunicationDto: {
+    /* Format: int64 */
+    id?: number
+    /* Format: int64 */
+    questioningId?: number
+    /* Format: date-time */
+    date?: string
+    type?: string
+    status?: string
+  }
+  QuestioningDetailsDto: {
+    /* Format: int64 */
+    questioningId?: number
+    campaignId?: string
+    listContactIdentifiers?: Array<string>
+    surveyUnitId?: string
+    surveyUnitIdentificationCode?: string
+    listEvents?: Array<APISchemas["QuestioningEventDto"]>
+    lastEvent?: string
+    listCommunications?: Array<APISchemas["QuestioningCommunicationDto"]>
+    lastCommunication?: string
+    /* Format: date-time */
+    validationDate?: string
+    readOnlyUrl?: string
+  }
   PageSearchQuestioningDto: {
     /* Format: int64 */
     totalElements?: number
@@ -1511,7 +1536,7 @@ export type APIEndpoints = {
     requests: { method?: "get"; urlParams: { id: string } }
   }
   "/api/questionings/{id}": {
-    responses: { get: APISchemas["QuestioningDto"] }
+    responses: { get: APISchemas["QuestioningDetailsDto"] }
     requests: {
       method?: "get"
       urlParams: {

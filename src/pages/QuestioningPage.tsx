@@ -1,4 +1,4 @@
-import { Button, Chip, Divider, Stack, Tabs, Typography } from "@mui/material";
+import { Button, Chip, CircularProgress, Divider, Stack, Tabs, Typography } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { theme } from "../theme.tsx";
 import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
@@ -9,6 +9,8 @@ import { PageTab } from "../ui/PageTab.tsx";
 import { QuestioningInfos } from "../ui/Questioning/QuestioningInfos.tsx";
 import { collectStatus } from "../constants/collectStatus.ts";
 import { getCollectStateChipColor } from "../ui/Questioning/SearchQuestioningTable.tsx";
+import { useParams } from "react-router-dom";
+import { useFetchQuery } from "../hooks/useFetchQuery.ts";
 
 enum Tab {
   Infos = "Infos",
@@ -20,65 +22,74 @@ const TabNames = {
   [Tab.Recovery]: "Reprise",
 };
 
-const questioningMock = {
-  questioningId: 2590569,
-  label: "TODO LABEL",
-  campaignId: "TODO COLLECTE LABEL",
-  surveyUnitIdentificationCode: "SIRET/ID",
-  surveyUnitId: "000005808",
-  listContactIdentifiers: [],
-  lastEvent: "TODO",
-  lastCommunication: null,
-  validationDate: undefined,
-  // validationDate: "2024-07-19T07:23:20.156Z",
-  questioningUrl: "/",
-};
-
 export const QuestioningPage = () => {
+  const { id } = useParams();
+
+  const { data: questioning, refetch } = useFetchQuery("/api/questionings/{id}", {
+    urlParams: {
+      id: parseInt(id!),
+    },
+  });
+
   const [currentTab, setCurrentTab] = useState(Tab.Infos);
   const handleChange = (_: SyntheticEvent, newValue: Tab) => {
     setCurrentTab(newValue);
   };
 
+  if (!questioning) {
+    return (
+      <Row justifyContent="center" py={10}>
+        <CircularProgress />
+      </Row>
+    );
+  }
+
+  const surveyUnitLabel =
+    questioning.surveyUnitIdentificationCode !== ""
+      ? questioning.surveyUnitIdentificationCode
+      : questioning.surveyUnitId;
+
+  const label = `${questioning.campaignId ?? ""} ${surveyUnitLabel ?? ""}`;
   const breadcrumbs = [
     { href: "/", title: "Accueil" },
     { href: "/questionings", title: "Interrogations" },
-    `${questioningMock.label ?? ""}`,
+    label,
   ];
+
+  const hasNoQuestioningUrl = questioning.readOnlyUrl === null && questioning.readOnlyUrl === "";
 
   return (
     <>
       <Stack px={6} py={3} sx={{ backgroundColor: theme.palette.Surfaces.Secondary }}>
         <Breadcrumbs items={breadcrumbs} />
         <Typography component="h1" variant="headlineLarge">
-          {questioningMock.label}
+          {label}
         </Typography>
         <Row justifyContent={"space-between"} pt={1}>
           <Row gap={2}>
-            <Chip
-              sx={{
-                typography: "titleSmall",
-              }}
-              label={
-                collectStatus.find(state => state.value === questioningMock.lastEvent)?.label ??
-                "Aucun état"
-              }
-              color={getCollectStateChipColor(questioningMock.lastEvent)}
-            />
+            {questioning.lastEvent && (
+              <Chip
+                sx={{
+                  typography: "titleSmall",
+                }}
+                label={
+                  collectStatus.find(state => state.value === questioning.lastEvent)?.label ??
+                  "Aucun état"
+                }
+                color={getCollectStateChipColor(questioning.lastEvent)}
+              />
+            )}
             <Typography component={"span"} variant="bodyMedium">
-              {questioningMock.validationDate &&
-                `Collectée le ${new Date(
-                  Date.parse(questioningMock.validationDate),
-                ).toLocaleDateString()}`}
+              {questioning.validationDate &&
+                `Collectée le ${new Date(Date.parse(questioning.validationDate)).toLocaleDateString()}`}
             </Typography>
           </Row>
           <Button
             variant="contained"
-            // remove disabled
-            disabled={true}
+            disabled={hasNoQuestioningUrl}
             size="large"
             component={Link}
-            to={questioningMock.questioningUrl}
+            to={questioning.readOnlyUrl ?? ""}
             endIcon={<OpenInNewIcon />}
           >
             Voir le questionnaire miroir
@@ -100,7 +111,7 @@ export const QuestioningPage = () => {
       </Tabs>
 
       <Stack px={3} py={3}>
-        {currentTab === Tab.Infos && <QuestioningInfos questioning={questioningMock} />}
+        {currentTab === Tab.Infos && <QuestioningInfos questioning={questioning} refetch={refetch} />}
         {currentTab === Tab.Recovery && <></>}
       </Stack>
     </>

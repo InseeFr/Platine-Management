@@ -3,40 +3,18 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TableContainer from "@mui/material/TableContainer";
-import { getCollectStateChipColor } from "./SearchQuestioningTable.tsx";
-import { collectStatus } from "../../constants/collectStatus.ts";
+import { APISchemas } from "../../types/api.ts";
+import { communicationsList } from "../../constants/communications.ts";
 
 type Props = {
+  questioning: APISchemas["QuestioningDetailsDto"];
   onClose: () => void;
   open: boolean;
 };
 
-const lastCommunicationMock = [
-  {
-    "id": 8214861,
-    "questioningId": 2590569,
-    "eventDate": "2024-08-08T05:58:11.842+00:00",
-    "type": "WASTE",
-  },
-  {
-    "id": 8214859,
-    "questioningId": 2590569,
-    "eventDate": "2024-08-08T05:44:02.750+00:00",
-    "type": "HC",
-  },
-  {
-    "id": 8214860,
-    "questioningId": 2590569,
-    "eventDate": "2024-08-08T05:54:09.814+00:00",
-    "type": "REFUSAL",
-  },
-];
-
-export const LastCommunicationHistory = ({ onClose, open }: Props) => {
-  // TODO: use endpoint instead
-  const communications = lastCommunicationMock;
-
-  const sortedCommunications = communications.sort((a, b) => b.eventDate!.localeCompare(a.eventDate!));
+export const LastCommunicationHistory = ({ questioning, onClose, open }: Props) => {
+  const sortedCommunications =
+    questioning.listCommunications?.sort((a, b) => b.date!.localeCompare(a.date!)) ?? [];
 
   return (
     <Dialog onClose={onClose} open={open} sx={{ ".MuiPaper-root": { maxWidth: "715px" } }}>
@@ -54,23 +32,24 @@ export const LastCommunicationHistory = ({ onClose, open }: Props) => {
               <TableRow>
                 <TableCell sx={{ typography: "titleSmall", width: "115px" }}>Date</TableCell>
                 <TableCell sx={{ typography: "titleSmall", width: "75px" }}>Heure</TableCell>
+                <TableCell sx={{ typography: "titleSmall", width: "120px" }}>Type</TableCell>
                 <TableCell sx={{ typography: "titleSmall" }}>Type de communication</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedCommunications.map(statusElement => {
+              {sortedCommunications.map(communication => {
                 const date =
-                  statusElement.eventDate &&
-                  new Date(Date.parse(statusElement.eventDate)).toLocaleDateString();
+                  communication.date && new Date(Date.parse(communication.date)).toLocaleDateString();
                 const hour =
-                  statusElement.eventDate &&
-                  new Date(Date.parse(statusElement.eventDate)).toLocaleTimeString();
+                  communication.date && new Date(Date.parse(communication.date)).toLocaleTimeString();
 
                 return (
-                  <TableRow key={statusElement.id}>
+                  <TableRow key={communication.id}>
                     <TableCell>{date}</TableCell>
                     <TableCell>{hour}</TableCell>
-
+                    <TableCell>
+                      {communication.status === "AUTOMATIC" ? "Automatique" : "Manuel"}
+                    </TableCell>
                     <TableCell>
                       <Chip
                         sx={{
@@ -78,10 +57,9 @@ export const LastCommunicationHistory = ({ onClose, open }: Props) => {
                           textOverflow: "ellipsis",
                         }}
                         label={
-                          collectStatus.find(state => state.value === statusElement.type)?.label ??
+                          communicationsList.find(com => com.value === communication.type)?.label ??
                           "Aucun état"
                         }
-                        color={getCollectStateChipColor(statusElement.type)}
                       />
                     </TableCell>
                   </TableRow>

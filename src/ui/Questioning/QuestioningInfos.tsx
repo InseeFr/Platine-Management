@@ -4,12 +4,19 @@ import { Link } from "../Link.tsx";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { StatesCard } from "./StatesCard.tsx";
 import { QuestioningCommentsCard } from "./QuestioningCommentsCard.tsx";
+import { APISchemas } from "../../types/api.ts";
 
 type Props = {
-  questioning: any;
+  questioning: APISchemas["QuestioningDetailsDto"];
+  refetch: () => void;
 };
 
-export const QuestioningInfos = ({ questioning }: Props) => {
+export const QuestioningInfos = ({ questioning, refetch }: Props) => {
+  const surveyUnitLabel =
+    questioning.surveyUnitIdentificationCode !== ""
+      ? questioning.surveyUnitIdentificationCode
+      : questioning.surveyUnitId;
+
   return (
     <Row gap={3} alignItems={"start"}>
       <Card sx={{ p: 3, flex: 1 }} elevation={2}>
@@ -18,44 +25,12 @@ export const QuestioningInfos = ({ questioning }: Props) => {
             Informations
           </Typography>
 
-          {/* TODO: use this List when get data */}
-          {/* <List dense>
-            <ListItem sx={{ px: 0 }}>
-              <ListItemText primary={<Typography variant="titleSmall">Répondants</Typography>} />
-            </ListItem>
-
-            {questioning.contacts.map((contact: any) => (
-              <div key={contact.id}>
-                <Divider variant="fullWidth" component="li" />
-                <ListItem
-                  sx={{ px: 0 }}
-                  secondaryAction={
-                    <Button
-                      component={Link}
-                      to={`/contacts/${contact.id}`}
-                      sx={{ typography: "titleSmall" }}
-                      size="large"
-                      endIcon={<OpenInNewIcon />}
-                    >
-                      Voir
-                    </Button>
-                  }
-                >
-                  <ListItemText
-                    primary={
-                      <Typography variant="bodyMedium">{`${contact.firstName} ${contact.lastName}`}</Typography>
-                    }
-                  />
-                </ListItem>
-              </div>
-            ))}
-          </List> */}
           <Stack gap={1} sx={{ pr: 2 }}>
             <Typography variant="titleSmall" component="h3">
               Unité enquêtée
             </Typography>
             <Row justifyContent={"space-between"}>
-              <Typography variant="bodyMedium">{questioning.surveyUnitIdentificationCode}</Typography>
+              <Typography variant="bodyMedium">{surveyUnitLabel}</Typography>
               <Button
                 component={Link}
                 to={`/survey-units/${questioning.surveyUnitId}`}
@@ -87,7 +62,7 @@ export const QuestioningInfos = ({ questioning }: Props) => {
         </Stack>
       </Card>
       <Stack sx={{ flex: 1, gap: 3 }}>
-        <StatesCard questioning={questioning} />
+        <StatesCard questioning={questioning} refetch={refetch} />
         <QuestioningCommentsCard questioning={questioning} />
       </Stack>
     </Row>

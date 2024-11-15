@@ -3,28 +3,19 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TableContainer from "@mui/material/TableContainer";
-import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
 import { getCollectStateChipColor } from "./SearchQuestioningTable.tsx";
 import { collectStatus } from "../../constants/collectStatus.ts";
+import { APISchemas } from "../../types/api.ts";
 
 type Props = {
   onClose: () => void;
   open: boolean;
-  questioningId: string;
+  questioning: APISchemas["QuestioningDetailsDto"];
 };
 
-export const StatusHistory = ({ onClose, open, questioningId }: Props) => {
-  const { data: status } = useFetchQuery("/api/questionings/{id}/questioning-events", {
-    urlParams: {
-      id: parseInt(questioningId),
-    },
-  });
-
-  if (!status) {
-    return;
-  }
-
-  const sortedStatus = status.sort((a, b) => b.eventDate!.localeCompare(a.eventDate!));
+export const StatusHistory = ({ onClose, open, questioning }: Props) => {
+  const sortedStatus =
+    questioning.listEvents?.sort((a, b) => b.eventDate!.localeCompare(a.eventDate!)) ?? [];
 
   return (
     <Dialog onClose={onClose} open={open} sx={{ ".MuiPaper-root": { maxWidth: "715px" } }}>

@@ -6,22 +6,22 @@ import { StatusHistory } from "./StatusHistory.tsx";
 import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
 import { useState } from "react";
 import { AddStatusDialog } from "./AddStatusDialog.tsx";
-import { useQueryClient } from "@tanstack/react-query";
 import { collectStatus } from "../../constants/collectStatus.ts";
 import { LastCommunicationHistory } from "./LastComunicationHistory.tsx";
+import { APISchemas } from "../../types/api.ts";
+import { communicationsList } from "../../constants/communications.ts";
 
 type Props = {
-  questioning: any;
+  questioning: APISchemas["QuestioningDetailsDto"];
+  refetch: () => void;
 };
 
-export const StatesCard = ({ questioning }: Props) => {
+export const StatesCard = ({ questioning, refetch }: Props) => {
   const [openedDialog, toggleDialog] = useState<
     "statusHistory" | "lastCommunicationHistory" | "addStatus" | undefined
   >(undefined);
 
   const { mutateAsync } = useFetchMutation("/api/questionings/questioning-events", "post");
-
-  const queryClient = useQueryClient();
 
   const onClose = () => {
     toggleDialog(undefined);
@@ -39,17 +39,16 @@ export const StatesCard = ({ questioning }: Props) => {
 
     await mutateAsync({
       query: {
-        id: parseInt(questioning.id),
+        id: questioning.questioningId!,
       },
       body: {
-        questioningId: parseInt(questioning.id),
+        questioningId: questioning.questioningId,
         eventDate: new Date().toISOString(),
         type: status,
         payload: { "source": "platine-gestion" },
       },
     });
-
-    queryClient.invalidateQueries({ queryKey: ["/api/questionings/{id}/questioning-events"] });
+    refetch();
     toggleDialog(undefined);
   };
 
@@ -123,10 +122,9 @@ export const StatesCard = ({ questioning }: Props) => {
                   textOverflow: "ellipsis",
                 }}
                 label={
-                  collectStatus.find(state => state.value === questioning.lastCommunication)?.label ??
+                  communicationsList.find(com => com.value === questioning.lastCommunication)?.label ??
                   "Aucun état"
                 }
-                color={getCollectStateChipColor(questioning.lastCommunication)}
               />
 
               <Typography variant="bodyMedium">TODO DATA</Typography>
@@ -137,10 +135,14 @@ export const StatesCard = ({ questioning }: Props) => {
       <StatusHistory
         onClose={onClose}
         open={openedDialog === "statusHistory"}
-        questioningId={questioning.questioningId}
+        questioning={questioning}
       />
       <AddStatusDialog onClose={onClose} open={openedDialog === "addStatus"} onSubmit={onSelectStatus} />
-      <LastCommunicationHistory onClose={onClose} open={openedDialog === "lastCommunicationHistory"} />
+      <LastCommunicationHistory
+        onClose={onClose}
+        open={openedDialog === "lastCommunicationHistory"}
+        questioning={questioning}
+      />
     </Card>
   );
 };
