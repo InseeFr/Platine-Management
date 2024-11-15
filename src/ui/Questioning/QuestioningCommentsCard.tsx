@@ -13,9 +13,10 @@ import { QuestioningCommentDialog } from "./QuestioningCommentDialog.tsx";
 import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMaybeUser } from "../../hooks/useAuth.ts";
+import { APISchemas } from "../../types/api.ts";
 
 type Props = {
-  questioning: any;
+  questioning: APISchemas["QuestioningDetailsDto"];
 };
 
 enum Tab {
@@ -53,13 +54,13 @@ export const QuestioningCommentsCard = ({ questioning }: Props) => {
       return;
     }
 
-    if (category === "SurveyUnit") {
+    if (category === "SurveyUnit" && questioning.surveyUnitId && questioning.surveyUnitId !== "") {
       await mutateAsyncSurveyUnit({
         body: {
           comment,
           author: `${user?.given_name} ${user?.family_name}`,
         },
-        urlParams: { id: questioning.idSu },
+        urlParams: { id: questioning.surveyUnitId },
       });
 
       queryClient.invalidateQueries({ queryKey: ["/api/survey-units/{id}"] });
@@ -89,10 +90,12 @@ export const QuestioningCommentsCard = ({ questioning }: Props) => {
         </Tabs>
         <Stack sx={{ py: 2, px: 1 }} gap={0.5}>
           {currentTab === Tab.Questioning && (
-            <CommentsList comments={questioning.questioningComments} sx={{ px: 2.5 }} />
+            // TODO: use data when get comments
+            <CommentsList comments={[]} sx={{ px: 2.5 }} />
           )}
           {currentTab === Tab.SurveyUnit && (
-            <CommentsList comments={questioning.surveyUnitComments} sx={{ px: 2.5 }} />
+            // TODO: use data when get comments
+            <CommentsList comments={[]} sx={{ px: 2.5 }} />
           )}
         </Stack>
       </Stack>

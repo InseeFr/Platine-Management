@@ -56,7 +56,7 @@ export const QuestioningPage = () => {
     label,
   ];
 
-  const hasNoQuestioningUrl = questioning.readOnlyUrl === null && questioning.readOnlyUrl === "";
+  const hasNoQuestioningUrl = questioning.readOnlyUrl === null || questioning.readOnlyUrl === "";
 
   return (
     <>

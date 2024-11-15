@@ -11,8 +11,6 @@ import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
 import { Divider, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { SearchQuestioningTable } from "../../ui/Questioning/SearchQuestioningTable.tsx";
 import { EmptyState } from "../../ui/TableComponents.tsx";
-import { FilterSelect } from "../../ui/FilterSelect.tsx";
-import { SearchSelectStatus } from "../../ui/Questioning/SearchSelectStatus.tsx";
 import { SearchTextField } from "../../ui/SearchTextField.tsx";
 import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
 
@@ -115,11 +113,12 @@ export const SearchQuestionings = () => {
             label={"Rechercher par unité enquêtée ou identifiant de connexion"}
             inputProps={inputProps}
           />
-          <Row gap={3}>
+          {/* TODO: use it later
+           <Row gap={3}>
             <FilterSelect options={[]} label={"Collecte"} name={"campaignId"} />
             <SearchSelectStatus />
             <FilterSelect options={[]} label={"Dernière communication"} name={"lastCommunication"} />
-          </Row>
+          </Row> */}
           {hasNoQuestioning && (
             <EmptyState
               isFiltered={hasResetButton}
