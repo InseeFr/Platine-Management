@@ -56,7 +56,7 @@ export const ContactPage = () => {
             component={Link}
             to={`/questionings`}
             onClick={() => {
-              return setFilter("questionings", { searchParam: contactName });
+              return setFilter("questionings", { searchParam: contactName, page: 0, pageSize: 10 });
             }}
             disabled={contact.listCampaigns?.length === 0}
           >

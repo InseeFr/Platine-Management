@@ -1,4 +1,4 @@
-import { Card, IconButton, Stack, Tabs } from "@mui/material";
+import { Card, CircularProgress, IconButton, Stack, Tabs } from "@mui/material";
 import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import ModeCommentOutlinedIcon from "@mui/icons-material/ModeCommentOutlined";
@@ -10,13 +10,14 @@ import { PageTab } from "../PageTab.tsx";
 import { theme } from "../../theme.tsx";
 import { CommentsList } from "../SurveyUnit/SurveyUnitCommentsCard.tsx";
 import { QuestioningCommentDialog } from "./QuestioningCommentDialog.tsx";
-import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
+import { useFetchMutation, useFetchQuery } from "../../hooks/useFetchQuery.ts";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMaybeUser } from "../../hooks/useAuth.ts";
 import { APISchemas } from "../../types/api.ts";
 
 type Props = {
   questioning: APISchemas["QuestioningDetailsDto"];
+  refetch: () => void;
 };
 
 enum Tab {
@@ -29,7 +30,7 @@ const TabNames = {
   [Tab.SurveyUnit]: "Unité enquêtée",
 };
 
-export const QuestioningCommentsCard = ({ questioning }: Props) => {
+export const QuestioningCommentsCard = ({ questioning, refetch }: Props) => {
   const [hasDialog, toggleDialog] = useToggle(false);
   const [currentTab, setCurrentTab] = useState(Tab.Questioning);
 
@@ -40,10 +41,14 @@ export const QuestioningCommentsCard = ({ questioning }: Props) => {
     "post",
   );
 
+  const { mutateAsync: mutateAsyncQuestioning, isPending: isPendingQuestioning } = useFetchMutation(
+    "/api/questionings/{id}/comment",
+    "post",
+  );
+
   const handleChangeTab = (_: SyntheticEvent, newValue: Tab) => {
     setCurrentTab(newValue);
   };
-
   const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -65,7 +70,18 @@ export const QuestioningCommentsCard = ({ questioning }: Props) => {
 
       queryClient.invalidateQueries({ queryKey: ["/api/survey-units/{id}"] });
     }
-    //  TODO: add api call for questioning comments and call invalidateQueries for getQuestioningById
+
+    if (category === "Questioning" && questioning.questioningId) {
+      await mutateAsyncQuestioning({
+        body: {
+          comment,
+          author: `${user?.given_name} ${user?.family_name}`,
+        },
+        urlParams: { id: questioning.questioningId },
+      });
+
+      refetch();
+    }
 
     toggleDialog();
   };
@@ -90,23 +106,36 @@ export const QuestioningCommentsCard = ({ questioning }: Props) => {
         </Tabs>
         <Stack sx={{ py: 2, px: 1 }} gap={0.5}>
           {currentTab === Tab.Questioning && (
-            // TODO: use data when get comments
-            <CommentsList comments={[]} sx={{ px: 2.5 }} />
+            <CommentsList comments={questioning.listComments ?? []} sx={{ px: 2.5 }} />
           )}
-          {currentTab === Tab.SurveyUnit && (
-            // TODO: use data when get comments
-            <CommentsList comments={[]} sx={{ px: 2.5 }} />
-          )}
+          {currentTab === Tab.SurveyUnit && <CommentListSU surveyUnitId={questioning.surveyUnitId} />}
         </Stack>
       </Stack>
       <QuestioningCommentDialog
         open={hasDialog}
         defaultCategory={currentTab}
-        // TODO: add isPendingQuestioning
-        isPending={isPendingSU}
+        isPending={isPendingSU || isPendingQuestioning}
         onCancel={toggleDialog}
         onSubmit={handleSave}
       />
     </Card>
   );
+};
+
+export const CommentListSU = ({ surveyUnitId }: { surveyUnitId?: string }) => {
+  const { data, isLoading } = useFetchQuery("/api/survey-units/{id}", {
+    urlParams: {
+      id: surveyUnitId!,
+    },
+  });
+
+  if (!data || isLoading) {
+    return (
+      <Row justifyContent="center" py={2}>
+        <CircularProgress />
+      </Row>
+    );
+  }
+
+  return <CommentsList comments={data.comments ?? []} sx={{ px: 2.5 }} />;
 };

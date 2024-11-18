@@ -3,6 +3,7 @@ import {
   useGetSearchFilter,
   useSearchFilterParams,
   useSearchForm,
+  useSetSearchFilter,
 } from "../../hooks/useSearchFilter.ts";
 import Stack from "@mui/material/Stack";
 import { Row } from "../../ui/Row.tsx";
@@ -21,16 +22,12 @@ export const SearchQuestionings = () => {
 
   const [tab, setTab] = useState("me");
   const [stateFilter, setStateFilter] = useState("all");
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const { questionings: questioningFilter } = useGetSearchFilter();
-
+  const setFilter = useSetSearchFilter();
   const { data, isLoading } = useFetchQuery(endpoint, {
     query: {
       ...useSearchFilterParams("questionings"),
-      page: page,
-      pageSize: rowsPerPage,
     },
   });
 
@@ -111,7 +108,7 @@ export const SearchQuestionings = () => {
           <SearchTextField
             hasResetButton={hasResetButton}
             label={"Rechercher par unité enquêtée ou identifiant de connexion"}
-            inputProps={inputProps}
+            inputProps={inputProps as any}
           />
           {/* TODO: use it later
            <Row gap={3}>
@@ -132,10 +129,8 @@ export const SearchQuestionings = () => {
               stateFilter={stateFilter}
               isLoading={isLoading}
               totalCount={data?.totalElements ?? 0}
-              page={page}
-              setPage={setPage}
-              rowsPerPage={rowsPerPage}
-              setRowsPerPage={setRowsPerPage}
+              questioningFilter={questioningFilter}
+              setFilter={setFilter}
             />
           )}
         </Stack>

@@ -63,7 +63,7 @@ export const QuestioningInfos = ({ questioning, refetch }: Props) => {
       </Card>
       <Stack sx={{ flex: 1, gap: 3 }}>
         <StatesCard questioning={questioning} refetch={refetch} />
-        <QuestioningCommentsCard questioning={questioning} />
+        <QuestioningCommentsCard questioning={questioning} refetch={refetch} />
       </Stack>
     </Row>
   );

@@ -49,7 +49,7 @@ export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
           component={Link}
           to={`/questionings`}
           onClick={() => {
-            return setFilter("questionings", { searchParam: searchValue });
+            return setFilter("questionings", { searchParam: searchValue, page: 0, pageSize: 10 });
           }}
           disabled={!surveyUnit.hasQuestionings}
         >

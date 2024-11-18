@@ -56,10 +56,19 @@ type Props = {
   stateFilter: string;
   isLoading: boolean;
   totalCount: number;
-  setPage: (page: number) => void;
-  setRowsPerPage: (page: number) => void;
-  page: number;
-  rowsPerPage: number;
+  questioningFilter: {
+    searchParam: string;
+    page: number;
+    pageSize: number;
+  };
+  setFilter: (
+    name: "questionings",
+    filter: {
+      searchParam: string;
+      page: number;
+      pageSize: number;
+    },
+  ) => void;
 };
 
 export const SearchQuestioningTable = ({
@@ -67,25 +76,29 @@ export const SearchQuestioningTable = ({
   stateFilter,
   isLoading,
   totalCount,
-  setPage,
-  setRowsPerPage,
-  rowsPerPage,
-  page,
+  questioningFilter,
+  setFilter,
 }: Props) => {
   const [order, setOrder] = useState<"asc" | "desc">();
 
   const handleChangePage = (_: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    setPage(newPage);
+    setFilter("questionings", { ...questioningFilter, page: newPage });
   };
 
   const onChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setFilter("questionings", {
+      ...questioningFilter,
+      pageSize: parseInt(event.target.value, 10),
+      page: 0,
+    });
   };
 
   const onChangeSelectedRowsPerPage = (event: SelectChangeEvent<string>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    setFilter("questionings", {
+      ...questioningFilter,
+      pageSize: parseInt(event.target.value, 10),
+      page: 0,
+    });
   };
 
   // TODO use it when get quality data
@@ -155,11 +168,11 @@ export const SearchQuestioningTable = ({
             />
           ))}
         </TableBody>
-        {totalCount > rowsPerPage * (page + 1) && (
+        {totalCount > questioningFilter.pageSize * (questioningFilter.page + 1) && (
           <CustomTableFooter
             count={totalCount}
-            rowsPerPage={rowsPerPage}
-            page={page}
+            rowsPerPage={questioningFilter.pageSize}
+            page={questioningFilter.page}
             labelDisplayedRows="interrogations affichées"
             onChangePage={handleChangePage}
             onChangeRowsPerPage={onChangeRowsPerPage}
