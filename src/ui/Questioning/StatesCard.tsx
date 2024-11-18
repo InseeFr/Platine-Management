@@ -96,7 +96,11 @@ export const StatesCard = ({ questioning, refetch }: Props) => {
                 <AddIcon fontSize="small" />
               </IconButton>
             </Row>
-            <Typography variant="bodyMedium">TODO DATA</Typography>
+            {questioning.dateLastEvent && (
+              <Typography variant="bodyMedium">
+                {new Date(Date.parse(questioning.dateLastEvent)).toLocaleDateString()}
+              </Typography>
+            )}
           </Row>
         </Stack>
         {questioning.lastCommunication && (
@@ -126,8 +130,11 @@ export const StatesCard = ({ questioning, refetch }: Props) => {
                   "Aucun état"
                 }
               />
-
-              <Typography variant="bodyMedium">TODO DATA</Typography>
+              {questioning.dateLastCommunication && (
+                <Typography variant="bodyMedium">
+                  {new Date(Date.parse(questioning.dateLastCommunication)).toLocaleDateString()}
+                </Typography>
+              )}
             </Row>
           </Stack>
         )}

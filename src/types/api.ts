@@ -72,9 +72,7 @@ export type APISchemas = {
     longWording?: string
     shortWording?: string
     periodicity?: "X" | "A" | "S" | "T" | "B" | "M"
-    /* Indicates whether or not you need to use the my surveys portal */
     mandatoryMySurveys?: boolean
-    /* Indicates if the source should be force closed */
     forceClose?: boolean
     messageInfoSurveyOffline?: string
     messageSurveyOffline?: string
@@ -326,6 +324,7 @@ export type APISchemas = {
     idContact?: string
     main?: boolean
   }
+  QuestioningCommentInputDto: { comment?: string; author?: string }
   QuestioningEventDto: {
     /* Format: int64 */
     id?: number
@@ -810,6 +809,12 @@ export type APISchemas = {
     messageSurveyOffline?: string
     messageInfoSurveyOffline?: string
   }
+  QuestioningCommentOutputDto: {
+    comment?: string
+    author?: string
+    /* Format: date-time */
+    commentDate?: string
+  }
   QuestioningCommunicationDto: {
     /* Format: int64 */
     id?: number
@@ -829,8 +834,13 @@ export type APISchemas = {
     surveyUnitIdentificationCode?: string
     listEvents?: Array<APISchemas["QuestioningEventDto"]>
     lastEvent?: string
+    /* Format: date-time */
+    dateLastEvent?: string
     listCommunications?: Array<APISchemas["QuestioningCommunicationDto"]>
     lastCommunication?: string
+    /* Format: date-time */
+    dateLastCommunication?: string
+    listComments?: Array<APISchemas["QuestioningCommentOutputDto"]>
     /* Format: date-time */
     validationDate?: string
     readOnlyUrl?: string
@@ -854,16 +864,16 @@ export type APISchemas = {
     empty?: boolean
   }
   SearchQuestioningDto: {
-    campaignId?: string
+    surveyUnitId?: string
     /* Format: int64 */
     questioningId?: number
-    surveyUnitId?: string
-    surveyUnitIdentificationCode?: string
+    campaignId?: string
     listContactIdentifiers?: Array<string>
     lastEvent?: string
     lastCommunication?: string
     /* Format: date-time */
     validationDate?: string
+    surveyUnitIdentificationCode?: string
   }
   AssistanceDto: { mailAssistance?: string; surveyUnitId?: string }
   Address: {
@@ -929,6 +939,7 @@ export type APISchemas = {
     questioningAccreditations?: Array<APISchemas["QuestioningAccreditation"]>
     questioningEvents?: Array<APISchemas["QuestioningEvent"]>
     questioningCommunications?: Array<APISchemas["QuestioningCommunication"]>
+    questioningComments?: Array<APISchemas["QuestioningComment"]>
     surveyUnit?: APISchemas["SurveyUnit"]
   }
   QuestioningAccreditation: {
@@ -940,6 +951,14 @@ export type APISchemas = {
     idContact?: string
     questioning?: APISchemas["Questioning"]
     main?: boolean
+  }
+  QuestioningComment: {
+    /* Format: int64 */
+    id?: number
+    comment?: string
+    author?: string
+    /* Format: date-time */
+    date?: string
   }
   QuestioningCommunication: {
     /* Format: int64 */
@@ -997,7 +1016,7 @@ export type APISchemas = {
     /* Format: int32 */
     pnd?: number
   }
-  MoogCampaign: {
+  MoogCampaignDto: {
     id?: string
     label?: string
     /* Format: int64 */
@@ -1017,7 +1036,7 @@ export type APISchemas = {
     idContact?: string
     idSu?: string
     address?: string
-    campaign?: APISchemas["MoogCampaign"]
+    campaign?: APISchemas["MoogCampaignDto"]
     firstName?: string
     lastname?: string
     batchNumber?: string
@@ -1075,9 +1094,9 @@ export type APISchemas = {
     listCampaigns?: Array<string>
   }
   SearchContactDto: {
+    email?: string
     firstName?: string
     lastName?: string
-    email?: string
     identifier?: string
   }
   MyQuestioningDto: {
@@ -1346,6 +1365,17 @@ export type APIEndpoints = {
           }
           body: APISchemas["QuestioningAccreditationDto"]
         }
+  }
+  "/api/questionings/{id}/comment": {
+    responses: { post: APISchemas["QuestioningCommentInputDto"] }
+    requests: {
+      method: "post"
+      urlParams: {
+        /* Format: int64 */
+        id: number
+      }
+      body: APISchemas["QuestioningCommentInputDto"]
+    }
   }
   "/api/questionings/questioning-events": {
     responses: { post: APISchemas["QuestioningEventDto"] }
