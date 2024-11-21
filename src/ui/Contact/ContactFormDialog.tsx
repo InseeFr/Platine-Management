@@ -35,7 +35,7 @@ export const repetitionIndexEnum = ["BIS", "TER", "QUATER", "QUINQUIES", "A", "B
 export const styles = {
   Grid: {
     display: "grid",
-    gridTemplateColumns: "1fr 1px 1fr ",
+    gridTemplateColumns: "1fr 1px 1fr",
     gap: "24px",
     paddingTop: "8px",
   },
@@ -45,7 +45,7 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
   const code = contact.address?.zipCode && contact.address.zipCode !== "" ? "zipCode" : "cedexCode";
 
   const defaultValues = { ...contact, address: { ...contact.address, codeChoice: code } };
-  const { register, control, errors, handleSubmit, reset, setValue, watch } = useForm(contactSchema, {
+  const { register, control, errors, handleSubmit, reset, setValue } = useForm(contactSchema, {
     defaultValues: defaultValues,
   });
 
@@ -112,46 +112,52 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 options={civilities}
               />
               <Field
+                control={control}
+                type="text"
                 label="Nom"
                 error={errors.lastName?.message}
                 {...register("lastName")}
                 onResetField={() => onResetField("lastName")}
-                isEmpty={watch("lastName") === ""}
               />
               <Field
+                control={control}
+                type="text"
                 label="Prénom"
                 error={errors.firstName?.message}
                 {...register("firstName")}
                 onResetField={() => onResetField("firstName")}
-                isEmpty={watch("firstName") === ""}
               />
               <Field
+                control={control}
+                type="text"
                 label="Fonction"
                 error={errors.function?.message}
                 {...register("function")}
                 onResetField={() => onResetField("function")}
-                isEmpty={watch("function") === ""}
               />
               <Field
+                control={control}
+                type="text"
                 label="Adresse mail"
                 error={errors.email?.message}
                 {...register("email")}
                 onResetField={() => onResetField("email")}
-                isEmpty={watch("email") === ""}
               />
               <Field
+                control={control}
+                type="text"
                 label="Téléphone 1"
                 error={errors.phone?.message}
                 {...register("phone")}
                 onResetField={() => onResetField("phone")}
-                isEmpty={watch("phone") === ""}
               />
               <Field
+                control={control}
+                type="text"
                 label="Téléphone 2"
                 error={errors.otherPhone?.message}
                 {...register("otherPhone")}
                 onResetField={() => onResetField("otherPhone")}
-                isEmpty={watch("otherPhone") === ""}
               />
             </Stack>
             <Divider orientation="vertical" variant="middle" />
@@ -166,7 +172,7 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 setCodeType(e.target.value);
                 setValue("address.codeChoice", e.target.value);
               }}
-              watch={watch}
+              control={control}
               onResetField={onResetField}
               type="contact"
             />

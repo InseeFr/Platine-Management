@@ -4,7 +4,7 @@ import { Field } from "./Field.tsx";
 import { Row } from "../Row.tsx";
 import { countries } from "../../constants/countries.ts";
 import { repetitionIndexEnum } from "../Contact/ContactFormDialog.tsx";
-import { UseFormRegister, UseFormWatch } from "react-hook-form";
+import { Control, UseFormRegister } from "react-hook-form";
 import { Schema, z } from "zod";
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
@@ -23,7 +23,7 @@ type Props = {
   countryValue?: string;
   codeType: string;
   onChangeCodeChoice: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  watch: UseFormWatch<z.TypeOf<Schema>>;
+  control: Control<any, any, any>;
   onResetField: (name: any) => void;
   type?: "contact" | "surveyUnit";
 };
@@ -36,7 +36,7 @@ export const AddressFormFields = ({
   countryValue,
   codeType,
   onChangeCodeChoice,
-  watch,
+  control,
   onResetField,
   type = "surveyUnit",
 }: Props) => {
@@ -65,7 +65,8 @@ export const AddressFormFields = ({
           error={errors.identificationName?.message}
           {...register("identificationName")}
           onResetField={() => onResetField("identificationName")}
-          isEmpty={watch("identificationName") === ""}
+          type="text"
+          control={control}
         />
       )}
       <Row gap={2} justifyContent={"space-between"}>
@@ -75,75 +76,81 @@ export const AddressFormFields = ({
           error={errors.address?.streetNumber?.message}
           {...register("address.streetNumber")}
           onResetField={() => onResetField("address.streetNumber")}
-          isEmpty={watch("address.streetNumber") === ""}
+          type="text"
+          control={control}
         />
         <Box sx={{ width: "10vw" }}>
           {!country || country === "FRANCE" ? (
             <Field
               type="select"
+              control={control}
               selectoptions={repetitionIndexEnum}
               defaultValue={repetitionIndexValue}
               label="Indice"
               error={errors.address?.repetitionIndex?.message}
               {...register("address.repetitionIndex")}
               onResetField={() => onResetField("address.repetitionIndex")}
-              isEmpty={watch("address.repetitionIndex") === ""}
             />
           ) : (
             <Field
+              type="text"
+              control={control}
               label="Indice"
               defaultValue={repetitionIndexValue ?? ""}
               error={errors.address?.repetitionIndex?.message}
               {...register("address.repetitionIndex")}
               onResetField={() => onResetField("address.repetitionIndex")}
-              isEmpty={watch("address.repetitionIndex") === ""}
             />
           )}
         </Box>
-        {!country || country === "FRANCE" ? (
-          <Field
-            sx={{ width: "18vw" }}
-            type="select"
-            label="Type de voie"
-            selectoptions={streetTypes}
-            defaultValue={streetTypeValue}
-            error={errors.address?.streetType?.message}
-            {...register("address.streetType")}
-            onResetField={() => onResetField("address.streetType")}
-            isEmpty={watch("address.streetType") === ""}
-          />
-        ) : (
-          <Field
-            sx={{ width: "18vw" }}
-            label="Type de voie"
-            defaultValue={streetTypeValue ?? ""}
-            error={errors.address?.streetType?.message}
-            {...register("address.streetType")}
-            onResetField={() => onResetField("address.streetType")}
-            isEmpty={watch("address.streetType") === ""}
-          />
-        )}
+        <Box sx={{ width: "18vw" }}>
+          {!country || country === "FRANCE" ? (
+            <Field
+              type="select"
+              control={control}
+              label="Type de voie"
+              selectoptions={streetTypes}
+              defaultValue={streetTypeValue}
+              error={errors.address?.streetType?.message}
+              {...register("address.streetType")}
+              onResetField={() => onResetField("address.streetType")}
+            />
+          ) : (
+            <Field
+              type="text"
+              control={control}
+              label="Type de voie"
+              defaultValue={streetTypeValue ?? ""}
+              error={errors.address?.streetType?.message}
+              {...register("address.streetType")}
+              onResetField={() => onResetField("address.streetType")}
+            />
+          )}
+        </Box>
       </Row>
       <Field
+        type="text"
+        control={control}
         label="Nom de la voie"
         error={errors.address?.streetName?.message}
         {...register("address.streetName")}
         onResetField={() => onResetField("address.streetName")}
-        isEmpty={watch("address.streetName") === ""}
       />
       <Field
+        type="text"
+        control={control}
         label="Mention spéciale"
         error={errors.address?.specialDistribution?.message}
         {...register("address.specialDistribution")}
         onResetField={() => onResetField("address.specialDistribution")}
-        isEmpty={watch("address.specialDistribution") === ""}
       />
       <Field
+        type="text"
+        control={control}
         label="Complément"
         error={errors.address?.addressSupplement?.message}
         {...register("address.addressSupplement")}
         onResetField={() => onResetField("address.addressSupplement")}
-        isEmpty={watch("address.addressSupplement") === ""}
       />
       <FormControl>
         <FormLabel
@@ -187,38 +194,40 @@ export const AddressFormFields = ({
       {codeChoice === "zipCode" && (
         <>
           <Field
+            control={control}
             label="Code postal *"
             error={errors.address?.zipCode?.message}
             type="number"
             {...register("address.zipCode")}
             onResetField={() => onResetField("address.zipCode")}
-            isEmpty={watch("address.zipCode") === ""}
           />
           <Field
+            type="text"
+            control={control}
             label="Commune *"
             error={errors.address?.cityName?.message}
             {...register("address.cityName")}
             onResetField={() => onResetField("address.cityName")}
-            isEmpty={watch("address.cityName") === ""}
           />
         </>
       )}
       {codeChoice === "cedexCode" && (
         <>
           <Field
+            control={control}
             label="Code cedex *"
             error={errors.address?.cedexCode?.message}
             type="number"
             {...register("address.cedexCode")}
             onResetField={() => onResetField("address.cedexCode")}
-            isEmpty={watch("address.cedexCode") === ""}
           />
           <Field
+            type="text"
+            control={control}
             label="Libellé Cedex * (exemple : Paris CEDEX 14) "
             error={errors.address?.cedexName?.message}
             {...register("address.cedexName")}
             onResetField={() => onResetField("address.cedexName")}
-            isEmpty={watch("address.cedexName") === ""}
           />
         </>
       )}

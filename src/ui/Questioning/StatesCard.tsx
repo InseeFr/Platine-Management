@@ -18,13 +18,13 @@ type Props = {
 
 export const StatesCard = ({ questioning, refetch }: Props) => {
   const [openedDialog, toggleDialog] = useState<
-    "statusHistory" | "lastCommunicationHistory" | "addStatus" | undefined
-  >(undefined);
+    "statusHistory" | "lastCommunicationHistory" | "addStatus" | "closed"
+  >("closed");
 
   const { mutateAsync } = useFetchMutation("/api/questionings/questioning-events", "post");
 
   const onClose = () => {
-    toggleDialog(undefined);
+    toggleDialog("closed");
   };
 
   const onSelectStatus = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,7 +33,7 @@ export const StatesCard = ({ questioning, refetch }: Props) => {
     const status = formData.get("status")?.toString();
 
     if (!status) {
-      toggleDialog(undefined);
+      toggleDialog("closed");
       return;
     }
 
@@ -49,7 +49,7 @@ export const StatesCard = ({ questioning, refetch }: Props) => {
       },
     });
     refetch();
-    toggleDialog(undefined);
+    toggleDialog("closed");
   };
 
   return (
