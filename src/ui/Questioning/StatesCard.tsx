@@ -10,6 +10,8 @@ import { collectStatus } from "../../constants/collectStatus.ts";
 import { LastCommunicationHistory } from "./LastComunicationHistory.tsx";
 import { APISchemas } from "../../types/api.ts";
 import { communicationsList } from "../../constants/communications.ts";
+import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
+import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
 
 type Props = {
   questioning: APISchemas["QuestioningDetailsDto"];
@@ -55,9 +57,7 @@ export const StatesCard = ({ questioning, refetch }: Props) => {
   return (
     <Card sx={{ p: 3 }} elevation={2}>
       <Stack gap={3}>
-        <Typography variant={"headlineSmall"} component="h2">
-          États
-        </Typography>
+        <CardtitleWithIcon IconComponent={LabelOutlinedIcon} title={"États"} />
         <Stack gap={2}>
           <Row justifyContent={"space-between"}>
             <Typography variant="titleSmall" component="h3">
@@ -96,11 +96,7 @@ export const StatesCard = ({ questioning, refetch }: Props) => {
                 <AddIcon fontSize="small" />
               </IconButton>
             </Row>
-            {questioning.dateLastEvent && (
-              <Typography variant="bodyMedium">
-                {new Date(Date.parse(questioning.dateLastEvent)).toLocaleDateString()}
-              </Typography>
-            )}
+            {questioning.dateLastEvent && <FormattedDate date={questioning.dateLastEvent} />}
           </Row>
         </Stack>
         {questioning.lastCommunication && (
@@ -131,9 +127,7 @@ export const StatesCard = ({ questioning, refetch }: Props) => {
                 }
               />
               {questioning.dateLastCommunication && (
-                <Typography variant="bodyMedium">
-                  {new Date(Date.parse(questioning.dateLastCommunication)).toLocaleDateString()}
-                </Typography>
+                <FormattedDate date={questioning.dateLastCommunication} />
               )}
             </Row>
           </Stack>
@@ -152,4 +146,8 @@ export const StatesCard = ({ questioning, refetch }: Props) => {
       />
     </Card>
   );
+};
+
+const FormattedDate = ({ date }: { date: string }) => {
+  return <Typography variant="bodyMedium">{new Date(Date.parse(date)).toLocaleDateString()}</Typography>;
 };
