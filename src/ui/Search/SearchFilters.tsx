@@ -1,13 +1,13 @@
 import FormControl from "@mui/material/FormControl";
 import { Row } from "../Row.tsx";
 import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import MenuItem from "@mui/material/MenuItem";
 import { SearchTextField } from "../SearchTextField.tsx";
 import { TextFieldProps } from "@mui/material/TextField";
 import { ListItemText } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import Select from "@mui/material/Select/Select";
 
 type Props = Pick<TextFieldProps, "sx"> & {
   hasResetButton: boolean;

@@ -1,11 +1,12 @@
 import { Row } from "../Row.tsx";
-import { IconButton, MenuItem, Select, SelectChangeEvent, Stack, Typography } from "@mui/material";
+import { IconButton, MenuItem, Select, Stack, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
 import { BinocularIcon } from "../Icon/BinocularIcon.tsx";
 import { useState } from "react";
 import { APISchemas } from "../../types/api.ts";
 import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
+import { SelectChangeEvent } from "@mui/material/Select/Select";
 
 type Props = {
   survey: APISchemas["SurveyDto"];

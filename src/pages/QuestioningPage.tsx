@@ -44,12 +44,7 @@ export const QuestioningPage = () => {
     );
   }
 
-  const surveyUnitLabel =
-    questioning.surveyUnitIdentificationCode !== ""
-      ? questioning.surveyUnitIdentificationCode
-      : questioning.surveyUnitId;
-
-  const label = `${questioning.campaignId ?? ""} ${surveyUnitLabel ?? ""}`;
+  const label = `Interrogation ${questioning.questioningId}`;
   const breadcrumbs = [
     { href: "/", title: "Accueil" },
     { href: "/questionings", title: "Interrogations" },

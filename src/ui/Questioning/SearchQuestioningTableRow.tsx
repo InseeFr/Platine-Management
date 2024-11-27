@@ -40,11 +40,7 @@ export const SearchQuestioningTableRow = ({ questioning, stateFilter }: Props) =
           {questioning.listContactIdentifiers?.map(contact => `#${contact}`).join(", ")}
         </TableCell>
       )}
-      <TableCell>
-        {questioning.surveyUnitIdentificationCode !== ""
-          ? questioning.surveyUnitIdentificationCode
-          : questioning.surveyUnitId}
-      </TableCell>
+      <TableCell>{questioning.surveyUnitIdentificationCode}</TableCell>
       <TableCell>
         {questioning.lastEvent && (
           <Chip
@@ -80,7 +76,7 @@ export const SearchQuestioningTableRow = ({ questioning, stateFilter }: Props) =
           : "N/A"}
       </TableCell>
       {/* TODO use it when get quality data */}
-      {/* {stateFilter === "recovery" && <TableCell>{questioning.quality}</TableCell>} */}
+      {stateFilter === "recovery" && <TableCell>TODO DATA</TableCell>}
       <TableCell align="right">
         <ChevronRightIcon fontSize="navigateIcon" color="primary" />
       </TableCell>

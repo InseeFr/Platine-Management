@@ -46,6 +46,10 @@ export const QuestioningCommentsCard = ({ questioning, refetch }: Props) => {
     "post",
   );
 
+  const comments = questioning.listComments
+    ? questioning.listComments.sort((a, b) => b.commentDate!.localeCompare(a.commentDate!))
+    : [];
+
   const handleChangeTab = (_: SyntheticEvent, newValue: Tab) => {
     setCurrentTab(newValue);
   };
@@ -105,9 +109,7 @@ export const QuestioningCommentsCard = ({ questioning, refetch }: Props) => {
           ))}
         </Tabs>
         <Stack sx={{ py: 2, px: 1 }} gap={0.5}>
-          {currentTab === Tab.Questioning && (
-            <CommentsList comments={questioning.listComments ?? []} sx={{ px: 2.5 }} />
-          )}
+          {currentTab === Tab.Questioning && <CommentsList comments={comments} sx={{ px: 2.5 }} />}
           {currentTab === Tab.SurveyUnit && <CommentListSU surveyUnitId={questioning.surveyUnitId} />}
         </Stack>
       </Stack>
@@ -137,5 +139,9 @@ export const CommentListSU = ({ surveyUnitId }: { surveyUnitId?: string }) => {
     );
   }
 
-  return <CommentsList comments={data.comments ?? []} sx={{ px: 2.5 }} />;
+  const comments = data.comments
+    ? data.comments.sort((a, b) => b.commentDate!.localeCompare(a.commentDate!))
+    : [];
+
+  return <CommentsList comments={comments} sx={{ px: 2.5 }} />;
 };

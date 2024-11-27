@@ -7,10 +7,10 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Select,
 } from "@mui/material";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import { collectStatus } from "../../constants/collectStatus.ts";
+import Select from "@mui/material/Select/Select";
 
 const options = collectStatus.filter(state => ["HC", "REFUSAL", "WASTE"].includes(state.value));
 

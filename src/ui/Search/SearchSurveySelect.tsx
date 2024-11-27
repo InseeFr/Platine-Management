@@ -1,7 +1,7 @@
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectProps } from "@mui/material/Select";
+import Select, { SelectProps } from "@mui/material/Select/Select";
 import { useId } from "react";
 
 type Props = { options: string[] } & SelectProps;

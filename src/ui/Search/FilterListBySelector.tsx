@@ -1,6 +1,7 @@
-import { Box, FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import { Box, FormControl, MenuItem } from "@mui/material";
 import { Row } from "../Row.tsx";
 import React from "react";
+import Select, { SelectChangeEvent } from "@mui/material/Select/Select";
 
 export const FilterListBySelector = () => {
   const [selectedOption, setSelectedOption] = React.useState("mostRecent");
