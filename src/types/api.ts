@@ -832,6 +832,8 @@ export type APISchemas = {
     listContactIdentifiers?: Array<string>
     surveyUnitId?: string
     surveyUnitIdentificationCode?: string
+    surveyUnitIdentificationName?: string
+    surveyUnitLabel?: string
     listEvents?: Array<APISchemas["QuestioningEventDto"]>
     lastEvent?: string
     /* Format: date-time */
@@ -1586,7 +1588,7 @@ export type APIEndpoints = {
     }
   }
   "/api/questionings/{id}/questioning-communications": {
-    responses: { get: {} }
+    responses: { get: Array<APISchemas["QuestioningCommunicationDto"]> }
     requests: {
       method?: "get"
       urlParams: {

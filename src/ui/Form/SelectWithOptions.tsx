@@ -1,4 +1,5 @@
-import { OutlinedInput, Select, MenuItem, SelectChangeEvent } from "@mui/material";
+import { OutlinedInput, MenuItem } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select/Select";
 
 type Option = string | { label: string; value: string };
 

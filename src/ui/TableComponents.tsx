@@ -10,9 +10,9 @@ import { FormEventHandler } from "react";
 import { theme } from "../theme.tsx";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { FormControl, InputLabel, MenuItem } from "@mui/material";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
+import Select, { SelectChangeEvent } from "@mui/material/Select/Select";
 
 export interface Column {
   id: string;
@@ -79,11 +79,13 @@ const CustomPageSizeSelector = ({
     <FormControl sx={{ width: "160px", mr: 2 }} variant="filled">
       <InputLabel id={"selectPaginationLabel"}>{"Lignes par page"}</InputLabel>
       <Select
+        labelId="selectPaginationLabel"
         variant="filled"
         defaultValue={defaultValue.toString()}
         onChange={onChange}
         fullWidth
         disableUnderline
+        inputProps={{ "aria-labelledby": "selectPaginationLabel" }}
         IconComponent={props => <ExpandMoreOutlinedIcon {...props} sx={{ color: "text.primary" }} />}
       >
         {[10, 20, 50].map(pageSize => (

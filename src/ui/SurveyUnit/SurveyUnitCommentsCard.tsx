@@ -86,6 +86,14 @@ type CommentType = {
 } & Pick<StackProps, "sx">;
 
 export const CommentsList = ({ comments, sx }: CommentType) => {
+  if (comments.length === 0) {
+    return (
+      <Typography variant="titleSmall" color={theme.palette.text.tertiary} sx={{ px: 2 }}>
+        Aucun commentaire ajouté.
+      </Typography>
+    );
+  }
+
   return (
     comments?.length > 0 && (
       <List
