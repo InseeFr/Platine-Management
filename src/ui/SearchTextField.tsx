@@ -3,7 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 
 type Props = {
-  isResetButton: boolean;
+  hasResetButton: boolean;
   label: string;
   inputProps: (name: "searchParam") => {
     id: "searchParam";
@@ -13,10 +13,11 @@ type Props = {
   };
 };
 
-export const SearchTextField = ({ isResetButton, label, inputProps }: Props) => {
+export const SearchTextField = ({ hasResetButton, label, inputProps }: Props) => {
   return (
     <TextField
       id="search-field"
+      type="search"
       fullWidth
       InputLabelProps={{
         htmlFor: "searchParam",
@@ -27,12 +28,19 @@ export const SearchTextField = ({ isResetButton, label, inputProps }: Props) => 
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
+            {hasResetButton && (
+              <IconButton aria-label={"Réinitialiser la recherche"} type={"reset"} edge="end">
+                {<CloseIcon color="primary" />}
+              </IconButton>
+            )}
             <IconButton
-              aria-label={isResetButton ? "Réinitialiser la recherche" : "Lancer la recherche"}
-              type={isResetButton ? "reset" : "submit"}
+              aria-label={"Lancer la recherche"}
+              variant="contained"
+              type={"submit"}
               edge="end"
+              sx={{ borderRadius: "0", p: 2, ml: 2 }}
             >
-              {isResetButton ? <CloseIcon color="primary" /> : <SearchIcon color="primary" />}
+              {<SearchIcon />}
             </IconButton>
           </InputAdornment>
         ),

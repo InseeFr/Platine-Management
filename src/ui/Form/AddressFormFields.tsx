@@ -1,10 +1,9 @@
-import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { Field } from "./Field.tsx";
 import { Row } from "../Row.tsx";
 import { countries } from "../../constants/countries.ts";
 import { repetitionIndexEnum } from "../Contact/ContactFormDialog.tsx";
-import { UseFormRegister } from "react-hook-form";
+import { Control, UseFormRegister } from "react-hook-form";
 import { Schema, z } from "zod";
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
@@ -23,6 +22,7 @@ type Props = {
   countryValue?: string;
   codeType: string;
   onChangeCodeChoice: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  control: Control<any, any, any>;
   type?: "contact" | "surveyUnit";
 };
 
@@ -34,6 +34,7 @@ export const AddressFormFields = ({
   countryValue,
   codeType,
   onChangeCodeChoice,
+  control,
   type = "surveyUnit",
 }: Props) => {
   const [country, setCountry] = useState(countryValue);
@@ -60,38 +61,48 @@ export const AddressFormFields = ({
           label="Raison sociale"
           error={errors.identificationName?.message}
           {...register("identificationName")}
+          type="text"
+          control={control}
         />
       )}
       <Row gap={2} justifyContent={"space-between"}>
         <Field
-          sx={{ width: "5vw" }}
+          sx={{ width: "8vw" }}
           label="N°"
           error={errors.address?.streetNumber?.message}
           {...register("address.streetNumber")}
+          type="text"
+          control={control}
         />
-        <Box sx={{ width: "8vw" }}>
-          {!country || country === "FRANCE" ? (
-            <Field
-              type="select"
-              selectoptions={repetitionIndexEnum}
-              defaultValue={repetitionIndexValue}
-              label="Indice"
-              error={errors.address?.repetitionIndex?.message}
-              {...register("address.repetitionIndex")}
-            />
-          ) : (
-            <Field
-              label="Indice"
-              defaultValue={repetitionIndexValue ?? ""}
-              error={errors.address?.repetitionIndex?.message}
-              {...register("address.repetitionIndex")}
-            />
-          )}
-        </Box>
+
+        {!country || country === "FRANCE" ? (
+          <Field
+            sx={{ width: "10vw" }}
+            type="select"
+            control={control}
+            selectoptions={repetitionIndexEnum}
+            defaultValue={repetitionIndexValue}
+            label="Indice"
+            error={errors.address?.repetitionIndex?.message}
+            {...register("address.repetitionIndex")}
+          />
+        ) : (
+          <Field
+            sx={{ width: "10vw" }}
+            type="text"
+            control={control}
+            label="Indice"
+            defaultValue={repetitionIndexValue ?? ""}
+            error={errors.address?.repetitionIndex?.message}
+            {...register("address.repetitionIndex")}
+          />
+        )}
+
         {!country || country === "FRANCE" ? (
           <Field
             sx={{ width: "18vw" }}
             type="select"
+            control={control}
             label="Type de voie"
             selectoptions={streetTypes}
             defaultValue={streetTypeValue}
@@ -101,6 +112,8 @@ export const AddressFormFields = ({
         ) : (
           <Field
             sx={{ width: "18vw" }}
+            type="text"
+            control={control}
             label="Type de voie"
             defaultValue={streetTypeValue ?? ""}
             error={errors.address?.streetType?.message}
@@ -109,16 +122,22 @@ export const AddressFormFields = ({
         )}
       </Row>
       <Field
+        type="text"
+        control={control}
         label="Nom de la voie"
         error={errors.address?.streetName?.message}
         {...register("address.streetName")}
       />
       <Field
+        type="text"
+        control={control}
         label="Mention spéciale"
         error={errors.address?.specialDistribution?.message}
         {...register("address.specialDistribution")}
       />
       <Field
+        type="text"
+        control={control}
         label="Complément"
         error={errors.address?.addressSupplement?.message}
         {...register("address.addressSupplement")}
@@ -165,12 +184,15 @@ export const AddressFormFields = ({
       {codeChoice === "zipCode" && (
         <>
           <Field
+            control={control}
             label="Code postal *"
             error={errors.address?.zipCode?.message}
             type="number"
             {...register("address.zipCode")}
           />
           <Field
+            type="text"
+            control={control}
             label="Commune *"
             error={errors.address?.cityName?.message}
             {...register("address.cityName")}
@@ -180,12 +202,15 @@ export const AddressFormFields = ({
       {codeChoice === "cedexCode" && (
         <>
           <Field
+            control={control}
             label="Code cedex *"
             error={errors.address?.cedexCode?.message}
             type="number"
             {...register("address.cedexCode")}
           />
           <Field
+            type="text"
+            control={control}
             label="Libellé Cedex * (exemple : Paris CEDEX 14) "
             error={errors.address?.cedexName?.message}
             {...register("address.cedexName")}

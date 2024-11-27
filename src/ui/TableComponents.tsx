@@ -70,21 +70,23 @@ export const style = {
 
 const CustomPageSizeSelector = ({
   onChange,
+  defaultValue,
 }: {
   onChange: (event: SelectChangeEvent<string>) => void;
+  defaultValue: number;
 }) => {
   return (
     <FormControl sx={{ width: "160px", mr: 2 }} variant="filled">
       <InputLabel id={"selectPaginationLabel"}>{"Lignes par page"}</InputLabel>
       <Select
         variant="filled"
-        defaultValue="10"
+        defaultValue={defaultValue.toString()}
         onChange={onChange}
         fullWidth
         disableUnderline
         IconComponent={props => <ExpandMoreOutlinedIcon {...props} sx={{ color: "text.primary" }} />}
       >
-        {[10, 20, 30, 40, 50].map(pageSize => (
+        {[10, 20, 50].map(pageSize => (
           <MenuItem key={pageSize} value={pageSize}>
             {pageSize}
           </MenuItem>
@@ -120,7 +122,9 @@ export const CustomTableFooter = ({
           sx={style.root}
           count={count}
           rowsPerPage={rowsPerPage}
-          labelRowsPerPage={<CustomPageSizeSelector onChange={onChangeSelectedRowsPerPage} />}
+          labelRowsPerPage={
+            <CustomPageSizeSelector onChange={onChangeSelectedRowsPerPage} defaultValue={rowsPerPage} />
+          }
           labelDisplayedRows={page =>
             `${page.from}-${page.to === -1 ? page.count : page.to} sur ${
               page.count

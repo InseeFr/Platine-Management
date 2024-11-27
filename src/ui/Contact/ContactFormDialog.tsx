@@ -34,7 +34,7 @@ export const repetitionIndexEnum = ["BIS", "TER", "QUATER", "QUINQUIES", "A", "B
 export const styles = {
   Grid: {
     display: "grid",
-    gridTemplateColumns: "1fr 1px 1fr ",
+    gridTemplateColumns: "1fr 1px 1fr",
     gap: "24px",
     paddingTop: "8px",
   },
@@ -106,12 +106,44 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 error={errors?.civility?.message}
                 options={civilities}
               />
-              <Field label="Nom" error={errors.lastName?.message} {...register("lastName")} />
-              <Field label="Prénom" error={errors.firstName?.message} {...register("firstName")} />
-              <Field label="Fonction" error={errors.function?.message} {...register("function")} />
-              <Field label="Adresse mail" error={errors.email?.message} {...register("email")} />
-              <Field label="Téléphone 1" error={errors.phone?.message} {...register("phone")} />
               <Field
+                control={control}
+                type="text"
+                label="Nom"
+                error={errors.lastName?.message}
+                {...register("lastName")}
+              />
+              <Field
+                control={control}
+                type="text"
+                label="Prénom"
+                error={errors.firstName?.message}
+                {...register("firstName")}
+              />
+              <Field
+                control={control}
+                type="text"
+                label="Fonction"
+                error={errors.function?.message}
+                {...register("function")}
+              />
+              <Field
+                control={control}
+                type="text"
+                label="Adresse mail"
+                error={errors.email?.message}
+                {...register("email")}
+              />
+              <Field
+                control={control}
+                type="text"
+                label="Téléphone 1"
+                error={errors.phone?.message}
+                {...register("phone")}
+              />
+              <Field
+                control={control}
+                type="text"
                 label="Téléphone 2"
                 error={errors.otherPhone?.message}
                 {...register("otherPhone")}
@@ -129,6 +161,7 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 setCodeType(e.target.value);
                 setValue("address.codeChoice", e.target.value);
               }}
+              control={control}
               type="contact"
             />
           </Box>

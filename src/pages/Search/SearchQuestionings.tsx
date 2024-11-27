@@ -1,15 +1,21 @@
 import { FormEventHandler, useState } from "react";
-import { useGetSearchFilter, useSearchForm } from "../../hooks/useSearchFilter.ts";
+import {
+  useGetSearchFilter,
+  useSearchFilterParams,
+  useSearchForm,
+  useSetSearchFilter,
+} from "../../hooks/useSearchFilter.ts";
 import Stack from "@mui/material/Stack";
 import { Row } from "../../ui/Row.tsx";
 import { theme } from "../../theme.tsx";
 import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
-import { SearchTextField } from "../../ui/SearchTextField.tsx";
 import { Divider, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { SearchQuestioningTable } from "../../ui/Questioning/SearchQuestioningTable.tsx";
 import { EmptyState } from "../../ui/TableComponents.tsx";
-import { FilterSelect } from "../../ui/FilterSelect.tsx";
-import { collectStatus } from "../../constants/collectStatus.ts";
+import { SearchTextField } from "../../ui/SearchTextField.tsx";
+import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
+
+const endpoint = "/api/questionings/search";
 
 export const SearchQuestionings = () => {
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Interrogations"];
@@ -18,21 +24,28 @@ export const SearchQuestionings = () => {
   const [stateFilter, setStateFilter] = useState("all");
 
   const { questionings: questioningFilter } = useGetSearchFilter();
-  const [submittedValue, setSubmittedValue] = useState(questioningFilter.searchParam);
+  const setFilter = useSetSearchFilter();
+  const { data, isLoading } = useFetchQuery(endpoint, {
+    query: {
+      ...useSearchFilterParams("questionings"),
+    },
+  });
+
+  const questionings = data?.content ?? [];
 
   const { onSubmit, onReset, inputProps, value } = useSearchForm("questionings", questioningFilter);
 
   const handleSubmit: FormEventHandler = e => {
-    setSubmittedValue(value.searchParam);
     onSubmit(e);
   };
 
   const handleReset: FormEventHandler = e => {
-    setSubmittedValue("");
     onReset(e);
   };
 
-  const isResetButton = submittedValue === value.searchParam && value.searchParam !== "";
+  const hasResetButton = value.searchParam !== "";
+
+  const hasNoQuestioning = !isLoading && questionings.length === 0;
 
   return (
     <Stack>
@@ -44,14 +57,16 @@ export const SearchQuestionings = () => {
       >
         <Stack>
           <Breadcrumbs items={breadcrumbs} />
-          <Typography variant="headlineLarge">Interrogations</Typography>
+          <Typography variant="headlineLarge" component="h1">
+            Interrogations
+          </Typography>
         </Stack>
         <Row justifyContent={"space-between"}>
           <ToggleButtonGroup value={tab} exclusive onChange={(_, v) => setTab(v)}>
-            <ToggleButton value="me" aria-label="left aligned" size="large">
+            <ToggleButton value="me" size="large">
               Mon portefeuille
             </ToggleButton>
-            <ToggleButton value="all" aria-label="left aligned" size="large">
+            <ToggleButton value="all" size="large">
               Tous les portefeuilles
             </ToggleButton>
           </ToggleButtonGroup>
@@ -91,20 +106,33 @@ export const SearchQuestionings = () => {
             </ToggleButtonGroup>
           </Row>
           <SearchTextField
-            isResetButton={isResetButton}
-            label={"Rechercher par identifiant métier ou contact ou unité enquêtée"}
-            inputProps={inputProps}
+            hasResetButton={hasResetButton}
+            label={"Rechercher par unité enquêtée ou identifiant de connexion"}
+            inputProps={inputProps as any}
           />
-          <Row gap={3}>
-            <FilterSelect options={[]} label={"Campagne"} name={"campaign"} />
-            <FilterSelect options={collectStatus} label={"Statut"} name={"status"} />
+          {/* TODO: use it later
+           <Row gap={3}>
+            <FilterSelect options={[]} label={"Collecte"} name={"campaignId"} />
+            <SearchSelectStatus />
             <FilterSelect options={[]} label={"Dernière communication"} name={"lastCommunication"} />
-          </Row>
-          {/* TODO: rework condition when get data */}
-          {submittedValue && (
-            <EmptyState isFiltered={isResetButton} text={"Aucune interrogation trouvée."} />
+          </Row> */}
+          {hasNoQuestioning && (
+            <EmptyState
+              isFiltered={hasResetButton}
+              text={"Aucune interrogation trouvée."}
+              onReset={onReset}
+            />
           )}
-          {!submittedValue && <SearchQuestioningTable stateFilter={stateFilter} />}
+          {!hasNoQuestioning && (
+            <SearchQuestioningTable
+              questionings={questionings}
+              stateFilter={stateFilter}
+              isLoading={isLoading}
+              totalCount={data?.totalElements ?? 0}
+              questioningFilter={questioningFilter}
+              setFilter={setFilter}
+            />
+          )}
         </Stack>
       </form>
     </Stack>

@@ -13,6 +13,8 @@ export const base = {
   },
   questionings: {
     searchParam: "",
+    page: 0,
+    pageSize: 10,
   },
   surveys: {
     idSource: "",

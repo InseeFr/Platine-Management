@@ -14,6 +14,7 @@ import { CreateContactPage } from "./pages/CreateContactPage.tsx";
 import { UnauthorizedPage } from "./pages/UnauthorizedPage.tsx";
 import { LogoutPage } from "./pages/Logout.tsx";
 import { SearchQuestionings } from "./pages/Search/SearchQuestionings.tsx";
+import { QuestioningPage } from "./pages/QuestioningPage.tsx";
 
 export const routes: RouteObject[] = [
   {
@@ -56,6 +57,7 @@ export const routes: RouteObject[] = [
       { path: "surveys/:id", element: <SurveyPage /> },
       { path: "contacts/:id", element: <ContactPage /> },
       { path: "survey-units/:id", element: <SurveyUnitPage /> },
+      { path: "questionings/:id", element: <QuestioningPage /> },
       { path: "reglages", element: <Settings /> },
       { path: "contacts/createContact", element: <CreateContactPage /> },
       { path: "", element: <Home /> },

@@ -23,7 +23,6 @@ export const SearchSurveyUnits = () => {
   const navigate = useNavigate();
 
   const { surveyUnits: surveyUnitsFilter } = useGetSearchFilter();
-  const [submittedValue, setSubmittedValue] = useState(surveyUnitsFilter);
 
   // isRedirected determines whether or not to redirect when there is only one result
   const [isRedirected, setIsRedirected] = useState(false);
@@ -50,20 +49,15 @@ export const SearchSurveyUnits = () => {
   );
 
   const handleSubmit: FormEventHandler = e => {
-    setSubmittedValue(value);
     setIsRedirected(true);
     onSubmit(e);
   };
 
   const handleReset: FormEventHandler = e => {
-    setSubmittedValue({ searchParam: "", searchType: "" });
     onReset(e);
   };
 
-  const isResetButton =
-    submittedValue.searchParam === value.searchParam &&
-    value.searchParam !== "" &&
-    submittedValue.searchType === value.searchType;
+  const hasResetButton = value.searchParam !== "";
 
   const hasNoSurveyUnits =
     !isLoading &&
@@ -78,11 +72,11 @@ export const SearchSurveyUnits = () => {
 
         <Stack sx={{ my: 3, px: 5 }} gap={3} alignItems={"center"}>
           <SearchFilters
-            isResetButton={isResetButton}
+            hasResetButton={hasResetButton}
             inputProps={inputProps}
             textFieldLabel="Rechercher une unité enquêtée par id métier ou raison sociale"
             options={options}
-            sx={{ width: "50vw", height: "50vh", minWidth: "700px" }}
+            sx={{ width: "50vw", height: "50vh", minWidth: "800px" }}
           />
         </Stack>
       </form>
@@ -99,7 +93,7 @@ export const SearchSurveyUnits = () => {
       <Stack>
         <SearchSurveyUnitsHeader tab={tab} onChangeTab={(_, v) => setTab(v)} />
         <SearchFilters
-          isResetButton={isResetButton}
+          hasResetButton={hasResetButton}
           inputProps={inputProps}
           textFieldLabel="Rechercher une unité enquêtée par id métier ou raison sociale"
           options={options}
@@ -109,14 +103,14 @@ export const SearchSurveyUnits = () => {
       <Divider variant="fullWidth" />
 
       <Stack sx={{ my: 3, px: 5 }} gap={3}>
-        {submittedValue && hasNoSurveyUnits && (
+        {hasNoSurveyUnits && (
           <SearchSurveyUnitsEmptyState
             onChangeSearchType={onChangeSearchType}
             searchType={surveyUnitsFilter.searchType}
             search={surveyUnitsFilter.searchParam}
           />
         )}
-        {submittedValue && !hasNoSurveyUnits && (
+        {!hasNoSurveyUnits && (
           <SearchSurveyUnitTable
             surveyUnits={surveyUnits}
             isLoading={isLoading}

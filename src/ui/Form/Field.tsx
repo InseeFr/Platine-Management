@@ -12,8 +12,17 @@ import { Controller, type UseFormReturn } from "react-hook-form";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import WarningIcon from "@mui/icons-material/Warning";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
-import { FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from "@mui/material";
+import {
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectProps,
+} from "@mui/material";
 import { Row } from "../Row.tsx";
+import CloseIcon from "@mui/icons-material/Close";
 
 type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "required" | "sx"> &
   Pick<SelectProps, "onChange" | "defaultValue" | "disabled"> & {
@@ -90,7 +99,6 @@ export function uncontrolledField(props: Props, ref: any) {
         <InputLabel id={labelId}>{props.label}</InputLabel>
         <Select
           IconComponent={props => <ExpandMoreOutlinedIcon {...props} sx={{ color: "text.primary" }} />}
-          disabled={props.disabled}
           fullWidth
           {...props}
           labelId={labelId}
@@ -121,7 +129,9 @@ export function uncontrolledField(props: Props, ref: any) {
         onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
           e.target.value = e.target.value.replace(/\D/g, "");
         }}
-        InputProps={{ disableUnderline: true }}
+        InputProps={{
+          disableUnderline: true,
+        }}
         inputRef={ref}
         error={!!props.error}
         helperText={
@@ -141,7 +151,9 @@ export function uncontrolledField(props: Props, ref: any) {
     <TextField
       fullWidth
       {...props}
-      InputProps={{ disableUnderline: true }}
+      InputProps={{
+        disableUnderline: true,
+      }}
       inputRef={ref}
       error={!!props.error}
       helperText={
@@ -157,7 +169,10 @@ export function uncontrolledField(props: Props, ref: any) {
   );
 }
 
-export function controlledField({ type, name, options, error }: Props, field: any) {
+export function controlledField(
+  { type, name, options, error, label, selectoptions, disabled, sx }: Props,
+  field: any,
+) {
   if (type === "switch") {
     return <Switch checked={field.value} color="green" {...field} />;
   }
@@ -213,6 +228,108 @@ export function controlledField({ type, name, options, error }: Props, field: an
           {options?.map(o => <RadioLine value={o.value} key={o.value} label={o.label} />)}
         </Stack>
       </RadioGroup>
+    );
+  }
+
+  if (type === "text") {
+    return (
+      <TextField
+        {...field}
+        sx={sx}
+        label={label}
+        fullWidth
+        InputProps={{
+          disableUnderline: true,
+          endAdornment: field.value !== "" && (
+            <IconButton size="small" onClick={() => field.onChange("")}>
+              <CloseIcon />
+            </IconButton>
+          ),
+        }}
+        value={field.value}
+        onChange={e => field.onChange(e.target.value)}
+        error={!!error}
+        helperText={
+          error && (
+            <Row gap={1} pt={1}>
+              <WarningIcon />
+              <Typography variant="bodyLarge">{error}</Typography>
+            </Row>
+          )
+        }
+        variant="filled"
+      />
+    );
+  }
+
+  if (type === "number") {
+    return (
+      <TextField
+        fullWidth
+        sx={sx}
+        label={label}
+        {...field}
+        type="text"
+        onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+          e.target.value = e.target.value.replace(/\D/g, "");
+        }}
+        InputProps={{
+          disableUnderline: true,
+          endAdornment: field.value !== "" && (
+            <IconButton size="small" onClick={() => field.onChange("")}>
+              <CloseIcon />
+            </IconButton>
+          ),
+        }}
+        value={field.value}
+        onChange={e => field.onChange(e.target.value)}
+        error={error}
+        helperText={
+          error && (
+            <Row gap={1} pt={1}>
+              <WarningIcon />
+              <Typography variant="bodyLarge">{error}</Typography>
+            </Row>
+          )
+        }
+        variant="filled"
+      />
+    );
+  }
+
+  if (type === "select" && selectoptions) {
+    const labelId = `label-${name}`;
+
+    return (
+      <FormControl fullWidth variant="filled" sx={sx}>
+        <InputLabel id={labelId}>{label}</InputLabel>
+        <Select
+          IconComponent={props => <ExpandMoreOutlinedIcon {...props} sx={{ color: "text.primary" }} />}
+          disabled={disabled}
+          fullWidth
+          endAdornment={
+            field.value !== "" && (
+              <IconButton sx={{ mr: 2 }} size="small" onClick={() => field.onChange("")}>
+                <CloseIcon />
+              </IconButton>
+            )
+          }
+          {...field}
+          labelId={labelId}
+          defaultValue={field.value}
+          id={`select-${name}`}
+          error={error}
+          displayEmpty
+          disableUnderline
+          variant="filled"
+        >
+          {selectoptions.map(option => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     );
   }
   throw new Error("Cannot render controlled field of type " + type);

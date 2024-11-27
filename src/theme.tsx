@@ -137,6 +137,12 @@ declare module "@mui/material/TextField" {
   }
 }
 
+declare module "@mui/material/IconButton" {
+  interface IconButtonOwnProps {
+    variant?: "outlined" | "contained";
+  }
+}
+
 declare module "@mui/material/styles" {
   interface Palette {
     border: {
@@ -411,6 +417,31 @@ export const theme = createTheme({
         },
       ],
     },
+    MuiIconButton: {
+      variants: [
+        {
+          props: { variant: "outlined" },
+          style: {
+            color: palette.primary.main,
+            border: `2px solid ${palette.primary.main}`,
+            borderRadius: 4,
+            padding: 0,
+          },
+        },
+        {
+          props: { variant: "contained" },
+          style: {
+            ".MuiSvgIcon-root": {
+              fill: "white",
+            },
+            backgroundColor: palette.primary.main,
+            ":hover": {
+              backgroundColor: palette.primary.main,
+            },
+          },
+        },
+      ],
+    },
     MuiToggleButtonGroup: {
       styleOverrides: {
         root: {
@@ -456,7 +487,7 @@ export const theme = createTheme({
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          color: palette.text.tertiary,
+          color: palette.text.secondary,
           "&.Mui-focused": {
             color: palette.text.primary,
           },
@@ -511,6 +542,11 @@ export const theme = createTheme({
         root: {
           "& .Mui-focused .MuiSelect-select": {
             backgroundColor: palette.Surfaces.Secondary,
+          },
+          ":hover": {
+            "& .MuiInputLabel-root": {
+              color: palette.text.secondary,
+            },
           },
           "& .MuiFormHelperText-root": {
             marginLeft: 0,
