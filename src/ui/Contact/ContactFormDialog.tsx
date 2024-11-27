@@ -16,7 +16,6 @@ import { useFetchMutation } from "../../hooks/useFetchQuery.ts";
 import { AddressFormFields } from "../Form/AddressFormFields.tsx";
 import { useState } from "react";
 import { contactSchema } from "../../schemas/contactSchema.ts";
-import { z } from "zod";
 
 type Props = {
   open: boolean;
@@ -87,10 +86,6 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
     onClose();
   };
 
-  const onResetField = (name: keyof z.infer<typeof contactSchema>) => {
-    setValue(name, "");
-  };
-
   return (
     <Dialog open={open} onClose={handleClose} sx={{ ".MuiPaper-root": { maxWidth: "80vw", p: 2 } }}>
       <form action="#" onSubmit={onSubmit}>
@@ -117,7 +112,6 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 label="Nom"
                 error={errors.lastName?.message}
                 {...register("lastName")}
-                onResetField={() => onResetField("lastName")}
               />
               <Field
                 control={control}
@@ -125,7 +119,6 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 label="Prénom"
                 error={errors.firstName?.message}
                 {...register("firstName")}
-                onResetField={() => onResetField("firstName")}
               />
               <Field
                 control={control}
@@ -133,7 +126,6 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 label="Fonction"
                 error={errors.function?.message}
                 {...register("function")}
-                onResetField={() => onResetField("function")}
               />
               <Field
                 control={control}
@@ -141,7 +133,6 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 label="Adresse mail"
                 error={errors.email?.message}
                 {...register("email")}
-                onResetField={() => onResetField("email")}
               />
               <Field
                 control={control}
@@ -149,7 +140,6 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 label="Téléphone 1"
                 error={errors.phone?.message}
                 {...register("phone")}
-                onResetField={() => onResetField("phone")}
               />
               <Field
                 control={control}
@@ -157,7 +147,6 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 label="Téléphone 2"
                 error={errors.otherPhone?.message}
                 {...register("otherPhone")}
-                onResetField={() => onResetField("otherPhone")}
               />
             </Stack>
             <Divider orientation="vertical" variant="middle" />
@@ -173,7 +162,6 @@ export const ContactFormDialog = ({ open, onClose, contact, onSave }: Props) => 
                 setValue("address.codeChoice", e.target.value);
               }}
               control={control}
-              onResetField={onResetField}
               type="contact"
             />
           </Box>

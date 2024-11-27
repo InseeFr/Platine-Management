@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { Field } from "./Field.tsx";
 import { Row } from "../Row.tsx";
@@ -24,7 +23,6 @@ type Props = {
   codeType: string;
   onChangeCodeChoice: (event: React.ChangeEvent<HTMLInputElement>) => void;
   control: Control<any, any, any>;
-  onResetField: (name: any) => void;
   type?: "contact" | "surveyUnit";
 };
 
@@ -37,7 +35,6 @@ export const AddressFormFields = ({
   codeType,
   onChangeCodeChoice,
   control,
-  onResetField,
   type = "surveyUnit",
 }: Props) => {
   const [country, setCountry] = useState(countryValue);
@@ -64,69 +61,65 @@ export const AddressFormFields = ({
           label="Raison sociale"
           error={errors.identificationName?.message}
           {...register("identificationName")}
-          onResetField={() => onResetField("identificationName")}
           type="text"
           control={control}
         />
       )}
       <Row gap={2} justifyContent={"space-between"}>
         <Field
-          sx={{ width: "7vw" }}
+          sx={{ width: "8vw" }}
           label="N°"
           error={errors.address?.streetNumber?.message}
           {...register("address.streetNumber")}
-          onResetField={() => onResetField("address.streetNumber")}
           type="text"
           control={control}
         />
-        <Box sx={{ width: "10vw" }}>
-          {!country || country === "FRANCE" ? (
-            <Field
-              type="select"
-              control={control}
-              selectoptions={repetitionIndexEnum}
-              defaultValue={repetitionIndexValue}
-              label="Indice"
-              error={errors.address?.repetitionIndex?.message}
-              {...register("address.repetitionIndex")}
-              onResetField={() => onResetField("address.repetitionIndex")}
-            />
-          ) : (
-            <Field
-              type="text"
-              control={control}
-              label="Indice"
-              defaultValue={repetitionIndexValue ?? ""}
-              error={errors.address?.repetitionIndex?.message}
-              {...register("address.repetitionIndex")}
-              onResetField={() => onResetField("address.repetitionIndex")}
-            />
-          )}
-        </Box>
-        <Box sx={{ width: "18vw" }}>
-          {!country || country === "FRANCE" ? (
-            <Field
-              type="select"
-              control={control}
-              label="Type de voie"
-              selectoptions={streetTypes}
-              defaultValue={streetTypeValue}
-              error={errors.address?.streetType?.message}
-              {...register("address.streetType")}
-              onResetField={() => onResetField("address.streetType")}
-            />
-          ) : (
-            <Field
-              type="text"
-              control={control}
-              label="Type de voie"
-              defaultValue={streetTypeValue ?? ""}
-              error={errors.address?.streetType?.message}
-              {...register("address.streetType")}
-              onResetField={() => onResetField("address.streetType")}
-            />
-          )}
-        </Box>
+
+        {!country || country === "FRANCE" ? (
+          <Field
+            sx={{ width: "10vw" }}
+            type="select"
+            control={control}
+            selectoptions={repetitionIndexEnum}
+            defaultValue={repetitionIndexValue}
+            label="Indice"
+            error={errors.address?.repetitionIndex?.message}
+            {...register("address.repetitionIndex")}
+          />
+        ) : (
+          <Field
+            sx={{ width: "10vw" }}
+            type="text"
+            control={control}
+            label="Indice"
+            defaultValue={repetitionIndexValue ?? ""}
+            error={errors.address?.repetitionIndex?.message}
+            {...register("address.repetitionIndex")}
+          />
+        )}
+
+        {!country || country === "FRANCE" ? (
+          <Field
+            sx={{ width: "18vw" }}
+            type="select"
+            control={control}
+            label="Type de voie"
+            selectoptions={streetTypes}
+            defaultValue={streetTypeValue}
+            error={errors.address?.streetType?.message}
+            {...register("address.streetType")}
+          />
+        ) : (
+          <Field
+            sx={{ width: "18vw" }}
+            type="text"
+            control={control}
+            label="Type de voie"
+            defaultValue={streetTypeValue ?? ""}
+            error={errors.address?.streetType?.message}
+            {...register("address.streetType")}
+          />
+        )}
       </Row>
       <Field
         type="text"
@@ -134,7 +127,6 @@ export const AddressFormFields = ({
         label="Nom de la voie"
         error={errors.address?.streetName?.message}
         {...register("address.streetName")}
-        onResetField={() => onResetField("address.streetName")}
       />
       <Field
         type="text"
@@ -142,7 +134,6 @@ export const AddressFormFields = ({
         label="Mention spéciale"
         error={errors.address?.specialDistribution?.message}
         {...register("address.specialDistribution")}
-        onResetField={() => onResetField("address.specialDistribution")}
       />
       <Field
         type="text"
@@ -150,7 +141,6 @@ export const AddressFormFields = ({
         label="Complément"
         error={errors.address?.addressSupplement?.message}
         {...register("address.addressSupplement")}
-        onResetField={() => onResetField("address.addressSupplement")}
       />
       <FormControl>
         <FormLabel
@@ -199,7 +189,6 @@ export const AddressFormFields = ({
             error={errors.address?.zipCode?.message}
             type="number"
             {...register("address.zipCode")}
-            onResetField={() => onResetField("address.zipCode")}
           />
           <Field
             type="text"
@@ -207,7 +196,6 @@ export const AddressFormFields = ({
             label="Commune *"
             error={errors.address?.cityName?.message}
             {...register("address.cityName")}
-            onResetField={() => onResetField("address.cityName")}
           />
         </>
       )}
@@ -219,7 +207,6 @@ export const AddressFormFields = ({
             error={errors.address?.cedexCode?.message}
             type="number"
             {...register("address.cedexCode")}
-            onResetField={() => onResetField("address.cedexCode")}
           />
           <Field
             type="text"
@@ -227,7 +214,6 @@ export const AddressFormFields = ({
             label="Libellé Cedex * (exemple : Paris CEDEX 14) "
             error={errors.address?.cedexName?.message}
             {...register("address.cedexName")}
-            onResetField={() => onResetField("address.cedexName")}
           />
         </>
       )}

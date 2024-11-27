@@ -32,7 +32,6 @@ type Props = Pick<TextFieldProps, "onChange" | "onBlur" | "name" | "label" | "re
     labelOutside?: boolean;
     options?: { label: string; value: string }[];
     selectoptions?: string[];
-    onResetField?: () => void;
   };
 
 export const Field = forwardRef<HTMLElement, Props>((props, ref) => {
@@ -100,7 +99,6 @@ export function uncontrolledField(props: Props, ref: any) {
         <InputLabel id={labelId}>{props.label}</InputLabel>
         <Select
           IconComponent={props => <ExpandMoreOutlinedIcon {...props} sx={{ color: "text.primary" }} />}
-          disabled={props.disabled}
           fullWidth
           {...props}
           labelId={labelId}
@@ -172,7 +170,7 @@ export function uncontrolledField(props: Props, ref: any) {
 }
 
 export function controlledField(
-  { type, name, options, error, label, onResetField, selectoptions, disabled }: Props,
+  { type, name, options, error, label, selectoptions, disabled, sx }: Props,
   field: any,
 ) {
   if (type === "switch") {
@@ -237,12 +235,13 @@ export function controlledField(
     return (
       <TextField
         {...field}
+        sx={sx}
         label={label}
         fullWidth
         InputProps={{
           disableUnderline: true,
           endAdornment: field.value !== "" && (
-            <IconButton size="small" onClick={onResetField}>
+            <IconButton size="small" onClick={() => field.onChange("")}>
               <CloseIcon />
             </IconButton>
           ),
@@ -267,6 +266,7 @@ export function controlledField(
     return (
       <TextField
         fullWidth
+        sx={sx}
         label={label}
         {...field}
         type="text"
@@ -276,7 +276,7 @@ export function controlledField(
         InputProps={{
           disableUnderline: true,
           endAdornment: field.value !== "" && (
-            <IconButton size="small" onClick={onResetField}>
+            <IconButton size="small" onClick={() => field.onChange("")}>
               <CloseIcon />
             </IconButton>
           ),
@@ -301,7 +301,7 @@ export function controlledField(
     const labelId = `label-${name}`;
 
     return (
-      <FormControl fullWidth variant="filled">
+      <FormControl fullWidth variant="filled" sx={sx}>
         <InputLabel id={labelId}>{label}</InputLabel>
         <Select
           IconComponent={props => <ExpandMoreOutlinedIcon {...props} sx={{ color: "text.primary" }} />}
@@ -309,7 +309,7 @@ export function controlledField(
           fullWidth
           endAdornment={
             field.value !== "" && (
-              <IconButton sx={{ mr: 2 }} size="small" onClick={onResetField}>
+              <IconButton sx={{ mr: 2 }} size="small" onClick={() => field.onChange("")}>
                 <CloseIcon />
               </IconButton>
             )
