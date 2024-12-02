@@ -4,7 +4,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import { Breadcrumbs } from "../Breadcrumbs.tsx";
 import { theme } from "../../theme.tsx";
 import { Link } from "../Link.tsx";
-import { useSetSearchFilter } from "../../hooks/useSearchFilter.ts";
+import { useGetSearchFilter, useSetSearchFilter } from "../../hooks/useSearchFilter.ts";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDetailsDto"];
@@ -12,6 +12,7 @@ type Props = {
 
 export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
   const setFilter = useSetSearchFilter();
+  const { questionings: questioningFilter } = useGetSearchFilter();
 
   const breadcrumbs = [
     { href: "/", title: "Accueil" },
@@ -49,7 +50,12 @@ export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
           component={Link}
           to={`/questionings`}
           onClick={() => {
-            return setFilter("questionings", { searchParam: searchValue, page: 0, pageSize: 10 });
+            return setFilter("questionings", {
+              ...questioningFilter,
+              page: 0,
+              pageSize: 10,
+              searchParam: searchValue,
+            });
           }}
           disabled={!surveyUnit.hasQuestionings}
         >

@@ -1,6 +1,5 @@
 import {
   Paper,
-  SelectChangeEvent,
   Skeleton,
   Table,
   TableBody,
@@ -16,6 +15,8 @@ import { SearchQuestioningTableRow } from "./SearchQuestioningTableRow.tsx";
 import { theme } from "../../theme.tsx";
 import { APISchemas } from "../../types/api.ts";
 import { LoadingRow } from "../Contact/SearchContactTable.tsx";
+import { SelectChangeEvent } from "@mui/material/Select/Select";
+import { QuestioningsBaseType } from "../../hooks/useSearchFilter.ts";
 
 export const getCollectStateChipColor = (state?: string) => {
   switch (state) {
@@ -56,19 +57,8 @@ type Props = {
   stateFilter: string;
   isLoading: boolean;
   totalCount: number;
-  questioningFilter: {
-    searchParam: string;
-    page: number;
-    pageSize: number;
-  };
-  setFilter: (
-    name: "questionings",
-    filter: {
-      searchParam: string;
-      page: number;
-      pageSize: number;
-    },
-  ) => void;
+  questioningFilter: QuestioningsBaseType;
+  setFilter: (name: "questionings", filter: QuestioningsBaseType) => void;
 };
 
 export const SearchQuestioningTable = ({
@@ -111,6 +101,10 @@ export const SearchQuestioningTable = ({
   return (
     <TableContainer component={Paper} elevation={2}>
       <Table aria-label="search questionings table">
+        <caption style={{ display: "none" }}>
+          liste des interrogations avec différentes informations (nom de la collecte, ID connexion des
+          répondants, statut...)
+        </caption>
         {stateFilter === "recovery" ? (
           <TableHead sx={{ backgroundColor: "#EBEFF5" }}>
             {columnsWithQuality.map(column => (

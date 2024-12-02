@@ -15,7 +15,7 @@ export const FilterSelect = ({ options, value, label, name }: Props) => {
   const labelId = `label-${label}`;
 
   return (
-    <FormControl fullWidth variant="filled">
+    <FormControl variant="filled" sx={{ flex: 1 }}>
       <InputLabel id={labelId}>{label}</InputLabel>
       <Select
         IconComponent={props => <ExpandMoreOutlinedIcon {...props} sx={{ color: "text.primary" }} />}

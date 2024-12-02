@@ -10,7 +10,7 @@ import { Button, Typography } from "@mui/material";
 import { ContactDetailsCard } from "../ui/Contact/ContactDetailsCard.tsx";
 import { ContactCampaignsCard } from "../ui/Contact/ContactCampaignsCard.tsx";
 import { Link } from "../ui/Link.tsx";
-import { useSetSearchFilter } from "../hooks/useSearchFilter.ts";
+import { useGetSearchFilter, useSetSearchFilter } from "../hooks/useSearchFilter.ts";
 
 export const ContactPage = () => {
   const setFilter = useSetSearchFilter();
@@ -21,6 +21,8 @@ export const ContactPage = () => {
       id: id!,
     },
   });
+
+  const { questionings: questioningFilter } = useGetSearchFilter();
 
   if (!contact) {
     return (
@@ -56,7 +58,12 @@ export const ContactPage = () => {
             component={Link}
             to={`/questionings`}
             onClick={() => {
-              return setFilter("questionings", { searchParam: contactName, page: 0, pageSize: 10 });
+              return setFilter("questionings", {
+                ...questioningFilter,
+                page: 0,
+                pageSize: 10,
+                searchParam: contact.identifier,
+              });
             }}
             disabled={contact.listCampaigns?.length === 0}
           >

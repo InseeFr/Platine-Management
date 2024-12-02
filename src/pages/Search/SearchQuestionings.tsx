@@ -1,5 +1,6 @@
-import { FormEventHandler, useState } from "react";
+import { useState } from "react";
 import {
+  QuestioningsBaseType,
   useGetSearchFilter,
   useSearchFilterParams,
   useSearchForm,
@@ -12,8 +13,12 @@ import { Breadcrumbs } from "../../ui/Breadcrumbs.tsx";
 import { Divider, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { SearchQuestioningTable } from "../../ui/Questioning/SearchQuestioningTable.tsx";
 import { EmptyState } from "../../ui/TableComponents.tsx";
-import { SearchTextField } from "../../ui/SearchTextField.tsx";
 import { useFetchQuery } from "../../hooks/useFetchQuery.ts";
+import { MultipleSearchSelect } from "../../ui/Search/MultipleSearchSelect.tsx";
+import { collectStatus } from "../../constants/collectStatus.ts";
+import { FilterSelect } from "../../ui/FilterSelect.tsx";
+import { communicationsList } from "../../constants/communications.ts";
+import { SearchQuestioningTextField } from "../../ui/Search/SearchQuestioningTextField.tsx";
 
 const endpoint = "/api/questionings/search";
 
@@ -21,31 +26,44 @@ export const SearchQuestionings = () => {
   const breadcrumbs = [{ href: "/", title: "Accueil" }, "Interrogations"];
 
   const [tab, setTab] = useState("me");
-  const [stateFilter, setStateFilter] = useState("all");
 
   const { questionings: questioningFilter } = useGetSearchFilter();
   const setFilter = useSetSearchFilter();
+
+  // filter to remove empty parameters from the query
+  const searchFilterParams = Object.fromEntries(
+    Object.entries(useSearchFilterParams("questionings"))
+      .map(([key, value]) => {
+        if (Array.isArray(value)) {
+          value = value.filter(v => v !== undefined);
+        }
+        return [key, value];
+      })
+      .filter(([, value]) => value !== undefined && !(Array.isArray(value) && value.length === 0)),
+  );
+
   const { data, isLoading } = useFetchQuery(endpoint, {
     query: {
-      ...useSearchFilterParams("questionings"),
+      ...searchFilterParams,
     },
   });
 
   const questionings = data?.content ?? [];
 
-  const { onSubmit, onReset, inputProps, value } = useSearchForm("questionings", questioningFilter);
-
-  const handleSubmit: FormEventHandler = e => {
-    onSubmit(e);
-  };
-
-  const handleReset: FormEventHandler = e => {
-    onReset(e);
-  };
+  const { onReset, inputProps, value, setValue } = useSearchForm("questionings", questioningFilter);
 
   const hasResetButton = value.searchParam !== "";
 
   const hasNoQuestioning = !isLoading && questionings.length === 0;
+
+  const onResetSelect = (name: keyof QuestioningsBaseType) => {
+    setValue({ ...value, [name]: [] });
+    setFilter("questionings", { ...questioningFilter, [name]: [] });
+  };
+
+  const onSubmit = (name: keyof QuestioningsBaseType) => {
+    setFilter("questionings", { ...questioningFilter, [name]: inputProps(name).value });
+  };
 
   return (
     <Stack>
@@ -73,13 +91,13 @@ export const SearchQuestionings = () => {
         </Row>
       </Row>
       <Divider variant="fullWidth" />
-      <form onSubmit={handleSubmit} onReset={handleReset}>
+      <form>
         <Stack sx={{ my: 3, px: 5 }} gap={3}>
           <Row justifyContent={"space-between"}>
             <ToggleButtonGroup
-              value={stateFilter}
+              value={questioningFilter.state}
               exclusive
-              onChange={(_, v) => setStateFilter(v)}
+              onChange={(_, value) => setFilter("questionings", { ...questioningFilter, state: value })}
               sx={{
                 boxShadow: "none",
                 ".MuiToggleButtonGroup-grouped:not(:first-of-type)": {
@@ -105,17 +123,35 @@ export const SearchQuestionings = () => {
               </ToggleButton>
             </ToggleButtonGroup>
           </Row>
-          <SearchTextField
+          <SearchQuestioningTextField
             hasResetButton={hasResetButton}
+            onReset={() => {
+              setFilter("questionings", { ...questioningFilter, "searchParam": "" });
+              setValue({ ...questioningFilter, "searchParam": "" });
+            }}
+            onSubmit={() => onSubmit("searchParam")}
             label={"Rechercher par unité enquêtée ou identifiant de connexion"}
             inputProps={inputProps as any}
           />
-          {/* TODO: use it later
-           <Row gap={3}>
+          <Row gap={3}>
             <FilterSelect options={[]} label={"Collecte"} name={"campaignId"} />
-            <SearchSelectStatus />
-            <FilterSelect options={[]} label={"Dernière communication"} name={"lastCommunication"} />
-          </Row> */}
+            <MultipleSearchSelect
+              options={collectStatus}
+              inputProps={inputProps}
+              name={"lastEvent"}
+              label={"Statut"}
+              onReset={() => onResetSelect("lastEvent")}
+              onSubmit={() => onSubmit("lastEvent")}
+            />
+            <MultipleSearchSelect
+              options={communicationsList}
+              inputProps={inputProps}
+              name={"lastCommunication"}
+              label={"Dernière communication"}
+              onReset={() => onResetSelect("lastCommunication")}
+              onSubmit={() => onSubmit("lastCommunication")}
+            />
+          </Row>
           {hasNoQuestioning && (
             <EmptyState
               isFiltered={hasResetButton}
@@ -126,7 +162,7 @@ export const SearchQuestionings = () => {
           {!hasNoQuestioning && (
             <SearchQuestioningTable
               questionings={questionings}
-              stateFilter={stateFilter}
+              stateFilter={questioningFilter.state}
               isLoading={isLoading}
               totalCount={data?.totalElements ?? 0}
               questioningFilter={questioningFilter}
