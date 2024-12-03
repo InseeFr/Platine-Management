@@ -127,26 +127,33 @@ export const SearchQuestionings = () => {
             hasResetButton={hasResetButton}
             onReset={() => {
               setFilter("questionings", { ...questioningFilter, "searchParam": "" });
-              setValue({ ...questioningFilter, "searchParam": "" });
+              setValue({ ...value, "searchParam": "" });
             }}
             onSubmit={() => onSubmit("searchParam")}
             label={"Rechercher par unité enquêtée ou identifiant de connexion"}
-            inputProps={inputProps as any}
+            inputProps={{
+              ...inputProps("searchParam"),
+              value: inputProps("searchParam").value as QuestioningsBaseType["searchParam"],
+            }}
           />
           <Row gap={3}>
             <FilterSelect options={[]} label={"Collecte"} name={"campaignId"} />
             <MultipleSearchSelect
               options={collectStatus}
-              inputProps={inputProps}
-              name={"lastEvent"}
+              inputProps={{
+                ...inputProps("lastEvent"),
+                value: inputProps("lastEvent").value as string[],
+              }}
               label={"Statut"}
               onReset={() => onResetSelect("lastEvent")}
               onSubmit={() => onSubmit("lastEvent")}
             />
             <MultipleSearchSelect
               options={communicationsList}
-              inputProps={inputProps}
-              name={"lastCommunication"}
+              inputProps={{
+                ...inputProps("lastCommunication"),
+                value: inputProps("lastCommunication").value as string[],
+              }}
               label={"Dernière communication"}
               onReset={() => onResetSelect("lastCommunication")}
               onSubmit={() => onSubmit("lastCommunication")}

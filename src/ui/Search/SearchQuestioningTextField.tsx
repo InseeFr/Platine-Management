@@ -1,17 +1,19 @@
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
+import { ChangeEvent } from "react";
+import { QuestioningsBaseType } from "../../hooks/useSearchFilter.tsx";
 
 type Props = {
   hasResetButton: boolean;
   label: string;
   onReset: () => void;
   onSubmit: () => void;
-  inputProps: (name: "searchParam") => {
-    id: "searchParam";
-    name: "searchParam";
+  inputProps: {
+    id: keyof QuestioningsBaseType;
+    name: keyof QuestioningsBaseType;
     value: string;
-    onChange: (e: any) => void;
+    onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   };
 };
 
@@ -53,7 +55,10 @@ export const SearchQuestioningTextField = ({
           </InputAdornment>
         ),
         disableUnderline: true,
-        ...inputProps("searchParam"),
+        id: inputProps.id,
+        name: inputProps.name,
+        value: inputProps.value,
+        onChange: inputProps.onChange,
       }}
       label={label}
       variant="filled"
