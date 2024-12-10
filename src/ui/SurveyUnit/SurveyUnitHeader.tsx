@@ -3,8 +3,8 @@ import { APISchemas } from "../../types/api.ts";
 import { Button, Stack, Typography } from "@mui/material";
 import { Breadcrumbs } from "../Breadcrumbs.tsx";
 import { theme } from "../../theme.tsx";
-import { Link } from "../Link.tsx";
 import { useGetSearchFilter, useSetSearchFilter } from "../../hooks/useSearchFilter.ts";
+import { LinkWithForwardRef } from "../Link.tsx";
 
 type Props = {
   surveyUnit: APISchemas["SurveyUnitDetailsDto"];
@@ -47,7 +47,7 @@ export const SurveyUnitHeader = ({ surveyUnit }: Props) => {
         <Button
           variant="contained"
           size="large"
-          component={Link}
+          component={LinkWithForwardRef}
           to={`/questionings`}
           onClick={() => {
             return setFilter("questionings", {

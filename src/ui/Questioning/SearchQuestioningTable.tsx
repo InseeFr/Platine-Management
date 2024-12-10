@@ -140,18 +140,20 @@ export const SearchQuestioningTable = ({
           <TableHeader columns={columns} />
         )}
         {isLoading && (
-          <TableRow>
-            <TableCell>
-              <Skeleton />
-            </TableCell>
-            <TableCell>
-              <Skeleton />
-            </TableCell>
-            <TableCell>
-              <Skeleton />
-            </TableCell>
-            <LoadingRow />
-          </TableRow>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <Skeleton />
+              </TableCell>
+              <TableCell>
+                <Skeleton />
+              </TableCell>
+              <TableCell>
+                <Skeleton />
+              </TableCell>
+              <LoadingRow />
+            </TableRow>
+          </TableBody>
         )}
         <TableBody>
           {questionings.map(questioning => (

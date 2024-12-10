@@ -8,8 +8,8 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Paper, Skeleton, TableRow } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { useIntersection } from "react-use";
-import { Link } from "../Link.tsx";
 import { theme } from "../../theme.tsx";
+import { useNavigate } from "react-router-dom";
 
 const columns: readonly Column[] = [
   { id: "identifier", label: "ID", minWidth: "140px" },
@@ -29,6 +29,9 @@ export const style = {
       outline: `1px solid ${theme.palette.common.black} !important`,
       outlineOffset: "-1px",
     },
+    "&:hover": {
+      cursor: "pointer",
+    },
   },
 };
 
@@ -41,21 +44,21 @@ type Props = {
 
 export const SearchContactTable = (props: Props) => {
   const contacts = props.contacts ?? [];
+  const navigate = useNavigate();
 
   return (
     <TableContainer component={Paper} elevation={2}>
       <Table aria-label="search contacts table">
         <TableHeader columns={columns} />
-        {props.isLoading && <LoadingTable onVisible={props.onVisible} />}
         <TableBody>
+          {props.isLoading && <LoadingTable onVisible={props.onVisible} />}
           {contacts.map(contact => {
             return (
               <TableRow
                 key={contact.identifier}
                 sx={style.root}
                 hover
-                component={Link}
-                to={`/contacts/${contact.identifier}`}
+                onClick={() => navigate(`/contacts/${contact.identifier}`)}
               >
                 <TableCell>{`#${contact.identifier}`}</TableCell>
                 <TableCell>{`${contact.firstName} ${contact.lastName}`}</TableCell>

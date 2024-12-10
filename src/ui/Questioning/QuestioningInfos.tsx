@@ -1,12 +1,12 @@
 import { Button, Card, Divider, List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import { Row } from "../Row.tsx";
-import { Link } from "../Link.tsx";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { StatesCard } from "./StatesCard.tsx";
 import { QuestioningCommentsCard } from "./QuestioningCommentsCard.tsx";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { APISchemas } from "../../types/api.ts";
 import { CardtitleWithIcon } from "../CardtitleWithIcon.tsx";
+import { LinkWithForwardRef } from "../Link.tsx";
 
 type Props = {
   questioning: APISchemas["QuestioningDetailsDto"];
@@ -45,7 +45,7 @@ export const QuestioningInfos = ({ questioning, refetch }: Props) => {
                   sx={{ px: 0 }}
                   secondaryAction={
                     <Button
-                      component={Link}
+                      component={LinkWithForwardRef}
                       to={`/contacts/${contact}`}
                       sx={{ typography: "titleSmall" }}
                       size="large"
@@ -71,7 +71,7 @@ export const QuestioningInfos = ({ questioning, refetch }: Props) => {
             <Row justifyContent={"space-between"}>
               <Typography variant="bodyMedium">{surveyUnitInformations}</Typography>
               <Button
-                component={Link}
+                component={LinkWithForwardRef}
                 to={`/survey-units/${questioning.surveyUnitId}`}
                 sx={{ typography: "titleSmall" }}
                 size="large"
@@ -88,7 +88,7 @@ export const QuestioningInfos = ({ questioning, refetch }: Props) => {
             <Row justifyContent={"space-between"}>
               <Typography variant="bodyMedium">{questioning.campaignId}</Typography>
               <Button
-                component={Link}
+                component={LinkWithForwardRef}
                 to={`/campaigns/${questioning.campaignId}`}
                 sx={{ typography: "titleSmall" }}
                 endIcon={<OpenInNewIcon />}

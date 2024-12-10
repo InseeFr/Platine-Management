@@ -9,8 +9,8 @@ import { theme } from "../theme.tsx";
 import { Button, Typography } from "@mui/material";
 import { ContactDetailsCard } from "../ui/Contact/ContactDetailsCard.tsx";
 import { ContactCampaignsCard } from "../ui/Contact/ContactCampaignsCard.tsx";
-import { Link } from "../ui/Link.tsx";
 import { useGetSearchFilter, useSetSearchFilter } from "../hooks/useSearchFilter.ts";
+import { LinkWithForwardRef } from "../ui/Link.tsx";
 
 export const ContactPage = () => {
   const setFilter = useSetSearchFilter();
@@ -55,7 +55,7 @@ export const ContactPage = () => {
           <Button
             variant="contained"
             size="large"
-            component={Link}
+            component={LinkWithForwardRef}
             to={`/questionings`}
             onClick={() => {
               return setFilter("questionings", {
