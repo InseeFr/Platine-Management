@@ -1,7 +1,7 @@
 import { Button, Card, Divider, List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import { Link } from "../Link.tsx";
 import { APISchemas } from "../../types/api.ts";
+import { LinkWithForwardRef } from "../Link.tsx";
 
 type Props = {
   campaigns?: APISchemas["ContactDetailsDto"]["listCampaigns"];
@@ -24,26 +24,25 @@ export const ContactCampaignsCard = (props: Props) => {
           </ListItem>
 
           {campaigns.map(campaign => (
-            <li key={campaign}>
-              <Divider variant="fullWidth" component="li" />
-              <ListItem
-                sx={{ pl: 0 }}
-                secondaryAction={
-                  <Button
-                    component={Link}
-                    to={`/campaigns/${campaign}`}
-                    sx={{ typography: "titleSmall" }}
-                    endIcon={<OpenInNewIcon />}
-                    // TODO: remove disabled when get pages
-                    disabled={true}
-                  >
-                    Voir
-                  </Button>
-                }
-              >
-                <ListItemText primary={<Typography variant="bodyMedium">{campaign}</Typography>} />
-              </ListItem>
-            </li>
+            <ListItem
+              key={campaign}
+              sx={{ pl: 0 }}
+              secondaryAction={
+                <Button
+                  component={LinkWithForwardRef}
+                  to={`/campaigns/${campaign}`}
+                  sx={{ typography: "titleSmall" }}
+                  endIcon={<OpenInNewIcon />}
+                  // TODO: remove disabled when get pages
+                  disabled={true}
+                >
+                  Voir
+                </Button>
+              }
+            >
+              <ListItemText primary={<Typography variant="bodyMedium">{campaign}</Typography>} />
+              <Divider variant="fullWidth" />
+            </ListItem>
           ))}
 
           {!hasCampaigns && (

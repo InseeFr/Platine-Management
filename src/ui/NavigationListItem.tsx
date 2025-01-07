@@ -4,7 +4,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { theme } from "../theme.tsx";
 import { ElementType } from "react";
-import { Link } from "./Link.tsx";
+import { LinkWithForwardRef } from "./Link.tsx";
 
 type Props = {
   open: boolean;
@@ -29,7 +29,7 @@ export const NavigationListItem = ({ open, IconComponent, label, link, isActive 
             border: "3px solid white",
           },
         }}
-        component={Link}
+        component={LinkWithForwardRef}
         to={link}
       >
         <ListItemIcon

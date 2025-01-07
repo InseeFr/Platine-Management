@@ -1,11 +1,11 @@
 import { Chip, TableCell, TableRow, Tooltip } from "@mui/material";
 import { style } from "../Contact/SearchContactTable.tsx";
-import { Link } from "../Link.tsx";
 import { collectStatus } from "../../constants/collectStatus.ts";
 import { getCollectStateChipColor } from "./SearchQuestioningTable.tsx";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { communicationsList } from "../../constants/communications.ts";
 import { APISchemas } from "../../types/api.ts";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   questioning: APISchemas["SearchQuestioningDto"];
@@ -13,13 +13,14 @@ type Props = {
 };
 
 export const SearchQuestioningTableRow = ({ questioning, stateFilter }: Props) => {
+  const navigate = useNavigate();
+
   return (
     <TableRow
       key={questioning.questioningId}
       sx={style.root}
       hover
-      component={Link}
-      to={`/questionings/${questioning.questioningId}`}
+      onClick={() => navigate(`/questionings/${questioning.questioningId}`)}
     >
       <TableCell>{questioning.campaignId}</TableCell>
 

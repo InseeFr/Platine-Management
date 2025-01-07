@@ -7,7 +7,6 @@ import { NavigationDrawer } from "./NavigationDrawer.tsx";
 export function Layout({ children }: PropsWithChildren) {
   return (
     <Box sx={{ display: "flex" }}>
-      <NavigationDrawer />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         {children}
       </Box>

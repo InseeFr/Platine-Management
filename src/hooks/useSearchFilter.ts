@@ -2,6 +2,16 @@ import { FormEventHandler, useState } from "react";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
 
+export type QuestioningsBaseType = {
+  searchParam: string;
+  state: string;
+  page: number;
+  pageSize: number;
+  lastEvent?: string[];
+  lastCommunication?: string[];
+  campaignId?: string;
+};
+
 export const base = {
   contacts: {
     searchParam: "",
@@ -13,9 +23,13 @@ export const base = {
   },
   questionings: {
     searchParam: "",
+    state: "all",
     page: 0,
     pageSize: 10,
-  },
+    lastEvent: [],
+    lastCommunication: [],
+    campaignId: "",
+  } as QuestioningsBaseType,
   surveys: {
     idSource: "",
     year: undefined as undefined | number,
@@ -88,6 +102,7 @@ export function useSearchForm<K extends Key>(key: K, initialValue: State[K]) {
     value,
     onSubmit,
     onReset,
+    setValue,
     inputProps: (name: keyof State[K]) => ({
       id: name,
       name: name,
