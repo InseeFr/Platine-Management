@@ -85,6 +85,7 @@ export const QuestioningPage = () => {
             size="large"
             component={LinkWithForwardRef}
             to={questioning.readOnlyUrl ?? ""}
+            target="_blank"
             endIcon={<OpenInNewIcon />}
           >
             Voir le questionnaire miroir
