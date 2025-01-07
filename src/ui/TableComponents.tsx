@@ -81,6 +81,7 @@ const CustomPageSizeSelector = ({
       <Select
         labelId="selectPaginationLabel"
         variant="filled"
+        label={"Lignes par page"}
         defaultValue={defaultValue.toString()}
         onChange={onChange}
         fullWidth

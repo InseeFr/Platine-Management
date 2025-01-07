@@ -417,6 +417,34 @@ export const theme = createTheme({
         },
       ],
     },
+    MuiAutocomplete: {
+      styleOverrides: {
+        clearIndicator: {
+          color: palette.primary.main,
+          visibility: "visible",
+        },
+        popupIndicator: {
+          color: palette.primary.main,
+        },
+        groupLabel: {
+          ...typography.titleSmall,
+          color: palette.black.main,
+        },
+        option: {
+          "&[aria-selected='true']": {
+            backgroundColor: "white !important",
+          },
+        },
+        inputRoot: {
+          ".MuiOutlinedInput-notchedOutline": {
+            borderColor: palette.border.default,
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            border: `1px solid ${palette.primary.main}`,
+          },
+        },
+      },
+    },
     MuiIconButton: {
       variants: [
         {

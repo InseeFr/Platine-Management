@@ -3,7 +3,6 @@ import { SyntheticEvent, useState } from "react";
 import { theme } from "../theme.tsx";
 import { Breadcrumbs } from "../ui/Breadcrumbs.tsx";
 import { Row } from "../ui/Row.tsx";
-import { Link } from "../ui/Link.tsx";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { PageTab } from "../ui/PageTab.tsx";
 import { QuestioningInfos } from "../ui/Questioning/QuestioningInfos.tsx";
@@ -11,6 +10,7 @@ import { collectStatus } from "../constants/collectStatus.ts";
 import { getCollectStateChipColor } from "../ui/Questioning/SearchQuestioningTable.tsx";
 import { useParams } from "react-router-dom";
 import { useFetchQuery } from "../hooks/useFetchQuery.ts";
+import { LinkWithForwardRef } from "../ui/Link.tsx";
 
 enum Tab {
   Infos = "Infos",
@@ -83,7 +83,7 @@ export const QuestioningPage = () => {
             variant="contained"
             disabled={hasNoQuestioningUrl}
             size="large"
-            component={Link}
+            component={LinkWithForwardRef}
             to={questioning.readOnlyUrl ?? ""}
             endIcon={<OpenInNewIcon />}
           >

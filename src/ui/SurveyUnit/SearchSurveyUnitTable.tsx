@@ -6,8 +6,8 @@ import { APISchemas } from "../../types/api.ts";
 import TableCell from "@mui/material/TableCell";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Paper, TableRow } from "@mui/material";
-import { Link } from "../Link.tsx";
 import { LoadingTable, style } from "../Contact/SearchContactTable.tsx";
+import { useNavigate } from "react-router-dom";
 
 const columns: readonly Column[] = [
   { id: "identificationCode", label: "ID métier", minWidth: "150px" },
@@ -25,21 +25,21 @@ type Props = {
 
 export const SearchSurveyUnitTable = (props: Props) => {
   const surveyUnits = props.surveyUnits ?? [];
+  const navigate = useNavigate();
 
   return (
     <TableContainer component={Paper} elevation={2}>
       <Table aria-label="search survey units table">
         <TableHeader columns={columns} />
-        {props.isLoading && <LoadingTable onVisible={props.onVisible} />}
         <TableBody>
+          {props.isLoading && <LoadingTable onVisible={props.onVisible} />}
           {surveyUnits.map(surveyUnit => {
             return (
               <TableRow
                 key={surveyUnit.idSu}
                 sx={style.root}
                 hover
-                component={Link}
-                to={`/survey-units/${surveyUnit.idSu}`}
+                onClick={() => navigate(`/survey-units/${surveyUnit.idSu}`)}
               >
                 <TableCell>{surveyUnit.identificationCode}</TableCell>
                 <TableCell>{surveyUnit.idSu}</TableCell>

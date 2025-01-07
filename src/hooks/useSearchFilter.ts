@@ -9,6 +9,7 @@ export type QuestioningsBaseType = {
   pageSize: number;
   lastEvent?: string[];
   lastCommunication?: string[];
+  campaignId?: string;
 };
 
 export const base = {
@@ -27,6 +28,7 @@ export const base = {
     pageSize: 10,
     lastEvent: [],
     lastCommunication: [],
+    campaignId: "",
   } as QuestioningsBaseType,
   surveys: {
     idSource: "",

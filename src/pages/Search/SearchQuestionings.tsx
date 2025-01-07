@@ -137,7 +137,11 @@ export const SearchQuestionings = () => {
             }}
           />
           <Row gap={3}>
-            <FilterSelect options={[]} label={"Collecte"} name={"campaignId"} />
+            <FilterSelect
+              label={"Collecte"}
+              questioningFilter={questioningFilter}
+              setFilter={setFilter}
+            />
             <MultipleSearchSelect
               options={collectStatus}
               inputProps={{
