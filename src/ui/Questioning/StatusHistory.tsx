@@ -12,7 +12,11 @@ type Props = {
 
 export const StatusHistory = ({ onClose, open, questioning }: Props) => {
   const sortedStatus =
-    questioning.listEvents?.sort((a, b) => b.eventDate!.localeCompare(a.eventDate!)) ?? [];
+    questioning.listEvents?.sort((a, b) => {
+      const dateA = a.eventDate ?? "";
+      const dateB = b.eventDate ?? "";
+      return dateB.localeCompare(dateA);
+    }) ?? [];
 
   return (
     <HistoryDialog onClose={onClose} open={open} title={"Historique des statuts"}>
@@ -34,9 +38,12 @@ export const StatusHistory = ({ onClose, open, questioning }: Props) => {
             new Date(Date.parse(statusElement.eventDate)).toLocaleTimeString();
 
           const source =
-            typeof statusElement.payload === "object" && "source" in statusElement.payload
+            statusElement.payload &&
+            typeof statusElement.payload === "object" &&
+            "source" in statusElement.payload
               ? statusElement.payload.source
               : undefined;
+
           const type = source === "platine-gestion" ? "Manuel" : "Automatique";
 
           return (
